@@ -1,0 +1,30 @@
+<% if (query) { %>
+<div class="row">
+  <div class="col-sm-offset-1 col-sm-10">
+    <p class="lead"><%= count %> search results for "<%= query %>"</p>
+    <table class="table table-striped">
+      <tbody>
+      <% results.forEach(function(post) { %>
+        <tr>
+          <td class="col-xs-7 col-sm-8 col-md-9">
+            <span>
+              <h4 style="display: inline-block;"><a href="<%= post.getUrl() %>"><i class="fa fa-fw fa-file-text-o"></i></a> <a href="<%= post.getUrl() %>"><%= post.title %></a></h4>
+            </span>
+            <% if (post.creator) { %>
+            <span class="text-muted">by</span>
+            <span>
+              <img src="<%= post.creator.avatar(32) %>" alt="Avatar" height="32" width="32" hspace="3" class="img-circle" />
+              <%= post.creator.profile.name || "Anonymous" %>
+            </span>
+            <% } %>
+          </td>
+          <td class="col-xs-5 col-sm-4 col-md-3 text-muted text-right" style="vertical-align: middle;">
+            <i class="fa fa-lg fa-fw fa-clock-o"></i> <time class="timeago" datetime="<%= post.date.toISOString() %>"><%= post.date.toDateString() %></time>
+          </td>
+        </tr>
+      <% }) %>
+      </tbody>
+    </table>
+  </div>
+</div>
+<% } %>

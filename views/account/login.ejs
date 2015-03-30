@@ -1,0 +1,31 @@
+<h1 class="page-header">Log in</h1>
+<div class="row">
+  <div class="col-sm-5">
+    <h3>Use an existing account</h3>
+    <br/>
+    <a href="/auth/facebook" class="btn btn-lg btn-block btn-default btn-facebook btn-social"><i class="fa fa-lg fa-fw fa-facebook"></i> Sign in with Facebook</a>
+    <a href="/auth/google" class="btn btn-lg btn-block btn-default btn-google-plus btn-social"><i class="fa fa-lg fa-fw fa-google-plus"></i> Sign in with Google</a>
+    <a href="/auth/twitter" class="btn btn-lg btn-block btn-default btn-twitter btn-social"><i class="fa fa-lg fa-fw fa-twitter"></i> Sign in with Twitter</a>
+    <a href="/auth/github" class="btn btn-lg btn-block btn-default btn-github btn-social"><i class="fa fa-lg fa-fw fa-github"></i> Sign in with GitHub</a>
+  </div>
+  <div class="col-sm-1 text-center text-muted lead hidden-sm hidden-xs" style="margin-top: 10%;">or</div>
+  <div class="col-sm-6">
+    <h3>Log in via email</h3>
+    <br/>
+    <form name="login" method="post" action="/login" data-validator="true">
+      <div class="messages"></div>
+      <input type="hidden" name="_csrf" value="<%= _csrf %>">
+      <div class="form-group">
+        <label for="email" class="control-label">Email</label><input type="text" name="email" id="email" placeholder="Email" autofocus="" class="form-control">
+      </div>
+      <div class="form-group">
+        <label for="password" class="control-label">Password</label><input type="password" name="password" id="password" placeholder="Password" class="form-control">
+      </div>
+      <div class="form-group text-right">
+        <a href="/reset-password" class="btn btn-default"><i class="fa fa-fw fa-key"></i> Forgot password?</a> 
+        <button type="submit" class="btn btn-primary"><i class="fa fa-fw fa-sign-in"></i> Log in</button> 
+        <a class="pull-left btn btn-link" href="/signup">Don't have an account?</a>
+      </div>
+    </form>
+  </div>
+</div>

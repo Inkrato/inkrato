@@ -1,0 +1,79 @@
+<!DOCTYPE HTML>
+<html lang="en" class="no-js">
+  <head>
+    <meta charset="utf-8"/>
+    <meta http-equiv="X-UA-Compatible" content="IE=edge"/>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8"/>
+    <meta name="description" content="">
+    <title><%= title %></title>
+    <link rel="shortcut icon" href="/favicon.ico"/>
+    <%- css('main') %>
+    <!--[if lt IE 9]>
+      <script src="https://oss.maxcdn.com/libs/html5shiv/3.7.0/html5shiv.js"></script>
+      <script src="https://oss.maxcdn.com/libs/respond.js/1.3.0/respond.min.js"></script>
+    <![endif]-->
+    <script>
+      document.documentElement.className = document.documentElement.className.replace("no-js","js");
+    </script>
+    <%- js('jquery') %>
+    <%- js('jquery-ui') %>
+    <%- js('bootstrap') %>
+  </head>
+  <body>
+    <% include partials/navbar %>
+    <div class="jumbotron heading">
+      <div class="container">
+        <div class="row">
+          <div class="col-sm-7">
+            <h1><i class="fa fa-comments"></i> <%= site.name %> <small class="hidden-sm hidden-xs">community feedback</small></h1>
+            <br class="visible-sm visible-xs"/>
+          </div>
+          <div class="col-sm-5 clearfix">
+            <form name="search-posts" method="get" action="/<%= site.posts %>/search" class="form-horizontal">
+              <div class="form-group col-sm-10 col-md-7 pull-right">
+                <div class="input-group"> 
+                  <input name="q" value="<%= typeof(query) != "undefined" ? query : '' %>" type="text" class="form-control" placeholder="Search" />
+                  <div class="input-group-btn">
+                    <button type="submit" name="search" class="btn btn-default"><i class="fa fa-search"></i></button>
+                  </div>
+                </div>
+              </div>
+            </form>
+          </div>
+        </div>
+      </div>
+    </div>
+    <div class="container">
+      <% include partials/flash %>
+      <%- body %>
+    </div>
+    
+    <div class="footer text-muted text-center">
+      <p class="lead">
+        Powered by inkrato community edition
+      </p>
+      <p>
+         <i class="fa fa-copyright"></i> inkrato, 2015. Based in London, UK. Company no. 08633888
+      </p>
+    </div>
+  
+    <%
+      // @todo Sign in dialogs should be loaded via AJAX
+    %>
+    
+    <% if (user) { %>
+      <% include partials/new-post-dialog %>
+    <% } else { %>
+      <% include partials/sign-in-dialogs %>
+    <% } %>
+    
+    <%- js('application') %>
+    <%- js('validator') %>
+    <%- js('jquery.timeago') %>
+    <%- js('jquery.bootstrap-growl') %>
+    <%- js('bootstrap.tags') %>
+    <%- js('bootstrap.select') %>
+  </script>
+  </body>
+</html>

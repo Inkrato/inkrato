@@ -1,0 +1,31 @@
+<h1 class="page-header"><%= post.title %></h1>
+<div class="row">
+  <div class="col-sm-9">
+    <% post.description.split("\n").forEach(function(line) { %>
+      <p class="lead"><%= line %></p>
+    <% }); %>
+    <p class="lead">
+    <% post.tags.forEach(function(tag) { %>
+      <span class="label label-default"><i class="fa fa-tag"></i> <%= tag %></span>
+    <% }); %>
+    </p>
+    <% if (typeof(user) != 'undefined' && ( (post.creator && user.id == post.creator.id) || user.role == 'ADMIN' || user.role == 'MODERATOR')) { %>
+    <br/>
+    <p class="text-right">
+      <a href="<%= post.getEditUrl() %>" class="btn btn-default" data-shortcut-key="e"><i class="fa fa-lg fa-fw fa-pencil"></i> Edit</a>
+    </p>
+    <% } %>
+  </div>
+  <div class="col-sm-3">
+    <% if (post.creator) { %>
+    <div class="media">
+      <div class="media-left">
+        <a href="#"><img src="<%= post.creator.avatar(48) %>" height="48" width="48" alt="Avatar" class="img-circle"/></a>      </div>
+        <div class="media-body">
+          <h3 class="media-heading"><%= post.creator.profile.name || "Anonymous" %></h3>
+          <span class="text-muted"><i class="fa fa-clock-o"></i> <time class="timeago" datetime="<%= post.date.toISOString() %>"><%= post.date.toDateString() %></time></span>
+        </div>
+      </div>
+    <% } %>
+  </div>
+</div>

@@ -1,0 +1,70 @@
+// Grunt Task copies this from bower_components dir
+
+// Start with base bootstrap (all components!)
+@import "bootstrap/bootstrap.less";
+
+// Include additional files which require / extend bootstrap
+@import "bootstrap.overrides.less";
+@import "bootstrap.select.less";
+@import "bootstrap.wysihtml5.less";
+
+// Additional dependancies
+@import "font-awesome.less";
+@import "animations.less";
+@import "social.less";
+
+// Define behaviour when javascript is not enabled (or explicitly when it is)
+@import "no-js.less";
+
+.navbar-static-top {
+  margin-bottom: 0
+}
+
+.jumbotron.jumbotron-home {
+  border-bottom: 5px solid darken(@jumbotron-bg, 10%);
+}
+
+.jumbotron.jumbotron-home h1 {
+  text-shadow: 0 5px 0 darken(@jumbotron-bg, 10%);
+}
+
+.jumbotron.jumbotron-home h1 .text-primary {
+  text-shadow: none;
+}
+
+.jumbotron.jumbotron-home.heading {
+  padding: 25px 30px 15px 30px;
+}
+
+.jumbotron.heading h1 {
+  margin: 0;
+  padding: 0;
+  font-size: 39px;
+  text-shadow: 0 2px 0 darken(@jumbotron-bg, 10%);
+}
+
+.jumbotron.heading h1 small {
+  font-size: 26px;
+}
+
+.jumbotron h1 small {
+  color: lighten(@jumbotron-bg, 30%);
+}
+
+.page-header {
+  margin-top: 0;
+}
+
+h1, h2
+.h1, h2 {
+  font-family: "Helvetica Neue", Helvetica, Arial, sans-serif;
+  font-weight: 300;
+}
+
+.modal-footer,
+.modal-header {
+  background-color: @modal-header-bg;
+}
+.footer {
+  margin-top: 20px;
+}

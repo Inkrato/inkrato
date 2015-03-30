@@ -1,0 +1,42 @@
+<h1 class="page-header">Edit</h1>
+<div class="row">
+  <div class="col-sm-9">
+    <form role="form" method="post" action="<%= post.getEditUrl() %>" class="form-horizontal" data-validator="true">
+      <div class="form-group">
+        <div class="col-sm-offset-2 col-sm-10 messages"></div>
+      </div>
+      <input type="hidden" name="_csrf" value="<%= _csrf %>">
+      <div class="form-group">
+        <label for="name" class="col-sm-2 control-label">Title</label>
+        <div class="col-sm-10"><input type="text" name="title" id="title" autofocus="" value="<%= post.title %>" autocomplete="off" class="form-control"/></div>
+      </div>
+      <div class="form-group">
+        <label for="message" class="col-sm-2 control-label">Description</label>
+        <div class="col-sm-10"><textarea type="text" name="description" id="description" rows="7" class="form-control" autocomplete="off" ><%= post.description %></textarea></div>
+      </div>
+      <div class="form-group">
+        <label for="name" class="col-sm-2 control-label">Tags</label>
+        <div class="col-sm-10"><input data-role="tagsinput" type="text" name="tags" id="tags" autofocus="" autocomplete="off" value="<%= post.tags %>" class="form-control"/></div>
+      </div>
+      <div class="form-group text-right">
+        <div class="col-sm-offset-2 col-sm-10">
+          <a href="<%= post.getUrl() %>" class="btn btn-default"><i class="fa fa-lg fa-fw fa-ban"></i> Cancel</a>
+          <button type="submit" class="btn btn-primary"><i class="fa fa-lg fa-fw fa-check"></i> Save</button>
+        </div>
+      </div>
+    </form>
+  </div>
+  <div class="col-sm-3">
+    <% if (post.creator) { %>
+    <div class="media">
+      <div class="media-left">
+        <a href="#"><img src="<%= post.creator.avatar(48) %>" height="48" width="48" alt="Avatar" class="img-circle"/></a>
+      </div>
+      <div class="media-body">
+        <h3 class="media-heading"><%= post.creator.profile.name || "Anonymous" %></h3>
+        <span class="text-muted"><i class="fa fa-clock-o"></i> <time class="timeago" datetime="<%= post.date.toISOString() %>"><%= post.date.toDateString() %></time></span>
+      </div>
+    </div>
+  </div>
+  <% } %>
+</div>

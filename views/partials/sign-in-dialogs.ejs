@@ -1,0 +1,93 @@
+<div class="modal fade modal-draggable" id="loginModal" tabindex="-1" role="dialog" aria-labelledby="loginModalLabel" aria-hidden="true">
+  <div class="modal-dialog modal-lg">
+    <div class="modal-content">
+      <div class="modal-header">
+        <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+        <h4 class="modal-title" id="loginModalLabel">Log in</h4>
+      </div>
+      <div class="modal-body">
+        <form name="login" method="post" action="/login" data-validator="true">
+          <div class="row">
+            <div class="col-sm-6">
+                <h4>Use an existing account</h4>
+                <br/>
+                <a href="/auth/facebook" class="btn btn-lg btn-block btn-default btn-facebook btn-social"><i class="fa fa-lg fa-fw fa-facebook"></i> Sign in with Facebook</a>
+                <a href="/auth/google" class="btn btn-lg btn-block btn-default btn-google-plus btn-social"><i class="fa fa-lg fa-fw fa-google-plus"></i> Sign in with Google</a>
+                <a href="/auth/twitter" class="btn btn-lg btn-block btn-default btn-twitter btn-social"><i class="fa fa-lg fa-fw fa-twitter"></i> Sign in with Twitter</a>
+                <a href="/auth/github" class="btn btn-lg btn-block btn-default btn-github btn-social"><i class="fa fa-lg fa-fw fa-github"></i> Sign in with GitHub</a>
+              </div>
+              <div class="col-sm-6">
+                <h4>Log in via email</h4>
+                <br/>
+                <div class="messages"></div>
+                <input type="hidden" name="_csrf" value="<%= _csrf %>">
+                <div class="form-group">
+                  <label for="email" class="control-label">Email</label><input type="text" name="email" id="email" placeholder="Email" autofocus="" class="form-control">
+                </div>
+                <div class="form-group">
+                  <label for="password" class="control-label">Password</label><input type="password" name="password" id="password" placeholder="Password" class="form-control">
+                </div>
+                <div class="form-group text-right">
+                  <a href="/reset-password" class="btn btn-default"><i class="fa fa-fw fa-key"></i> Forgot password?</a> 
+                  <button type="submit" class="btn btn-primary"><i class="fa fa-fw fa-sign-in"></i> Log in</button> 
+                </div>
+              </div>
+            </div>
+          </div>
+          <p class="text-center">
+            <a href="#" data-dismiss="modal" data-toggle="modal" data-target="#signupModal" class="btn btn-link">Don't have an account?</a>
+          </p>
+        </form>
+      </div>
+    </div>
+  </div>
+</div>
+<div class="modal fade modal-draggable" id="signupModal" tabindex="-1" role="dialog" aria-labelledby="signupModalLabel" aria-hidden="true">
+  <div class="modal-dialog modal-lg">
+    <div class="modal-content">
+      <div class="modal-header">
+        <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+        <h4 class="modal-title" id="signupModalLabel">Sign up</h4>
+      </div>
+      <div class="modal-body">
+        <form name="signup" method="post" action="/signup" data-validator="true">
+          <div class="row">
+            <div class="col-sm-6">
+              <h4>Use an existing account</h4>
+              <br/>
+              <a href="/auth/facebook" class="btn btn-lg btn-block btn-default btn-facebook btn-social"><i class="fa fa-lg fa-fw fa-facebook"></i> Sign in with Facebook</a>
+              <a href="/auth/google" class="btn btn-lg btn-block btn-default btn-google-plus btn-social"><i class="fa fa-lg fa-fw fa-google-plus"></i> Sign in with Google</a>
+              <a href="/auth/twitter" class="btn btn-lg btn-block btn-default btn-twitter btn-social"><i class="fa fa-lg fa-fw fa-twitter"></i> Sign in with Twitter</a>
+              <a href="/auth/github" class="btn btn-lg btn-block btn-default btn-github btn-social"><i class="fa fa-lg fa-fw fa-github"></i> Sign in with GitHub</a>
+            </div>
+            <div class="col-sm-6">
+              <h4>Sign up via email</h4>
+              <br/>
+              <div class="messages"></div>
+              <input type="hidden" name="_csrf" value="<%= _csrf %>">
+              <div class="form-group">
+                <label for="email" class="control-label">Email</label>
+                <input type="email" name="email" id="email" placeholder="Email" autofocus="" class="form-control">
+              </div>
+              <div class="form-group">
+                <label for="password" class="control-label">Password</label>
+                <input type="password" name="password" id="password" placeholder="Password" class="form-control">
+              </div>
+              <div class="form-group">
+                <label for="confirmPassword" class="control-label">Confirm Password</label>
+                <input type="password" name="confirmPassword" id="confirmPassword" placeholder="Confirm Password" class="form-control">
+              </div>
+              <div class="form-group">
+                <button type="submit" class="btn pull-right btn-success"><i class="fa fa-fw fa-user-plus"></i> Create account</button>
+              </div>
+            </div>
+          </div>
+        </div>
+        <p class="text-center">
+          <a href="#" data-dismiss="modal" data-toggle="modal" data-target="#loginModal" class="btn btn-link">Already have an account?</a>
+        </p>
+        </form>
+      </div>
+    </div>
+  </div>
+</div>
