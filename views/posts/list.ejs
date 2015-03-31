@@ -1,6 +1,6 @@
 <div class="row">
   <div class="col-sm-12">
-    <h1 class="page-header">Browse</h1>
+    <h1 class="page-header"><%= site.getPostOptions().name %></h1>
   </div>
 </div>
 <% if (postCount > 0) { %>
@@ -31,5 +31,5 @@
   <% include ../partials/posts-pagination %>
 <% } else { %>
   <p class="text-center lead">There is nothing here yet.</p>
-  <p class="text-center"><a class="btn btn-success" href="/<%= site.posts %>/new"><i class="fa fa-lg fa-fw fa-plus"></i> New</a></p>
+  <p class="text-center"><a class="btn btn-success" href="/<%= site.getPostOptions().url %>/new"><i class="fa fa-lg fa-fw fa-plus"></i> New</a></p>
 <% } %>

@@ -152,25 +152,25 @@
         <br/>
         
         <!-- Connected accounts -->
-        <% if (user.facebook) { %>
+        <% if (user.facebook && site.loginOptions('facebook')) { %>
           <p class="text-success clearfix">
             <i class="fa fa-lg fa-fw fa-check-circle"></i> Facebook
             <a href="/account/unlink/facebook" class="pull-right btn btn-sm btn-default"><i class="fa fa-lg fa-fw fa-unlink"></i> Unlink</a>            
           </p>
         <% } %>
-        <% if (user.google) { %>
+        <% if (user.google && site.loginOptions('google')) { %>
         <p class="text-success clearfix">
           <i class="fa fa-lg fa-fw fa-check-circle"></i> Google
           <a href="/account/unlink/google" class="pull-right btn btn-sm btn-default"><i class="fa fa-lg fa-fw fa-unlink"></i> Unlink</a>            
         </p>
         <% } %>
-        <% if (user.twitter) { %>
+        <% if (user.twitter && site.loginOptions('twitter')) { %>
         <p class="text-success clearfix">
           <i class="fa fa-lg fa-fw fa-check-circle"></i> Twitter
           <a href="/account/unlink/twitter" class="pull-right btn btn-sm btn-default"><i class="fa fa-lg fa-fw fa-unlink"></i> Unlink</a>            
         </p>
         <% } %>
-        <% if (user.github) { %>
+        <% if (user.github && site.loginOptions('github')) { %>
         <p class="text-success clearfix">
           <i class="fa fa-lg fa-fw fa-check-circle"></i> GitHub
           <a href="/account/unlink/github" class="pull-right btn btn-sm btn-default"><i class="fa fa-lg fa-fw fa-unlink"></i> Unlink</a>
@@ -178,22 +178,22 @@
         <% } %>
         
         <!-- Unconnected accounts -->
-        <% if (!user.facebook) { %>
+        <% if (!user.facebook && site.loginOptions('facebook')) { %>
         <p>
           <a href="/auth/facebook" class="btn btn-block btn-default btn-facebook"><i class="fa fa-lg fa-fw fa-facebook"></i> Connect to Facebook</a>
         </p>
         <% } %>
-        <% if (!user.google) { %>
+        <% if (!user.google && site.loginOptions('google')) { %>
         <p>
           <a href="/auth/google" class="btn btn-block btn-default btn-google-plus"><i class="fa fa-lg fa-fw fa-google"></i> Connect to Google</a>
         </p>
         <% } %>
-        <% if (!user.twitter) { %>
+        <% if (!user.twitter && site.loginOptions('twitter')) { %>
         <p>
           <a href="/auth/twitter" class="btn btn-block btn-default btn-twitter"><i class="fa fa-lg fa-fw fa-twitter"></i> Connect to Twitter</a>
         </p>
         <% } %>
-        <% if (!user.github) { %>
+        <% if (!user.github && site.loginOptions('github')) { %>
           <p>
             <a href="/auth/github" class="btn btn-block btn-default btn-github"><i class="fa fa-lg fa-fw fa-github"></i> Connect to GitHub</a>
           </p>

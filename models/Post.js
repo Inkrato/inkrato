@@ -2,6 +2,7 @@ var mongoose = require('mongoose'),
     mongooseAutoIncrement = require('mongoose-auto-increment'),
     mongooseSearch = require('mongoose-search-plugin'),
     User = require('./User'),
+    Site = require('./Site'),
     crypto = require('crypto'),
     slug = require('slug');
 
@@ -33,11 +34,11 @@ schema.pre('save', function(next) {
 });
 
 schema.methods.getUrl = function() {
-  return '/'+config.app.posts+'/'+this.postId+'/'+slug(this.title.toLowerCase());
+  return '/'+Site.getPostOptions().url+'/'+this.postId+'/'+slug(this.title.toLowerCase());
 };
 
 schema.methods.getEditUrl = function() {
-  return '/'+config.app.posts+'/edit/'+this.postId;
+  return '/'+Site.getPostOptions().url+'/edit/'+this.postId;
 };
 
 /**

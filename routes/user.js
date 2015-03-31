@@ -1,12 +1,14 @@
-var _ = require('lodash');
-var async = require('async');
-var crypto = require('crypto');
-var nodemailer = require('nodemailer');
-var passport = require('passport');
-var User = require('../models/User');
-var secrets = require('../config/secrets');
+var _ = require('lodash'),
+    async = require('async'),
+    crypto = require('crypto'),
+    nodemailer = require('nodemailer'),
+    passport = require('passport'),
+    User = require('../models/User'),
+    Site = require('../models/Site');
+
 var config = {
-  app: require('../config/app')
+  app: require('../config/app'),
+  secrets: require('../config/secrets')
 };
 
 /**
@@ -323,14 +325,14 @@ exports.postChangePassword = function(req, res, next) {
       var transporter = nodemailer.createTransport({
         service: 'SendGrid',
         auth: {
-          user: secrets.sendgrid.user,
-          pass: secrets.sendgrid.password
+          user: config.secrets.sendgrid.user,
+          pass: config.secrets.sendgrid.password
         }
       });
       var mailOptions = {
         to: user.email,
         from: config.app.email,
-        subject: config.app.name+' - Your password has been changed',
+        subject: Site.getName()+' - Your password has been changed',
         text: 'Hello,\n\n' +
               'This is a confirmation that the password for your account ' + user.email + ' has just been changed.\n' +
               '\n\n-- \n'
@@ -410,14 +412,14 @@ exports.postResetPassword = function(req, res, next) {
       var transporter = nodemailer.createTransport({
         service: 'SendGrid',
         auth: {
-          user: secrets.sendgrid.user,
-          pass: secrets.sendgrid.password
+          user: config.secrets.sendgrid.user,
+          pass: config.secrets.sendgrid.password
         }
       });
       var mailOptions = {
         to: user.email,
         from: config.app.email,
-        subject: config.app.name+ ' - Password reset',
+        subject: Site.getName()+ ' - Password reset',
         text: 'You are receiving this email because you (or someone else) have requested the reset of the password for your account.\n\n' +
               'Please click on the following link, or paste this into your browser to complete the process:\n\n' +
               'http://' + req.headers.host + '/change-password/' + token + '\n\n' +

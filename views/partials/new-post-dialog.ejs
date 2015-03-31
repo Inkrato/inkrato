@@ -1,7 +1,7 @@
 <div class="modal fade modal-draggable" id="newPostModal" tabindex="-1" role="dialog" aria-labelledby="newPostModalLabel" aria-hidden="true">
   <div class="modal-dialog modal-lg">
     <div class="modal-content">
-      <form role="form" method="post" action="/<%= site.posts %>/new" class="form-horizontal" data-validator="true">
+      <form role="form" method="post" action="/<%= site.getPostOptions().url %>/new" class="form-horizontal" data-validator="true">
         <input type="hidden" name="_csrf" value="<%= _csrf %>"/>
         <div class="modal-header">
           <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>

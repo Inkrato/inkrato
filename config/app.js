@@ -1,9 +1,16 @@
 /**
- * Configure application wide settings here
+ * Application wide configuration settings
  */
-
 module.exports = {
+  
+  // The name and contact email address
   name: "inkrato",
   email: "feedback@inkrato.com",
-  posts: "feedback"
+  
+  // The name and URL to use for "posts" on the site
+  posts: {
+    name: "Feedback",
+    url: "/feedback/"
+  }
+  
 };

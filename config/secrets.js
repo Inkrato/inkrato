@@ -16,13 +16,11 @@ module.exports = {
   sessionSecret: process.env.SESSION_SECRET || '526aa78cdeedf412fd27fedb5ab5ecf8',
 
   sendgrid: {
-    enabled: process.env.SENDGRID_ENDABLED || false,
-    user: process.env.SENDGRID_USER || '',
+    user: process.env.SENDGRID_USER || '1',
     password: process.env.SENDGRID_PASSWORD || ''
   },
 
   facebook: {
-    enabled: process.env.FACEBOOK_ENABLED || false,
     clientID: process.env.FACEBOOK_ID || '',
     clientSecret: process.env.FACEBOOK_SECRET || '',
     callbackURL: '/auth/facebook/callback',
@@ -30,7 +28,6 @@ module.exports = {
   },
 
   github: {
-    enabled: process.env.GITHUB_ENABLED || false,
     clientID: process.env.GITHUB_ID || '',
     clientSecret: process.env.GITHUB_SECRET || '',
     callbackURL: '/auth/github/callback',
@@ -38,7 +35,6 @@ module.exports = {
   },
 
   twitter: {
-    enabled: process.env.TWITTER_ENABLED || false,
     consumerKey: process.env.TWITTER_KEY || '',
     consumerSecret: process.env.TWITTER_SECRET  || '',
     callbackURL: '/auth/twitter/callback',
@@ -46,7 +42,6 @@ module.exports = {
   },
 
   google: {
-    enabled: process.env.GOOGLE_EANBLED || false,
     clientID: process.env.GOOGLE_ID || '',
     clientSecret: process.env.GOOGLE_SECRET || '',
     callbackURL: '/auth/google/callback',

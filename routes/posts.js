@@ -1,5 +1,5 @@
 var Post = require('../models/Post'),
-    User = require('../models/Post');
+    Site = require('../models/Site');
 
 /**
  * GET /posts/new

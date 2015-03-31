@@ -21,6 +21,7 @@ var express = require('express'),
     ejs = require('ejs'),
     partials = require('express-partials'),
     i18n = require("i18n"),
+    Site = require('./models/Site'),
     app = express();
 
 /**
@@ -102,18 +103,15 @@ app.use(function(req, res, next) {
 });
 app.use(function(req, res, next) {
 
-  // Set default page title based on app name
-  res.locals.title = config.app.name;
-  
-  // Expose site config details to templates
-  res.locals.site = config.app;
+  // Set default page title based on configured site name
+  res.locals.title = Site.getName();
 
-  // Make user object available in templates.
+  // Expose site config object to all templates
+  res.locals.site = Site;
+
+  // Make user object available in all templates
   res.locals.user = req.user;
-  
-  // Export selected theme to all templates (so can be used in layout)
-  res.locals.theme = req.session.theme;
-  
+
   next();
 });
 app.use(function(req, res, next) {
@@ -122,7 +120,7 @@ app.use(function(req, res, next) {
   // Exceptions for paths we want to ignore
   // e.g. login pages, JavaScript files that make ajax calls
   var path = req.path.split('/')[1];
-  if (/auth|login|css|images|logout|theme|signup|js|fonts|favicon/i.test(path))
+  if (/auth|login|css|images|logout|signup|js|fonts|favicon/i.test(path))
     return next();
 
   if (req.path == "/account/password")
@@ -146,7 +144,6 @@ var routes = {
   home: require('./routes/home'),
   about: require('./routes/about'),
   contact : require('./routes/contact'),
-  theme: require('./routes/theme'),
   posts: require('./routes/posts')
 };
 
@@ -173,7 +170,6 @@ app.get('/', routes.home.index);
 app.get('/about', routes.about.getAbout);
 app.get('/login', routes.user.getLogin);
 app.post('/login', routes.user.postLogin);
-app.post('/theme', routes.theme.postTheme);
 app.get('/logout', routes.user.logout);
 app.get('/reset-password', routes.user.getResetPassword);
 app.post('/reset-password', routes.user.postResetPassword);
@@ -190,34 +186,42 @@ app.post('/account/profile', routes.passport.isAuthenticated, routes.user.postUp
 app.post('/account/password', routes.passport.isAuthenticated, routes.user.postUpdatePassword);
 app.post('/account/delete', routes.passport.isAuthenticated, routes.user.postDeleteAccount);
 app.get('/account/unlink/:provider', routes.passport.isAuthenticated, routes.user.getOauthUnlink);
-app.get('/'+config.app.posts, routes.posts.getPosts);
-app.get('/'+config.app.posts+'/new', routes.passport.isAuthenticated, routes.posts.getNewPost);
-app.post('/'+config.app.posts+'/new', routes.passport.isAuthenticated, routes.posts.postNewPost);
-app.get('/'+config.app.posts+'/search', routes.posts.getSearch);
-app.get('/'+config.app.posts+'/edit/:id', routes.passport.isAuthenticated, routes.posts.getEditPost);
-app.post('/'+config.app.posts+'/edit/:id', routes.passport.isAuthenticated, routes.posts.postEditPost);
-app.get('/'+config.app.posts+'/:id/:slug', routes.posts.getPost);
-app.get('/'+config.app.posts+'/:id', routes.posts.getPost);
+app.get('/'+Site.getPostOptions().url, routes.posts.getPosts);
+app.get('/'+Site.getPostOptions().url+'/new', routes.passport.isAuthenticated, routes.posts.getNewPost);
+app.post('/'+Site.getPostOptions().url+'/new', routes.passport.isAuthenticated, routes.posts.postNewPost);
+app.get('/'+Site.getPostOptions().url+'/search', routes.posts.getSearch);
+app.get('/'+Site.getPostOptions().url+'/edit/:id', routes.passport.isAuthenticated, routes.posts.getEditPost);
+app.post('/'+Site.getPostOptions().url+'/edit/:id', routes.passport.isAuthenticated, routes.posts.postEditPost);
+app.get('/'+Site.getPostOptions().url+'/:id/:slug', routes.posts.getPost);
+app.get('/'+Site.getPostOptions().url+'/:id', routes.posts.getPost);
 
 /**
  * OAuth sign-in routes.
  */
-app.get('/auth/facebook', passport.authenticate('facebook', { scope: ['email', 'user_location'] }));
-app.get('/auth/facebook/callback', passport.authenticate('facebook', { failureRedirect: '/profile' }), function(req, res) {
-  res.redirect(req.session.returnTo || '/profile');
-});
-app.get('/auth/github', passport.authenticate('github'));
-app.get('/auth/github/callback', passport.authenticate('github', { failureRedirect: '/profile' }), function(req, res) {
-  res.redirect(req.session.returnTo || '/profile');
-});
-app.get('/auth/google', passport.authenticate('google', { scope: 'profile email' }));
-app.get('/auth/google/callback', passport.authenticate('google', { failureRedirect: '/profile' }), function(req, res) {
-  res.redirect(req.session.returnTo || '/profile');
-});
-app.get('/auth/twitter', passport.authenticate('twitter'));
-app.get('/auth/twitter/callback', passport.authenticate('twitter', { failureRedirect: '/profile' }), function(req, res) {
-  res.redirect(req.session.returnTo || '/profile');
-});
+if (Site.loginOptions('facebook')) {
+  app.get('/auth/facebook', passport.authenticate('facebook', { scope: ['email', 'user_location'] }));
+  app.get('/auth/facebook/callback', passport.authenticate('facebook', { failureRedirect: '/profile' }), function(req, res) {
+    res.redirect(req.session.returnTo || '/profile');
+  });
+}
+if (Site.loginOptions('google')) {
+  app.get('/auth/google', passport.authenticate('google', { scope: 'profile email' }));
+  app.get('/auth/google/callback', passport.authenticate('google', { failureRedirect: '/profile' }), function(req, res) {
+    res.redirect(req.session.returnTo || '/profile');
+  });
+}
+if (Site.loginOptions('twitter')) {
+  app.get('/auth/twitter', passport.authenticate('twitter'));
+  app.get('/auth/twitter/callback', passport.authenticate('twitter', { failureRedirect: '/profile' }), function(req, res) {
+    res.redirect(req.session.returnTo || '/profile');
+  });
+}
+if (Site.loginOptions('github')) {
+  app.get('/auth/github', passport.authenticate('github'));
+  app.get('/auth/github/callback', passport.authenticate('github', { failureRedirect: '/profile' }), function(req, res) {
+    res.redirect(req.session.returnTo || '/profile');
+  });
+}
 
 /**
  * 500 Error Handler.

@@ -26,11 +26,11 @@
       <div class="container">
         <div class="row">
           <div class="col-sm-7">
-            <h1><i class="fa fa-comments"></i> <%= site.name %> <small class="hidden-sm hidden-xs">community feedback</small></h1>
+            <h1><i class="fa fa-comments"></i> <%= site.getName() %> <small class="hidden-sm hidden-xs">community feedback</small></h1>
             <br class="visible-sm visible-xs"/>
           </div>
           <div class="col-sm-5 clearfix">
-            <form name="search-posts" method="get" action="/<%= site.posts %>/search" class="form-horizontal">
+            <form name="search-posts" method="get" action="/<%= site.getPostOptions().url %>/search" class="form-horizontal">
               <div class="form-group col-sm-10 col-md-7 pull-right">
                 <div class="input-group"> 
                   <input name="q" value="<%= typeof(query) != "undefined" ? query : '' %>" type="text" class="form-control" placeholder="Search" />
