@@ -54,7 +54,7 @@ $(document).on('submit', 'form[data-validator="true"]', function(e) {
           // choose the nearest "boostrap select" element.
           target = $('*[name="'+field+'"]', form).siblings('.bootstrap-select');
         }
-        $(target).after('<span class="glyphicon glyphicon-remove form-control-feedback" aria-hidden="true"></span>');
+        $(target).after('<i class="fa fa-lg fa-exclamation-circle form-control-feedback" aria-hidden="true"></i>');
         $(target).after('<small class="form-control-feedback-text text-danger">'+msg+'</small>');
         
         // Hide all currently visible alerts on the page (to avoid confusion)

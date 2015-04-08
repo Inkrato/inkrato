@@ -32,8 +32,8 @@
           <div class="col-sm-5 clearfix">
             <form name="search-posts" method="get" action="/<%= site.getPostOptions().url %>/search" class="form-horizontal">
               <div class="form-group col-sm-10 col-md-7 pull-right">
-                <div class="input-group"> 
-                  <input name="q" value="<%= typeof(query) != "undefined" ? query : '' %>" type="text" class="form-control" placeholder="Search" />
+                <div class="input-group input-group-search"> 
+                  <input name="q" value="<%= typeof(query) != "undefined" ? query : '' %>" type="search" class="form-control" placeholder="Search" />
                   <div class="input-group-btn">
                     <button type="submit" name="search" class="btn btn-default"><i class="fa fa-search"></i></button>
                   </div>
@@ -49,13 +49,16 @@
       <%- body %>
     </div>
     
-    <div class="footer text-muted text-center">
-      <p class="lead">
-        Powered by inkrato community edition
-      </p>
-      <p>
-         <i class="fa fa-copyright"></i> inkrato, 2015. Based in London, UK. Company no. 08633888
-      </p>
+    <div class="container">
+      <div class="footer text-muted text-center">
+        <hr/>
+        <p>
+          <a href="https://github.com/inkrato/inkrato"><i class="fa fa-fw fa-github"></i> Powered by inkrato community edition</a>
+        </p>
+        <p>
+          <i class="fa fa-copyright"></i> inkrato, 2015. Based in London, UK. Company no. 08633888
+        </p>
+      </div>
     </div>
   
     <%
