@@ -16,7 +16,7 @@ var transporter = nodemailer.createTransport({
  * Contact form page.
  */
 exports.getContact = function(req, res) {
-  res.render('contact', { title: res.locals.title + " - Contact" });
+  res.render('contact', { title: res.locals.title + " - Contact", confirmation: false });
 };
 
 /**
@@ -38,7 +38,7 @@ exports.postContact = function(req, res) {
 
   if (errors) {
     req.flash('errors', errors);
-    return res.render('contact');
+    return res.render('contact', { title: res.locals.title + " - Contact", confirmation: false });
   }
 
   var from = req.body.email;
@@ -56,10 +56,10 @@ exports.postContact = function(req, res) {
 
   transporter.sendMail(mailOptions, function(err) {
     if (err) {
-      req.flash('errors', { msg: err.message });
-      return res.render('/contact');
+      req.flash('errors', { msg: "Failed to send email" });
+      return res.render('contact', { title: res.locals.title + " - Contact", confirmation: false });
     }
     req.flash('success', { msg: 'Message sent successfully!' });
-    res.render('contact');
+    res.render('contact', { title: res.locals.title + " - Contact", confirmation: true });
   });
 };
