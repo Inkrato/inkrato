@@ -32,22 +32,25 @@
   text-shadow: none;
 }
 
-.jumbotron.jumbotron-home.heading {
-  padding: 25px 30px 15px 30px;
+.jumbotron.jumbotron-heading {
+  padding: 20px 0 20px 0;
 }
 
-.jumbotron.heading h1 {
+.jumbotron.jumbotron-heading h1 {
+  position: relative;
+  top: -2px;
   margin: 0;
   padding: 0;
   font-size: 39px;
 }
 
-.jumbotron.heading h1 small {
+.jumbotron.jumbotron-heading h1 small {
   font-size: 26px;
 }
 
 .jumbotron h1 small {
-  color: lighten(@jumbotron-bg, 30%);
+  color: @jumbotron-heading-color;
+  opacity: 0.75;
 }
 
 .page-header {

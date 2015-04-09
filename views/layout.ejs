@@ -22,16 +22,15 @@
   </head>
   <body>
     <% include partials/navbar %>
-    <div class="jumbotron heading">
+    <div class="jumbotron jumbotron-heading">
       <div class="container">
         <div class="row">
           <div class="col-sm-7">
-            <h1><i class="fa fa-comments"></i> <%= site.getName() %> <small class="hidden-sm hidden-xs">community feedback</small></h1>
-            <br class="visible-sm visible-xs"/>
+            <h1><i class="fa fa-comment"></i> <%= site.getName() %> <small class="hidden-sm hidden-xs">community feedback</small></h1>
           </div>
-          <div class="col-sm-5 clearfix">
-            <form name="search-posts" method="get" action="/<%= site.getPostOptions().url %>/search" class="form-horizontal">
-              <div class="form-group col-sm-10 col-md-7 pull-right">
+          <div class="col-sm-5">
+            <form name="search-posts" method="get" action="/<%= site.getPostOptions().url %>/search" class="form-horizontal hidden-sm hidden-xs">
+              <div class="form-group col-sm-10 col-md-7 pull-right" style="margin: 0;">
                 <div class="input-group input-group-search"> 
                   <input name="q" value="<%= typeof(query) != "undefined" ? query : '' %>" type="search" class="form-control" placeholder="Search" />
                   <div class="input-group-btn">

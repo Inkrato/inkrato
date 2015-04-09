@@ -4,7 +4,7 @@
     <% post.description.split("\n").forEach(function(line) { %>
       <p class="lead"><%= line %></p>
     <% }); %>
-    <p class="lead tags">
+    <p class="tags">
     <% post.tags.forEach(function(tag) { %>
       <span class="label label-default"><i class="fa fa-tag"></i> <%= tag %></span>
     <% }); %>

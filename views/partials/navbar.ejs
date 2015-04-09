@@ -10,9 +10,16 @@
       </button>
     </div>
     <div class="collapse navbar-collapse">
-      <ul class="nav navbar-right navbar-nav">
+      <ul class="nav navbar-nav">
         <li><a href="/<%= site.getPostOptions().url %>" ><i class="fa fa-lg fa-fw fa-list"></i> <%= site.getPostOptions().name %></a></li>
         <li><a href="/contact"><i class="fa fa-lg fa-fw fa-phone"></i> Contact</a></li>
+      </ul>
+      <% if (user) { %>
+      <a class="navbar-btn btn btn-primary" href="/<%= site.getPostOptions().url %>/new" data-dismiss="modal" data-toggle="modal" data-target="#newPostModal" data-shortcut-key="n"><i class="fa fa-lg fa-fw fa-plus-circle"></i> New</a>
+      <% } else { %>
+      <a class="navbar-btn btn btn-primary" href="/signup" data-dismiss="modal" data-toggle="modal" data-target="#signupModal"><i class="fa fa-lg fa-fw fa-plus"></i> New</a>
+      <% } %>
+      <ul class="nav navbar-right navbar-nav">
         <% if (user) { %>
         <li class="dropdown">
           <a href="/profile" data-toggle="dropdown" class="dropdown-toggle">
@@ -30,11 +37,6 @@
         <li><a href="/signup" data-toggle="modal" data-dismiss="modal" data-target="#signupModal"><i class="fa fa-lg fa-fw fa-user-plus"></i> Sign up</a></li>
         <% } %>
       </ul>
-      <% if (user) { %>        
-        <a class="navbar-btn navbar-right btn btn-primary" href="/<%= site.getPostOptions().url %>/new" data-dismiss="modal" data-toggle="modal" data-target="#newPostModal" data-shortcut-key="n"><i class="fa fa-lg fa-fw fa-plus"></i> New</a>
-      <% } else { %>
-        <a class="navbar-btn navbar-right btn btn-primary" href="/signup" data-dismiss="modal" data-toggle="modal" data-target="#signupModal"><i class="fa fa-lg fa-fw fa-plus"></i> New</a>
-      <% } %>
     </div>
   </div>
 </div>

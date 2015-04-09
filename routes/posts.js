@@ -159,14 +159,15 @@ exports.getSearch = function(req, res) {
       function(err, data) {
         res.render('posts/search', { title: res.locals.title + " - Search",
                                      query: req.query.q,
-                                     results: data.results,
+                                     posts: data.results,
                                      count: data.totalCount
                                    });
       });
   } else {
     res.render('posts/search', { title: res.locals.title + " - Search",
                                  query: '',
-                                 results: []
+                                 posts: [],
+                                 count: 0
                                });
   }
   
