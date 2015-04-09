@@ -1,10 +1,9 @@
-<h1 class="page-header">Contact Us</h1>
+<h1 class="page-header">Contact form</h1>
 <% if (messages.success) { %>
 <p class="lead">Thanks for getting in touch.</p>
 <% } else { %>
 <form role="form" method="post" action="/contact" class="form-horizontal" data-validator="true">
   <input type="hidden" name="_csrf" value="<%= _csrf %>">
-  <br/>
   <p class="lead text-center">
     Any questions or comments you'd like to share privately? We'd love to hear from you!
   </p>
