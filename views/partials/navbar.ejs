@@ -11,6 +11,16 @@
     </div>
     <div class="collapse navbar-collapse">
       <ul class="nav navbar-nav">
+        <li class="visible-xs" style="padding: 0 10px 0 10px;">
+          <form name="search-posts" method="get" action="/<%= site.getPostOptions().url %>/search" class="form-horizontal">
+            <div class="input-group input-group-search"> 
+              <input name="q" value="<%= typeof(query) != "undefined" ? query : '' %>" type="search" class="form-control" placeholder="Search" />
+              <div class="input-group-btn">
+                <button type="submit" name="search" class="btn btn-default"><i class="fa fa-search"></i></button>
+              </div>
+            </div>
+          </form>
+        </li>
         <li><a href="/<%= site.getPostOptions().url %>" ><i class="fa fa-lg fa-fw fa-list"></i> <%= site.getPostOptions().name %></a></li>
         <li><a href="/contact"><i class="fa fa-lg fa-fw fa-phone"></i> Contact</a></li>
       </ul>

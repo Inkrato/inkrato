@@ -32,7 +32,7 @@
             <form name="search-posts" method="get" action="/<%= site.getPostOptions().url %>/search" class="form-horizontal hidden-sm hidden-xs">
               <div class="form-group col-sm-10 col-md-7 pull-right" style="margin: 0;">
                 <div class="input-group input-group-search"> 
-                  <input name="q" value="<%= typeof(query) != "undefined" ? query : '' %>" type="search" class="form-control" placeholder="Search" />
+                  <input id="search" name="q" value="<%= typeof(query) != "undefined" ? query : '' %>" type="search" class="form-control" autocomplete="off" data-provide="typeahead" placeholder="Search" />
                   <div class="input-group-btn">
                     <button type="submit" name="search" class="btn btn-default"><i class="fa fa-search"></i></button>
                   </div>
@@ -76,6 +76,7 @@
     <%- js('jquery.bootstrap-growl') %>
     <%- js('bootstrap.tags') %>
     <%- js('bootstrap.select') %>
+    <%- js('bootstrap.typeahead') %>
   </script>
   </body>
 </html>

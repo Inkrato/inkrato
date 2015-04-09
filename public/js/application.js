@@ -72,7 +72,40 @@ $(function() {
       
       return;
   });
-  
+
+  $('#search').typeahead({
+    displayField: 'title',
+    valueField: 'url',
+    onSelect: function(item) {
+      window.location = item.value;
+    },
+    ajax: { 
+      url: '/posts/search',
+      preDispatch: function(query) {
+        return {
+            q: query
+        };
+      },
+      preProcess: function(data) {
+        return data.posts;
+      }
+    }
+  });
+      
+      /*
+  $('#search').typeahead({
+    source: function (query, process, foo) {
+      var typeahead = this;
+      typeahead.render = function (options) {
+        console.log("options MOFO");
+        console.log(options);
+      };
+      return $.get('/posts/search?q='+query, function(data) {
+        return process(data);
+      });
+    }
+  });
+      */
 });
 
 

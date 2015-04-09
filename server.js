@@ -190,6 +190,7 @@ app.get('/'+Site.getPostOptions().url, routes.posts.getPosts);
 app.get('/'+Site.getPostOptions().url+'/new', routes.passport.isAuthenticated, routes.posts.getNewPost);
 app.post('/'+Site.getPostOptions().url+'/new', routes.passport.isAuthenticated, routes.posts.postNewPost);
 app.get('/'+Site.getPostOptions().url+'/search', routes.posts.getSearch);
+app.get('/posts/search', routes.posts.getSearch);
 app.get('/'+Site.getPostOptions().url+'/edit/:id', routes.passport.isAuthenticated, routes.posts.getEditPost);
 app.post('/'+Site.getPostOptions().url+'/edit/:id', routes.passport.isAuthenticated, routes.posts.postEditPost);
 app.get('/'+Site.getPostOptions().url+'/:id/:slug', routes.posts.getPost);
