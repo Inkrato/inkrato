@@ -5,7 +5,7 @@ var Post = require('../models/Post'),
  * GET /posts/new
  */
 exports.getNewPost = function(req, res) {  
-  res.render('posts/new', { title: res.locals.title + " - New post" });
+  res.render('posts/new', { title: res.locals.title + " - New" });
 };
 
 /**
@@ -59,7 +59,7 @@ exports.getPosts = function(req, res) {
   .populate('creator', 'profile email picture role')
   .exec(function (err, posts) {
     Post.count({}, function(err, count) {
-        res.render('posts/list', { title: res.locals.title + " - Posts", posts: posts, postCount: count, postLimit: numberOfResults, page: pageNumber });
+        res.render('posts/list', { title: res.locals.title + " - " + Site.getPostOptions().name, posts: posts, postCount: count, postLimit: numberOfResults, page: pageNumber });
     });
   });
   
@@ -154,7 +154,7 @@ exports.postEditPost = function(req, res) {
 exports.getSearch = function(req, res) {
   if (req.query.q) {
     Post
-    .search(req.query.q, {}, { sort: { date: -1 }, limit: 50, populate: [{ path: 'creator', fields: 'profile email picture role'} ] },
+    .search(req.query.q, {}, { sort: { date: -1 }, limit: 100, populate: [{ path: 'creator', fields: 'profile email picture role'} ] },
       function(err, data) {
         var response = {
           title: res.locals.title + " - Search",

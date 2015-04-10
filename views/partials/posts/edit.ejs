@@ -1,0 +1,15 @@
+<div class="form-group">
+  <div class="col-sm-offset-2 col-sm-10 messages"></div>
+</div>
+<div class="form-group form-group-lg">
+  <label for="name" class="control-label">Title</label>
+  <input type="text" name="title" id="title" autofocus="" value="<%= typeof(post) != "undefined" ? post.title : '' %>" autocomplete="off" class="form-control"/>
+</div>
+<div class="form-group">
+  <label for="message" class="control-label">Description</label>
+  <textarea type="text" name="description" id="description" rows="7" class="form-control" autocomplete="off" ><%= typeof(post) != "undefined" ? post.description : '' %></textarea>
+</div>
+<div class="form-group">
+  <label for="name" class="control-label">Tags</label>
+  <input data-role="tagsinput" type="text" placeholder="tag" name="tags" id="tags" autofocus="" autocomplete="off" value="<%= typeof(post) != "undefined" ? post.tags : '' %>" class="form-control"/>
+</div>

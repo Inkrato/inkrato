@@ -1,7 +1,7 @@
 <div class="modal fade modal-draggable" id="newPostModal" tabindex="-1" role="dialog" aria-labelledby="newPostModalLabel" aria-hidden="true">
   <div class="modal-dialog modal-lg">
     <div class="modal-content">
-      <form role="form" method="post" action="/<%= site.getPostOptions().url %>/new" class="form-horizontal" data-validator="true">
+      <form role="form" method="post" action="/<%= site.getPostOptions().url %>/new" data-validator="true">
         <input type="hidden" name="_csrf" value="<%= _csrf %>"/>
         <div class="modal-header">
           <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
@@ -11,17 +11,17 @@
           <div class="row">
             <div class="col-sm-12">
               <div class="messages"></div>
-              <div class="form-group">
-                <label for="name" class="col-sm-2 control-label">Title</label>
-                <div class="col-sm-10"><input type="text" name="title" id="title" autofocus="" autocomplete="off" class="form-control"/></div>
+              <div class="form-group form-group-lg">
+                <label for="name" class="control-label">Title</label>
+                <input type="text" name="title" id="title" autofocus="" autocomplete="off" class="form-control"/>
               </div>
               <div class="form-group">
-                <label for="message" class="col-sm-2 control-label">Description</label>
-                <div class="col-sm-10"><textarea type="text" name="description" id="description" rows="10" class="form-control" autocomplete="off" ></textarea></div>
+                <label for="message" class="control-label">Description</label>
+                <textarea type="text" name="description" id="description" rows="10" class="form-control" autocomplete="off" ></textarea>
               </div>
               <div class="form-group">
-                <label for="name" class="col-sm-2 control-label">Tags</label>
-                <div class="col-sm-10"><input data-role="tagsinput" type="text" name="tags" id="tags" placeholder="tag" autofocus="" autocomplete="off" class="form-control"/></div>
+                <label for="name" class="control-label">Tags</label>
+                <input data-role="tagsinput" type="text" name="tags" id="tags" placeholder="tag" autofocus="" autocomplete="off" class="form-control"/>
               </div>
             </div>
           </div>

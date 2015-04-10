@@ -60,6 +60,11 @@
   box-shadow: none;
 }
 
+.input-group-search .form-control:focus {
+  border-color: @input-border-focus;
+  box-shadow: inset 0 0 0 1px @input-border-focus;
+}
+
 .input-group-search .input-group-btn .btn-default {
   background-color: @input-bg;
 }
@@ -75,7 +80,7 @@
 
 .label {
   padding: 4px 10px 6px 10px;
-  font-size: @font-size-base;
+  font-size: 16px;
 }
 
 .tags input {
