@@ -1,6 +1,9 @@
 <% if (site.getOptions().post.voting.enabled == true) { %>
+<div class="visible-xs visible-sm">
+  <% include ../partials/posts/vote-mini %>
+</div>
 <div class="media">
-  <div class="media-left" style="padding-right: 20px;">
+  <div class="hidden-xs hidden-sm media-left" style="padding-right: 20px;">
       <% include ../partials/posts/vote %>
   </div>
   <div class="media-body">

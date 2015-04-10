@@ -1,0 +1,46 @@
+<div class="panel panel-default" style="display: inline-block; margin-right: 10px; margin-bottom: 0; height: 36px;">
+  <div class="panel-body text-center" style="padding: 5px 20px;">
+    <p class="lead" style="margin: 0;"><span class="text-muted">Score</span> &nbsp; <strong><%= post.upvotes() - post.downvotes() %></strong></p>
+  </div>
+</div>
+<div class="btn-group">
+  <% if (user) { %>
+    <% if (post.upvoted(user.id)) { %>
+    <form name="upvote" method="post" action="<%= post.getUnvoteUrl() %>" class="btn btn-success btn-vote" style="padding: 0;" >
+      <input type="hidden" name="_csrf" value="<%= _csrf %>"/>
+      <button class="btn btn-link text-white" style="padding: 5px 10px;">
+        <i class="fa fa-lg fa-chevron-up"></i>
+      </button>
+    </form>
+    <% } else { %>
+    <form name="upvote" method="post" action="<%= post.getUpvoteUrl() %>" class="btn btn-default btn-vote" style="padding: 0;">
+      <input type="hidden" name="_csrf" value="<%= _csrf %>"/>
+      <button type="submit" class="btn btn-link text-default" style="padding: 5px 10px;">
+        <i class="fa fa-lg fa-chevron-up"></i>
+      </button>
+    </form>
+    <% } %>
+    <% if (post.downvoted(user.id)) { %>
+    <form name="downvote" method="post" action="<%= post.getUnvoteUrl() %>" class="btn btn-danger btn-vote" style="padding: 0;">
+      <input type="hidden" name="_csrf" value="<%= _csrf %>"/>
+      <button type="submit" class="btn btn-link text-white" style="padding: 5px 10px;">
+        <i class="fa fa-lg fa-chevron-down"></i>
+      </button>
+    </form>
+    <% } else { %>
+    <form name="downvote" method="post" action="<%= post.getDownvoteUrl() %>" class="btn btn-default btn-vote" style="padding: 0;">
+      <input type="hidden" name="_csrf" value="<%= _csrf %>"/>
+      <button type="submit" class="btn btn-link text-default" style="padding: 5px 10px;">
+        <i class="fa fa-lg fa-chevron-down"></i>
+      </button>
+    </form>
+    <% } %>
+  <% } else { %>
+  <a href="#" data-toggle="modal" data-dismiss="modal" data-target="#signupModal" class="btn btn-default" style="padding: 5px 10px;">
+    <i class="fa fa-lg fa-chevron-up"></i>
+  </a>
+  <a href="#" data-toggle="modal" data-dismiss="modal" data-target="#signupModal" class="btn btn-default" style="padding: 5px 10px;">
+    <i class="fa fa-lg fa-chevron-down"></i>
+  </a>
+  <% } %>
+</div>
