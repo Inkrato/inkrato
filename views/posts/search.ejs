@@ -2,7 +2,32 @@
 <h1 class="page-header"><%= count %> search results for "<%= query %>"</h1>
 <div class="row">
   <div class="col-sm-12">
-      <% include ../partials/posts/list %>
+    <table class="table table-striped">
+      <tbody>
+      <% posts.forEach(function(post) { %>
+        <tr>
+          <td class="col-xs-12 col-md-9" style="padding: 10px 10px;">
+            <div class="pull-left">
+              <h3 style="display: inline-block; margin-top: 0;"><a href="<%= post.getUrl() %>"><%= post.title %></a></h3>
+              <p class="text-muted" style="height: 20px; overflow: hidden;">
+                <%= post.description.replace(/\n/, '') %>
+              </p>
+              <% if (post.creator) { %>
+              <img src="<%= post.creator.avatar(24)%>" alt="Avatar" height="24" width="24" hspace="3" class="img-circle" />
+              <%= post.creator.profile.name || "Anonymous" %>
+              <% } %>
+              <span class="text-muted hidden-md hidden-lg pull-right">
+                <i class="fa fa-fw fa-clock-o"></i> <time class="timeago" datetime="<%= post.date.toISOString() %>"><%= post.date.toDateString() %></time>
+              </span>
+            </div>
+          </td>
+          <td class="hidden-xs hidden-sm col-md-3 text-muted text-right" style="vertical-align: middle;">
+            <i class="fa fa-fw fa-clock-o"></i> <time class="timeago" datetime="<%= post.date.toISOString() %>"><%= post.date.toDateString() %></time>
+          </td>
+        </tr>
+      <% }) %>
+      </tbody>
+    </table>
   </div>
 </div>
 <% } %>

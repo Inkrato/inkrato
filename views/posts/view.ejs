@@ -20,8 +20,8 @@
               <span class="media-heading"><%= post.creator.profile.name || "Anonymous" %></span>
               <span class="text-muted"><i class="fa fa-clock-o"></i> <time class="timeago" datetime="<%= post.date.toISOString() %>"><%= post.date.toDateString() %></time></span>
             </div>
+            <br/>
           </div>
-          <br/>
           <% } %>
 
         </div>
@@ -42,8 +42,12 @@
       </div>
       <div class="row">
         <div class="col-sm-12 col-md-8 col-lg-9">
-          <% post.description.split("\n").forEach(function(line) { %>
+          <% post.description.split("\n").forEach(function(line, i) { %>
+            <% if (i == 0) { %>
             <p class="lead"><%= line %></p>
+            <% } else { %>
+            <p><%= line %></p>
+            <% } %>
           <% }); %>
           <p class="tags">
           <% post.tags.forEach(function(tag) { %>
