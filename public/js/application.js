@@ -3,5 +3,5 @@
 //= require bootstrap.tags
 //= require bootstrap.select
 //= require bootstrap.typeahead
-//= require validator
+//= require form-validator
 //= require main

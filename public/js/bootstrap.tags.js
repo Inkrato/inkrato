@@ -1,3 +1,6 @@
+/**
+ * This version contains minor inkrato modifications for styling
+ */
 (function ($) {
   "use strict";
 

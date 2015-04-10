@@ -1,4 +1,6 @@
 /**
+ * This version contains inkrato modifications for styling w/ font awesome
+ *
  * Usage:
  * <script src="/js/wysihtml5x-toolbar.min.js"></script>
  * <script src="/js/bootstrap.wysihtml5.js"></script>
