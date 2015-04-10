@@ -149,6 +149,102 @@ exports.postEditPost = function(req, res) {
 };
 
 /**
+ * POST /posts/upvote/:id
+ */
+exports.postUpvote = function(req, res) {
+  req.assert('id', 'Post ID cannot be blank').notEmpty();
+
+  var errors = req.validationErrors();
+
+  if (req.headers['x-validate'])
+    return res.json({ errors: errors });
+  
+  if (errors) {
+    req.flash('errors', errors);
+    return res.redirect('back');
+  }
+
+  Post
+  .findOne({ postId: req.params.id })
+  .exec(function (err, post) {
+    if (err)
+      return res.render('404');
+    
+    post.upvote(req.user.id);
+    
+    post.save(function(err) {
+      if (err) return next(err);
+      return res.redirect(req.session.returnTo || post.getUrl());
+    });
+    
+  });
+}
+
+/**
+ * POST /posts/downvote/:id
+ */
+exports.postDownvote = function(req, res) {
+  req.assert('id', 'Post ID cannot be blank').notEmpty();
+
+  var errors = req.validationErrors();
+
+  if (req.headers['x-validate'])
+    return res.json({ errors: errors });
+  
+  if (errors) {
+    req.flash('errors', errors);
+    return res.redirect('back');
+  }
+
+  Post
+  .findOne({ postId: req.params.id })
+  .exec(function (err, post) {
+    if (err)
+      return res.render('404');
+    
+    post.downvote(req.user.id);
+    
+    post.save(function(err) {
+      if (err) return next(err);
+      return res.redirect(req.session.returnTo || post.getUrl());
+    });
+
+  });
+}
+
+/**
+ * POST /posts/unvote/:id
+ */
+exports.postUnvote = function(req, res) {
+  req.assert('id', 'Post ID cannot be blank').notEmpty();
+
+  var errors = req.validationErrors();
+
+  if (req.headers['x-validate'])
+    return res.json({ errors: errors });
+  
+  if (errors) {
+    req.flash('errors', errors);
+    return res.redirect('back');
+  }
+
+  Post
+  .findOne({ postId: req.params.id })
+  .exec(function (err, post) {
+    if (err)
+      return res.render('404');
+    
+    post.unvote(req.user.id);
+    
+    post.save(function(err) {
+      if (err) return next(err);
+      return res.redirect(req.session.returnTo || post.getUrl());
+    });
+
+  });
+}
+
+/**
  * GET /posts/search
  */
 exports.getSearch = function(req, res) {

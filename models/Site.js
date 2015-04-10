@@ -19,7 +19,7 @@ module.exports = function() {
         name: config.app.posts.name,
         url: config.app.posts.url.replace(/\//g, ''),
         voting: {
-          enabled: false
+          enabled: true
         },
       }
     };

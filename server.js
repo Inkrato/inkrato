@@ -123,7 +123,12 @@ app.use(function(req, res, next) {
   if (/auth|login|css|images|logout|signup|js|fonts|favicon/i.test(path))
     return next();
 
+  // Never return user to the account password reset page
   if (req.path == "/account/password")
+    return next();
+  
+  // Never return the user to the vote forms (they are POST only)
+  if (new RegExp('^' + '\/'+Site.getOptions().post.url+'\/(upvote|downvote|unvote)\/').test(req.path))
     return next();
     
   req.session.returnTo = req.path;
@@ -193,6 +198,11 @@ app.get('/'+Site.getOptions().post.url+'/search', routes.posts.getSearch);
 app.get('/posts/search', routes.posts.getSearch);
 app.get('/'+Site.getOptions().post.url+'/edit/:id', routes.passport.isAuthenticated, routes.posts.getEditPost);
 app.post('/'+Site.getOptions().post.url+'/edit/:id', routes.passport.isAuthenticated, routes.posts.postEditPost);
+if (Site.getOptions().post.voting.enabled == true) {
+  app.post('/'+Site.getOptions().post.url+'/upvote/:id', routes.passport.isAuthenticated, routes.posts.postUpvote);
+  app.post('/'+Site.getOptions().post.url+'/downvote/:id', routes.passport.isAuthenticated, routes.posts.postDownvote);
+  app.post('/'+Site.getOptions().post.url+'/unvote/:id', routes.passport.isAuthenticated, routes.posts.postUnvote);
+}
 app.get('/'+Site.getOptions().post.url+'/:id/:slug', routes.posts.getPost);
 app.get('/'+Site.getOptions().post.url+'/:id', routes.posts.getPost);
 

@@ -1,22 +1,7 @@
 <% if (site.getOptions().post.voting.enabled == true) { %>
 <div class="media">
   <div class="media-left" style="padding-right: 20px;">
-    <div class="panel panel-default" style="width: 80px; margin-bottom: 10px;">
-      <div class="panel-body text-center" style="padding: 15px 0;">
-        <p class="lead" style="margin: 0;">+1</p>
-      </div>
-      <div class="panel-footer text-center text-muted" style="padding: 5px 0;">
-        score
-      </div>
-    </div>
-    <div class="btn-group btn-group-justified">
-      <a class="btn btn-default" style="padding: 5px 0;">
-        <i class="fa fa-2x fa-caret-up"></i>
-      </a>
-      <a class="btn btn-default" style="padding: 5px 0;">
-        <i class="fa fa-2x fa-caret-down"></i>
-      </a>
-    </div>
+      <% include ../partials/posts/vote %>
   </div>
   <div class="media-body">
 <% } %>

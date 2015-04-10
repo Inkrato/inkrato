@@ -45,6 +45,7 @@
     "mongoose": "3.8.25",
     "mongoose-auto-increment": "3.2.2",
     "mongoose-search-plugin": "^0.1.2",
+    "mongoose-voting": "^0.2.0",
     "morgan": "^1.1.1",
     "nodemailer": "^1.0.1",
     "passport": "^0.2.0",

@@ -1,6 +1,7 @@
 var mongoose = require('mongoose'),
     mongooseAutoIncrement = require('mongoose-auto-increment'),
     mongooseSearch = require('mongoose-search-plugin'),
+    mongooseVoting = require('mongoose-voting'),
     User = require('./User'),
     Site = require('./Site'),
     crypto = require('crypto'),
@@ -41,6 +42,18 @@ schema.methods.getEditUrl = function() {
   return '/'+Site.getOptions().post.url+'/edit/'+this.postId;
 };
 
+schema.methods.getUpvoteUrl = function() {
+  return '/'+Site.getOptions().post.url+'/upvote/'+this.postId;
+};
+
+schema.methods.getDownvoteUrl = function() {
+  return '/'+Site.getOptions().post.url+'/downvote/'+this.postId;
+};
+
+schema.methods.getUnvoteUrl = function() {
+  return '/'+Site.getOptions().post.url+'/unvote/'+this.postId;
+};
+
 /**
  * Auto-incrimenting ID value (in addition to _id property)
   */
@@ -55,5 +68,7 @@ schema.plugin(mongooseAutoIncrement.plugin, {
 schema.plugin(mongooseSearch, {
   fields: ['title', 'description', 'tags']
 });
+
+schema.plugin(mongooseVoting, { ref: 'User' });
   
 module.exports = mongoose.model('Post', schema);

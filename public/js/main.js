@@ -91,21 +91,12 @@ $(function() {
       }
     }
   });
-      
-      /*
-  $('#search').typeahead({
-    source: function (query, process, foo) {
-      var typeahead = this;
-      typeahead.render = function (options) {
-        console.log("options MOFO");
-        console.log(options);
-      };
-      return $.get('/posts/search?q='+query, function(data) {
-        return process(data);
-      });
-    }
+  
+  // Make the entire form containing the voting buttons clickable for better UX
+  $("form.btn-vote").bind('touchstart click', function() {
+    this.submit();
   });
-      */
+  
 });
 
 
