@@ -1,6 +1,6 @@
 <div class="row">
   <div class="col-sm-9">
-    <form role="form" method="post" action="/<%= site.getPostOptions().url %>/new" data-validator="true">
+    <form role="form" method="post" action="/<%= site.getOptions().post.url %>/new" data-validator="true">
       <input type="hidden" name="_csrf" value="<%= _csrf %>"/>
       <% include ../partials/posts/edit %>
       <div class="form-group text-right">

@@ -1,40 +1,83 @@
-<div class="row">
-  <div class="col-sm-9">
-    <h1 class="page-header"><%= post.title %></h1>
-  </div>
-  <div class="col-sm-3">
-    <% if (post.creator) { %>
-    <div class="media">
-      <div class="media-left">
-        <a href="#"><img src="<%= post.creator.avatar(48) %>" height="48" width="48" alt="Avatar" class="img-circle"/></a>
+<% if (site.getOptions().post.voting.enabled == true) { %>
+<div class="media">
+  <div class="media-left" style="padding-right: 20px;">
+    <div class="panel panel-default" style="width: 80px; margin-bottom: 10px;">
+      <div class="panel-body text-center" style="padding: 15px 0;">
+        <p class="lead" style="margin: 0;">+1</p>
       </div>
-      <div class="media-body">
-        <h3 class="media-heading"><%= post.creator.profile.name || "Anonymous" %></h3>
-        <span class="text-muted"><i class="fa fa-clock-o"></i> <time class="timeago" datetime="<%= post.date.toISOString() %>"><%= post.date.toDateString() %></time></span>
+      <div class="panel-footer text-center text-muted" style="padding: 5px 0;">
+        score
       </div>
     </div>
-    <br/>
-    <% } %>
+    <div class="btn-group btn-group-justified">
+      <a class="btn btn-default" style="padding: 5px 0;">
+        <i class="fa fa-2x fa-caret-up"></i>
+      </a>
+      <a class="btn btn-default" style="padding: 5px 0;">
+        <i class="fa fa-2x fa-caret-down"></i>
+      </a>
+    </div>
+  </div>
+  <div class="media-body">
+<% } %>
+  <div class="row">
+    <div class="col-sm-12 col-lg-11">
+      <div class="row">
+        <div class="col-sm-12 col-md-8 col-lg-9">
+          <h1 class="page-header"><%= post.title %></h1>
+
+          <% if (post.creator) { %>
+          <div class="media visible-xs visible-sm">
+            <div class="media-left">
+              <a href="#"><img src="<%= post.creator.avatar(32) %>" height="32" width="32" alt="Avatar" class="img-circle"/></a>
+            </div>
+            <div class="media-body lead">
+              <span class="media-heading"><%= post.creator.profile.name || "Anonymous" %></span>
+              <span class="text-muted"><i class="fa fa-clock-o"></i> <time class="timeago" datetime="<%= post.date.toISOString() %>"><%= post.date.toDateString() %></time></span>
+            </div>
+          </div>
+          <br/>
+          <% } %>
+
+        </div>
+        <div class="hidden-xs hidden-sm col-md-4 col-lg-3">
+          <% if (post.creator) { %>
+          <div class="media">
+            <div class="media-left">
+              <a href="#"><img src="<%= post.creator.avatar(48) %>" height="48" width="48" alt="Avatar" class="img-circle"/></a>
+            </div>
+            <div class="media-body">
+              <h3 class="media-heading"><%= post.creator.profile.name || "Anonymous" %></h3>
+              <span class="text-muted"><i class="fa fa-clock-o"></i> <time class="timeago" datetime="<%= post.date.toISOString() %>"><%= post.date.toDateString() %></time></span>
+            </div>
+          </div>
+          <br/>
+          <% } %>
+        </div>
+      </div>
+      <div class="row">
+        <div class="col-sm-12 col-md-8 col-lg-9">
+          <% post.description.split("\n").forEach(function(line) { %>
+            <p class="lead"><%= line %></p>
+          <% }); %>
+          <p class="tags">
+          <% post.tags.forEach(function(tag) { %>
+            <span class="label label-default"><i class="fa fa-tag"></i> <%= tag %></span>
+          <% }); %>
+          </p>
+          <% if (typeof(user) != 'undefined' && ( (post.creator && user.id == post.creator.id) || user.role == 'ADMIN' || user.role == 'MODERATOR')) { %>
+          <br/>
+          <p class="text-right">
+            <a href="<%= post.getEditUrl() %>" class="btn btn-default" data-shortcut-key="e"><i class="fa fa-lg fa-fw fa-pencil"></i> Edit</a>
+          </p>
+          <% } %>
+        </div>
+        <div class="hidden-sm col-md-4 col-lg-3">
+          &nbsp;
+        </div>
+      </div>
+    </div>
+<% if (site.getOptions().post.voting.enabled == true) { %>
   </div>
 </div>
-<div class="row">
-  <div class="col-sm-9">
-    <% post.description.split("\n").forEach(function(line) { %>
-      <p class="lead"><%= line %></p>
-    <% }); %>
-    <p class="tags">
-    <% post.tags.forEach(function(tag) { %>
-      <span class="label label-default"><i class="fa fa-tag"></i> <%= tag %></span>
-    <% }); %>
-    </p>
-    <% if (typeof(user) != 'undefined' && ( (post.creator && user.id == post.creator.id) || user.role == 'ADMIN' || user.role == 'MODERATOR')) { %>
-    <br/>
-    <p class="text-right">
-      <a href="<%= post.getEditUrl() %>" class="btn btn-default" data-shortcut-key="e"><i class="fa fa-lg fa-fw fa-pencil"></i> Edit</a>
-    </p>
-    <% } %>
-  </div>
-  <div class="col-sm-3">
-    &nbsp;
-  </div>
-</div>
+<% } %>

@@ -34,11 +34,11 @@ schema.pre('save', function(next) {
 });
 
 schema.methods.getUrl = function() {
-  return '/'+Site.getPostOptions().url+'/'+this.postId+'/'+slug(this.title.toLowerCase());
+  return '/'+Site.getOptions().post.url+'/'+this.postId+'/'+slug(this.title.toLowerCase());
 };
 
 schema.methods.getEditUrl = function() {
-  return '/'+Site.getPostOptions().url+'/edit/'+this.postId;
+  return '/'+Site.getOptions().post.url+'/edit/'+this.postId;
 };
 
 /**

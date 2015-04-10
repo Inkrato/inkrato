@@ -13,10 +13,15 @@ module.exports = function() {
      return config.app.email;
   }
   
-  this.getPostOptions = function() {
+  this.getOptions = function() {
     return {
-      name: config.app.posts.name,
-      url: config.app.posts.url.replace(/\//g, '')
+      post: {
+        name: config.app.posts.name,
+        url: config.app.posts.url.replace(/\//g, ''),
+        voting: {
+          enabled: false
+        },
+      }
     };
   }
 

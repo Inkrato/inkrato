@@ -4,5 +4,5 @@
   <% include ../partials/posts/pagination %>
 <% } else { %>
   <p class="text-center lead">There is nothing here yet.</p>
-  <p class="text-center"><a class="btn btn-success" href="/<%= site.getPostOptions().url %>/new"><i class="fa fa-lg fa-fw fa-plus"></i> New</a></p>
+  <p class="text-center"><a class="btn btn-success" href="/<%= site.getOptions().post.url %>/new"><i class="fa fa-lg fa-fw fa-plus"></i> New</a></p>
 <% } %>

@@ -1,27 +1,70 @@
-<div class="row">
-  <div class="col-sm-9">
-    <form role="form" method="post" action="<%= post.getEditUrl() %>" data-validator="true">
-      <input type="hidden" name="_csrf" value="<%= _csrf %>"/>
-      <% include ../partials/posts/edit %>
-      <div class="form-group text-right">
-        <div class="col-sm-offset-2 col-sm-10">
-          <a href="<%= post.getUrl() %>" class="btn btn-default"><i class="fa fa-lg fa-fw fa-ban"></i> Cancel</a>
-          <button type="submit" class="btn btn-primary"><i class="fa fa-lg fa-fw fa-check"></i> Save</button>
-        </div>
+<% if (site.getOptions().post.voting.enabled == true) { %>
+<div class="media">
+  <div class="media-left" style="padding-right: 20px;">
+    <div class="panel panel-default" style="width: 80px; margin-bottom: 10px;">
+      <div class="panel-body text-center" style="padding: 15px 0;">
+        <p class="lead" style="margin: 0;">+1</p>
       </div>
-    </form>
-  </div>
-  <div class="col-sm-3">
-    <% if (post.creator) { %>
-    <div class="media">
-      <div class="media-left">
-        <a href="#"><img src="<%= post.creator.avatar(48) %>" height="48" width="48" alt="Avatar" class="img-circle"/></a>
-      </div>
-      <div class="media-body">
-        <h3 class="media-heading"><%= post.creator.profile.name || "Anonymous" %></h3>
-        <span class="text-muted"><i class="fa fa-clock-o"></i> <time class="timeago" datetime="<%= post.date.toISOString() %>"><%= post.date.toDateString() %></time></span>
+      <div class="panel-footer text-center text-muted" style="padding: 5px 0;">
+        score
       </div>
     </div>
+    <div class="btn-group btn-group-justified">
+      <a class="btn btn-default" style="padding: 5px 0;">
+        <i class="fa fa-2x fa-caret-up"></i>
+      </a>
+      <a class="btn btn-default" style="padding: 5px 0;">
+        <i class="fa fa-2x fa-caret-down"></i>
+      </a>
+    </div>
   </div>
-  <% } %>
+  <div class="media-body">
+<% } %>
+  <div class="row">
+    <div class="col-sm-12 col-lg-11">
+      <div class="row">
+        <div class="col-sm-12 col-md-8 col-lg-9">
+
+          <% if (post.creator) { %>
+          <div class="media visible-xs visible-sm" style="margin-bottom: 20px;">
+            <div class="media-left">
+              <a href="#"><img src="<%= post.creator.avatar(32) %>" height="24" width="24" alt="Avatar" class="img-circle"/></a>
+            </div>
+            <div class="media-body">
+              <span class="media-heading"><%= post.creator.profile.name || "Anonymous" %></span>
+              <span class="text-muted"><i class="fa fa-clock-o"></i> <time class="timeago" datetime="<%= post.date.toISOString() %>"><%= post.date.toDateString() %></time></span>
+            </div>
+          </div>
+          <% } %>
+          
+          <form role="form" method="post" action="<%= post.getEditUrl() %>" data-validator="true" style="margin-top: -15px;">
+            <input type="hidden" name="_csrf" value="<%= _csrf %>"/>
+            <% include ../partials/posts/edit %>
+            <div class="form-group text-right">
+              <div class="col-sm-offset-2 col-sm-10">
+                <a href="<%= post.getUrl() %>" class="btn btn-default"><i class="fa fa-lg fa-fw fa-ban"></i> Cancel</a>
+                <button type="submit" class="btn btn-primary"><i class="fa fa-lg fa-fw fa-check"></i> Save</button>
+              </div>
+            </div>
+          </form>          
+        </div>
+        <div class="hidden-xs hidden-sm col-md-4 col-lg-3">
+          <% if (post.creator) { %>
+          <div class="media">
+            <div class="media-left">
+              <a href="#"><img src="<%= post.creator.avatar(48) %>" height="48" width="48" alt="Avatar" class="img-circle"/></a>
+            </div>
+            <div class="media-body">
+              <h3 class="media-heading"><%= post.creator.profile.name || "Anonymous" %></h3>
+              <span class="text-muted"><i class="fa fa-clock-o"></i> <time class="timeago" datetime="<%= post.date.toISOString() %>"><%= post.date.toDateString() %></time></span>
+            </div>
+          </div>
+          <br/>
+          <% } %>
+        </div>
+      </div>
+    </div>
+<% if (site.getOptions().post.voting.enabled == true) { %>
+  </div>
 </div>
+<% } %>

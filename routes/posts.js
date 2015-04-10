@@ -59,7 +59,7 @@ exports.getPosts = function(req, res) {
   .populate('creator', 'profile email picture role')
   .exec(function (err, posts) {
     Post.count({}, function(err, count) {
-        res.render('posts/list', { title: res.locals.title + " - " + Site.getPostOptions().name, posts: posts, postCount: count, postLimit: numberOfResults, page: pageNumber });
+        res.render('posts/list', { title: res.locals.title + " - " + Site.getOptions().post.name, posts: posts, postCount: count, postLimit: numberOfResults, page: pageNumber });
     });
   });
   
