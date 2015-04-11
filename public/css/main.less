@@ -16,6 +16,10 @@
 // Define behaviour when javascript is not enabled (or explicitly when it is)
 @import "no-js.less";
 
+*[href]:hover {
+  cursor: pointer;
+}
+
 .navbar-static-top {
   margin-bottom: 0
 }
@@ -84,4 +88,26 @@ h1, h2
 .text-white,
 .text-white:hover {
   color: #fff;
+}
+
+.post-preview-body .post-title {
+  margin-top: 0;
+  margin-bottom: 10px;
+  font-weight: 300;
+}
+
+.post-preview-body a {
+  color: @text-color !important;
+  text-decoration: none;
+}
+
+.post-preview-body {
+  position: relative;
+  height: 80px;
+  overflow: hidden;
+  margin-bottom: 20px;
+}
+
+.panel {
+  border-width: 2px;
 }

@@ -6,12 +6,12 @@
       <tbody>
       <% posts.forEach(function(post) { %>
         <tr>
-          <td class="col-xs-12 col-md-9" style="padding: 10px 10px;">
+          <td class="col-xs-12 col-md-10" style="padding: 10px 10px;">
             <div class="pull-left">
-              <h3 style="display: inline-block; margin-top: 0;"><a href="<%= post.getUrl() %>"><%= post.title %></a></h3>
-              <p class="text-muted" style="height: 20px; overflow: hidden;">
-                <%= post.description.replace(/\n/, '') %>
-              </p>
+              <div class="post-preview-body"  href="<%= post.getUrl() %>">
+                <h3 class="post-title"><a href="<%= post.getUrl() %>"><%= post.title %></a></h3>
+                <p class="text-muted"><%= post.description.replace(/\n/, '').substr(0,400); %></p>
+              </div>
               <% if (post.creator) { %>
               <img src="<%= post.creator.avatar(24)%>" alt="Avatar" height="24" width="24" hspace="3" class="img-circle" />
               <%= post.creator.profile.name || "Anonymous" %>
@@ -21,7 +21,7 @@
               </span>
             </div>
           </td>
-          <td class="hidden-xs hidden-sm col-md-3 text-muted text-right" style="vertical-align: middle;">
+          <td class="hidden-xs hidden-sm col-md-2 text-muted text-right" style="vertical-align: middle;">
             <i class="fa fa-fw fa-clock-o"></i> <time class="timeago" datetime="<%= post.date.toISOString() %>"><%= post.date.toDateString() %></time>
           </td>
         </tr>

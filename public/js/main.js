@@ -97,6 +97,10 @@ $(function() {
     this.submit();
   });
   
+  $("*[href]").bind('touchstart click', function() {
+    window.location = $(this).attr('href');
+  });
+  
 });
 
 

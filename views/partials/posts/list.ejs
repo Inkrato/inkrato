@@ -1,85 +1,32 @@
-<table class="table table-striped">
+<table>
   <tbody>
   <% posts.forEach(function(post) { %>
     <tr>
-      <td class="col-xs-12 col-md-9" style="padding: 10px 10px;">
+      <td class="col-xs-12 col-md-10" style="padding: 10px 10px;">
         <% if (site.getOptions().post.voting.enabled == true) { %>
         <div class="media">
           <div class="media-left" style="padding-right: 15px;">
-            
-            
-            <div class="panel panel-default pull-left" style="width: 80px; margin-bottom: 5px;">
-              <div class="panel-body text-center" style="padding: 10px 0;">
-                <p class="lead" style="margin: 0;"><%= post.upvotes() - post.downvotes() %></p>
-              </div>
-              <div class="panel-footer text-center text-muted" style="padding: 3px 0;">
-                score
-              </div>
-            </div>
-            
-            <div class="btn-group btn-group-justified">
-              <% if (user) { %>
-                <% if (post.upvoted(user.id)) { %>
-                <form name="upvote" method="post" action="<%= post.getUnvoteUrl() %>" class="btn btn-success btn-vote" style="padding: 0;" >
-                  <input type="hidden" name="_csrf" value="<%= _csrf %>"/>
-                  <button class="btn btn-link text-white" style="padding: 3px 0;">
-                    <i class="fa fa-chevron-up"></i>
-                  </button>
-                </form>
-                <% } else { %>
-                <form name="upvote" method="post" action="<%= post.getUpvoteUrl() %>" class="btn btn-default btn-vote" style="padding: 0;">
-                  <input type="hidden" name="_csrf" value="<%= _csrf %>"/>
-                  <button type="submit" class="btn btn-link text-default" style="padding: 3px 0;">
-                    <i class="fa fa-chevron-up"></i>
-                  </button>
-                </form>
-                <% } %>
-                <% if (post.downvoted(user.id)) { %>
-                <form name="downvote" method="post" action="<%= post.getUnvoteUrl() %>" class="btn btn-danger btn-vote" style="padding: 0;">
-                  <input type="hidden" name="_csrf" value="<%= _csrf %>"/>
-                  <button type="submit" class="btn btn-link text-white" style="padding: 3px 0;">
-                    <i class="fa fa-chevron-down"></i>
-                  </button>
-                </form>
-                <% } else { %>
-                <form name="downvote" method="post" action="<%= post.getDownvoteUrl() %>" class="btn btn-default btn-vote" style="padding: 0;">
-                  <input type="hidden" name="_csrf" value="<%= _csrf %>"/>
-                  <button type="submit" class="btn btn-link text-default" style="padding: 3px 0;">
-                    <i class="fa fa-chevron-down"></i>
-                  </button>
-                </form>
-                <% } %>
-              <% } else { %>
-              <a href="#" data-toggle="modal" data-dismiss="modal" data-target="#signupModal" class="btn btn-default" style="padding: 3px 0;">
-                <i class="fa fa-chevron-up"></i>
-              </a>
-              <a href="#" data-toggle="modal" data-dismiss="modal" data-target="#signupModal" class="btn btn-default" style="padding: 3px 0;">
-                <i class="fa fa-chevron-down"></i>
-              </a>
-              <% } %>
-            </div>
+               <% include vote %> 
           </div>
           <div class="media-body">
         <% } %>
-            <div class="pull-left">
-              <h3 style="display: inline-block; margin-top: 0;"><a href="<%= post.getUrl() %>"><%= post.title %></a></h3>
-              <p class="text-muted" style="height: 20px; overflow: hidden;">
-                <%= post.description.replace(/\n/, '') %>
-              </p>
-              <% if (post.creator) { %>
-              <img src="<%= post.creator.avatar(24)%>" alt="Avatar" height="24" width="24" hspace="3" class="img-circle" />
-              <%= post.creator.profile.name || "Anonymous" %>
-              <% } %>
-              <span class="text-muted hidden-md hidden-lg pull-right">
-                <i class="fa fa-fw fa-clock-o"></i> <time class="timeago" datetime="<%= post.date.toISOString() %>"><%= post.date.toDateString() %></time>
-              </span>
+            <div class="post-preview-body"  href="<%= post.getUrl() %>">
+              <h3 class="post-title"><a href="<%= post.getUrl() %>"><%= post.title %></a></h3>
+              <p class="text-muted"><%= post.description.replace(/\n/, '').substr(0,400); %></p>
             </div>
+            <% if (post.creator) { %>
+            <img src="<%= post.creator.avatar(24)%>" alt="Avatar" height="24" width="24" hspace="3" class="img-circle" />
+            <%= post.creator.profile.name || "Anonymous" %>
+            <% } %>
+            <span class="text-muted hidden-md hidden-lg pull-right">
+              <i class="fa fa-fw fa-clock-o"></i> <time class="timeago" datetime="<%= post.date.toISOString() %>"><%= post.date.toDateString() %></time>
+            </span>
         <% if (site.getOptions().post.voting.enabled == true) { %>
           </div>
         </div>
         <% } %>
       </td>
-      <td class="hidden-xs hidden-sm col-md-3 text-muted text-right" style="vertical-align: middle;">
+      <td class="hidden-xs hidden-sm col-md-2 text-muted text-right" style="vertical-align: middle;">
         <i class="fa fa-fw fa-clock-o"></i> <time class="timeago" datetime="<%= post.date.toISOString() %>"><%= post.date.toDateString() %></time>
       </td>
     </tr>
