@@ -1,7 +1,18 @@
 <% if (postCount > 0) { %>
-  <% include ../partials/posts/pagination %>
+  <div class="row">
+    <div class="col-md-7">
+      <h1 style="margin: 0"><%= site.getOptions().post.name %></h1>
+    </div>
+    <div class="col-md-5">
+      <% include ../partials/posts/pagination-controls %>
+    </div>
+  </div>
   <% include ../partials/posts/list %>
-  <% include ../partials/posts/pagination %>
+  <div class="row">
+    <div class="col-md-12">
+      <% include ../partials/posts/pagination-controls %>
+    </div>
+  </div>
 <% } else { %>
   <p class="text-center lead">There is nothing here yet.</p>
   <p class="text-center"><a class="btn btn-success" href="/<%= site.getOptions().post.url %>/new"><i class="fa fa-lg fa-fw fa-plus"></i> New</a></p>
