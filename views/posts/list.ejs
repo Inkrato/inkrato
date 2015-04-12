@@ -11,7 +11,7 @@
     <tbody>
     <% posts.forEach(function(post) { %>
       <tr>
-        <td class="col-xs-12 col-md-10" style="padding: 10px 10px;">
+        <td class="col-xs-12 col-md-9 col-lg-10" style="padding: 10px 10px;">
           <% if (site.getOptions().post.voting.enabled == true) { %>
           <div class="media">
             <div class="media-left" style="padding-right: 15px;">
@@ -35,7 +35,7 @@
           </div>
           <% } %>
         </td>
-        <td class="hidden-xs hidden-sm col-md-2 text-muted text-right" style="vertical-align: middle;">
+        <td class="hidden-xs hidden-sm col-md-3 col-lg-2 text-muted text-right" style="vertical-align: middle;">
           <i class="fa fa-fw fa-clock-o"></i> <time class="timeago" datetime="<%= post.date.toISOString() %>"><%= post.date.toDateString() %></time>
         </td>
       </tr>

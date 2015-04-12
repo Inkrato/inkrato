@@ -1,14 +1,5 @@
 <div class="row">
-  <div class="col-sm-9">
-    <form role="form" method="post" action="/<%= site.getOptions().post.url %>/new" data-validator="true">
-      <input type="hidden" name="_csrf" value="<%= _csrf %>"/>
-      <% include ../partials/posts/edit %>
-      <div class="form-group text-right">
-        <div class="col-sm-offset-2 col-sm-10"><button type="submit" class="btn btn-primary"><i class="fa fa-lg fa-fw fa-check"></i> Save</button></div>
-      </div>
-    </form>
-  </div>
-  <div class="col-sm-3">
+  <div class="col-md-4 col-lg-3 col-md-push-8 col-lg-push-9">
     <div class="media">
       <div class="media-left">
         <a href="#"><img src="<%= user.avatar(48) %>" height="48" width="48" alt="Avatar" class="img-circle"/></a>
@@ -19,5 +10,14 @@
       </div>
     </div>
     </h3>
+  </div>
+  <div class="col-sm-12 col-md-8 col-lg-9 col-md-pull-4 col-lg-pull-3">
+    <form role="form" method="post" action="/<%= site.getOptions().post.url %>/new" data-validator="true">
+      <input type="hidden" name="_csrf" value="<%= _csrf %>"/>
+      <% include ../partials/posts/edit %>
+      <div class="form-group text-right">
+        <div class="col-sm-offset-2 col-sm-10"><button type="submit" class="btn btn-primary"><i class="fa fa-lg fa-fw fa-check"></i> Save</button></div>
+      </div>
+    </form>
   </div>
 </div>
