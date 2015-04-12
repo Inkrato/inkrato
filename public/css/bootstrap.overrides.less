@@ -102,3 +102,10 @@
   animation: none !important;
 }
 
+/* Always render tab panes inline on small devices */
+.tab-pane {
+  @media (max-width: @screen-sm-max) {
+    display: block !important;
+    visibility: visible !important;
+  }
+}

@@ -1,15 +1,15 @@
 <h1 class="page-header">Your profile</h1>
 <div class="row">
-  <div class="col-sm-3"> <!-- required for floating -->
+  <div class="hidden-xs hidden-sm col-md-3"> <!-- required for floating -->
       <!-- Nav tabs -->
-      <ul class="nav nav-pills nav-stacked">
+      <ul class="nav nav-pills nav-stacked hidden-no-js">
         <li class="active"><a href="#details" data-toggle="tab"><i class="fa fa-lg fa-fw fa-user"></i> Your details <p class="pull-right"><i class="fa fa-chevron-right"></i></p></a></li>
         <li><a href="#changePassword" data-toggle="tab"><i class="fa fa-lg fa-fw fa-key"></i> Change password <p class="pull-right"><i class="fa fa-chevron-right"></i></p></a></li>
         <li><a href="#permissions" data-toggle="tab"><i class="fa fa-lg fa-fw fa-lock"></i> Permissions <p class="pull-right"><i class="fa fa-chevron-right"></i></p></a></li>
         <li><a href="#deleteAccount" data-toggle="tab"><i class="fa fa-lg fa-fw fa-trash"></i> Delete account <p class="pull-right"><i class="fa fa-chevron-right"></i></p></a></li>
       </ul>
   </div>
-  <div class="col-sm-9">
+  <div class="col-md-9">
     <div class="row">
       <div class="col-sm-7">
         <!-- Tab panes -->
@@ -88,6 +88,7 @@
               <i class="fa fa-lg fa-fw fa-times-circle"></i> You do not have administrator access
             </p>
             <% } %>
+            <br/>
           </div>
 
           <div class="tab-pane" id="changePassword">
@@ -119,16 +120,21 @@
           <div class="tab-pane" id="deleteAccount">
             <h2>Delete your account</h2>
             <br/>
-            <p>
+            <p class="text-center">
               You can delete your account at any time. 
             </p>
-            <p>
+            <p class="text-center">
               If you delete your account, it cannot be restored.
             </p>
             <br/>
-            <p>
+            <p class="text-center hidden-no-js">
               <a href="#" data-toggle="modal" data-target="#deleteAccountModal" class="btn btn-danger"><i class="fa fa-lg fa-fw fa-trash"></i> Delete my account</a>
             </p>
+            <form name="delete-account" method="post" action="/account/delete" class="visible-no-js text-center">
+              <input type="hidden" name="_csrf" value="<%= _csrf %>">
+              <button type="submit" class="btn btn-danger"><i class="fa fa-fw fa-lg fa-trash"></i>Delete my account</button>
+            </form>
+            <br/>
           </div>
           
         </div>  <!-- End tabs -->
@@ -146,10 +152,12 @@
         <br/>
 
         <% // @todo Don't show unlink options if a password isn't set and/or email isn't verified %>
+        
+        <% if (site.loginOptions('facebook') || site.loginOptions('facebook') || site.loginOptions('twitter') || site.loginOptions('github')) { %>
         <h4>Connect accounts</h4>
         <p><strong>Tip!</strong> Connecting your accounts allows you to log in even if you lose access to your email account.</p>
-        
         <br/>
+        <% } %>
         
         <!-- Connected accounts -->
         <% if (user.facebook && site.loginOptions('facebook')) { %>
