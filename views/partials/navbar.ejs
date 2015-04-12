@@ -1,6 +1,9 @@
 <div class="navbar navbar-inverse navbar-static-top" role="navigation">
+  <div class="visible-xs">
+    <a href="/" class="navbar-brand" data-shortcut-key="h"><i class="fa fa-lg fa-fw fa-home"></i></a>
+  </div>
   <div class="container">
-    <a href="/" class="navbar-brand" data-shortcut-key="h"><i class="fa fa-lg fa-fw fa-home"></i> <%= site.getName() %></a>
+    <a href="/" class="navbar-brand hidden-xs" data-shortcut-key="h"><i class="fa fa-lg fa-fw fa-home"></i></a>
     <div class="navbar-header">
       <button type="button" class="navbar-toggle" data-toggle="collapse" data-target=".navbar-collapse">
         <span class="sr-only">Toggle navigation</span>
@@ -21,7 +24,7 @@
             </div>
           </form>
         </li>
-        <li><a href="/<%= site.getOptions().post.url %>" ><i class="fa fa-lg fa-fw fa-comments"></i> <%= site.getOptions().post.name %></a></li>
+        <li><a href="/<%= site.getOptions().post.url %>"><i class="fa fa-lg fa-fw fa-comments"></i> <%= site.getOptions().post.name %></a></li>
         <li><a href="/contact"><i class="fa fa-lg fa-fw fa-envelope"></i> Contact</a></li>
       </ul>
       <% if (user) { %>
