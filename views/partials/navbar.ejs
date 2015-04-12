@@ -14,7 +14,7 @@
     </div>
     <div class="collapse navbar-collapse">
       <ul class="nav navbar-nav">
-        <li class="visible-xs" style="padding: 0 10px 0 10px;">
+        <li class="visible-xs" style="padding: 0 10px 0 10px; margin-bottom: 10px;">
           <form name="search-posts" method="get" action="/<%= site.getOptions().post.url %>/search" class="form-horizontal">
             <div class="input-group input-group-search"> 
               <input name="q" value="<%= typeof(query) != "undefined" ? query : '' %>" type="search" class="form-control" placeholder="Search" />
@@ -24,17 +24,27 @@
             </div>
           </form>
         </li>
-        <li><a href="/<%= site.getOptions().post.url %>"><i class="fa fa-lg fa-fw fa-comments"></i> <%= site.getOptions().post.name %></a></li>
-        <li><a href="/contact"><i class="fa fa-lg fa-fw fa-envelope"></i> Contact</a></li>
+        <li <% if (path.match(new RegExp("^\/"+site.getOptions().post.url))) { %>class="active"<% } %>><a href="/<%= site.getOptions().post.url %>"><i class="fa fa-lg fa-fw fa-comments"></i> <%= site.getOptions().post.name %></a></li>
+        <li <% if (path.match("^\/contact")) { %>class="active"<% } %>><a href="/contact"><i class="fa fa-lg fa-fw fa-envelope"></i> Contact</a></li>
+        <li class="visible-xs">
+          <% if (user) { %>
+          <a xclass="navbar-btn btn btn-primary" href="/<%= site.getOptions().post.url %>/new"><i class="fa fa-lg fa-fw fa-plus-circle"></i> New</a>
+          <% } else { %>
+          <a xclass="navbar-btn btn btn-primary" href="/signup" data-dismiss="modal" data-toggle="modal" data-target="#signupModal"><i class="fa fa-lg fa-fw fa-plus-circle"></i> New</a>
+          <% } %>
+        </li>
       </ul>
-      <% if (user) { %>
-      <a class="navbar-btn btn btn-primary" href="/<%= site.getOptions().post.url %>/new" data-dismiss="modal" data-toggle="modal" data-target="#newPostModal" data-shortcut-key="n"><i class="fa fa-lg fa-fw fa-plus-circle"></i> New</a>
-      <% } else { %>
-      <a class="navbar-btn btn btn-primary" href="/signup" data-dismiss="modal" data-toggle="modal" data-target="#signupModal"><i class="fa fa-lg fa-fw fa-plus-circle"></i> New</a>
-      <% } %>
+      <span class="hidden-xs">
+        &nbsp;
+        <% if (user) { %>
+        <a class="navbar-btn btn btn-primary" href="/<%= site.getOptions().post.url %>/new" data-dismiss="modal" data-toggle="modal" data-target="#newPostModal" data-shortcut-key="n"><i class="fa fa-lg fa-fw fa-plus-circle"></i> New</a>
+        <% } else { %>
+        <a class="navbar-btn btn btn-primary" href="/signup" data-dismiss="modal" data-toggle="modal" data-target="#signupModal"  data-shortcut-key="n"><i class="fa fa-lg fa-fw fa-plus-circle"></i> New</a>
+        <% } %>
+      </span>
       <ul class="nav navbar-right navbar-nav">
         <% if (user) { %>
-        <li class="dropdown">
+        <li class="dropdown <% if (path.match("^\/contact")) { %>class="active"<% } %>">
           <a href="/profile" data-toggle="dropdown" class="dropdown-toggle">
             <img src="<%= user.avatar(30) %>" alt="Avatar" class="img-circle" style="position: relative; top: -2px; height: 30px; width: 30px; margin: -15px 5px;"  />
             <%= user.profile.name || user.email || user.id %>

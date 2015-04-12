@@ -112,6 +112,9 @@ app.use(function(req, res, next) {
   // Make user object available in all templates
   res.locals.user = req.user;
 
+  // Expose path to views
+  res.locals.path = req.path;
+
   next();
 });
 app.use(function(req, res, next) {
