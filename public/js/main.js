@@ -1,3 +1,14 @@
+/**
+ * main.js assumes the core libs (which should be present on page render), like
+ * jQuery and Bootstrap.js, have been loaded already (in application.js)
+ */
+//= require jquery.timeago
+//= require jquery.bootstrap-growl
+//= require bootstrap.tags
+//= require bootstrap.select
+//= require bootstrap.typeahead
+//= require form-validator
+
 $(function() { 
   
   // Handle modal & dropdown links for graceful no-js support
@@ -106,21 +117,52 @@ $(function() {
       window.location = $(this).attr('href');
   });
   
+  // Make textarea's with the 'autoresize' class shink/grow based con content
+  $(document).on('keyup', 'textarea.autoresize', function() {
+    resizeTextarea($(this));
+  });  
+  // Trigger textarea resizing (to correct size to fit content) on page load
+  $('textarea.autoresize').each(function() {
+    resizeTextarea($(this));
+  });
+  
+  $('.modal').on('shown.bs.modal', function() {
+    $('textarea.autoresize', $(this)).each(function() {
+      resizeTextarea($(this));
+    });
+  });
+  
 });
 
-
 function checkIfAnyInputElementHasFocus() {
-    var focusedInputs = $("input:focus");
-    if (focusedInputs != null && focusedInputs.length > 0)
-        return true;
+  var focusedInputs = $("input:focus");
+  if (focusedInputs != null && focusedInputs.length > 0)
+      return true;
 
-    var focusedInputs = $("textarea:focus");
-    if (focusedInputs != null && focusedInputs.length > 0)
-        return true;
+  var focusedInputs = $("textarea:focus");
+  if (focusedInputs != null && focusedInputs.length > 0)
+      return true;
 
-    var focusedInputs = $("select:focus");
-    if (focusedInputs != null && focusedInputs.length > 0)
-        return true;
+  var focusedInputs = $("select:focus");
+  if (focusedInputs != null && focusedInputs.length > 0)
+      return true;
 
-    return false;
+  return false;
+}
+
+function resizeTextarea(textarea) {
+  var s = $(window).scrollTop();
+  if (textarea.parents(".modal").length)
+    s = $(textarea.parents(".modal")[0]).scrollTop();
+
+  if (!textarea.data('height'))
+    textarea.data('height',textarea.height());
+  
+  textarea.height( textarea.data('height') ).height(textarea[0].scrollHeight);
+
+  if (textarea.parents(".modal").length) {
+      $(textarea.parents(".modal")[0]).scrollTop(s);
+  } else if (s > 0) {
+      $(window).scrollTop(s);
+  }
 }

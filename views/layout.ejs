@@ -16,9 +16,7 @@
     <script>
       document.documentElement.className = document.documentElement.className.replace("no-js","js");
     </script>
-    <%- js('jquery') %>
-    <%- js('jquery-ui') %>
-    <%- js('bootstrap') %>
+    <%- js('application') %>
   </head>
   <body>
     <% include partials/navbar %>
@@ -70,7 +68,7 @@
       <% include partials/sign-in-dialogs %>
     <% } %>
     
-    <%- js('application') %>
+    <%- js('main') %>
   </script>
   </body>
 </html>

@@ -1,7 +1,8 @@
-//= require jquery.timeago
-//= require jquery.bootstrap-growl
-//= require bootstrap.tags
-//= require bootstrap.select
-//= require bootstrap.typeahead
-//= require form-validator
-//= require main
+/**
+ * These files are included in the header and present when a page is loaded.
+ * main.js depends on these libs and does not load until after the page has been 
+ * rendered.
+ */
+//= require jquery
+//= require jquery-ui
+//= require bootstrap
