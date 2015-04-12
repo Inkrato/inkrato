@@ -36,7 +36,7 @@ $(function() {
     });
   });
   
-  
+  // Handle keyboard shortcuts
   $(document).keyup(function(e) {
       // Ignore any shortcut keys if the Ctrl modifier key was depressed
       // e.g. So that the "C" key doesn't trigger a dialog when someone
@@ -73,6 +73,8 @@ $(function() {
       return;
   });
 
+  // Control for the typeahead input for the search box
+  // @todo Hook into the render event to improve how results are displayed
   $('#search').typeahead({
     displayField: 'title',
     valueField: 'url',
@@ -97,8 +99,11 @@ $(function() {
     this.submit();
   });
   
-  $("*[href]").bind('touchstart click', function() {
-    window.location = $(this).attr('href');
+  // Shim to make any element with a valid "href" value clickable
+  // (This exists under standards like XHTML 2.0 but not natively in browsers.)
+  $("*[href]").bind('touch click', function() {
+    if ($(this).attr('href') != "" && !$(this).attr('href').match(/^#/))
+      window.location = $(this).attr('href');
   });
   
 });
