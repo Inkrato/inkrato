@@ -22,6 +22,7 @@ var express = require('express'),
     partials = require('express-partials'),
     i18n = require("i18n"),
     Site = require('./models/Site'),
+    linkify = require("html-linkify"),
     app = express();
 
 /**
@@ -114,6 +115,9 @@ app.use(function(req, res, next) {
 
   // Expose path to views
   res.locals.path = req.path;
+  
+  // Expose linkify (to escape content while making hyperliks work) to all views
+  res.locals.linkify = linkify;
 
   next();
 });

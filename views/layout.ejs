@@ -28,11 +28,11 @@
             <p class="lead" style="margin-top: 10px; margin-bottom: 0px; opacity: 0.5;">
               <a href="/" class="text-white">home</a>
               <% if (path.split("/")[1]) { %>
-              <i class="fa xfa-fw fa-chevron-right"></i>
+              <i class="fa fa-lg fa-angle-right"></i>
               <a href="/<%= path.split("/")[1] %>/" class="text-white"><%= path.split("/")[1] %></a>
               <% } %>
               <% if (path.split("/")[2] && isNaN(path.split("/")[2])) { %>
-              <i class="fa xfa-fw fa-chevron-right"></i>
+              <i class="fa fa-lg fa-angle-right"></i>
               <a href="/<%= path.split("/")[2] %>/" class="text-white"><%= path.split("/")[2] %></a>
               <% } %>
             </p>
