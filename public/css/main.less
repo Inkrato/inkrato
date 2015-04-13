@@ -115,3 +115,12 @@ h1, h2
 textarea {
   min-height: 100px;
 }
+
+.navbar-inverse .nav.navbar-main li:hover a,
+.navbar-inverse .nav.navbar-main li.active a {
+  @media (min-width: @screen-sm-min) {
+    box-shadow: inset 0 -10px 0 -5px @navbar-inverse-link-color;
+    background: transparent;
+    transition: all .2s;
+  }
+}
