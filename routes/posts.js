@@ -77,11 +77,6 @@ exports.getPost = function(req, res) {
   .populate('creator', 'profile email picture role')
   .populate('comments.creator', 'profile email picture role')
   .exec(function (err, post) {
-    
-    var mongooseConverse = require('../lib/mongoose-converse');
-    var foo = post.comments;
-    console.log(foo);
-    
     if (err)
       return res.render('404');
     

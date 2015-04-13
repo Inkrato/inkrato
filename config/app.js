@@ -9,8 +9,8 @@ module.exports = {
   
   // The name and URL to use for "posts" on the site
   posts: {
-    name: "Feedback",
-    url: "/feedback/"
+    name: "Discussion",
+    url: "/discussion/"
   }
   
 };
