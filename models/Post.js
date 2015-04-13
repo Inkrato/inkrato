@@ -2,6 +2,7 @@ var mongoose = require('mongoose'),
     mongooseAutoIncrement = require('mongoose-auto-increment'),
     mongooseSearch = require('mongoose-search-plugin'),
     mongooseVoting = require('mongoose-voting'),
+    mongooseConverse = require('../lib/mongoose-converse'),
     User = require('./User'),
     Site = require('./Site'),
     crypto = require('crypto'),
@@ -17,7 +18,7 @@ var schema = new mongoose.Schema({
   title: { type: String, required : true },
   description: { type: String, required : true },
   tags: [ String ],
-  date: { type: Date, default: Date.now },
+  created: { type: Date, default: Date.now },
   updated: { type: Date, default: Date.now },
   creator: { type: mongoose.Schema.ObjectId, ref: 'User' }
 });
@@ -54,6 +55,10 @@ schema.methods.getUnvoteUrl = function() {
   return '/'+Site.getOptions().post.url+'/unvote/'+this.postId;
 };
 
+schema.methods.getAddCommentUrl = function() {
+  return '/'+Site.getOptions().post.url+'/comments/add/'+this.postId;
+};
+
 /**
  * Auto-incrimenting ID value (in addition to _id property)
   */
@@ -68,7 +73,7 @@ schema.plugin(mongooseAutoIncrement.plugin, {
 schema.plugin(mongooseSearch, {
   fields: ['title', 'description', 'tags']
 });
-
 schema.plugin(mongooseVoting, { ref: 'User' });
-  
+schema.plugin(mongooseConverse, { ref: 'User'});
+
 module.exports = mongoose.model('Post', schema);

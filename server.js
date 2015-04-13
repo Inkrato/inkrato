@@ -197,14 +197,15 @@ app.get('/account/unlink/:provider', routes.passport.isAuthenticated, routes.use
 app.get('/'+Site.getOptions().post.url, routes.posts.getPosts);
 app.get('/'+Site.getOptions().post.url+'/new', routes.passport.isAuthenticated, routes.posts.getNewPost);
 app.post('/'+Site.getOptions().post.url+'/new', routes.passport.isAuthenticated, routes.posts.postNewPost);
-app.get('/'+Site.getOptions().post.url+'/search', routes.posts.getSearch);
-app.get('/posts/search', routes.posts.getSearch);
+app.get('/'+Site.getOptions().post.url+'/search', routes.posts.search.getSearch);
+app.get('/posts/search', routes.posts.search.getSearch);
 app.get('/'+Site.getOptions().post.url+'/edit/:id', routes.passport.isAuthenticated, routes.posts.getEditPost);
 app.post('/'+Site.getOptions().post.url+'/edit/:id', routes.passport.isAuthenticated, routes.posts.postEditPost);
 if (Site.getOptions().post.voting.enabled == true) {
   app.post('/'+Site.getOptions().post.url+'/upvote/:id', routes.passport.isAuthenticated, routes.posts.postUpvote);
   app.post('/'+Site.getOptions().post.url+'/downvote/:id', routes.passport.isAuthenticated, routes.posts.postDownvote);
   app.post('/'+Site.getOptions().post.url+'/unvote/:id', routes.passport.isAuthenticated, routes.posts.postUnvote);
+  app.post('/'+Site.getOptions().post.url+'/comments/add/:id', routes.passport.isAuthenticated, routes.posts.comments.postAddComment);
 }
 app.get('/'+Site.getOptions().post.url+'/:id/:slug', routes.posts.getPost);
 app.get('/'+Site.getOptions().post.url+'/:id', routes.posts.getPost);

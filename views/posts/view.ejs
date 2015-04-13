@@ -9,7 +9,7 @@
   <div class="media-body">
 <% } %>
   <div class="row">
-    <div class="col-sm-12 col-lg-11">
+    <div class="col-sm-12 col-lg-12">
       <div class="row">
         <div class="col-sm-12 col-md-8 col-lg-9">
           <h1 class="page-header"><%= post.title %></h1>
@@ -17,12 +17,12 @@
         <% if (post.creator) { %>
         <div class="media visible-xs visible-sm">
           <div class="media-left">
-            <a href="#"><img src="<%= post.creator.avatar(32) %>" height="24" width="24" alt="Avatar" class="img-circle"/></a>
+            <a href="#"><img src="<%= post.creator.avatar(24) %>" height="24" width="24" alt="Avatar" class="img-circle"/></a>
           </div>
           <div class="media-body">
             <p>
             <span class="media-heading"><%= post.creator.profile.name || "Anonymous" %></span>
-            <span class="text-muted"><i class="fa fa-clock-o"></i> <time class="timeago" datetime="<%= post.date.toISOString() %>"><%= post.date.toDateString() %></time></span>
+            <span class="text-muted"><i class="fa fa-clock-o"></i> <time class="timeago" datetime="<%= post.created.toISOString() %>"><%= post.created.toDateString() %></time></span>
             </p>
             <br/>
           </div>
@@ -38,7 +38,7 @@
             </div>
             <div class="media-body">
               <h3 class="media-heading"><%= post.creator.profile.name || "Anonymous" %></h3>
-              <span class="text-muted"><i class="fa fa-clock-o"></i> <time class="timeago" datetime="<%= post.date.toISOString() %>"><%= post.date.toDateString() %></time></span>
+              <span class="text-muted"><i class="fa fa-clock-o"></i> <time class="timeago" datetime="<%= post.created.toISOString() %>"><%= post.created.toDateString() %></time></span>
             </div>
           </div>
           <br/>
@@ -66,8 +66,58 @@
           </p>
           <% } %>
         </div>
-        <div class="hidden-sm col-md-4 col-lg-3">
-          &nbsp;
+      </div>
+      <div class="row">
+        <div class="col-sm-12 col-md-8 col-lg-9">
+          <hr/>
+          <h2><i class="fa fa-comments"></i> Comments</h2>
+          <br/>
+          <% post.comments.forEach(function(comment) { %>
+          <div class="media">
+            <div class="media-left" style="padding-right: 20px;">
+              <a href="#"><img src="<%= comment.creator.avatar(48) %>" height="48" width="48" alt="Avatar" class="img-circle"/></a>
+            </div>
+            <div class="media-body panel panel-default">
+              <div class="panel-heading">
+                <span class="media-heading"><%= comment.creator.profile.name || "Anonymous" %></span>
+                <span class="text-muted pull-right"><i class="fa fa-clock-o"></i> <time class="timeago" datetime="<%= comment.created.toISOString() %>"><%= comment.created.toDateString() %></time></span>                
+              </div>
+              <div class="panel-body">
+                <p class="comment">
+                  <%= comment.message %>
+                </p>
+              </div>
+            </div>
+          </div>
+          <% }); %>
+          <br/>
+          <% if (user) { %>
+          <div class="media">
+            <div class="media-left" style="padding-right: 20px;">
+              <a href="#"><img src="<%= post.creator.avatar(48) %>" height="48" width="48" alt="Avatar" class="img-circle"/></a>
+            </div>
+            <div class="media-body">
+              <form role="form" method="post" action="<%= post.getAddCommentUrl() %>" data-validator="true">
+                <input type="hidden" name="_csrf" value="<%= _csrf %>"/>
+                <div class="form-group">
+                  <p style="margin-bottom: 5px;">
+                  <span class="media-heading"><%= user.profile.name || "Anonymous" %></span>
+                  <span class="text-muted pull-right"><i class="fa fa-clock-o"></i> <time datetime="<%= new Date().toISOString() %>"><%= new Date().toDateString() %></time></span>
+                  </p>
+                  <label for="message" class="control-label hidden">Add comment</label>
+                  <textarea type="text" name="comment" id="comment" rows="3" class="form-control autoresize" placeholder="Add comment" autocomplete="off"></textarea>
+                </div>
+                <div class="form-group text-right">
+                  <button type="submit" class="btn btn-primary"><i class="fa fa-lg fa-fw fa-comment"></i> Add comment</button>
+                </div>
+              </form>
+            </div>
+          </div>
+          <% } else { %>
+          <p class="text-right">
+            <a href="/signup" class="btn btn-primary" data-toggle="modal" data-dismiss="modal" data-target="#signupModal"><i class="fa fa-lg fa-fw fa-sign-in"></i> Sign up to comment</a>
+          </p>
+          <% } %>
         </div>
       </div>
     </div>

@@ -1,6 +1,6 @@
 {
   "name": "inkrato",
-  "version": "0.0.1",
+  "version": "0.1.0",
   "repository": {
     "type": "git",
     "url": "https://github.com/Inkrato/inkrato.git"
@@ -46,7 +46,7 @@
     "mongoose-auto-increment": "3.2.2",
     "mongoose-search-plugin": "^0.1.2",
     "mongoose-voting": "^0.2.0",
-    "morgan": "^1.1.1",
+    "morgan": "^1.1.1"
     "nodemailer": "^1.0.1",
     "passport": "^0.2.0",
     "passport-facebook": "^1.0.3",

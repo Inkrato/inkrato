@@ -21,13 +21,13 @@
             </div>
           </form>
         </li>
-        <li <% if (path.match(new RegExp("^\/"+site.getOptions().post.url))) { %>class="active"<% } %>><a href="/<%= site.getOptions().post.url %>"><i class="fa fa-lg fa-fw fa-comments"></i> <%= site.getOptions().post.name %></a></li>
+        <li <% if (path.match(new RegExp("^\/"+site.getOptions().post.url))) { %>class="active"<% } %>><a href="/<%= site.getOptions().post.url %>"><i class="fa fa-lg fa-fw fa-list"></i> <%= site.getOptions().post.name %></a></li>
         <li <% if (path.match("^\/contact")) { %>class="active"<% } %>><a href="/contact"><i class="fa fa-lg fa-fw fa-envelope"></i> Contact</a></li>
         <li class="visible-xs">
           <% if (user) { %>
-          <a xclass="navbar-btn btn btn-primary" href="/<%= site.getOptions().post.url %>/new"><i class="fa fa-lg fa-fw fa-plus-circle"></i> New</a>
+          <a href="/<%= site.getOptions().post.url %>/new"><i class="fa fa-lg fa-fw fa-plus-circle"></i> New</a>
           <% } else { %>
-          <a xclass="navbar-btn btn btn-primary" href="/signup" data-dismiss="modal" data-toggle="modal" data-target="#signupModal"><i class="fa fa-lg fa-fw fa-plus-circle"></i> New</a>
+          <a href="/signup" data-dismiss="modal" data-toggle="modal" data-target="#signupModal"><i class="fa fa-lg fa-fw fa-plus-circle"></i> New</a>
           <% } %>
         </li>
       </ul>

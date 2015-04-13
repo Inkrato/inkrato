@@ -1,5 +1,7 @@
 var Post = require('../models/Post'),
-    Site = require('../models/Site');
+    Site = require('../models/Site'),
+    postsSearch = require('./posts/search'),
+    postsComments = require('./posts/comments');
 
 /**
  * GET /posts/new
@@ -36,7 +38,6 @@ exports.postNewPost = function(req, res, next) {
     if (err) return next(err);
     return res.redirect(post.getUrl());
   });
-
 };
 
 /**
@@ -74,7 +75,13 @@ exports.getPost = function(req, res) {
   Post
   .findOne({ postId: postId })
   .populate('creator', 'profile email picture role')
+  .populate('comments.creator', 'profile email picture role')
   .exec(function (err, post) {
+    
+    var mongooseConverse = require('../lib/mongoose-converse');
+    var foo = post.comments;
+    console.log(foo);
+    
     if (err)
       return res.render('404');
     
@@ -108,7 +115,7 @@ exports.getEditPost = function(req, res) {
 /**
  * POST /posts/edit/:id
  */
-exports.postEditPost = function(req, res) {
+exports.postEditPost = function(req, res, next) {
   req.assert('id', 'Post ID cannot be blank').notEmpty();
   req.assert('title', 'Title cannot be blank').notEmpty();
   req.assert('description', 'Description cannot be blank').notEmpty();
@@ -145,13 +152,12 @@ exports.postEditPost = function(req, res) {
     });
       
   });
-  
 };
 
 /**
  * POST /posts/upvote/:id
  */
-exports.postUpvote = function(req, res) {
+exports.postUpvote = function(req, res, next) {
   req.assert('id', 'Post ID cannot be blank').notEmpty();
 
   var errors = req.validationErrors();
@@ -176,14 +182,13 @@ exports.postUpvote = function(req, res) {
       if (err) return next(err);
       return res.redirect(req.session.returnTo || post.getUrl());
     });
-    
   });
 }
 
 /**
  * POST /posts/downvote/:id
  */
-exports.postDownvote = function(req, res) {
+exports.postDownvote = function(req, res, next) {
   req.assert('id', 'Post ID cannot be blank').notEmpty();
 
   var errors = req.validationErrors();
@@ -208,14 +213,13 @@ exports.postDownvote = function(req, res) {
       if (err) return next(err);
       return res.redirect(req.session.returnTo || post.getUrl());
     });
-
   });
 }
 
 /**
  * POST /posts/unvote/:id
  */
-exports.postUnvote = function(req, res) {
+exports.postUnvote = function(req, res, next) {
   req.assert('id', 'Post ID cannot be blank').notEmpty();
 
   var errors = req.validationErrors();
@@ -240,52 +244,18 @@ exports.postUnvote = function(req, res) {
       if (err) return next(err);
       return res.redirect(req.session.returnTo || post.getUrl());
     });
-
   });
 }
 
 /**
- * GET /posts/search
+ * Routes for /posts/search/*
  */
-exports.getSearch = function(req, res) {
-  if (req.query.q) {
-    Post
-    .search(req.query.q, {}, { sort: { date: -1 }, limit: 100, populate: [{ path: 'creator', fields: 'profile email picture role'} ] },
-      function(err, data) {
-        var response = {
-          title: res.locals.title + " - Search",
-          query: req.query.q,
-          posts: data.results,
-          count: data.totalCount
-        };
-        if (req.xhr) {
-          response.posts = [];
-          data.results.forEach(function(post) {
-            // To add a .url property to a mongoose object we must clone it
-            var newPostObject = JSON.parse(JSON.stringify(post));
-            newPostObject.url = post.getUrl();
-            response.posts.push(newPostObject);
-          });
-          return res.json(response);
-        } else {
-          return res.render('posts/search', response);
-       }
-      });
-  } else {
-    var response = {
-      title: res.locals.title + " - Search",
-      query: '',
-      posts: [],
-      count: 0
-    };
-    if (req.xhr) {
-      return res.json(response);
-    } else {
-      return res.render('posts/search', response);
-    }
-  }
-  
-};
+exports.search = postsSearch;
+
+/**
+ * Routes for /posts/comments/*
+ */
+exports.comments = postsComments;
 
 function splitTags(str) {
   if (!str || str.trim() == '')

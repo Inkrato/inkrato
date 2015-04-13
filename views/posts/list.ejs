@@ -7,7 +7,7 @@
       <% include ../partials/posts/paginator %>
     </div>
   </div>
-  <table>
+  <table class="table table-striped">
     <tbody>
     <% posts.forEach(function(post) { %>
       <tr>
@@ -17,7 +17,7 @@
             <div class="media-left" style="padding-right: 15px;">
                  <% include ../partials/posts/vote %> 
             </div>
-            <div class="media-body">
+            <div class="media-body" style="position: relative;">
           <% } %>
               <div class="post-preview-body"  href="<%= post.getUrl() %>">
                 <h3 class="post-title"><a href="<%= post.getUrl() %>"><%= post.title %></a></h3>
@@ -28,15 +28,22 @@
               <%= post.creator.profile.name || "Anonymous" %>
               <% } %>
               <span class="text-muted hidden-md hidden-lg pull-right">
-                <i class="fa fa-fw fa-clock-o"></i> <time class="timeago" datetime="<%= post.date.toISOString() %>"><%= post.date.toDateString() %></time>
+                <a href="<%= post.getUrl() %>" class="text-default"><i class="fa fa-fw fa-lg fa-comments"></i> <%= post.comments.length %></a>
+                |
+                <i class="fa fa-fw fa-clock-o"></i> <time class="timeago" datetime="<%= post.created.toISOString() %>"><%= post.created.toDateString() %></time>
               </span>
           <% if (site.getOptions().post.voting.enabled == true) { %>
             </div>
           </div>
           <% } %>
         </td>
-        <td class="hidden-xs hidden-sm col-md-3 col-lg-2 text-muted text-right" style="vertical-align: middle;">
-          <i class="fa fa-fw fa-clock-o"></i> <time class="timeago" datetime="<%= post.date.toISOString() %>"><%= post.date.toDateString() %></time>
+        <td class="hidden-xs hidden-sm col-md-3 col-lg-2 text-muted text-right" style="vertical-align: middle; position: relative;">
+          <div class="pull-right" style="position: absolute; top: 10px; right: 10px;">
+            <i class="fa fa-fw fa-clock-o"></i> <time class="timeago" datetime="<%= post.created.toISOString() %>"><%= post.created.toDateString() %></time>
+          </div>
+          <div class="pull-right" style="position: absolute; bottom: 10px; right: 10px;">
+            <a href="<%= post.getUrl() %>" class="btn btn-default text-default"><i class="fa fa-fw fa-lg fa-comments"></i> <%= post.comments.length %> <i class="fa fa-fw fa-chevron-right"></i></a>
+          </div>
         </td>
       </tr>
     <% }) %>

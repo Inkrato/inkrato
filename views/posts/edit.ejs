@@ -17,7 +17,7 @@
           </div>
           <div class="media-body">
             <h3 class="media-heading"><%= post.creator.profile.name || "Anonymous" %></h3>
-            <span class="text-muted"><i class="fa fa-clock-o"></i> <time class="timeago" datetime="<%= post.date.toISOString() %>"><%= post.date.toDateString() %></time></span>
+            <span class="text-muted"><i class="fa fa-clock-o"></i> <time class="timeago" datetime="<%= post.created.toISOString() %>"><%= post.created.toDateString() %></time></span>
           </div>
         </div>
         <br/>
@@ -33,7 +33,7 @@
           <div class="media-body">
             <p>
             <span class="media-heading"><%= post.creator.profile.name || "Anonymous" %></span>
-            <span class="text-muted"><i class="fa fa-clock-o"></i> <time class="timeago" datetime="<%= post.date.toISOString() %>"><%= post.date.toDateString() %></time></span>
+            <span class="text-muted"><i class="fa fa-clock-o"></i> <time class="timeago" datetime="<%= post.created.toISOString() %>"><%= post.created.toDateString() %></time></span>
             </p>
           </div>
         </div>
