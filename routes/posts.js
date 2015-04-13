@@ -175,7 +175,12 @@ exports.postUpvote = function(req, res, next) {
     
     post.save(function(err) {
       if (err) return next(err);
-      return res.redirect(req.session.returnTo || post.getUrl());
+      // If it's an ajax request, return a json response
+      if (req.xhr) {
+        return res.json({ score: post.upvotes() - post.downvotes() });
+      } else {
+        return res.redirect(req.session.returnTo || post.getUrl());
+      }
     });
   });
 }
@@ -206,7 +211,12 @@ exports.postDownvote = function(req, res, next) {
     
     post.save(function(err) {
       if (err) return next(err);
-      return res.redirect(req.session.returnTo || post.getUrl());
+      // If it's an ajax request, return a json response
+      if (req.xhr) {
+        return res.json({ score: post.upvotes() - post.downvotes() });
+      } else {
+        return res.redirect(req.session.returnTo || post.getUrl());
+      }
     });
   });
 }
@@ -237,7 +247,13 @@ exports.postUnvote = function(req, res, next) {
     
     post.save(function(err) {
       if (err) return next(err);
-      return res.redirect(req.session.returnTo || post.getUrl());
+
+      // If it's an ajax request, return a json response
+      if (req.xhr) {
+        return res.json({ score: post.upvotes() - post.downvotes() });
+      } else {
+        return res.redirect(req.session.returnTo || post.getUrl());
+      }
     });
   });
 }

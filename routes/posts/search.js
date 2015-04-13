@@ -14,6 +14,7 @@ exports.getSearch = function(req, res) {
           posts: data.results,
           count: data.totalCount
         };
+        // If it's an ajax request, return a json response
         if (req.xhr) {
           response.posts = [];
           data.results.forEach(function(post) {

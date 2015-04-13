@@ -105,11 +105,6 @@ $(function() {
     }
   });
   
-  // Make the entire form containing the voting buttons clickable for better UX
-  $("form.btn-vote").bind('touchstart click', function() {
-    this.submit();
-  });
-  
   // Shim to make any element with a valid "href" value clickable
   // (This exists under standards like XHTML 2.0 but not natively in browsers.)
   $("*[href]").bind('touch click', function() {
@@ -124,15 +119,99 @@ $(function() {
   // Trigger textarea resizing (to correct size to fit content) on page load
   $('textarea.autoresize').each(function() {
     resizeTextarea($(this));
-  });
-  
+  });  
+  // Trigger resizing of textarea elements inside modals when modals are shown
   $('.modal').on('shown.bs.modal', function() {
     $('textarea.autoresize', $(this)).each(function() {
       resizeTextarea($(this));
     });
   });
-  
+
+  // @todo refactor out to seperate JS file
+  // Make the entire form containing the voting buttons clickable for better UX
+  $(document).on('submit', 'form.btn-vote', function(event) {
+    // Prevent the form from submitting normally
+    event.preventDefault();
+    return false;
+  });
+  $("form[data-upvote]").bind('touchstart click', function() {
+    upvote(this);
+  });  
+  $("form[data-downvote]").bind('touchstart click', function() {
+    downvote(this);
+  });  
+
 });
+
+function upvote(form) {
+  var postId = $(form).attr('data-upvote');
+  $.post(
+    $(form).attr("action"),
+    $(form).serialize(),
+    function(response) {
+      if ($(form).hasClass("btn-default")) {
+        $('form[data-upvote="'+postId+'"]').each(function() {
+          $(this).removeClass("btn-default").addClass("btn-success");
+          $(".btn", this).removeClass("text-default").addClass("text-white");
+          this.action = this.action.replace(/upvote/, 'unvote');
+          
+          // On upvote, set any "active" downvote buttons to a neutral state
+          $('form[data-downvote="'+postId+'"]').each(function() {
+            if (!$(this).hasClass("btn-default")) {
+              $(this).removeClass("btn-danger").addClass("btn-default");
+              $(".btn", this).removeClass("text-white").addClass("text-default");
+              this.action = this.action.replace(/unvote/, 'downvote');
+            };
+          });
+        });
+      } else {
+        $('form[data-upvote="'+postId+'"]').each(function() {
+          $(this).removeClass("btn-success").addClass("btn-default");
+          $(".btn", this).removeClass("text-white").addClass("text-default");
+          this.action = this.action.replace(/unvote/, 'upvote');
+        });
+      }
+      $('*[data-score="'+postId+'"]').each(function() {
+        $(this).html(response.score);
+      });
+    }
+  );
+};
+
+function downvote(form) {
+  var postId = $(form).attr('data-downvote');
+  $.post(
+    $(form).attr("action"),
+    $(form).serialize(),
+    function(response) {
+      if ($(form).hasClass("btn-default")) {
+        $('form[data-downvote="'+postId+'"]').each(function() {
+          $(this).removeClass("btn-default").addClass("btn-danger");
+          $(".btn", this).removeClass("text-default").addClass("text-white");
+          this.action = this.action.replace(/downvote/, 'unvote');
+        });
+        
+        // On downvote, set any "active" upvote buttons to a neutral state
+        $('form[data-upvote="'+postId+'"]').each(function() {
+          if (!$(this).hasClass("btn-default")) {
+            $(this).removeClass("btn-success").addClass("btn-default");
+            $(".btn", this).removeClass("text-white").addClass("text-default");
+            this.action = this.action.replace(/unvote/, 'upvote');
+          }
+        });
+      } else {
+        $('form[data-downvote="'+postId+'"]').each(function() {
+          $(this).removeClass("btn-danger").addClass("btn-default");
+          $(".btn", this).removeClass("text-white").addClass("text-default");
+          this.action = this.action.replace(/unvote/, 'downvote');
+        });
+      }
+      $('*[data-score="'+postId+'"]').each(function() {
+        $(this).html(response.score);
+      });
+    }
+  );
+};
 
 function checkIfAnyInputElementHasFocus() {
   var focusedInputs = $("input:focus");

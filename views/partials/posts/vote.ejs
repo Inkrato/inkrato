@@ -1,6 +1,6 @@
 <div class="panel panel-default" style="width: 80px; margin-bottom: 10px;">
   <div class="panel-body text-center" style="padding: 10px 0;">
-    <p class="lead score"><%= post.upvotes() - post.downvotes() %></p>
+    <p data-score="<%= post.postId %>" class="lead score"><%= post.upvotes() - post.downvotes() %></p>
   </div>
   <div class="panel-footer text-center text-muted" style="padding: 5px 0;">
     score
@@ -9,14 +9,14 @@
 <div class="btn-group btn-group-justified">
   <% if (user) { %>
     <% if (post.upvoted(user.id)) { %>
-    <form name="upvote" method="post" action="<%= post.getUnvoteUrl() %>" class="btn btn-success btn-vote" style="padding: 0;" >
+    <form name="upvote" data-upvote="<%= post.postId %>" method="post" action="<%= post.getUnvoteUrl() %>" class="btn btn-success btn-vote" style="padding: 0;" >
       <input type="hidden" name="_csrf" value="<%= _csrf %>"/>
-      <button class="btn btn-link text-white"  style="padding: 5px 0;">
+      <button type="submit" class="btn btn-link text-white" style="padding: 5px 0;">
         <i class="fa fa-lg fa-chevron-up"></i>
       </button>
     </form>
     <% } else { %>
-    <form name="upvote" method="post" action="<%= post.getUpvoteUrl() %>" class="btn btn-default btn-vote" style="padding: 0;">
+    <form name="upvote" data-upvote="<%= post.postId %>" method="post" action="<%= post.getUpvoteUrl() %>" class="btn btn-default btn-vote" style="padding: 0;">
       <input type="hidden" name="_csrf" value="<%= _csrf %>"/>
       <button type="submit" class="btn btn-link text-default" style="padding: 5px 0;">
         <i class="fa fa-lg fa-chevron-up"></i>
@@ -24,14 +24,14 @@
     </form>
     <% } %>
     <% if (post.downvoted(user.id)) { %>
-    <form name="downvote" method="post" action="<%= post.getUnvoteUrl() %>" class="btn btn-danger btn-vote" style="padding: 0;">
+    <form name="downvote" data-downvote="<%= post.postId %>" method="post" action="<%= post.getUnvoteUrl() %>" class="btn btn-danger btn-vote" style="padding: 0;">
       <input type="hidden" name="_csrf" value="<%= _csrf %>"/>
       <button type="submit" class="btn btn-link text-white" style="padding: 5px 0;">
         <i class="fa fa-lg fa-chevron-down"></i>
       </button>
     </form>
     <% } else { %>
-    <form name="downvote" method="post" action="<%= post.getDownvoteUrl() %>" class="btn btn-default btn-vote" style="padding: 0;">
+    <form name="downvote" data-downvote="<%= post.postId %>" method="post" action="<%= post.getDownvoteUrl() %>" class="btn btn-default btn-vote" style="padding: 0;">
       <input type="hidden" name="_csrf" value="<%= _csrf %>"/>
       <button type="submit" class="btn btn-link text-default" style="padding: 5px 0;">
         <i class="fa fa-lg fa-chevron-down"></i>

@@ -63,11 +63,11 @@ $(document).on('submit', 'form[data-validator="true"]', function(e) {
         // Add the error class to the target's container
         if (target != null) {
           target.parents(".form-group").addClass('has-error').addClass('has-feedback');
-          //target.tooltip("destroy");            
+          //target.tooltip("destroy");
         }
       }
     },
-    error: function() {          
+    error: function() {
       // If validation fails, then set the data-validator attribute to false,
       // allowing the form to submit normally and the server to handle the error
       $(form).attr('data-validator', 'false');
