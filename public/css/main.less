@@ -26,6 +26,7 @@
 
 .jumbotron.jumbotron-home {
   border-radius: 4px;
+  .gradient(@brand-primary, darken(saturate(@brand-primary, 12%), 8%));
 }
 
 .jumbotron.jumbotron-home h1 {
@@ -38,6 +39,7 @@
 
 .jumbotron.jumbotron-heading {
   padding: 20px 0 20px 0;
+  .gradient(@brand-primary, darken(saturate(@brand-primary, 12%), 8%));
 }
 
 .jumbotron.jumbotron-heading h1 {
@@ -129,4 +131,13 @@ textarea {
   margin: 0;
   font-weight: 400;
   font-size: @font-size-large;
+}
+
+.gradient (@startColor: #000000, @endColor: #ffffff) {
+  background-color: @startColor;
+  background: -webkit-gradient(linear, left top, left bottom, from(@startColor), to(@endColor));
+  background: -webkit-linear-gradient(top, @startColor, @endColor);
+  background: -moz-linear-gradient(top, @startColor, @endColor);
+  background: -ms-linear-gradient(top, @startColor, @endColor);
+  background: -o-linear-gradient(top, @startColor, @endColor);
 }
