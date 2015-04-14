@@ -1,6 +1,6 @@
 <div class="clearfix">
   <div class="btn btn-lg btn-default disabled pull-left">
-    <span class="text-muted">Score</span> &nbsp; <strong data-score="<%= post.postId %>"><%= post.upvotes() - post.downvotes() %></strong>
+    <span style="opacity: 0.5;">score</span> &nbsp; <strong data-score="<%= post.postId %>"><%= post.upvotes() - post.downvotes() %></strong>
   </div>
   <div class="btn-group pull-right">
     <% if (user) { %>
