@@ -134,10 +134,10 @@ $(function() {
     event.preventDefault();
     return false;
   });
-  $("form[data-upvote]").bind('touchstart click', function() {
+  $("form[data-upvote]").bind('touch click', function() {
     upvote(this);
   });  
-  $("form[data-downvote]").bind('touchstart click', function() {
+  $("form[data-downvote]").bind('touch click', function() {
     downvote(this);
   });  
 
