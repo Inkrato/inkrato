@@ -25,6 +25,10 @@ var express = require('express'),
     linkify = require("html-linkify"),
     app = express();
 
+var hour = 3600000,
+    day = hour * 24,
+    week = day * 7;
+
 /**
  * App configuration settings
  */
@@ -92,7 +96,10 @@ app.use(session({
   store: new MongoStore({
     url: config.secrets.db,
     auto_reconnect: true
-  })
+  }),
+  cookie: {
+    maxAge: 4 * week
+  }
 }));
 app.use(passport.initialize());
 app.use(passport.session());
@@ -142,9 +149,6 @@ app.use(function(req, res, next) {
   next();
 });
 
-var hour = 3600000;
-var day = hour * 24;
-var week = day * 7;
 app.use(express.static(path.join(__dirname, 'public'), { maxAge: week * 4 }));
 
 /**
