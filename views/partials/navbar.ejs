@@ -2,6 +2,13 @@
   <div class="container">
     <div class="navbar-header">
       <a href="/" class="navbar-brand" data-shortcut-key="h"><i class="fa fa-lg fa-fw fa-home"></i></a>
+      <span class="visible-xs">
+        <% if (user) { %>
+        <a class="pull-left navbar-btn btn btn-primary" href="<%= site.options().post.path %>/all/new" data-dismiss="modal" data-toggle="modal" data-target="#newPostModal" data-shortcut-key="n"><i class="fa fa-lg fa-fw fa-plus-circle"></i> New</a>
+        <% } else { %>
+        <a class="pull-left navbar-btn btn btn-primary" href="/signup" data-dismiss="modal" data-toggle="modal" data-target="#signupModal"  data-shortcut-key="n"><i class="fa fa-lg fa-fw fa-plus-circle"></i> New</a>
+        <% } %>
+      </span>
       <button type="button" class="navbar-toggle" data-toggle="collapse" data-target=".navbar-collapse">
         <span class="sr-only">Toggle navigation</span>
         <span class="icon-bar"></span>
@@ -25,7 +32,7 @@
         <li <% if (path.match("^\/contact")) { %>class="active"<% } %>><a href="/contact"><i class="fa fa-lg fa-fw fa-envelope"></i> Contact</a></li>
         <li class="visible-xs">
           <% if (user) { %>
-          <a href="<%= site.options().post.path %>/new"><i class="fa fa-lg fa-fw fa-plus-circle"></i> New</a>
+          <a href="<%= site.options().post.path %>/all/new"><i class="fa fa-lg fa-fw fa-plus-circle"></i> New</a>
           <% } else { %>
           <a href="/signup" data-dismiss="modal" data-toggle="modal" data-target="#signupModal"><i class="fa fa-lg fa-fw fa-plus-circle"></i> New</a>
           <% } %>
@@ -34,7 +41,7 @@
       <span class="hidden-xs">
         &nbsp;
         <% if (user) { %>
-        <a class="navbar-btn btn btn-primary" href="/new" data-dismiss="modal" data-toggle="modal" data-target="#newPostModal" data-shortcut-key="n"><i class="fa fa-lg fa-fw fa-plus-circle"></i> New</a>
+        <a class="navbar-btn btn btn-primary" href="<%= site.options().post.path %>/all/new" data-dismiss="modal" data-toggle="modal" data-target="#newPostModal" data-shortcut-key="n"><i class="fa fa-lg fa-fw fa-plus-circle"></i> New</a>
         <% } else { %>
         <a class="navbar-btn btn btn-primary" href="/signup" data-dismiss="modal" data-toggle="modal" data-target="#signupModal"  data-shortcut-key="n"><i class="fa fa-lg fa-fw fa-plus-circle"></i> New</a>
         <% } %>
