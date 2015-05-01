@@ -13,18 +13,19 @@ module.exports = function() {
      return config.app.email;
   }
   
-  this.getOptions = function() {
+  this.options = function() {
     return {
       post: {
         name: config.app.posts.name,
-        url: config.app.posts.url.replace(/\//g, ''),
+        path: '/'+encodeURI(config.app.posts.path.replace(/\//g, '')),
+        icon: config.app.posts.icon,
         voting: {
           enabled: true
-        },
+        }
       }
     };
   }
-
+  
   this.loginOptions = function(provider) {
     switch (provider) {
       case "facebook":

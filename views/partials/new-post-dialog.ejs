@@ -1,11 +1,46 @@
 <div class="modal fade modal-draggable" id="newPostModal" tabindex="-1" role="dialog" aria-labelledby="newPostModalLabel" aria-hidden="true">
   <div class="modal-dialog modal-lg">
     <div class="modal-content">
-      <form role="form" method="post" action="/<%= site.getOptions().post.url %>/new" data-validator="true">
+      <form role="form" method="post" action="/new" data-validator="true">
         <input type="hidden" name="_csrf" value="<%= _csrf %>"/>
-        <div class="modal-header">
-          <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
-          <h4 class="modal-title" id="newPostModalLabel">New</h4>
+        <div class="modal-header" style="padding-top: 10px; padding-bottom: 10px; overflow: visible;">
+          <div class="row">
+            <div class="col-xs-11">
+              <select name="topic" class="selectpicker">
+                <% topics.forEach(function(topicOption) { %>
+                  <option
+                    value="<%= topicOption._id %>" 
+                    data-content='<h4 style="margin: 5px 0;"><i class="fa fa-lg fa-fw fa-<%= topicOption.icon %>"></i> <%= topicOption.name %></h4>'
+                    <% if (typeof(topic) != "undefined" && topic != null && (topic.id == topicOption.id)) { %>selected="selected"<% } %>
+                  ><%= topicOption.name %></option>
+                <% }); %>
+              </select>
+            </div>
+            <div class="col-xs-1">
+              <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+            </div>
+          </div>
+          <!--
+          <div class="row" style="margin-top: 10px">
+            <div class="col-xs-12 col-md-4">
+              <select name="topic" class="selectpicker">
+                <% topics.forEach(function(topic) { %>
+                  <option value="<%= topic._id %>" data-content='<i class="fa fa-lg fa-fw fa-<%= topic.icon %>"></i> <%= topic.name %>'><%= topic.name %></option>
+                <% }); %>
+              </select>
+            </div>
+            <div class="col-xs-12 col-md-4 text-center">
+              <select name="category" class="selectpicker">
+                <option value="0" data-content='<span class="text-muted">Label</span>'>Priority</option>
+              </select>
+            </div>
+            <div class="col-xs-12 col-md-4 text-right">
+              <select name="category" class="selectpicker">
+                <option data-content='<span class="text-muted">Status</span>'>Status</option>
+              </select>
+            </div>
+          </div>
+          -->
         </div>
         <div class="modal-body">
           <div class="row">

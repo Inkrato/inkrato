@@ -22,6 +22,7 @@ var express = require('express'),
     partials = require('express-partials'),
     i18n = require("i18n"),
     Site = require('./models/Site'),
+    Topic = require('./models/Topic'),
     linkify = require("html-linkify"),
     app = express();
 
@@ -43,6 +44,62 @@ var config = {
 mongoose.connect(config.secrets.db);
 mongoose.connection.on('error', function() {
   console.error('MongoDB Connection Error. Make sure MongoDB is running.');
+});
+
+
+// On startup, create a topic in the DB if that topic doesn't exist already
+var topics = [];
+config.app.posts.topics.forEach(function(topic, index) {
+  Topic
+  .findOne({ name: topic.name })
+  .exec(function (err, topicInDatabase) {
+    if (topicInDatabase) {
+      // If the topic exists aready, update it's properties
+      topicInDatabase.name = topic.name;
+      topicInDatabase.icon = topic.icon;
+      topicInDatabase.description = topic.description;
+      topicInDatabase.order = index;
+      topicInDatabase.deleted = false;
+      topicInDatabase.save(function(err) {
+        if (err)
+          console.log('Unable to update topic in DB: '+topic.name);
+      });
+    } else {
+      // If the topic doesn't exist, create it
+      new Topic({
+        name: topic.name,
+        icon: topic.icon,
+        description: topic.description,
+        order: index
+      }).save(function(err) {
+        if (err)
+          console.log('Unable to create new topic in DB: '+topic.name);
+      });
+    }
+  });
+});
+
+// Loop throough all topics in the database, if a config is NOT also in the config then mark it as deleted (will be hidden, but only marked as deleted so that it can still be re-enabled later)
+var topics = [];
+Topic
+.find({ deleted: false }, null, { sort : { order: 1 } })
+.exec(function (err, topicsInDatabase) {
+  topicsInDatabase.forEach(function(topicInDatabase) {
+    var topicFoundInConfig = false;
+    config.app.posts.topics.forEach(function(topicInConfig) {
+      if (topicInConfig.name == topicInDatabase.name) {
+        topicFoundInConfig = true;
+        topics.push(topicInDatabase);
+      }
+    });
+    if (topicFoundInConfig === false) {
+      topicInDatabase.deleted = true;
+      topicInDatabase.save(function(err) {
+        if (err)
+          console.log('Unable to mark topic in DB as deleted: '+topicInDatabase.name);
+      });
+    }
+  });
 });
 
 /**
@@ -125,6 +182,8 @@ app.use(function(req, res, next) {
   
   // Expose linkify (to escape content while making hyperliks work) to all views
   res.locals.linkify = linkify;
+  
+  res.locals.topics = topics;
 
   next();
 });
@@ -142,7 +201,7 @@ app.use(function(req, res, next) {
     return next();
   
   // Never return the user to the vote forms (they are POST only)
-  if (new RegExp('^' + '\/'+Site.getOptions().post.url+'\/(upvote|downvote|unvote)\/').test(req.path))
+  if (new RegExp('^' + '\/'+Site.options().post.path+'\/(upvote|downvote|unvote)\/').test(req.path))
     return next();
     
   req.session.returnTo = req.path;
@@ -202,21 +261,24 @@ app.post('/account/profile', routes.passport.isAuthenticated, routes.user.postUp
 app.post('/account/password', routes.passport.isAuthenticated, routes.user.postUpdatePassword);
 app.post('/account/delete', routes.passport.isAuthenticated, routes.user.postDeleteAccount);
 app.get('/account/unlink/:provider', routes.passport.isAuthenticated, routes.user.getOauthUnlink);
-app.get('/'+Site.getOptions().post.url, routes.posts.getPosts);
-app.get('/'+Site.getOptions().post.url+'/new', routes.passport.isAuthenticated, routes.posts.getNewPost);
-app.post('/'+Site.getOptions().post.url+'/new', routes.passport.isAuthenticated, routes.posts.postNewPost);
-app.get('/'+Site.getOptions().post.url+'/search', routes.posts.search.getSearch);
-app.get('/posts/search', routes.posts.search.getSearch);
-app.get('/'+Site.getOptions().post.url+'/edit/:id', routes.passport.isAuthenticated, routes.posts.getEditPost);
-app.post('/'+Site.getOptions().post.url+'/edit/:id', routes.passport.isAuthenticated, routes.posts.postEditPost);
-if (Site.getOptions().post.voting.enabled == true) {
-  app.post('/'+Site.getOptions().post.url+'/upvote/:id', routes.passport.isAuthenticated, routes.posts.postUpvote);
-  app.post('/'+Site.getOptions().post.url+'/downvote/:id', routes.passport.isAuthenticated, routes.posts.postDownvote);
-  app.post('/'+Site.getOptions().post.url+'/unvote/:id', routes.passport.isAuthenticated, routes.posts.postUnvote);
-  app.post('/'+Site.getOptions().post.url+'/comments/add/:id', routes.passport.isAuthenticated, routes.posts.comments.postAddComment);
+app.get('/new', routes.passport.isAuthenticated, routes.posts.getNewPost);
+app.post('/new', routes.passport.isAuthenticated, routes.posts.postNewPost);
+app.get('/search', routes.posts.search.getSearch);
+app.get(Site.options().post.path, routes.posts.getTopics);
+app.get(Site.options().post.path+'/:topic', routes.posts.getPosts);
+app.get(Site.options().post.path+'/:topic/new', routes.passport.isAuthenticated, routes.posts.getNewPost);
+app.post(Site.options().post.path+'/:topic/new', routes.passport.isAuthenticated, routes.posts.postNewPost);
+app.get(Site.options().post.path+'/:topic/edit/:id', routes.passport.isAuthenticated, routes.posts.getEditPost);
+app.post(Site.options().post.path+'/:topic/edit/:id', routes.passport.isAuthenticated, routes.posts.postEditPost);
+// These routes come after other topic routes to work correctly
+app.get(Site.options().post.path+'/:topic/:id/:slug', routes.posts.getPost);
+app.get(Site.options().post.path+'/:topic/:id', routes.posts.getPost);
+if (Site.options().post.voting.enabled == true) {
+  app.post('/upvote/:id', routes.passport.isAuthenticated, routes.posts.postUpvote);
+  app.post('/downvote/:id', routes.passport.isAuthenticated, routes.posts.postDownvote);
+  app.post('/unvote/:id', routes.passport.isAuthenticated, routes.posts.postUnvote);
 }
-app.get('/'+Site.getOptions().post.url+'/:id/:slug', routes.posts.getPost);
-app.get('/'+Site.getOptions().post.url+'/:id', routes.posts.getPost);
+app.post('/comments/add/:id', routes.passport.isAuthenticated, routes.posts.comments.postAddComment);
 
 /**
  * OAuth sign-in routes.

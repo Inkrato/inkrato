@@ -1,16 +1,15 @@
 var mongoose = require('mongoose'),
-  mongooseAutoIncrement = require('mongoose-auto-increment'),
-  bcrypt = require('bcrypt-nodejs'),
-  crypto = require('crypto');
+    mongooseAutoIncrement = require('mongoose-auto-increment'),
+    bcrypt = require('bcrypt-nodejs'),
+    crypto = require('crypto');
   
 var config = {
   secrets: require('../config/secrets')
 };
-  
 
 var schema = new mongoose.Schema({
   userId: { type: Number, unique: true },
-  email: { type: String, unique: true, lowercase: true, required : true},
+  email: { type: String, unique: true, lowercase: true, required: true},
   verified:  { type: Boolean, default: false },
   password: String,
   
@@ -32,7 +31,8 @@ var schema = new mongoose.Schema({
   
   resetPasswordToken: String,
   resetPasswordExpires: Date,
-  emailVerificationToken: String
+  emailVerificationToken: String,
+  deleted: { type: Boolean, default: false  }
 });
 
 /**
@@ -44,7 +44,7 @@ schema.pre('save', function(next) {
   var user = this;
 
   // If there is is only one active user on the site, make them an administrator
-  var model = mongoose.model('User', schema).count({}, function(err, count) {
+  mongoose.model('User', schema).count({}, function(err, count) {
     if (!err && count < 1)
       user.role = 'ADMIN';
 
@@ -61,6 +61,7 @@ schema.pre('save', function(next) {
     });
     
   });
+  
 });
 
 /**

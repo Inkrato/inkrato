@@ -5,6 +5,7 @@ var mongoose = require('mongoose'),
     mongooseConverse = require('../lib/mongoose-converse'),
     User = require('./User'),
     Site = require('./Site'),
+    Topic = require('./Topic'),
     crypto = require('crypto'),
     slug = require('slug');
 
@@ -15,48 +16,58 @@ var config = {
 
 var schema = new mongoose.Schema({
   postId: { type: Number, unique: true },
-  title: { type: String, required : true },
-  description: { type: String, required : true },
+  title: { type: String, required: true },
+  description: { type: String, required: true },
   tags: [ String ],
+  topic: { type: mongoose.Schema.ObjectId, ref: 'Topic' },
   created: { type: Date, default: Date.now },
   updated: { type: Date, default: Date.now },
-  creator: { type: mongoose.Schema.ObjectId, ref: 'User' }
+  creator: { type: mongoose.Schema.ObjectId, ref: 'User' },
+  deleted: { type: Boolean, default: false  }
 });
 
 /**
  * Update the date on a post when it is modifeid
  */
 schema.pre('save', function(next) {
-  if (this.isNew) {
-    next();
-  } else {
+  if (!this.isNew)
     this.updated = new Date();
-    next();
-  }
+
+  next();
 });
 
 schema.methods.getUrl = function() {
-  return '/'+Site.getOptions().post.url+'/'+this.postId+'/'+slug(this.title.toLowerCase());
+  // If topic not found, use "all" as topic path
+  var topicPath = 'all';
+  if (this.topic)
+    topicPath = this.topic.path;
+  
+  return Site.options().post.path+'/'+topicPath+'/'+this.postId+'/'+slug(this.title.toLowerCase());
 };
 
 schema.methods.getEditUrl = function() {
-  return '/'+Site.getOptions().post.url+'/edit/'+this.postId;
+  // If topic not found, use "_" as topic path
+  var topicPath = 'all';
+  if (this.topic)
+    topicPath = this.topic.path;
+
+  return Site.options().post.path+'/'+topicPath+'/edit/'+this.postId;
 };
 
 schema.methods.getUpvoteUrl = function() {
-  return '/'+Site.getOptions().post.url+'/upvote/'+this.postId;
+  return '/upvote/'+this.postId;
 };
 
 schema.methods.getDownvoteUrl = function() {
-  return '/'+Site.getOptions().post.url+'/downvote/'+this.postId;
+  return '/downvote/'+this.postId;
 };
 
 schema.methods.getUnvoteUrl = function() {
-  return '/'+Site.getOptions().post.url+'/unvote/'+this.postId;
+  return '/unvote/'+this.postId;
 };
 
 schema.methods.getAddCommentUrl = function() {
-  return '/'+Site.getOptions().post.url+'/comments/add/'+this.postId;
+  return '/comments/add/'+this.postId;
 };
 
 /**

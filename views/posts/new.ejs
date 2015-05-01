@@ -1,5 +1,5 @@
-<% if (site.getOptions().post.voting.enabled == true) { %>
-<div class="media">
+<% if (site.options().post.voting.enabled == true) { %>
+<div class="media" style="position: relative; top: -10px;">
   <div class="media-body">
 <% } %>
     <div class="row">
@@ -16,7 +16,7 @@
         </h3>
       </div>
       <div class="col-sm-12 col-md-8 col-lg-9 col-md-pull-4 col-lg-pull-3">
-        <form role="form" method="post" action="/<%= site.getOptions().post.url %>/new" data-validator="true">
+        <form role="form" method="post" action="/new" data-validator="true">
           <input type="hidden" name="_csrf" value="<%= _csrf %>"/>
           <% include ../partials/posts/edit %>
           <div class="form-group text-right">
@@ -25,7 +25,7 @@
         </form>
       </div>
     </div>
-<% if (site.getOptions().post.voting.enabled == true) { %>
+<% if (site.options().post.voting.enabled == true) { %>
   </div>
 </div>
 <% } %>

@@ -7,10 +7,17 @@ module.exports = {
   name: "inkrato",
   email: "feedback@inkrato.com",
   
-  // The name and URL to use for "posts" on the site
   posts: {
+    // The name and URL path to use for "posts" on the site
     name: "Discussion",
-    url: "/discussion/"
+    path: "/discussion/",
+    icon: "comment",
+    // The list of topics to use to categorise posts
+    topics: [
+      { name: "Problems", icon: "warning", description: "Things that aren't working properly" },
+      { name: "Suggestions", icon: "lightbulb-o", description: "New features and ideas for improvement" },
+      { name: "Questions", icon: "question-circle", description: "Support questions and other enquiries" }
+    ]
   }
   
 };

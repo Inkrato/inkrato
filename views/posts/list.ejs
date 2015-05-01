@@ -1,19 +1,33 @@
-<% if (postCount > 0) { %>
-  <div class="row">
-    <div class="col-md-7 hidden-xs hidden-sm">
-      <h1 style="margin: 0"><%= site.getOptions().post.name %></h1>
+<div class="row">
+  <div class="col-md-7 col-lg-8">
+    <% if (topic) { %>
+    <div class="media">
+      <% if (topic.icon) { %>
+      <div class="media-left">
+        <h2 style="margin-top: 5px; margin-bottom: 20px;"><i class="fa fa-<%= topic.icon %>"></i></h2>
+      </div>
+      <% } %>
+      <div class="media-body">
+        <h2 style="margin-top: 5px; margin-bottom: 20px;"><%= topic.name %></h2>
+      </div>
     </div>
-    <div class="col-xs-12 col-md-5">
-      <% include ../partials/posts/paginator %>
-    </div>
+    <% } else { %>
+      <h2 style="margin-top: 5px; margin-bottom: 20px;"><i class="fa fa-fw fa-<%= site.options().post.icon %>"></i> <%= site.options().post.name %> <i class="fa fa-angle-right text-muted"></i> view all</h2>
+    <% } %>
   </div>
-  <br class="hidden-xs hidden-sm"/>
+  <div class="col-xs-12 col-md-5 col-lg-4" style="padding-top: 10px;">
+    <% if (posts.length > 0) { %>
+      <% include ../partials/posts/paginator %>
+    <% } %>
+  </div>
+</div>
+<% if (posts.length > 0) { %>
   <table class="table table-striped">
     <tbody>
     <% posts.forEach(function(post) { %>
       <tr>
         <td class="col-xs-12 col-md-9 col-lg-10" style="padding: 10px 10px;">
-          <% if (site.getOptions().post.voting.enabled == true) { %>
+          <% if (site.options().post.voting.enabled == true) { %>
           <div class="media">
             <div class="media-left" style="padding-right: 15px;">
                  <% include ../partials/posts/vote %> 
@@ -33,7 +47,7 @@
                 |
                 <a href="<%= post.getUrl() %>" class="text-default"><i class="fa fa-fw fa-lg fa-comments"></i> <%= post.comments.length %></a>
               </span>
-          <% if (site.getOptions().post.voting.enabled == true) { %>
+          <% if (site.options().post.voting.enabled == true) { %>
             </div>
           </div>
           <% } %>
@@ -50,13 +64,22 @@
     <% }) %>
     </tbody>
   </table>
-  <div class="row">
-    <div class="col-md-12">
-      <br/>
-      <% include ../partials/posts/paginator %>
-    </div>
-  </div>
 <% } else { %>
-  <p class="text-center lead">There is nothing here yet.</p>
-  <p class="text-center"><a class="btn btn-success" href="/<%= site.getOptions().post.url %>/new"><i class="fa fa-lg fa-fw fa-plus"></i> New</a></p>
+  <br/>
+  <p class="text-center lead">There's nothing here yet.</p>
+  <p class="text-center">
+    <% if (user) { %>
+    <a class="btn btn-lg btn-success" href="<%= site.options().post.path %>/<%= topic.path %>/new" data-dismiss="modal" data-toggle="modal" data-target="#newPostModal" data-shortcut-key="n"><i class="fa fa-lg fa-fw fa-plus-circle"></i> New</a>
+    <% } else { %>
+    <a class="btn btn-lg btn-success" href="/signup" data-dismiss="modal" data-toggle="modal" data-target="#signupModal"  data-shortcut-key="n"><i class="fa fa-lg fa-fw fa-plus-circle"></i> New</a>
+    <% } %>
+  </p>
 <% } %>
+<div class="row">
+  <div class="col-md-12">
+    <br/>
+    <% if (posts.length > 0) { %>
+      <% include ../partials/posts/paginator %>
+    <% } %>
+  </div>
+</div>

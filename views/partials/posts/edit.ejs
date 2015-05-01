@@ -1,6 +1,19 @@
 <div class="form-group">
   <div class="col-sm-offset-2 col-sm-10 messages"></div>
 </div>
+<div class="form-group form-group-lg bootstrap-select-block row">
+  <div class="col-sm-12">
+    <select name="topic" class="selectpicker">
+      <% topics.forEach(function(topicOption) { %>
+        <option
+          value="<%= topicOption._id %>" 
+          data-content='<i class="fa fa-lg fa-fw fa-<%= topicOption.icon %>"></i> <%= topicOption.name %>'
+          <% if (typeof(topic) != "undefined" && topic != null && (topic.id == topicOption.id)) { %>selected="selected"<% } %>
+        ><%= topicOption.name %></option>
+      <% }); %>
+    </select>
+  </div>
+</div>
 <div class="form-group form-group-lg">
   <label for="name" class="control-label">Title</label>
   <input type="text" name="title" id="title" autofocus="" value="<%= typeof(post) != "undefined" ? post.title : '' %>" autocomplete="off" class="form-control"/>

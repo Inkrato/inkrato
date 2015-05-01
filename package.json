@@ -1,6 +1,6 @@
 {
   "name": "inkrato",
-  "version": "0.0.0",
+  "version": "0.2.0",
   "repository": {
     "type": "git",
     "url": "https://github.com/Inkrato/inkrato.git"
@@ -55,6 +55,7 @@
     "passport-google-oauth": "^0.1.5",
     "passport-local": "^1.0.0",
     "passport-twitter": "^1.0.2",
+    "q": "^1.2.0",
     "request": "^2.37.0",
     "slug": "^0.8.0",
     "uglify-js": "^2.4.14",

@@ -1,8 +1,8 @@
-<% if (site.getOptions().post.voting.enabled == true) { %>
-<div class="visible-xs visible-sm">
+<% if (site.options().post.voting.enabled == true) { %>
+<div class="visible-xs visible-sm" style="margin-bottom: 20px;">
   <% include ../partials/posts/vote-mini %>
 </div>
-<div class="media">
+<div class="media" style="position: relative; top: -10px;">
   <div class="hidden-xs hidden-sm media-left" style="padding-right: 20px;">
       <% include ../partials/posts/vote %>
   </div>
@@ -24,9 +24,8 @@
         <% } %>
       </div>
       <div class="col-sm-12 col-md-8 col-lg-9 col-md-pull-4 col-lg-pull-3">
-
         <% if (post.creator) { %>
-        <div class="media visible-xs visible-sm">
+        <div class="media visible-xs visible-sm" style="margin: 10px 0;">
           <div class="media-left">
             <a href="#"><img src="<%= post.creator.avatar(32) %>" height="24" width="24" alt="Avatar" class="img-circle"/></a>
           </div>
@@ -37,8 +36,7 @@
             </p>
           </div>
         </div>
-        <% } %>
-        
+        <% } %>        
         <form role="form" method="post" action="<%= post.getEditUrl() %>" data-validator="true" style="margin-top: -15px;">
           <input type="hidden" name="_csrf" value="<%= _csrf %>"/>
           <% include ../partials/posts/edit %>
@@ -51,7 +49,7 @@
         </form>
       </div>
     </div>
-<% if (site.getOptions().post.voting.enabled == true) { %>
+<% if (site.options().post.voting.enabled == true) { %>
   </div>
 </div>
 <% } %>

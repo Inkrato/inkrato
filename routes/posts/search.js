@@ -4,6 +4,7 @@ var Post = require('../../models/Post');
  * GET /posts/search
  */
 exports.getSearch = function(req, res) {
+  // @fixme Do not include deleted posts in search
   if (req.query.q) {
     Post
     .search(req.query.q, {}, { sort: { created: -1 }, limit: 100, populate: [{ path: 'creator', fields: 'profile email picture role'} ] },

@@ -29,16 +29,16 @@
               <a href="/" class="text-white"><i class="fa fa-home"></i> home</a>
               <% if (path.split("/")[1]) { %>
               <i class="fa fa-lg fa-angle-right"></i>
-              <a href="/<%= path.split("/")[1] %>/" class="text-white"><%= path.split("/")[1] %></a>
+              <a href="/<%= path.split("/")[1] %>/" class="text-white"><%= decodeURI(path.split("/")[1]) %></a>
               <% } %>
               <% if (path.split("/")[2] && isNaN(path.split("/")[2])) { %>
               <i class="fa fa-lg fa-angle-right"></i>
-              <a href="/<%= path.split("/")[2] %>/" class="text-white"><%= path.split("/")[2] %></a>
+              <a href="/<%= path.split("/")[1] %>/<%= path.split("/")[2] %>/" class="text-white"><%= decodeURI(path.split("/")[2]) %></a>
               <% } %>
             </p>
           </div>
           <div class="col-sm-5">
-            <form name="search-posts" method="get" action="/<%= site.getOptions().post.url %>/search" class="form-horizontal hidden-sm hidden-xs">
+            <form name="search-posts" method="get" action="/search" class="form-horizontal hidden-sm hidden-xs">
               <div class="form-group col-sm-12 col-md-10 pull-right" style="margin: 0;">
                 <div class="input-group input-group-search"> 
                   <input id="search" name="q" value="<%= typeof(query) != "undefined" ? query : '' %>" type="search" class="form-control" autocomplete="off" data-provide="typeahead" placeholder="Search" />
@@ -61,7 +61,7 @@
       <div class="footer text-muted text-center">
         <hr/>
         <p>
-          <a href="https://github.com/inkrato/inkrato"><i class="fa fa-fw fa-github"></i> Powered by inkrato community edition</a>
+          <a href="https://github.com/inkrato/inkrato"><i class="fa fa-lg fa-fw fa-github"></i> Powered by inkrato community edition</a>
         </p>
         <p>
           <i class="fa fa-copyright"></i> inkrato, 2015. Based in London, UK. Company no. 08633888
