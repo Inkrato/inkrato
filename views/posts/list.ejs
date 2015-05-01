@@ -69,7 +69,11 @@
   <p class="text-center lead">There's nothing here yet.</p>
   <p class="text-center">
     <% if (user) { %>
-    <a class="btn btn-lg btn-success" href="<%= site.options().post.path %>/<%= topic.path %>/new" data-dismiss="modal" data-toggle="modal" data-target="#newPostModal" data-shortcut-key="n"><i class="fa fa-lg fa-fw fa-plus-circle"></i> New</a>
+      <% if (typeof(topic) != "undefined" && topic != null) { %>
+        <a class="btn btn-lg btn-success" href="<%= site.options().post.path %>/<%= topic.path %>/new" data-dismiss="modal" data-toggle="modal" data-target="#newPostModal" data-shortcut-key="n"><i class="fa fa-lg fa-fw fa-plus-circle"></i> New</a>
+      <% } else { %>
+        <a class="btn btn-lg btn-success" href="<%= site.options().post.path %>/all/new" data-dismiss="modal" data-toggle="modal" data-target="#newPostModal" data-shortcut-key="n"><i class="fa fa-lg fa-fw fa-plus-circle"></i> New</a>
+      <% } %>
     <% } else { %>
     <a class="btn btn-lg btn-success" href="/signup" data-dismiss="modal" data-toggle="modal" data-target="#signupModal"  data-shortcut-key="n"><i class="fa fa-lg fa-fw fa-plus-circle"></i> New</a>
     <% } %>
