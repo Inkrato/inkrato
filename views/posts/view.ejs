@@ -8,122 +8,117 @@
   </div>
   <div class="media-body">
 <% } %>
-  <div class="row">
-    <div class="col-sm-12 col-lg-12">
-      <div class="row">
-        <div class="col-sm-12 col-md-8 col-lg-9">
-          <% if (post.creator) { %>
-            <% if (post.topic) { %>
-              <h4 class="lead text-muted" style="margin-top: 0; margin-bottom: 10px;"><% if (post.topic.icon) { %><i class="fa fa-<%= post.topic.icon %>"></i> <% } %><%= post.topic.name %></h4>
-            <% } %>
-          <h1 class="page-header"><%= post.title %></h1>
-          <div class="media visible-xs visible-sm">
-            <div class="media-left">
-              <a href="#"><img src="<%= post.creator.avatar(24) %>" height="24" width="24" alt="Avatar" class="img-circle"/></a>
-            </div>
-            <div class="media-body">
-              <p>
-              <span class="media-heading"><%= post.creator.profile.name || "Anonymous" %></span>
-              <span class="text-muted"><i class="fa fa-clock-o"></i> <time class="timeago" datetime="<%= post.created.toISOString() %>"><%= post.created.toDateString() %></time></span>
-              </p>
-              <br/>
-            </div>
-          </div>
-          <% } %>
-        </div>
-        <div class="hidden-xs hidden-sm col-md-4 col-lg-3">
-          <% if (post.creator) { %>
-          <div class="media">
-            <div class="media-left">
-              <a href="#"><img src="<%= post.creator.avatar(48) %>" height="48" width="48" alt="Avatar" class="img-circle"/></a>
-            </div>
-            <div class="media-body">
-              <h3 class="media-heading"><%= post.creator.profile.name || "Anonymous" %></h3>
-              <span class="text-muted"><i class="fa fa-clock-o"></i> <time class="timeago" datetime="<%= post.created.toISOString() %>"><%= post.created.toDateString() %></time></span>
-            </div>
-          </div>
-          <br/>
-          <% } %>
-        </div>
-      </div>
-      <div class="row">
-        <div class="col-sm-12 col-md-8 col-lg-9">
-          <% post.description.split("\n").forEach(function(line, i) { %>
-            <% if (i == 0) { %>
-            <p class="lead"><%- linkify(line) %></p>
+    <div class="row">
+      <div class="col-md-4 col-lg-3 col-md-push-8 col-lg-push-9">
+        <div class="media media-avatar">
+          <div class="media-left">
+            <% if (post.creator) { %>
+            <img src="<%= post.creator.avatar(48) %>" height="48" width="48" alt="Avatar" class="img-circle"/>
             <% } else { %>
-            <p><%- linkify(line) %></p>
+            <h4 style="margin: 0; width: 48px; height: 48px;" class="text-center text-muted"><i style="margin-top: 5px;" class="fa fa-2x fa-user"></i></h4>
             <% } %>
-          <% }); %>
-          <% if (post.tags.length > 0) {%>
-          <p class="tags">
-          <% post.tags.forEach(function(tag) { %>
-            <span class="label label-default"><i class="fa fa-tag"></i> <%= tag %></span>
-          <% }); %>
-          </p>
-          <% } %>
-          <% if (typeof(user) != 'undefined' && ( (post.creator && user.id == post.creator.id) || user.role == 'ADMIN' || user.role == 'MODERATOR')) { %>
-          <br/>
-          <p class="text-right">
-            <a href="<%= post.getEditUrl() %>" class="btn btn-default" data-shortcut-key="e"><i class="fa fa-lg fa-fw fa-pencil"></i> Edit</a>
-          </p>
-          <% } %>
+          </div>
+          <div class="media-body">
+            <% if (post.creator) { %>
+            <h4 class="media-heading"><%= post.creator.profile.name || "Anonymous" %></h4>
+            <% } else { %>
+            <h4 class="media-heading text-muted">Deleted Account</h4>
+            <% } %>
+            <span class="text-muted"><i class="fa fa-clock-o"></i> <time class="timeago" datetime="<%= post.created.toISOString() %>"><%= post.created.toDateString() %></time></span>
+          </div>
         </div>
       </div>
-      <div class="row">
-        <div class="col-sm-12 col-md-8 col-lg-9">
-          <hr/>
-          <h2><i class="fa fa-comments"></i> Comments</h2>
-          <br/>
-          <% post.comments.forEach(function(comment) { %>
-          <div class="media">
-            <div class="media-left" style="padding-right: 20px;">
-              <a href="#"><img src="<%= comment.creator.avatar(48) %>" height="48" width="48" alt="Avatar" class="img-circle"/></a>
-            </div>
-            <div class="media-body panel panel-default">
-              <div class="panel-heading">
-                <span class="media-heading"><%= comment.creator.profile.name || "Anonymous" %></span>
-                <span class="text-muted pull-right"><i class="fa fa-clock-o"></i> <time class="timeago" datetime="<%= comment.created.toISOString() %>"><%= comment.created.toDateString() %></time></span>                
-              </div>
-              <div class="panel-body">
-                <p class="comment">
-                  <% comment.message.split("\n").forEach(function(line) { %>
-                    <p><%- linkify(line) %></p>
-                  <% }); %>
-                </p>
-              </div>
-            </div>
-          </div>
-          <% }); %>
-          <br/>
-          <% if (user) { %>
-          <div class="media">
-            <div class="media-left" style="padding-right: 20px;">
-              <a href="#"><img src="<%= post.creator.avatar(48) %>" height="48" width="48" alt="Avatar" class="img-circle"/></a>
-            </div>
-            <div class="media-body">
-              <form role="form" method="post" action="<%= post.getAddCommentUrl() %>" data-validator="true">
-                <input type="hidden" name="_csrf" value="<%= _csrf %>"/>
-                <div class="form-group">
-                  <p style="margin-bottom: 5px;">
-                  <span class="media-heading"><%= user.profile.name || "Anonymous" %></span>
-                  <span class="text-muted pull-right"><i class="fa fa-clock-o"></i> <time datetime="<%= new Date().toISOString() %>"><%= new Date().toDateString() %></time></span>
-                  </p>
-                  <label for="message" class="control-label hidden">Add comment</label>
-                  <textarea type="text" name="comment" id="comment" rows="3" class="form-control autoresize" placeholder="Add comment" autocomplete="off"></textarea>
-                </div>
-                <div class="form-group text-right">
-                  <button type="submit" class="btn btn-primary"><i class="fa fa-lg fa-fw fa-comment"></i> Add comment</button>
-                </div>
-              </form>
-            </div>
-          </div>
+      <div class="col-sm-12 col-md-8 col-lg-9 col-md-pull-4 col-lg-pull-3">
+        <!-- Post Body -->
+        <% if (post.topic != null) { %>
+        <span id="topic">
+          <h4 class="lead text-muted" style="margin: 0; margin-bottom: 5px;">
+            <% if (post.topic.icon) { %><i class="fa fa-<%= post.topic.icon %>"></i><% } %>
+            <%= post.topic.name %>
+          </h4>
+        </span>
+        <% } %>
+        <h1 class="page-header"><%= post.title %></h1>
+        <% post.description.split("\n").forEach(function(line, i) { %>
+          <% if (i == 0) { %>
+          <p class="lead"><%- linkify(line) %></p>
           <% } else { %>
-          <p class="text-right">
-            <a href="/signup" class="btn btn-primary" data-toggle="modal" data-dismiss="modal" data-target="#signupModal"><i class="fa fa-lg fa-fw fa-sign-in"></i> Sign up to comment</a>
-          </p>
+          <p><%- linkify(line) %></p>
           <% } %>
+        <% }); %>
+        <% if (post.tags.length > 0) {%>
+        <p class="tags">
+        <% post.tags.forEach(function(tag) { %>
+          <span class="label label-default"><i class="fa fa-tag"></i> <%= tag %></span>
+        <% }); %>
+        </p>
+        <% } %>
+        <% if (typeof(user) != 'undefined' && ( (post.creator && user.id == post.creator.id) || user.role == 'ADMIN' || user.role == 'MODERATOR')) { %>
+        <br/>
+        <p class="text-right">
+          <a href="<%= post.getEditUrl() %>" class="btn btn-default" data-shortcut-key="e"><i class="fa fa-lg fa-fw fa-pencil"></i> Edit</a>
+        </p>
+        <% } %>
+        <hr/>
+        <!-- Comments -->
+        <h2><i class="fa fa-comments"></i> Comments</h2>
+        <br/>
+        <% post.comments.forEach(function(comment) { %>
+        <div class="media">
+          <div class="media-left" style="padding-right: 20px;">
+            <% if (comment.creator) { %>
+            <img src="<%= comment.creator.avatar(48) %>" height="48" width="48" alt="Avatar" class="img-circle"/>
+            <% } else { %>
+            <h4 class="text-muted text-center" style="height: 48px; width: 48px;"><i style="margin-top: 5px;" class="fa fa-2x fa-user"></i></h4>
+            <% } %>
+          </div>
+          <div class="media-body panel panel-default">
+            <div class="panel-heading">
+              <% if (comment.creator) { %>
+              <span class="media-heading"><%= comment.creator.profile.name || "Anonymous" %></span>
+              <% } else { %>
+              <span class="media-heading text-muted"> Deleted Account</span>
+              <% } %>
+              <span class="text-muted pull-right"><i class="fa fa-clock-o"></i> <time class="timeago" datetime="<%= comment.created.toISOString() %>"><%= comment.created.toDateString() %></time></span>                
+            </div>
+            <div class="panel-body">
+              <p class="comment">
+                <% comment.message.split("\n").forEach(function(line) { %>
+                  <p><%- linkify(line) %></p>
+                <% }); %>
+              </p>
+            </div>
+          </div>
         </div>
+        <% }); %>
+        <br/>
+        <% if (user) { %>
+        <div class="media">
+          <div class="media-left" style="padding-right: 20px;">
+            <a href="#"><img src="<%= user.avatar(48) %>" height="48" width="48" alt="Avatar" class="img-circle"/></a>
+          </div>
+          <div class="media-body">
+            <form role="form" method="post" action="<%= post.getAddCommentUrl() %>" data-validator="true">
+              <input type="hidden" name="_csrf" value="<%= _csrf %>"/>
+              <div class="form-group">
+                <p style="margin-bottom: 5px;">
+                <span class="media-heading"><%= user.profile.name || "Anonymous" %></span>
+                <span class="text-muted pull-right"><i class="fa fa-clock-o"></i> <time datetime="<%= new Date().toISOString() %>"><%= new Date().toDateString() %></time></span>
+                </p>
+                <label for="message" class="control-label hidden">Add comment</label>
+                <textarea type="text" name="comment" id="comment" rows="3" class="form-control autoresize" placeholder="Add comment" autocomplete="off"></textarea>
+              </div>
+              <div class="form-group text-right">
+                <button type="submit" class="btn btn-primary"><i class="fa fa-lg fa-fw fa-comment"></i> Add comment</button>
+              </div>
+            </form>
+          </div>
+        </div>
+        <% } else { %>
+        <p class="text-right">
+          <a href="/signup" class="btn btn-primary" data-toggle="modal" data-dismiss="modal" data-target="#signupModal"><i class="fa fa-lg fa-fw fa-sign-in"></i> Sign up to comment</a>
+        </p>
+        <% } %>
       </div>
     </div>
 <% if (site.options().post.voting.enabled == true) { %>

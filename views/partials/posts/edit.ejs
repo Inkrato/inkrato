@@ -3,24 +3,35 @@
 </div>
 <div class="form-group form-group-lg bootstrap-select-block row">
   <div class="col-sm-12">
-    <select name="topic" class="selectpicker">
-      <% topics.forEach(function(topicOption) { %>
-        <option
-          value="<%= topicOption._id %>" 
-          data-content='<i class="fa fa-lg fa-fw fa-<%= topicOption.icon %>"></i> <%= topicOption.name %>'
-          <% if (typeof(topic) != "undefined" && topic != null && (topic.id == topicOption.id)) { %>selected="selected"<% } %>
-        ><%= topicOption.name %></option>
-      <% }); %>
-    </select>
+    <span id="topicSelect" <% if (topic != null) { %>style="display: none;"<% } %>>
+      <select  name="topic" class="selectpicker">
+        <% topics.forEach(function(topicOption) { %>
+          <option
+            value="<%= topicOption.id %>" 
+            data-content='<% if (topicOption.icon) { %><i class="fa fa-lg fa-fw fa-<%= topicOption.icon %>"></i> <% } %><%= topicOption.name %>'
+            <% if (topic != null && topic.id == topicOption.id) { %>selected="selected"<% } %>
+          ><%= topicOption.name %></option>
+        <% }); %>
+      </select>
+    </span>
+    <% if (topic != null) { %>
+    <span id="topic">
+      <h4 class="lead text-muted" style="margin: 0; position: relative; top: -1px;">
+        <% if (topic.icon) { %><i class="fa fa-<%= topic.icon %>"></i><% } %>
+        <%= topic.name %>
+        <a class="btn btn-xs btn-default" href="javascript:$('#topic').hide();$('#topicSelect').show();"><i class="fa fa-pencil-square"></i> Move</a>
+      </h4>
+    </span>
+    <% } %>
   </div>
 </div>
 <div class="form-group form-group-lg">
-  <label for="name" class="control-label">Title</label>
-  <input type="text" name="title" id="title" autofocus="" value="<%= typeof(post) != "undefined" ? post.title : '' %>" autocomplete="off" class="form-control"/>
+  <label for="name" class="control-label sr-only">Title</label>
+  <input type="text" name="title" id="title" placeholder="Title" autofocus="1" value="<%= typeof(post) != "undefined" ? post.title : '' %>" autocomplete="off" class="form-control"/>
 </div>
 <div class="form-group">
-  <label for="message" class="control-label">Description</label>
-  <textarea type="text" name="description" id="description" rows="7" class="form-control autoresize" autocomplete="off"><%= typeof(post) != "undefined" ? post.description : '' %></textarea>
+  <label for="message" class="control-label sr-only">Description</label>
+  <textarea type="text" name="description" id="description" placeholder="Description" rows="7" class="form-control autoresize" autocomplete="off"><%= typeof(post) != "undefined" ? post.description : '' %></textarea>
 </div>
 <div class="form-group">
   <label for="name" class="control-label">Tags</label>

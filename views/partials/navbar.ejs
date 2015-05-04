@@ -4,7 +4,7 @@
       <a href="/" class="navbar-brand" data-shortcut-key="h"><i class="fa fa-lg fa-fw fa-home"></i></a>
       <span class="visible-xs">
         <% if (user) { %>
-        <a class="pull-left navbar-btn btn btn-primary" href="<%= site.options().post.path %>/all/new" data-dismiss="modal" data-toggle="modal" data-target="#newPostModal" data-shortcut-key="n"><i class="fa fa-lg fa-fw fa-plus-circle"></i> New</a>
+        <a class="pull-left navbar-btn btn btn-primary" href="<%= site.options().post.path %>/all/new"><i class="fa fa-lg fa-fw fa-plus-circle"></i> New</a>
         <% } else { %>
         <a class="pull-left navbar-btn btn btn-primary" href="/signup" data-dismiss="modal" data-toggle="modal" data-target="#signupModal"  data-shortcut-key="n"><i class="fa fa-lg fa-fw fa-plus-circle"></i> New</a>
         <% } %>
@@ -19,7 +19,7 @@
     <div class="collapse navbar-collapse">
       <ul class="nav navbar-nav navbar-main">
         <li class="visible-xs" style="padding: 0 10px 0 10px; margin-bottom: 10px;">
-          <form name="search-posts" method="get" action="<%= site.options().post.path %>/search" class="form-horizontal">
+          <form name="search-posts" method="get" action="/search" class="form-horizontal">
             <div class="input-group input-group-search"> 
               <input name="q" value="<%= typeof(query) != "undefined" ? query : '' %>" type="search" class="form-control" placeholder="Search" />
               <div class="input-group-btn">
@@ -30,13 +30,6 @@
         </li>
         <li <% if (path.match(new RegExp("^"+site.options().post.path))) { %>class="active"<% } %>><a href="<%= site.options().post.path %>"><i class="fa fa-lg fa-fw fa-<%= site.options().post.icon %>"></i> <%= site.options().post.name %></a></li>
         <li <% if (path.match("^\/contact")) { %>class="active"<% } %>><a href="/contact"><i class="fa fa-lg fa-fw fa-envelope"></i> Contact</a></li>
-        <li class="visible-xs">
-          <% if (user) { %>
-          <a href="<%= site.options().post.path %>/all/new"><i class="fa fa-lg fa-fw fa-plus-circle"></i> New</a>
-          <% } else { %>
-          <a href="/signup" data-dismiss="modal" data-toggle="modal" data-target="#signupModal"><i class="fa fa-lg fa-fw fa-plus-circle"></i> New</a>
-          <% } %>
-        </li>
       </ul>
       <span class="hidden-xs">
         &nbsp;

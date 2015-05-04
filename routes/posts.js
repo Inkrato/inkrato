@@ -93,17 +93,17 @@ exports.getPosts = function(req, res) {
 /**
  * GET /posts/:topic/new
  */
-exports.getNewPost = function(req, res) {  
-  
+exports.getNewPost = function(req, res) {
   if (req.params.topic) {
     Topic
     .findOne({ path: encodeURI(req.params.topic) })
-    .exec(function (err, topic) {  
-      if (err) return next(err);  
-      res.render('posts/new', { title: res.locals.title + " - New", topic: topic });
+    .exec(function (err, topic) {
+
+      if (err) return next(err);
+      res.render('posts/new', { title: res.locals.title + " - New", topic: topic, post: new Post() });
     });
   } else {
-    res.render('posts/new', { title: res.locals.title + " - New", topic: null });
+    res.render('posts/new', { title: res.locals.title + " - New", topic: null, post: new Post() });
   }
 
 };

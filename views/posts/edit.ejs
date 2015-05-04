@@ -4,39 +4,31 @@
 </div>
 <div class="media" style="position: relative; top: -10px;">
   <div class="hidden-xs hidden-sm media-left" style="padding-right: 20px;">
-      <% include ../partials/posts/vote %>
+    <% include ../partials/posts/vote %>
   </div>
   <div class="media-body">
 <% } %>
-  <div class="row">
-      <div class="hidden-xs hidden-sm col-md-4 col-lg-3 col-md-push-8 col-lg-push-9">
-        <% if (post.creator) { %>
-        <div class="media">
+    <div class="row">
+      <div class="col-md-4 col-lg-3 col-md-push-8 col-lg-push-9">
+        <div class="media media-avatar">
           <div class="media-left">
-            <a href="#"><img src="<%= post.creator.avatar(48) %>" height="48" width="48" alt="Avatar" class="img-circle"/></a>
+            <% if (post.creator) { %>
+            <img src="<%= post.creator.avatar(48) %>" height="48" width="48" alt="Avatar" class="img-circle"/>
+            <% } else { %>
+            <h4 style="margin: 0; width: 48px; height: 48px;" class="text-center text-muted"><i style="margin-top: 5px;" class="fa fa-2x fa-user"></i></h4>
+            <% } %>
           </div>
           <div class="media-body">
-            <h3 class="media-heading"><%= post.creator.profile.name || "Anonymous" %></h3>
+            <% if (post.creator) { %>
+            <h4 class="media-heading"><%= post.creator.profile.name || "Anonymous" %></h4>
+            <% } else { %>
+            <h4 class="media-heading text-muted">Deleted Account</h4>
+            <% } %>
             <span class="text-muted"><i class="fa fa-clock-o"></i> <time class="timeago" datetime="<%= post.created.toISOString() %>"><%= post.created.toDateString() %></time></span>
           </div>
         </div>
-        <br/>
-        <% } %>
       </div>
       <div class="col-sm-12 col-md-8 col-lg-9 col-md-pull-4 col-lg-pull-3">
-        <% if (post.creator) { %>
-        <div class="media visible-xs visible-sm" style="margin: 10px 0;">
-          <div class="media-left">
-            <a href="#"><img src="<%= post.creator.avatar(32) %>" height="24" width="24" alt="Avatar" class="img-circle"/></a>
-          </div>
-          <div class="media-body">
-            <p>
-            <span class="media-heading"><%= post.creator.profile.name || "Anonymous" %></span>
-            <span class="text-muted"><i class="fa fa-clock-o"></i> <time class="timeago" datetime="<%= post.created.toISOString() %>"><%= post.created.toDateString() %></time></span>
-            </p>
-          </div>
-        </div>
-        <% } %>        
         <form role="form" method="post" action="<%= post.getEditUrl() %>" data-validator="true" style="margin-top: -15px;">
           <input type="hidden" name="_csrf" value="<%= _csrf %>"/>
           <% include ../partials/posts/edit %>

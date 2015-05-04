@@ -34,7 +34,7 @@
             </div>
             <div class="media-body" style="position: relative;">
           <% } %>
-              <div class="post-preview-body"  href="<%= post.getUrl() %>">
+              <div class="post-preview-body" href="<%= post.getUrl() %>">
                 <h3 class="post-title"><a href="<%= post.getUrl() %>"><%= post.title %></a></h3>
                 <p class="text-muted"><%= post.description.replace(/\n/, '').substr(0,400); %></p>
               </div>
@@ -57,7 +57,7 @@
             <i class="fa fa-fw fa-clock-o"></i> <time class="timeago" datetime="<%= post.created.toISOString() %>"><%= post.created.toDateString() %></time>
           </div>
           <div class="pull-right" style="position: absolute; bottom: 10px; right: 10px;">
-            <a href="<%= post.getUrl() %>" class="btn btn-default"><i class="fa fa-fw fa-lg fa-comments"></i> <%= post.comments.length %> <i class="fa fa-fw fa-chevron-right"></i></a>
+            <a href="<%= post.getUrl() %>" class="btn btn-primary"><i class="fa fa-fw fa-lg fa-comments"></i> <%= post.comments.length %> <i class="fa fa-fw fa-chevron-right"></i></a>
           </div>
         </td>
       </tr>
@@ -70,7 +70,8 @@
   <p class="text-center">
     <% if (user) { %>
       <% if (typeof(topic) != "undefined" && topic != null) { %>
-        <a class="btn btn-lg btn-success" href="<%= site.options().post.path %>/<%= topic.path %>/new" data-dismiss="modal" data-toggle="modal" data-target="#newPostModal" data-shortcut-key="n"><i class="fa fa-lg fa-fw fa-plus-circle"></i> New</a>
+        <a class="hidden-xs hidden-sm btn btn-lg btn-success" href="<%= site.options().post.path %>/<%= topic.path %>/new" data-dismiss="modal" data-toggle="modal" data-target="#newPostModal"><i class="fa fa-lg fa-fw fa-plus-circle"></i> New</a>
+        <a class="visible-xs visible-sm btn btn-lg btn-success" href="<%= site.options().post.path %>/<%= topic.path %>/new" ><i class="fa fa-lg fa-fw fa-plus-circle"></i> New</a>
       <% } else { %>
         <a class="btn btn-lg btn-success" href="<%= site.options().post.path %>/all/new" data-dismiss="modal" data-toggle="modal" data-target="#newPostModal" data-shortcut-key="n"><i class="fa fa-lg fa-fw fa-plus-circle"></i> New</a>
       <% } %>

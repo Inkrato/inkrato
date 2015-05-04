@@ -6,9 +6,9 @@
       <tbody>
       <% posts.forEach(function(post) { %>
         <tr>
-          <td class="col-xs-12 col-md-10" style="padding: 10px 10px;">
+          <td class="col-xs-12 col-md-10" style="padding: 10px 10px;" href="<%= post.getUrl() %>">
             <div class="pull-left">
-              <div class="post-preview-body"  href="<%= post.getUrl() %>">
+              <div class="post-preview-body">
                 <h3 class="post-title"><a href="<%= post.getUrl() %>"><%= post.title %></a></h3>
                 <p class="text-muted"><%= post.description.replace(/\n/, '').substr(0,400); %></p>
               </div>
