@@ -5,18 +5,18 @@
         <input type="hidden" name="_csrf" value="<%= _csrf %>"/>
         <div class="modal-header" style="padding-top: 10px; padding-bottom: 10px; overflow: visible;">
           <div class="row">
-            <div class="col-xs-11">
+            <div class="col-xs-10">
               <select name="topic" class="selectpicker">
                 <% topics.forEach(function(topicOption) { %>
                   <option
                     value="<%= topicOption._id %>" 
-                    data-content='<h4 style="margin: 5px 0;"><i class="fa fa-lg fa-fw fa-<%= topicOption.icon %>"></i> <%= topicOption.name %></h4>'
+                    data-content='<i class="fa fa-lg fa-fw fa-<%= topicOption.icon %>"></i> <%= topicOption.name %>'
                     <% if (typeof(topic) != "undefined" && topic != null && (topic.id == topicOption.id)) { %>selected="selected"<% } %>
                   ><%= topicOption.name %></option>
                 <% }); %>
               </select>
             </div>
-            <div class="col-xs-1">
+            <div class="col-xs-2">
               <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
             </div>
           </div>
@@ -52,11 +52,11 @@
               </div>
               <div class="form-group">
                 <label for="message" class="control-label sr-only">Description</label>
-                <textarea type="text" name="description" id="description" placeholder="Description" rows="7" class="form-control autoresize" autocomplete="off"></textarea>
+                <textarea type="text" name="description" id="description" placeholder="Description" rows="7" style="min-height: 200px;" class="form-control autoresize" autocomplete="off"></textarea>
               </div>
               <div class="form-group">
                 <label for="name" class="control-label">Tags</label>
-                <input data-role="tagsinput" type="text" name="tags" id="tags" placeholder="tag" autofocus="" autocomplete="off" class="form-control"/>
+                <input data-role="tagsinput" type="text" name="tags" id="tags" placeholder="Tag" autofocus="" autocomplete="off" class="form-control"/>
               </div>
             </div>
           </div>

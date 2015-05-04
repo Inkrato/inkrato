@@ -16,11 +16,11 @@
     </span>
     <% if (topic != null) { %>
     <span id="topic">
-      <h4 class="lead text-muted" style="margin: 0; position: relative; top: -1px;">
+      <a href="javascript:$('#topic').hide();$('#topicSelect').show();" style="text-decoration: none;"><h4 class="lead text-muted" style="display: inline; margin: 0; position: relative; top: -1px;">
         <% if (topic.icon) { %><i class="fa fa-<%= topic.icon %>"></i><% } %>
         <%= topic.name %>
-        <a class="btn btn-xs btn-default" href="javascript:$('#topic').hide();$('#topicSelect').show();"><i class="fa fa-pencil-square"></i> Move</a>
-      </h4>
+        <span class="btn btn-xs btn-default"><i class="fa fa-pencil-square"></i> Move</span>
+      </h4></a>
     </span>
     <% } %>
   </div>
@@ -35,5 +35,5 @@
 </div>
 <div class="form-group">
   <label for="name" class="control-label">Tags</label>
-  <input data-role="tagsinput" type="text" placeholder="tag" name="tags" id="tags" autofocus="" autocomplete="off" value="<%= typeof(post) != "undefined" ? post.tags : '' %>" class="form-control"/>
+  <input data-role="tagsinput" type="text" placeholder="Tag" name="tags" id="tags" autofocus="" autocomplete="off" value="<%= typeof(post) != "undefined" ? post.tags : '' %>" class="form-control"/>
 </div>

@@ -32,10 +32,10 @@
         <!-- Post Body -->
         <% if (post.topic != null) { %>
         <span id="topic">
-          <h4 class="lead text-muted" style="margin: 0; margin-bottom: 5px;">
+          <a href="<%= site.options().post.path %>/<%= post.topic.path %>" style="text-decoration: none;"><h4 class="lead text-muted" style="margin: 0; margin-bottom: 5px;">
             <% if (post.topic.icon) { %><i class="fa fa-<%= post.topic.icon %>"></i><% } %>
             <%= post.topic.name %>
-          </h4>
+          </h4></a>
         </span>
         <% } %>
         <h1 class="page-header"><%= post.title %></h1>
@@ -61,7 +61,7 @@
         <% } %>
         <hr/>
         <!-- Comments -->
-        <h2><i class="fa fa-comments"></i> Comments</h2>
+        <h4><i class="fa fa-comments"></i> Comments</h4>
         <br/>
         <% post.comments.forEach(function(comment) { %>
         <div class="media">
@@ -109,7 +109,7 @@
                 <textarea type="text" name="comment" id="comment" rows="3" class="form-control autoresize" placeholder="Add comment" autocomplete="off"></textarea>
               </div>
               <div class="form-group text-right">
-                <button type="submit" class="btn btn-primary"><i class="fa fa-lg fa-fw fa-comment"></i> Add comment</button>
+                <button type="submit" class="btn btn-primary"><i class="fa fa-lg fa-fw fa-comment"></i> Add comment...</button>
               </div>
             </form>
           </div>
