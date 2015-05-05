@@ -15,7 +15,12 @@
   <div class="box col-md-4" href="<%= site.options().post.path %>/<%= topic.path %>">
     <div class="media">
       <div class="media-left" style="padding: 2px;">
-        <% if (topic.icon) { %><h3 style="margin-top: 10px; margin-right: 5px;" class="text-primary"><a href="<%= site.options().post.path %>/<%= topic.path %>"><i class="fa fa-2x fa-fw fa-<%= topic.icon %>"></i></a></h3><% } %>
+        <% if (topic.icon) { %>
+        <span class="fa-stack fa-3x" style="margin-right: 10px;">
+          <i class="fa fa-circle fa-stack-2x text-primary"></i>
+          <i class="fa fa-<%= topic.icon %> fa-stack-1x fa-inverse"></i>
+        </span>
+        <% } %>
       </div>
       <div class="media-body">
         <div class="row">

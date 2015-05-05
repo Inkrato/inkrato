@@ -33,7 +33,7 @@
         <!-- Post Body -->
         <% if (post.topic != null) { %>
         <span id="topic">
-          <a href="<%= site.options().post.path %>/<%= post.topic.path %>" style="text-decoration: none;"><h4 class="lead text-muted" style="margin: 0; margin-bottom: 5px;">
+          <a href="<%= site.options().post.path %>/<%= post.topic.path %>" style="text-decoration: none;"><h4 class="lead text-primary" style="margin: 0; margin-bottom: 5px;">
             <% if (post.topic.icon) { %><i class="fa fa-<%= post.topic.icon %>"></i><% } %>
             <%= post.topic.name %>
           </h4></a>

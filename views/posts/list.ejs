@@ -4,11 +4,14 @@
     <div class="media">
       <% if (topic.icon) { %>
       <div class="media-left">
-        <h2 style="margin-top: 5px; margin-bottom: 20px;"><i class="fa fa-<%= topic.icon %>"></i></h2>
+        <span class="fa-stack fa-2x">
+          <i class="fa fa-circle fa-stack-2x text-primary"></i>
+          <i class="fa fa-<%= topic.icon %> fa-stack-1x fa-inverse"></i>
+        </span>
       </div>
       <% } %>
       <div class="media-body">
-        <h2 style="margin-top: 5px; margin-bottom: 20px;"><%= topic.name %></h2>
+        <h2 style="margin-top: 5px; margin-bottom: 20px;" class="text-primary"><%= topic.name %></h2>
       </div>
     </div>
     <% } else { %>
