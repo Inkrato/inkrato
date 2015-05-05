@@ -4,7 +4,11 @@
       <a href="/" class="navbar-brand" data-shortcut-key="h"><i class="fa fa-lg fa-fw fa-home"></i></a>
       <span class="visible-xs">
         <% if (user) { %>
-        <a class="pull-left navbar-btn btn btn-primary" href="<%= site.options().post.path %>/all/new"><i class="fa fa-lg fa-fw fa-plus-circle"></i> New</a>
+          <% if (typeof(topic) != "undefined" && topic != null) { %>
+            <a class="pull-left navbar-btn btn btn-primary" href="<%= site.options().post.path %>/<%= topic.path %>/new"><i class="fa fa-lg fa-fw fa-plus-circle"></i> New</a>
+          <% } else { %>
+            <a class="pull-left navbar-btn btn btn-primary" href="/new"><i class="fa fa-lg fa-fw fa-plus-circle"></i> New</a>
+          <% } %>
         <% } else { %>
         <a class="pull-left navbar-btn btn btn-primary" href="/signup" data-dismiss="modal" data-toggle="modal" data-target="#signupModal"  data-shortcut-key="n"><i class="fa fa-lg fa-fw fa-plus-circle"></i> New</a>
         <% } %>
@@ -34,7 +38,11 @@
       <span class="hidden-xs">
         &nbsp;
         <% if (user) { %>
-        <a class="navbar-btn btn btn-primary" href="<%= site.options().post.path %>/all/new" data-dismiss="modal" data-toggle="modal" data-target="#newPostModal" data-shortcut-key="n"><i class="fa fa-lg fa-fw fa-plus-circle"></i> New</a>
+          <% if (typeof(topic) != "undefined" && topic != null) { %>
+            <a class="navbar-btn btn btn-primary" href="<%= site.options().post.path %>/<%= topic.path %>/new" data-dismiss="modal" data-toggle="modal" data-target="#newPostModal" data-shortcut-key="n"><i class="fa fa-lg fa-fw fa-plus-circle"></i> New</a>
+          <% } else { %>
+            <a class="navbar-btn btn btn-primary" href="/new" data-dismiss="modal" data-toggle="modal" data-target="#newPostModal" data-shortcut-key="n"><i class="fa fa-lg fa-fw fa-plus-circle"></i> New</a>
+          <% } %>
         <% } else { %>
         <a class="navbar-btn btn btn-primary" href="/signup" data-dismiss="modal" data-toggle="modal" data-target="#signupModal"  data-shortcut-key="n"><i class="fa fa-lg fa-fw fa-plus-circle"></i> New</a>
         <% } %>

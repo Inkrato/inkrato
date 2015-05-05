@@ -20,6 +20,8 @@ var schema = new mongoose.Schema({
   description: { type: String, required: true },
   tags: [ String ],
   topic: { type: mongoose.Schema.ObjectId, ref: 'Topic' },
+  label: { type: mongoose.Schema.ObjectId, ref: 'Label' },
+  state: { type: mongoose.Schema.ObjectId, ref: 'State' },
   created: { type: Date, default: Date.now },
   updated: { type: Date, default: Date.now },
   creator: { type: mongoose.Schema.ObjectId, ref: 'User' },
