@@ -12,7 +12,7 @@
       </div>
     </div>
     <% } else { %>
-      <h2 style="margin-top: 5px; margin-bottom: 20px;"><i class="fa fa-fw fa-<%= site.options().post.icon %>"></i> <%= site.options().post.name %> <i class="fa fa-angle-right text-muted"></i> everything</h2>
+      <h2 style="margin-top: 5px; margin-bottom: 20px;"><i class="fa fa-fw fa-<%= site.options().post.icon %>"></i> <%= site.options().post.name %> <i class="fa fa-angle-right text-muted"></i> view all</h2>
     <% } %>
   </div>
   <div class="col-xs-12 col-md-5 col-lg-4" style="padding-top: 10px;">
@@ -22,42 +22,43 @@
   </div>
 </div>
 <% if (posts.length > 0) { %>
-  <table class="table xtable-striped">
+  <table class="table table-striped">
     <tbody>
     <% posts.forEach(function(post) { %>
       <tr>
-        <td class="col-xs-9 col-md-10 col-lg-10" style="position: relative; padding: 5px 0;">
-          
-        <% if (site.options().post.voting.enabled == true) { %>
-        <div class="media">
-          <div class="media-left">
-            <div style="width: 170px; display:block; margin: 10px 0; margin-right: 10px;" class="xpull-left hidden-xs">
-              <% include ../partials/posts/vote-inline %> 
+        <td class="col-xs-12 col-md-9 col-lg-10" style="padding: 10px 10px;">
+          <% if (site.options().post.voting.enabled == true) { %>
+          <div class="media">
+            <div class="media-left" style="padding-right: 15px;">
+                 <% include ../partials/posts/vote %> 
             </div>
-            <div style="width: 80px; display: inline-block; margin: 5px 10px;" class="xpull-left visible-xs">
-              <% include ../partials/posts/vote-inline %> 
-            </div>
-          </div>
-          <div class="media-body">
-        <% } %>
-            <h3 href="<%= post.getUrl() %>" class="post-title" style="margin-top: 0px;"><a href="<%= post.getUrl() %>"><%= post.title %></a></h3>
-            <% if (post.creator) { %>
-            <a href="<%= post.getUrl() %>" class="text-default" style="text-decoration: none;">
+            <div class="media-body" style="position: relative;">
+          <% } %>
+              <div class="post-preview-body" href="<%= post.getUrl() %>">
+                <h3 class="post-title"><a href="<%= post.getUrl() %>"><%= post.title %></a></h3>
+                <p class="text-muted"><%= post.description.replace(/\n/, '').substr(0,400); %></p>
+              </div>
+              <% if (post.creator) { %>
               <img src="<%= post.creator.avatar(24)%>" alt="Avatar" height="24" width="24" hspace="3" class="img-circle" />
               <%= post.creator.profile.name || "Anonymous" %>
-            </a>
-            <% } %>
-            <br class="visible-xs"/>
-            <span href="<%= post.getUrl() %>" class="text-muted">
-              <i class="fa fa-fw fa-clock-o"></i> <time class="timeago" datetime="<%= post.created.toISOString() %>"><%= post.created.toDateString() %></time>
-            </span>
-        <% if (site.options().post.voting.enabled == true) { %>
+              <% } %>
+              <span class="text-muted hidden-md hidden-lg pull-right">
+                <i class="fa fa-fw fa-clock-o"></i> <time class="timeago" datetime="<%= post.created.toISOString() %>"><%= post.created.toDateString() %></time>
+                |
+                <a href="<%= post.getUrl() %>" class="text-default"><i class="fa fa-fw fa-lg fa-comments"></i> <%= post.comments.length %></a>
+              </span>
+          <% if (site.options().post.voting.enabled == true) { %>
+            </div>
           </div>
-        </div>
-        <% } %>
+          <% } %>
         </td>
-        <td class="col-xs-3 col-md-2 col-lg-2 text-right" style="padding: 5px 0;">
-          <a href="<%= post.getUrl() %>" class="btn btn-primary" style="margin-top: 10px;"><i class="fa fa-fw fa-lg fa-comments"></i> <%= post.comments.length %> <i class="fa fa-fw fa-chevron-right"></i></a>
+        <td class="hidden-xs hidden-sm col-md-3 col-lg-2 text-muted text-right" style="vertical-align: middle; position: relative;">
+          <div class="pull-right" style="position: absolute; top: 10px; right: 10px;">
+            <i class="fa fa-fw fa-clock-o"></i> <time class="timeago" datetime="<%= post.created.toISOString() %>"><%= post.created.toDateString() %></time>
+          </div>
+          <div class="pull-right" style="position: absolute; bottom: 10px; right: 10px;">
+            <a href="<%= post.getUrl() %>" class="btn btn-primary"><i class="fa fa-fw fa-lg fa-comments"></i> <%= post.comments.length %> <i class="fa fa-fw fa-chevron-right"></i></a>
+          </div>
         </td>
       </tr>
     <% }) %>

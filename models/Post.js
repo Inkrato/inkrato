@@ -39,8 +39,8 @@ schema.pre('save', function(next) {
 });
 
 schema.methods.getUrl = function() {
-  // If topic not found, use "all" as topic path
-  var topicPath = 'all';
+  // If topic not found, use "everything" as topic path (works for all posts)
+  var topicPath = 'everything';
   if (this.topic)
     topicPath = this.topic.path;
   
@@ -48,8 +48,8 @@ schema.methods.getUrl = function() {
 };
 
 schema.methods.getEditUrl = function() {
-  // If topic not found, use "_" as topic path
-  var topicPath = 'all';
+  // If topic not found, use "everything" as topic path (works for all posts)
+  var topicPath = 'everything';
   if (this.topic)
     topicPath = this.topic.path;
 

@@ -93,7 +93,7 @@ $(function() {
       window.location = item.value;
     },
     ajax: { 
-      url: '/posts/search',
+      url: '/search',
       preDispatch: function(query) {
         return {
             q: query

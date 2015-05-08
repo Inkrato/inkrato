@@ -43,8 +43,8 @@ exports.getPosts = function(req, res) {
   if (pageNumber > 1)
     skip = (pageNumber - 1) * numberOfResults;
   
-  // If topic is "all" show all posts
-  if (req.params.topic == "all") {
+  // If topic is "everything" show all posts
+  if (req.params.topic == "everything") {
     Post
     .find({ deleted: false }, null, { skip: skip, limit: numberOfResults, sort : { _id: -1 } })
     .populate('creator', 'profile email picture role')
