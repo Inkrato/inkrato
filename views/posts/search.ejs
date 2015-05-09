@@ -45,4 +45,15 @@
    </table>
   </div>
 </div>
+<% } else { %>
+<br/>
+<form method="GET" action="search" class="row">
+  <div class="col-sm-offset-2 col-sm-6">
+    <input name="q" type="text=" class="form-control input-lg" placeholder="Keywords"/>
+  </div>
+  <div class="col-sm-2">
+    <button type="submit" class="btn btn-lg btn-block btn-primary">Search</button>
+  </div>
+</form>
+<br/>
 <% } %>
