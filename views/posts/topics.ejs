@@ -16,7 +16,7 @@
     <div class="media">
       <div class="media-left" style="padding: 2px;">
         <% if (topic.icon) { %>
-        <span class="fa-stack fa-3x" style="margin-right: 10px;">
+        <span class="fa-stack fa-3x" style="margin-right: 10px; margin-bottom: 10px;">
           <i class="fa fa-circle fa-stack-2x text-primary"></i>
           <i class="fa fa-<%= topic.icon %> fa-stack-1x fa-inverse"></i>
         </span>
@@ -24,18 +24,21 @@
       </div>
       <div class="media-body">
         <div class="row">
-          <div class="col-xs-10">
+          <div class="col-xs-8">
             <h3 style="margin-top: 10px;" class="text-primary">
               <a href="<%= site.options().post.path %>/<%= topic.path %>"><%= topic.name %></a>
             </h3>
-            <p class="lead text-muted">
+            <p class="text-muted">
               <%= topic.description %>
             </p>
           </div>
-          <div class="col-xs-2">
-            <h3 style="margin-top: 10px;">
-              <a href="<%= site.options().post.path %>/<%= topic.path %>" class="pull-right label label-primary"><%= topic.postCount %></a>
-            </h3>
+          <div class="col-xs-4 text-center" style="padding-top: 10px;">
+              <br class="visible-xs"/>
+              <a href="<%= site.options().post.path %>/<%= topic.path %>" style="text-decoration: none;">
+                <span class="lead text-default"><%= topic.postCount %></span>
+                <br/>
+                <small class="text-muted">POSTS</small>
+              </a>
           </div>
         </div>
         <br/>

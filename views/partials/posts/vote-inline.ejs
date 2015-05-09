@@ -8,7 +8,7 @@
   </p>
 </div>
 <div class="btn-group btn-group-justified">
-  <div class="btn btn-default disabled hidden-xs" style="padding: 5px; width: 1.75%; background: transparent;">
+  <div class="btn btn-default disabled hidden-xs" style="padding: 5px; width: 1.8%; background: transparent;">
     <p style="margin: 0;" class="lead">
       <% if (post.postId) { %>
       <span data-score="<%= post.postId %>"><%= post.upvotes() - post.downvotes() %></span>
@@ -58,10 +58,10 @@
     </a>
     <% } %>
   <% } else { %>
-  <a href="#" data-toggle="modal" data-dismiss="modal" data-target="#signupModal" class="btn btn-default">
+  <a href="#" data-toggle="modal" data-dismiss="modal" data-target="#signupModal" class="btn btn-default btn-vote">
     <i class="fa fa-lg fa-chevron-up"></i>
   </a>
-  <a href="#" data-toggle="modal" data-dismiss="modal" data-target="#signupModal" class="btn btn-default">
+  <a href="#" data-toggle="modal" data-dismiss="modal" data-target="#signupModal" class="btn btn-default btn-vote">
     <i class="fa fa-lg fa-chevron-down"></i>
   </a>
   <% } %>

@@ -12,7 +12,7 @@
       </div>
     </div>
     <% } else { %>
-      <h2 style="margin-top: 5px; margin-bottom: 20px;"><i class="fa fa-fw fa-<%= site.options().post.icon %>"></i> <%= site.options().post.name %> <i class="fa fa-angle-right text-muted"></i> everything</h2>
+      <h2 style="margin-top: 5px; margin-bottom: 20px;"><i class="fa fa-fw fa-<%= site.options().post.icon %>"></i> Everything</h2>
     <% } %>
   </div>
   <div class="col-xs-12 col-md-5 col-lg-4" style="padding-top: 10px;">
@@ -26,15 +26,15 @@
     <tbody>
     <% posts.forEach(function(post) { %>
       <tr>
-        <td class="col-xs-9 col-md-10 col-lg-10" style="position: relative; padding: 5px 0;">
+        <td class="col-xs-12 col-md-10 col-lg-10" style="position: relative; padding: 5px 0;">
           
         <% if (site.options().post.voting.enabled == true) { %>
         <div class="media">
           <div class="media-left">
-            <div style="width: 170px; display:block; margin: 10px 0; margin-right: 10px;" class="xpull-left hidden-xs">
+            <div style="width: 170px; display: block; margin: 10px 0; margin-right: 10px;" class="hidden-xs">
               <% include ../partials/posts/vote-inline %> 
             </div>
-            <div style="width: 80px; display: inline-block; margin: 5px 10px;" class="xpull-left visible-xs">
+            <div style="width: 80px; display: block; margin: 10px 0; margin-right: 10px;" class="visible-xs">
               <% include ../partials/posts/vote-inline %> 
             </div>
           </div>
@@ -49,15 +49,24 @@
             <% } %>
             <br class="visible-xs"/>
             <span href="<%= post.getUrl() %>" class="text-muted">
-              <i class="fa fa-fw fa-clock-o"></i> <time class="timeago" datetime="<%= post.created.toISOString() %>"><%= post.created.toDateString() %></time>
+              <span class="hidden-xs">
+                <i class="fa fa-fw fa-clock-o"></i> <time class="timeago" datetime="<%= post.created.toISOString() %>"><%= post.created.toDateString() %></time>
+              </span>
+              <span class="visible-xs" style="margin-top: 10px;">
+                <i class="fa fa-fw fa-clock-o"></i> <time class="timeago" datetime="<%= post.created.toISOString() %>"><%= post.created.toDateString() %></time>
+                |
+                <a href="<%= post.getUrl() %>" class="<%= (post.comments.length > 0) ? 'text-default' : 'text-muted' %>"><i class="fa fa-fw fa-lg fa-comments"></i> <%= post.comments.length %></a>
+              </span>
             </span>
         <% if (site.options().post.voting.enabled == true) { %>
           </div>
         </div>
         <% } %>
         </td>
-        <td class="col-xs-3 col-md-2 col-lg-2 text-right" style="padding: 5px 0;">
-          <a href="<%= post.getUrl() %>" class="btn btn-primary" style="margin-top: 10px;"><i class="fa fa-fw fa-lg fa-comments"></i> <%= post.comments.length %> <i class="fa fa-fw fa-chevron-right"></i></a>
+        <td class="hidden-xs col-md-2 col-lg-2 text-right" style="padding: 5px 0;">
+          <a href="<%= post.getUrl() %>" 
+             class="btn <%= (post.comments.length > 0) ? 'btn-primary' : 'btn-default' %>" 
+             style="margin-top: 10px;"><i class="fa fa-fw fa-lg fa-comments"></i> <%= post.comments.length %> <i class="fa fa-fw fa-chevron-right"></i></a>
         </td>
       </tr>
     <% }) %>
