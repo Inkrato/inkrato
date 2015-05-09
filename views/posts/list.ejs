@@ -35,7 +35,7 @@
               <% include ../partials/posts/vote-inline %> 
             </div>
             <div style="width: 80px; display: block; margin: 10px 0; margin-right: 10px;" class="visible-xs">
-              <% include ../partials/posts/vote-inline %> 
+              <% include ../partials/posts/vote %> 
             </div>
           </div>
           <div class="media-body">
@@ -54,8 +54,7 @@
               </span>
               <span class="visible-xs" style="margin-top: 10px;">
                 <i class="fa fa-fw fa-clock-o"></i> <time class="timeago" datetime="<%= post.created.toISOString() %>"><%= post.created.toDateString() %></time>
-                |
-                <a href="<%= post.getUrl() %>" class="<%= (post.comments.length > 0) ? 'text-default' : 'text-muted' %>"><i class="fa fa-fw fa-lg fa-comments"></i> <%= post.comments.length %></a>
+                <a href="<%= post.getUrl() %>" class="pull-right <%= (post.comments.length > 0) ? 'text-default' : 'text-muted' %>"><i class="fa fa-fw fa-lg fa-comments"></i> <%= post.comments.length %></a>
               </span>
             </span>
         <% if (site.options().post.voting.enabled == true) { %>
@@ -65,7 +64,7 @@
         </td>
         <td class="hidden-xs col-md-2 col-lg-2 text-right" style="padding: 5px 0;">
           <a href="<%= post.getUrl() %>" 
-             class="btn <%= (post.comments.length > 0) ? 'btn-primary' : 'btn-default' %>" 
+             class="btn <%= (post.comments.length > 0) ? 'btn-primary' : 'btn-default' %> rounded"
              style="margin-top: 10px;"><i class="fa fa-fw fa-lg fa-comments"></i> <%= post.comments.length %> <i class="fa fa-fw fa-chevron-right"></i></a>
         </td>
       </tr>
