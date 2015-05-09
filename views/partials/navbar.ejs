@@ -3,6 +3,7 @@
     <div class="navbar-header">
       <a href="/" class="navbar-brand" data-shortcut-key="h"><i class="fa fa-lg fa-fw fa-home"></i></a>
       <span class="visible-xs">
+        <a style="margin-right: 5px;" class="pull-left navbar-btn btn btn-primary" href="<%= site.options().post.path %>"><i class="fa fa-lg fa-<%= site.options().post.icon %>"></i></a>
         <% if (user) { %>
           <% if (typeof(topic) != "undefined" && topic != null) { %>
             <a class="pull-left navbar-btn btn btn-primary" href="<%= site.options().post.path %>/<%= topic.path %>/new"><i class="fa fa-lg fa-fw fa-plus-circle"></i> New</a>
