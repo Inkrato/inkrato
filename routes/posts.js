@@ -164,7 +164,7 @@ exports.getPost = function(req, res) {
     if (err || (post.deleted && post.deleted == true))
       return res.render('404');
     
-    return res.render('posts/view', { title: res.locals.title + " - " + post.title, post: post });
+    return res.render('posts/view', { title: res.locals.title + " - " + post.title, post: post, topic: post.topic });
   });
 };
 

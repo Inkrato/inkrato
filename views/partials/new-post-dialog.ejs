@@ -4,9 +4,13 @@
       <form role="form" method="post" action="<%= site.options().post.path %>/all/new" data-validator="true">
         <input type="hidden" name="_csrf" value="<%= _csrf %>"/>
         <div class="modal-header" style="padding-top: 10px; padding-bottom: 10px; overflow: visible;">
-          <div class="row">
-            <div class="col-xs-10">
-              <select name="topic" class="selectpicker">
+          <div class="row clearfix">
+            <div class="col-xs-12 col-md-12">
+              <label class="text-muted hidden">
+                <i class="fa fa-fw fa-<%= site.options().post.icon %>"></i>
+                <%= site.options().post.name %>
+              </label>
+              <select name="topic" class="selectpicker" data-width="100%">
                 <% topics.forEach(function(topicOption) { %>
                   <option
                     value="<%= topicOption._id %>" 
@@ -16,31 +20,17 @@
                 <% }); %>
               </select>
             </div>
-            <div class="col-xs-2">
-              <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
-            </div>
-          </div>
-          <!--
-          <div class="row" style="margin-top: 10px">
-            <div class="col-xs-12 col-md-4">
-              <select name="topic" class="selectpicker">
-                <% topics.forEach(function(topic) { %>
-                  <option value="<%= topic._id %>" data-content='<i class="fa fa-lg fa-fw fa-<%= topic.icon %>"></i> <%= topic.name %>'><%= topic.name %></option>
-                <% }); %>
-              </select>
-            </div>
-            <div class="col-xs-12 col-md-4 text-center">
-              <select name="category" class="selectpicker">
+            <div class="hidden col-xs-12 col-md-4 text-center">
+              <select name="category" class="selectpicker" data-width="100%">
                 <option value="0" data-content='<span class="text-muted">Label</span>'>Priority</option>
               </select>
             </div>
-            <div class="col-xs-12 col-md-4 text-right">
-              <select name="category" class="selectpicker">
+            <div class="hidden col-xs-12 col-md-4 text-right">
+              <select name="category" class="selectpicker" data-width="100%">
                 <option data-content='<span class="text-muted">Status</span>'>Status</option>
               </select>
             </div>
           </div>
-          -->
         </div>
         <div class="modal-body">
           <div class="row">
