@@ -21,9 +21,22 @@
            <div class="media-body">
          <% } %>
              <h3 href="<%= post.getUrl() %>" class="post-title" style="margin-top: 0px;"><a href="<%= post.getUrl() %>"><%= post.title %></a></h3>
+             
+             <% if (post.priority) { %>
+             <span class="label label-default" style="background-color: <%= post.priority.color %>;"><%= post.priority.name %></span>
+             <% } %>
+             
+             <% if (post.state) { %>
+               <% if (post.state.open == true) { %>
+                 <span class="label label-success"><i class="fa fa-lg fa-circle-o"></i>&nbsp; <%= post.state.name %></span>
+               <% } else { %>
+                 <span class="label label-danger"><i class="fa fa-lg fa-times"></i>&nbsp; <%= post.state.name %></span>
+               <% } %>
+             <% } %>
+
              <% if (post.creator) { %>
              <a href="<%= post.getUrl() %>" class="text-default" style="text-decoration: none;">
-               <img src="<%= post.creator.avatar(24)%>" alt="Avatar" height="24" width="24" hspace="3" class="img-circle" />
+               <img src="<%= post.creator.avatar(26)%>" alt="Avatar" height="26" width="26" hspace="2" class="img-circle" />
                <%= post.creator.profile.name || "Anonymous" %>
              </a>
              <% } %>

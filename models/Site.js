@@ -1,3 +1,6 @@
+var Q = require('q'),
+    Topic = require('../models/Topic');
+
 var config = {
   app: require('../config/app'),
   secrets: require('../config/secrets')
@@ -25,7 +28,7 @@ module.exports = function() {
       }
     };
   }
-  
+
   this.loginOptions = function(provider) {
     switch (provider) {
       case "facebook":

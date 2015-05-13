@@ -31,30 +31,3 @@
 </div>
 <% }); %>
 <br/>
-<% if (user) { %>
-<div class="media">
-  <div class="media-left" style="padding-right: 20px;">
-    <a href="#"><img src="<%= user.avatar(48) %>" height="48" width="48" alt="Avatar" class="img-circle"/></a>
-  </div>
-  <div class="media-body">
-    <form role="form" method="post" action="<%= post.getAddCommentUrl() %>" data-validator="true">
-      <input type="hidden" name="_csrf" value="<%= _csrf %>"/>
-      <div class="form-group">
-        <p style="margin-bottom: 5px;">
-        <span class="media-heading"><%= user.profile.name || "Anonymous" %></span>
-        <span class="text-muted pull-right"><i class="fa fa-clock-o"></i> <time datetime="<%= new Date().toISOString() %>"><%= new Date().toDateString() %></time></span>
-        </p>
-        <label for="message" class="control-label hidden">Add comment</label>
-        <textarea type="text" name="comment" id="comment" rows="3" class="form-control autoresize" placeholder="Add comment..." autocomplete="off"></textarea>
-      </div>
-      <div class="form-group text-right">
-        <button type="submit" class="btn btn-primary"><i class="fa fa-lg fa-fw fa-comment"></i> Add comment</button>
-      </div>
-    </form>
-  </div>
-</div>
-<% } else { %>
-<p class="text-right">
-  <a href="/signup" class="btn btn-primary" data-toggle="modal" data-dismiss="modal" data-target="#signupModal"><i class="fa fa-lg fa-fw fa-sign-in"></i> Log in to comment</a>
-</p>
-<% } %>

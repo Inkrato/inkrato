@@ -22,8 +22,8 @@ var express = require('express'),
     partials = require('express-partials'),
     i18n = require("i18n"),
     Site = require('./models/Site'),
-    Topic = require('./models/Topic'),
     linkify = require("html-linkify"),
+    Configure = require('./models/Configure'),
     app = express();
 
 var hour = 3600000,
@@ -44,62 +44,6 @@ var config = {
 mongoose.connect(config.secrets.db);
 mongoose.connection.on('error', function() {
   console.error('MongoDB Connection Error. Make sure MongoDB is running.');
-});
-
-
-// On startup, create a topic in the DB if that topic doesn't exist already
-var topics = [];
-config.app.posts.topics.forEach(function(topic, index) {
-  Topic
-  .findOne({ name: topic.name })
-  .exec(function (err, topicInDatabase) {
-    if (topicInDatabase) {
-      // If the topic exists aready, update it's properties
-      topicInDatabase.name = topic.name;
-      topicInDatabase.icon = topic.icon;
-      topicInDatabase.description = topic.description;
-      topicInDatabase.order = index;
-      topicInDatabase.deleted = false;
-      topicInDatabase.save(function(err) {
-        if (err)
-          console.log('Unable to update topic in DB: '+topic.name);
-      });
-    } else {
-      // If the topic doesn't exist, create it
-      new Topic({
-        name: topic.name,
-        icon: topic.icon,
-        description: topic.description,
-        order: index
-      }).save(function(err) {
-        if (err)
-          console.log('Unable to create new topic in DB: '+topic.name);
-      });
-    }
-  });
-});
-
-// Loop throough all topics in the database, if a config is NOT also in the config then mark it as deleted (will be hidden, but only marked as deleted so that it can still be re-enabled later)
-var topics = [];
-Topic
-.find({ deleted: false }, null, { sort : { order: 1 } })
-.exec(function (err, topicsInDatabase) {
-  topicsInDatabase.forEach(function(topicInDatabase) {
-    var topicFoundInConfig = false;
-    config.app.posts.topics.forEach(function(topicInConfig) {
-      if (topicInConfig.name == topicInDatabase.name) {
-        topicFoundInConfig = true;
-        topics.push(topicInDatabase);
-      }
-    });
-    if (topicFoundInConfig === false) {
-      topicInDatabase.deleted = true;
-      topicInDatabase.save(function(err) {
-        if (err)
-          console.log('Unable to mark topic in DB as deleted: '+topicInDatabase.name);
-      });
-    }
-  });
 });
 
 /**
@@ -167,7 +111,6 @@ app.use(function(req, res, next) {
   csrf(req, res, next);
 });
 app.use(function(req, res, next) {
-
   // Set default page title based on configured site name
   res.locals.title = Site.getName();
 
@@ -182,9 +125,13 @@ app.use(function(req, res, next) {
   
   // Expose linkify (to escape content while making hyperliks work) to all views
   res.locals.linkify = linkify;
-  
-  res.locals.topics = topics;
 
+  // Expose post options (these will be populated before the server is started)
+  // @todo Refactor to not use globals
+  res.locals.topics = GLOBAL.topics;
+  res.locals.priorities = GLOBAL.priorities;
+  res.locals.states = GLOBAL.states;
+  
   next();
 });
 app.use(function(req, res, next) {
@@ -330,10 +277,24 @@ app.use(function (req, res, next) {
 });
   
 /**
- * Start Express server.
- */
-app.listen(app.get('port'), function() {
-  console.log('Express server listening on port %d in %s mode', app.get('port'), app.get('env'));
+ * Load configuration to DB then start the server
+ */  
+Configure.topics(config.app.posts.topics)
+.then(function(topics) {
+  GLOBAL.topics = topics;
+  return Configure.priorities(config.app.posts.priorities);
+})
+.then(function(priorities) {
+  GLOBAL.priorities = priorities;
+  return Configure.states(config.app.posts.states);
+})
+.then(function(states) {
+  GLOBAL.states = states;
+  // With everything initialized, start the server
+  app.listen(app.get('port'), function() {
+    console.log('Express server listening on port %d in %s mode', app.get('port'), app.get('env'));
+  });
+  
 });
 
 module.exports = app;

@@ -1,5 +1,6 @@
 var Post = require('../models/Post'),
     Topic = require('../models/Topic'),
+    State = require('../models/State'),
     Site = require('../models/Site'),
     postsSearch = require('./posts/search'),
     postsComments = require('./posts/comments'),
@@ -16,9 +17,22 @@ exports.getTopics = function(req, res) {
   .exec(function (err, topics) {
     Q.all(topics.map(function(topic) {
       var deferred = Q.defer();
-      Post.count({ topic: topic._id }, function(err, count) {
-        topic.postCount = count;
-        deferred.resolve(topic);
+      
+      // Get the count counts for all posts in a non-closed state
+      State
+      .find({ deleted: false, open: false })
+      .exec(function (err, states) {
+        
+        var closedStateIds = [];
+        states.forEach(function(state, index) {
+          closedStateIds.push(state.id);
+        });
+        
+        Post.count({ topic: topic._id, state: { $ne: closedStateIds } }, function(err, count) {
+          topic.postCount = count;
+          deferred.resolve(topic);
+        });
+
       });
       return deferred.promise;
     }))
@@ -45,20 +59,33 @@ exports.getPosts = function(req, res) {
   
   // If topic is "everything" show all posts
   if (req.params.topic == "everything") {
-    Post
-    .find({ deleted: false }, null, { skip: skip, limit: numberOfResults, sort : { _id: -1 } })
-    .populate('creator', 'profile email picture role')
-    .populate('topic')
-    .exec(function (err, posts) {
-      Post.count({}, function(err, count) {
-          res.render('posts/list', { title: res.locals.title + " - " + Site.options().post.name,
-                                     topic: null,
-                                     posts: posts,
-                                     postCount: count,
-                                     postLimit: numberOfResults,
-                                     page: pageNumber
-          });
+    State
+    .find({ deleted: false, open: false })
+    .exec(function (err, states) {
+      
+      var closedStateIds = [];
+      states.forEach(function(state, index) {
+        closedStateIds.push(state.id);
       });
+
+      Post
+      .find({ deleted: false, state: { $ne: closedStateIds } }, null, { skip: skip, limit: numberOfResults, sort : { _id: -1 } })
+      .populate('creator', 'profile email picture role')
+      .populate('topic')
+      .populate('state')
+      .populate('priority')
+      .exec(function (err, posts) {
+        Post.count({}, function(err, count) {
+            res.render('posts/list', { title: res.locals.title + " - " + Site.options().post.name,
+                                       topic: null,
+                                       posts: posts,
+                                       postCount: count,
+                                       postLimit: numberOfResults,
+                                       page: pageNumber
+            });
+        });
+      });
+      
     });
   } else {
     Topic
@@ -71,21 +98,34 @@ exports.getPosts = function(req, res) {
       if (!topic)
         return res.render('404');
       
-      Post
-      .find({ topic: topic._id, deleted: false }, null, { skip: skip, limit: numberOfResults, sort : { _id: -1 } })
-      .populate('creator', 'profile email picture role')
-      .populate('topic')
-      .exec(function (err, posts) {
-        Post.count({ topic: topic._id, deleted: false }, function(err, count) {
-            res.render('posts/list', { title: res.locals.title + " - " + Site.options().post.name,
-                                       topic: topic,
-                                       posts: posts,
-                                       postCount: count,
-                                       postLimit: numberOfResults,
-                                       page: pageNumber
-            });
+      State
+      .find({ deleted: false, open: false })
+      .exec(function (err, states) {
+        
+        var closedStateIds = [];
+        states.forEach(function(state, index) {
+          closedStateIds.push(state.id);
+        });
+        
+        Post
+        .find({ topic: topic._id, deleted: false, state: { $ne: closedStateIds } }, null, { skip: skip, limit: numberOfResults, sort : { _id: -1 } })
+        .populate('creator', 'profile email picture role')
+        .populate('topic')
+        .populate('state')
+        .populate('priority')
+        .exec(function (err, posts) {
+          Post.count({ topic: topic._id, deleted: false }, function(err, count) {
+              res.render('posts/list', { title: res.locals.title + " - " + Site.options().post.name,
+                                         topic: topic,
+                                         posts: posts,
+                                         postCount: count,
+                                         postLimit: numberOfResults,
+                                         page: pageNumber
+              });
+          });
         });
       });
+      
     });
   }
 };
@@ -114,7 +154,7 @@ exports.getNewPost = function(req, res) {
 exports.postNewPost = function(req, res, next) {
   req.assert('title', 'Title cannot be blank').notEmpty();
   req.assert('description', 'Description cannot be blank').notEmpty();
-
+  
   var errors = req.validationErrors();
 
   if (req.headers['x-validate'])
@@ -135,6 +175,12 @@ exports.postNewPost = function(req, res, next) {
   if (req.body.topic)
     post.topic = req.body.topic;
 
+  if (req.body.state)
+    post.state = req.body.state;
+
+  if (req.body.priority)
+    post.priority = req.body.priority;
+  
   post.save(function(err) {
     if (err) return next(err);
 
@@ -160,6 +206,8 @@ exports.getPost = function(req, res) {
   .populate('creator', 'profile email picture role')
   .populate('comments.creator', 'profile email picture role')
   .populate('topic')
+  .populate('state')
+  .populate('priority')
   .exec(function (err, post) {
     if (err || (post.deleted && post.deleted == true))
       return res.render('404');
@@ -177,7 +225,10 @@ exports.getEditPost = function(req, res) {
   Post
   .findOne({ postId: postId })
   .populate('creator', 'profile email picture role')
+  .populate('comments.creator', 'profile email picture role')
   .populate('topic')
+  .populate('state')
+  .populate('priority')
   .exec(function (err, post) {
     if (err || (post.deleted && post.deleted == true))
       return res.render('404');
@@ -213,6 +264,8 @@ exports.postEditPost = function(req, res, next) {
   .findOne({ postId: req.params.id })
   .populate('creator', 'profile email picture role')
   .populate('topic')
+  .populate('state')
+  .populate('priority')
   .exec(function (err, post) {
     if (err || (post.deleted && post.deleted == true))
       return res.render('404');
@@ -225,7 +278,15 @@ exports.postEditPost = function(req, res, next) {
     post.title = req.body.title;
     post.description = req.body.description;
     post.tags = splitTags(req.body.tags);
-    post.topic = req.body.topic;
+    
+    if (req.body.topic)
+      post.topic = req.body.topic;
+
+    if (req.body.state)
+      post.state = req.body.state;
+
+    if (req.body.priority)
+      post.priority = req.body.priority;
     
     post.save(function(err) {
       if (err) return next(err);

@@ -7,7 +7,14 @@ exports.getSearch = function(req, res) {
   // @fixme Do not include deleted posts in search
   if (req.query.q) {
     Post
-    .search(req.query.q, {}, { sort: { created: -1 }, limit: 100, populate: [{ path: 'creator', fields: 'profile email picture role'} ] },
+    .search(req.query.q, {},
+      { sort: { created: -1 },
+        limit: 100,
+        populate: [ { path: 'creator', fields: 'profile email picture role'},
+                    { path: 'state', fields: 'name open'},
+                    { path: 'priority', fields: 'name color'}
+                  ]
+      },
       function(err, data) {
         var response = {
           title: res.locals.title + " - Search",

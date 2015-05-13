@@ -80,7 +80,7 @@
 
 .label {
   padding: 4px 10px 6px 10px;
-  font-size: 16px;
+  font-size: @font-size-base;
 }
 
 .tags input {
@@ -119,7 +119,11 @@ hr {
   border-bottom: 2px dotted @gray-lighter;
 }
 
-.label-default {
+.label {
+  border-radius: 0px !important;  
+}
+
+.label.label-info {
   border-radius: 50px !important;
 }
 

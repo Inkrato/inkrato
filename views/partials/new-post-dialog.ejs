@@ -4,30 +4,53 @@
       <form role="form" method="post" action="<%= site.options().post.path %>/all/new" data-validator="true">
         <input type="hidden" name="_csrf" value="<%= _csrf %>"/>
         <div class="modal-header" style="padding-top: 10px; padding-bottom: 10px; overflow: visible;">
+          <h4 class="modal-title"><i class="fa fa-fw fa-<%= site.options().post.icon %>"></i> <%= site.options().post.name %></h4>
+          <br/>
           <div class="row clearfix">
-            <div class="col-xs-12 col-md-12">
-              <label class="text-muted hidden">
-                <i class="fa fa-fw fa-<%= site.options().post.icon %>"></i>
-                <%= site.options().post.name %>
+            <div class="col-xs-12 col-md-4">
+              <label class="text-muted">
+                TYPE
               </label>
               <select name="topic" class="selectpicker" data-width="100%">
-                <% topics.forEach(function(topicOption) { %>
+                <% topics.forEach(function(option) { %>
                   <option
-                    value="<%= topicOption._id %>" 
-                    data-content='<i class="fa fa-lg fa-fw fa-<%= topicOption.icon %>"></i> <%= topicOption.name %>'
-                    <% if (typeof(topic) != "undefined" && topic != null && (topic.id == topicOption.id)) { %>selected="selected"<% } %>
-                  ><%= topicOption.name %></option>
+                    value="<%= option._id %>" 
+                    data-content='<i class="fa fa-lg fa-fw fa-<%= option.icon %>"></i> <%= option.name %>'
+                    <% if (typeof(topic) != "undefined" && topic != null && (topic.id == option.id)) { %>selected="selected"<% } %>
+                  ><%= option.name %></option>
                 <% }); %>
               </select>
             </div>
-            <div class="hidden col-xs-12 col-md-4 text-center">
-              <select name="category" class="selectpicker" data-width="100%">
-                <option value="0" data-content='<span class="text-muted">Label</span>'>Priority</option>
+            <div class="col-xs-12 col-md-4">
+              <label class="text-muted">
+                PRIORITY
+              </label>
+              <select name="priority" class="selectpicker" data-width="100%">
+                <option value="0" disabled="disabled" selected="selected" data-content='<strong class="text-muted">NONE</strong>'>NONE</option>
+                <% priorities.forEach(function(option) { %>
+                  <option
+                    value="<%= option._id %>"
+                    data-content='<i class="fa fa-lg fa-circle" style="color: <%= option.color %>;"></i>&nbsp; <%= option.name %>'
+                  ><%= option.name %></option>
+                <% }); %>
               </select>
             </div>
-            <div class="hidden col-xs-12 col-md-4 text-right">
-              <select name="category" class="selectpicker" data-width="100%">
-                <option data-content='<span class="text-muted">Status</span>'>Status</option>
+            <div class="col-xs-12 col-md-4">
+              <label class="text-muted">
+                STATUS
+              </label>
+              <select name="state" class="selectpicker" data-width="100%">
+                <option value="0" disabled="disabled" selected="selected" data-content='<strong class="text-muted">NONE</strong>'>NONE</option>
+                <% states.forEach(function(option) { %>
+                  <option
+                    value="<%= option._id %>"
+                    <% if (option.open == true) { %>
+                    data-content='<i class="fa fa-lg fa-circle-o"></i>&nbsp; <%= option.name %>'
+                    <% } else { %>
+                    data-content='<i class="fa fa-lg fa-times"></i>&nbsp; <%= option.name %>'
+                    <% } %>
+                  ><%= option.name %></option>
+                <% }); %>
               </select>
             </div>
           </div>

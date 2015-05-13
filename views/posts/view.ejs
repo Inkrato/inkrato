@@ -28,16 +28,29 @@
             <span class="text-muted"><i class="fa fa-clock-o"></i> <time class="timeago" datetime="<%= post.created.toISOString() %>"><%= post.created.toDateString() %></time></span>
           </div>
         </div>
+        <% if (post.state) { %>
+        <h5 class="text-muted">STATUS</h5>
+          <% if (post.state.open == true) { %>
+            <h3 class="label label-success" style="text-align: left; width: 100%; display: block; padding: 15px 10px; margin-top: 0;"><i class="fa fa-lg fa-circle-o"></i>&nbsp; <%= post.state.name %></h3>
+          <% } else { %>
+            <h3 class="label label-danger" style="text-align: left; width: 100%; display: block; padding: 15px 10px; margin-top: 0;"><i class="fa fa-lg fa-times"></i>&nbsp; <%= post.state.name %></h3>
+          <% } %>
+        <% } %>
+        <% if (post.priority) { %>
+        <h5 class="text-muted">PRIORITY</h5>
+        <h3 class="label label-default" style="text-align: left; width: 100%; display: block; padding: 15px 10px; margin-top: 0; background-color: <%= post.priority.color %>;"><%= post.priority.name %></h3>
+        <% } %>
       </div>
       <div class="col-sm-12 col-md-8 col-lg-9 col-md-pull-4 col-lg-pull-3">
         <!-- Post Body -->
         <% if (post.topic != null) { %>
-        <span id="topic">
-          <a href="<%= site.options().post.path %>/<%= post.topic.path %>" style="text-decoration: none;"><h4 class="lead text-muted" style="margin: 0; margin-bottom: 5px;">
-            <% if (post.topic.icon) { %><i class="fa fa-<%= post.topic.icon %>"></i><% } %>
+        <p id="topic" style="margin: 1px 0;">
+          <h5 class="text-muted visible-xs visible-sm">TOPIC</h5>
+          <a href="<%= site.options().post.path %>/<%= post.topic.path %>" class="label label-primary" style="padding: 10px; display: inline-block;">
+            <% if (post.topic.icon) { %><i class="fa fa-fw fa-<%= post.topic.icon %>"></i><% } %>
             <%= post.topic.name %>
-          </h4></a>
-        </span>
+          </a>
+        </p>
         <% } %>
         <h1 class="page-header"><%= post.title %></h1>
         <% post.description.split("\n").forEach(function(line, i) { %>
@@ -50,7 +63,7 @@
         <% if (post.tags.length > 0) {%>
         <p class="tags">
         <% post.tags.forEach(function(tag) { %>
-          <span class="label label-default"><i class="fa fa-tag"></i> <%= tag %></span>
+          <span class="label label-info"><i class="fa fa-tag"></i> <%= tag %></span>
         <% }); %>
         </p>
         <% } %>
@@ -61,6 +74,7 @@
         </p>
         <% } %>
         <% include ../partials/posts/comments %>
+        <% include ../partials/posts/add-comment %>
       </div>
     </div>
 <% if (site.options().post.voting.enabled == true) { %>

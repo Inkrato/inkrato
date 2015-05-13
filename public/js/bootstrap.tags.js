@@ -6,7 +6,7 @@
 
   var defaultOptions = {
     tagClass: function(item) {
-      return 'label label-default';
+      return 'label label-info';
     },
     itemValue: function(item) {
       return item ? item.toString() : item;

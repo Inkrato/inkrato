@@ -1,10 +1,11 @@
 <div class="form-group">
   <div class="col-sm-offset-2 col-sm-10 messages"></div>
 </div>
-<div class="form-group form-group-lg bootstrap-select-block row">
+<div class="form-group row">
   <div class="col-sm-12">
-    <span id="topicSelect" <% if (topic != null) { %>style="display: none;"<% } %>>
-      <select  name="topic" class="selectpicker">
+    <span id="topicSelect" <% if (post.topic != null) { %>style="display: none;"<% } %>>
+      <h5 class="text-muted visible-xs visible-sm">TOPIC</h5>
+      <select name="topic" class="selectpicker" data-width="100%">
         <% topics.forEach(function(topicOption) { %>
           <option
             value="<%= topicOption.id %>" 
@@ -14,13 +15,15 @@
         <% }); %>
       </select>
     </span>
-    <% if (topic != null) { %>
-    <span id="topic">
-      <a href="javascript:$('#topic').hide();$('#topicSelect').show();" style="text-decoration: none;"><h4 class="lead text-muted" style="display: inline; margin: 0; position: relative; top: -1px;">
-        <% if (topic.icon) { %><i class="fa fa-<%= topic.icon %>"></i><% } %>
-        <%= topic.name %>
-        <span class="btn btn-xs btn-default"><i class="fa fa-pencil-square"></i> Edit</span>
-      </h4></a>
+    <% if (post.topic != null) { %>
+    <span id="topicLabel" style="margin: 0;">
+      <h5 class="text-muted visible-xs visible-sm">TOPIC</h5>
+        <a href="javascript:$('#topicLabel').hide();$('#topicSelect').show();" class="label label-primary" style="padding: 10px; display: inline-block; margin-right: 10px;">
+          <% if (post.topic.icon) { %><i class="fa fa-fw fa-<%= post.topic.icon %>"></i><% } %>
+          <%= post.topic.name %>
+        </a>
+        <a href="javascript:$('#topicLabel').hide();$('#topicSelect').show();" class="btn btn-xs btn-default"><i class="fa fa-pencil-square"></i> Edit</a>
+      </a>
     </span>
     <% } %>
   </div>

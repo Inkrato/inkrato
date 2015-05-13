@@ -1,3 +1,12 @@
+#TODO
+
+1) List view bugfixes (mobile and desktop)
+2) Add Priority
+3) Add Status
+5) Backup/Restore instructions
+4) Create Posts API
+5) Create Users API
+
 # inkrato README
 
 This is a preview release of the inkrato community edition - an open sourced community feedback platform from inkrato. 
