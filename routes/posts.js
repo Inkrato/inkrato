@@ -172,13 +172,13 @@ exports.postNewPost = function(req, res, next) {
     creator: req.user.id
   });
   
-  if (req.body.topic)
+  if (req.body.topic && req.body.topic != 0)
     post.topic = req.body.topic;
 
-  if (req.body.state)
+  if (req.body.state && req.body.state != 0)
     post.state = req.body.state;
 
-  if (req.body.priority)
+  if (req.body.priority && req.body.priority != 0)
     post.priority = req.body.priority;
   
   post.save(function(err) {
@@ -278,14 +278,17 @@ exports.postEditPost = function(req, res, next) {
     post.title = req.body.title;
     post.description = req.body.description;
     post.tags = splitTags(req.body.tags);
-    
-    if (req.body.topic)
+
+    post.topic = null;
+    if (req.body.topic && req.body.topic != 0)
       post.topic = req.body.topic;
 
-    if (req.body.state)
+    post.state = null;
+    if (req.body.state && req.body.state != 0)
       post.state = req.body.state;
 
-    if (req.body.priority)
+    post.priority = null;
+    if (req.body.priority && req.body.priority != 0)
       post.priority = req.body.priority;
     
     post.save(function(err) {

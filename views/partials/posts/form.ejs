@@ -6,6 +6,7 @@
     <span id="topicSelect" <% if (post.topic != null) { %>style="display: none;"<% } %>>
       <h5 class="text-muted visible-xs visible-sm">TOPIC</h5>
       <select name="topic" class="selectpicker" data-width="100%">
+        <option value="0" <% if (!post.topic) { %> selected="selected"<% } %> data-content='<strong style="opacity: 0.5;">NONE</strong>'>NONE</option>
         <% topics.forEach(function(topicOption) { %>
           <option
             value="<%= topicOption.id %>" 
@@ -19,10 +20,10 @@
     <span id="topicLabel" style="margin: 0;">
       <h5 class="text-muted visible-xs visible-sm">TOPIC</h5>
         <a href="javascript:$('#topicLabel').hide();$('#topicSelect').show();" class="label label-primary" style="padding: 10px; display: inline-block; margin-right: 10px;">
-          <% if (post.topic.icon) { %><i class="fa fa-fw fa-<%= post.topic.icon %>"></i><% } %>
+          <% if (post.topic.icon) { %><i class="fa fa-lg fa-fw fa-<%= post.topic.icon %>"></i><% } %>
           <%= post.topic.name %>
+          &nbsp;<i class="fa fa-fw fa-lg fa-pencil-square"></i></a>
         </a>
-        <a href="javascript:$('#topicLabel').hide();$('#topicSelect').show();" class="btn btn-xs btn-default"><i class="fa fa-pencil-square"></i> Edit</a>
       </a>
     </span>
     <% } %>

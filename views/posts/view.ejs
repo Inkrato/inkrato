@@ -47,7 +47,7 @@
         <p id="topic" style="margin: 1px 0;">
           <h5 class="text-muted visible-xs visible-sm">TOPIC</h5>
           <a href="<%= site.options().post.path %>/<%= post.topic.path %>" class="label label-primary" style="padding: 10px; display: inline-block;">
-            <% if (post.topic.icon) { %><i class="fa fa-fw fa-<%= post.topic.icon %>"></i><% } %>
+            <% if (post.topic.icon) { %><i class="fa fa-lg fa-fw fa-<%= post.topic.icon %>"></i><% } %>
             <%= post.topic.name %>
           </a>
         </p>
@@ -57,7 +57,7 @@
           <% if (i == 0) { %>
           <p class="lead"><%- linkify(line) %></p>
           <% } else { %>
-          <p><%- linkify(line) %></p>
+          <p class="lead"><%- linkify(line) %></p>
           <% } %>
         <% }); %>
         <% if (post.tags.length > 0) {%>

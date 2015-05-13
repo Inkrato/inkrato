@@ -32,9 +32,7 @@
           </div>
           <h5 class="text-muted">STATUS</h5>
           <select name="state" class="selectpicker" data-width="100%">
-            <% if (!post.state) { %>
-            <option value="0" disabled="disabled" selected="selected" data-content='<strong class="text-muted">NONE</strong>'>NONE</option>
-            <% } %>
+            <option value="0" <% if (!post.state) { %> selected="selected"<% } %> data-content='<strong style="opacity: 0.5;">NONE</strong>'>NONE</option>
             <% states.forEach(function(option) { %>
               <option
                 value="<%= option._id %>"
@@ -49,9 +47,7 @@
           </select>
           <h5 class="text-muted">PRIORITY</h5>
           <select name="priority" class="selectpicker" data-width="100%">
-            <% if (!post.priority) { %>
-            <option value="0" disabled="disabled" selected="selected" data-content='<strong class="text-muted">NONE</strong>'>NONE</option>
-            <% } %>
+            <option value="0" <% if (!post.priority) { %> selected="selected"<% } %> data-content='<strong style="opacity: 0.5;">NONE</strong>'>NONE</option>
             <% priorities.forEach(function(option) { %>
               <option
                 value="<%= option._id %>"
