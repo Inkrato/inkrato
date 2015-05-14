@@ -40,17 +40,22 @@
         <h5 class="text-muted">PRIORITY</h5>
         <h3 class="label label-lg label-default" style="text-align: left; width: 100%; display: block; margin-top: 0; background-color: <%= post.priority.color %>;"><%= post.priority.name %></h3>
         <% } %>
+        <% if (post.topic != null) { %>
+        <div class="visible-xs visible-sm">
+          <h5 class="text-muted">TOPIC</h5>
+          <a href="<%= site.options().post.path %>/<%= post.topic.path %>" class="label label-lg label-primary" style="text-align: left; display: block;">
+            <% if (post.topic.icon) { %><i class="fa fa-lg fa-fw fa-<%= post.topic.icon %>"></i><% } %>
+            <%= post.topic.name %>
+          </a>
+        </div>
+        <% } %>
+        <br/>
       </div>
       <div class="col-sm-12 col-md-8 col-lg-9 col-md-pull-4 col-lg-pull-3">
         <!-- Post Body -->
         <% if (post.topic != null) { %>
-        <p id="topic" style="margin: 1px 0;">
-          <h5 class="text-muted visible-xs visible-sm">TOPIC</h5>
+        <p id="topic" style="margin: 1px 0;" class="hidden-xs hidden-sm">
           <a href="<%= site.options().post.path %>/<%= post.topic.path %>" class="label label-primary hidden-xs hidden-sm">
-            <% if (post.topic.icon) { %><i class="fa fa-lg fa-fw fa-<%= post.topic.icon %>"></i><% } %>
-            <%= post.topic.name %>
-          </a>
-          <a href="<%= site.options().post.path %>/<%= post.topic.path %>" class="label label-lg label-primary visible-xs visible-sm" style="text-align: left; display: block;">
             <% if (post.topic.icon) { %><i class="fa fa-lg fa-fw fa-<%= post.topic.icon %>"></i><% } %>
             <%= post.topic.name %>
           </a>
