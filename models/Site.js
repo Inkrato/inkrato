@@ -17,7 +17,11 @@ module.exports = function() {
   }
   
   this.options = function() {
+    var ssl = false;
+    if (config.app.ssl != false && config.app.ssl != "false")
+      ssl = true;
     return {
+      ssl: ssl,
       post: {
         name: config.app.posts.name,
         path: '/'+encodeURI(config.app.posts.path.replace(/\//g, '')),
