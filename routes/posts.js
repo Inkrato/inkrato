@@ -12,6 +12,25 @@ var Post = require('../models/Post'),
  * GET /posts/
  */
 exports.getTopics = function(req, res) {
+  return res.redirect(Site.options().post.path+"/everything");
+};
+
+/**
+ * GET /posts/:topic
+ */
+exports.getPosts = function(req, res) {
+  var numberOfResultsLimit = 100;
+  var numberOfResults = 10;
+  if (numberOfResults > numberOfResultsLimit)
+    numberOfResults = numberOfResultsLimit;
+  
+  var pageNumber = (parseInt(req.query.page) > 1) ? parseInt(req.query.page) : 1;
+
+  var skip = 0;
+  if (pageNumber > 1)
+    skip = (pageNumber - 1) * numberOfResults;
+  
+  
   Topic
   .find({ deleted: false }, null, { sort : { order: 1 } })
   .exec(function (err, topics) {
@@ -37,97 +56,83 @@ exports.getTopics = function(req, res) {
       return deferred.promise;
     }))
     .then(function(topicsWithPostCount) {
-      res.render('posts/topics', { title: res.locals.title + " - " + Site.options().post.name, topics: topicsWithPostCount });
+      // If topic is "everything" show all posts
+      if (req.params.topic == "everything") {
+        State
+        .find({ deleted: false, open: false })
+        .exec(function (err, states) {
+      
+          var closedStateIds = [];
+          states.forEach(function(state, index) {
+            closedStateIds.push(state.id);
+          });
+
+          Post
+          .find({ deleted: false, state: { $ne: closedStateIds } }, null, { skip: skip, limit: numberOfResults, sort : { _id: -1 } })
+          .populate('creator', 'profile email picture role')
+          .populate('topic')
+          .populate('state')
+          .populate('priority')
+          .exec(function (err, posts) {
+            Post.count({}, function(err, count) {
+                res.render('posts/list', { title: res.locals.title + " - " + Site.options().post.name,
+                                           topic: null,
+                                           posts: posts,
+                                           postCount: count,
+                                           postLimit: numberOfResults,
+                                           page: pageNumber,
+                                           topics: topicsWithPostCount
+                });
+            });
+          });
+      
+        });
+      } else {
+        Topic
+        .findOne({ path: encodeURI(req.params.topic) })
+        .exec(function (err, topic) {
+    
+          if (err) return next(err);
+    
+          // If Topic not found return 404
+          if (!topic)
+            return res.render('404');
+      
+          State
+          .find({ deleted: false, open: false })
+          .exec(function (err, states) {
+        
+            var closedStateIds = [];
+            states.forEach(function(state, index) {
+              closedStateIds.push(state.id);
+            });
+        
+            Post
+            .find({ topic: topic._id, deleted: false, state: { $ne: closedStateIds } }, null, { skip: skip, limit: numberOfResults, sort : { _id: -1 } })
+            .populate('creator', 'profile email picture role')
+            .populate('topic')
+            .populate('state')
+            .populate('priority')
+            .exec(function (err, posts) {
+              Post.count({ topic: topic._id, deleted: false }, function(err, count) {
+                  res.render('posts/list', { title: res.locals.title + " - " + Site.options().post.name,
+                                             topic: topic,
+                                             posts: posts,
+                                             postCount: count,
+                                             postLimit: numberOfResults,
+                                             page: pageNumber,
+                                             topics: topicsWithPostCount
+                  });
+              });
+            });
+          });
+      
+        });
+      }
     });
   });
-};
-
-/**
- * GET /posts/:topic
- */
-exports.getPosts = function(req, res) {
-  var numberOfResultsLimit = 100;
-  var numberOfResults = 10;
-  if (numberOfResults > numberOfResultsLimit)
-    numberOfResults = numberOfResultsLimit;
-  
-  var pageNumber = (parseInt(req.query.page) > 1) ? parseInt(req.query.page) : 1;
-
-  var skip = 0;
-  if (pageNumber > 1)
-    skip = (pageNumber - 1) * numberOfResults;
-  
-  // If topic is "everything" show all posts
-  if (req.params.topic == "everything") {
-    State
-    .find({ deleted: false, open: false })
-    .exec(function (err, states) {
-      
-      var closedStateIds = [];
-      states.forEach(function(state, index) {
-        closedStateIds.push(state.id);
-      });
-
-      Post
-      .find({ deleted: false, state: { $ne: closedStateIds } }, null, { skip: skip, limit: numberOfResults, sort : { _id: -1 } })
-      .populate('creator', 'profile email picture role')
-      .populate('topic')
-      .populate('state')
-      .populate('priority')
-      .exec(function (err, posts) {
-        Post.count({}, function(err, count) {
-            res.render('posts/list', { title: res.locals.title + " - " + Site.options().post.name,
-                                       topic: null,
-                                       posts: posts,
-                                       postCount: count,
-                                       postLimit: numberOfResults,
-                                       page: pageNumber
-            });
-        });
-      });
-      
-    });
-  } else {
-    Topic
-    .findOne({ path: encodeURI(req.params.topic) })
-    .exec(function (err, topic) {
     
-      if (err) return next(err);
-    
-      // If Topic not found return 404
-      if (!topic)
-        return res.render('404');
-      
-      State
-      .find({ deleted: false, open: false })
-      .exec(function (err, states) {
-        
-        var closedStateIds = [];
-        states.forEach(function(state, index) {
-          closedStateIds.push(state.id);
-        });
-        
-        Post
-        .find({ topic: topic._id, deleted: false, state: { $ne: closedStateIds } }, null, { skip: skip, limit: numberOfResults, sort : { _id: -1 } })
-        .populate('creator', 'profile email picture role')
-        .populate('topic')
-        .populate('state')
-        .populate('priority')
-        .exec(function (err, posts) {
-          Post.count({ topic: topic._id, deleted: false }, function(err, count) {
-              res.render('posts/list', { title: res.locals.title + " - " + Site.options().post.name,
-                                         topic: topic,
-                                         posts: posts,
-                                         postCount: count,
-                                         postLimit: numberOfResults,
-                                         page: pageNumber
-              });
-          });
-        });
-      });
-      
-    });
-  }
+
 };
 
 /**

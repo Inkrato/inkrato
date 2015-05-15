@@ -12,7 +12,8 @@ exports.getSearch = function(req, res) {
         limit: 100,
         populate: [ { path: 'creator', fields: 'profile email picture role'},
                     { path: 'state', fields: 'name open'},
-                    { path: 'priority', fields: 'name color'}
+                    { path: 'priority', fields: 'name color'},
+                    { path: 'topic', fields: 'name icon'}
                   ]
       },
       function(err, data) {

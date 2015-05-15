@@ -3,7 +3,7 @@
 </div>
 <div class="form-group row">
   <div class="col-sm-12">
-    <span id="topicSelect" <% if (post.topic != null) { %>style="display: none;"<% } %>>
+    <span id="topicSelect" <% if (post.topic != null) { %>class="visible-xs visible-sm"<% } %>>
       <h5 class="text-muted visible-xs visible-sm">TOPIC</h5>
       <select name="topic" class="selectpicker" data-width="100%">
         <option value="0" <% if (!post.topic) { %> selected="selected"<% } %> data-content='<strong style="opacity: 0.5;">NONE</strong>'>NONE</option>
@@ -17,9 +17,9 @@
       </select>
     </span>
     <% if (post.topic != null) { %>
-    <span id="topicLabel" style="margin: 0;">
+    <span id="topicLabel" style="margin: 0;" class="hidden-xs hidden-sm">
       <h5 class="text-muted visible-xs visible-sm">TOPIC</h5>
-        <a href="javascript:$('#topicLabel').hide();$('#topicSelect').show();" class="label label-primary" style="padding: 10px; display: inline-block; margin-right: 10px;">
+        <a href="javascript:$('#topicLabel').hide();$('#topicSelect').removeClass('visible-xs visible-sm');" class="label label-primary" style="padding: 10px; display: inline-block; margin-right: 10px;">
           <% if (post.topic.icon) { %><i class="fa fa-lg fa-fw fa-<%= post.topic.icon %>"></i><% } %>
           <%= post.topic.name %>
           &nbsp;<i class="fa fa-fw fa-lg fa-pencil-square"></i></a>

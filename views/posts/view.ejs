@@ -8,8 +8,30 @@
   </div>
   <div class="media-body">
 <% } %>
+    <a id="show-properties" class="row visible-xs visible-sm" href="javascript:$('#properties').removeClass('hidden-xs hidden-sm');$('#show-properties').removeClass('visible-xs visible-sm').addClass('hidden');">
+      <div class="col-xs-12">
+        <% if (post.state) { %>
+          <% if (post.state.open == true) { %>
+            <h3 class="label label-lg label-success pull-left" style="margin-top: 0; margin-right: 5px;"><i class="fa fa-lg fa-circle-o"></i></h3>
+          <% } else { %>
+            <h3 class="label label-lg label-danger pull-left" style="margin-top: 0; margin-right: 5px;"><i class="fa fa-lg fa-times"></i></h3>
+          <% } %>
+        <% } %>
+        <% if (post.topic != null) { %>
+          <% if (post.topic.icon) { %>
+          <h3 class="label label-lg label-primary pull-left" style="margin-top: 0; margin-right: 5px;"><i class="fa fa-lg fa-<%= post.topic.icon %>"></i></h3>
+          <% } %>
+        <% } %>
+        <% if (post.priority) { %>
+          <h3 class="label label-lg label-default pull-left" style="margin-top: 0; margin-right: 5px; background-color: <%= post.priority.color %>;"><i class="fa fa-lg fa-circle"></i></h3>
+        <% } %>
+        <% if (post.creator) { %>
+        <img src="<%= post.creator.avatar(45) %>" height="45" width="45" alt="Avatar" class="img-circle" style="margin-left: 5px;"/>
+        <% } %>
+      </div>
+    </a>
     <div class="row">
-      <div class="col-md-4 col-lg-3 col-md-push-8 col-lg-push-9">
+      <div id="properties" class="col-md-4 col-lg-3 col-md-push-8 col-lg-push-9 hidden-xs hidden-sm">
         <h5 class="text-muted">CREATED BY</h5>
         <div class="media media-avatar">
           <div class="media-left">
@@ -54,7 +76,7 @@
       <div class="col-sm-12 col-md-8 col-lg-9 col-md-pull-4 col-lg-pull-3">
         <!-- Post Body -->
         <% if (post.topic != null) { %>
-        <p id="topic" style="margin: 1px 0;" class="hidden-xs hidden-sm">
+        <p id="topic" style="margin: 1px 0 10px 0;" class="hidden-xs hidden-sm">
           <a href="<%= site.options().post.path %>/<%= post.topic.path %>" class="label label-primary hidden-xs hidden-sm">
             <% if (post.topic.icon) { %><i class="fa fa-lg fa-fw fa-<%= post.topic.icon %>"></i><% } %>
             <%= post.topic.name %>

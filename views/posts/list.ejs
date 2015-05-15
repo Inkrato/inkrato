@@ -1,97 +1,204 @@
 <div class="row">
-  <div class="col-md-7 col-lg-8">
-    <% if (topic) { %>
-    <div class="media">
-      <% if (topic.icon) { %>
-      <div class="media-left">
-        <h2 style="margin-top: 5px; margin-bottom: 20px;"><i class="fa fa-<%= topic.icon %>"></i></h2>
-      </div>
-      <% } %>
-      <div class="media-body">
-        <h2 style="margin-top: 5px; margin-bottom: 20px;"><%= topic.name %></h2>
-      </div>
-    </div>
-    <% } else { %>
-      <h2 style="margin-top: 5px; margin-bottom: 20px;"><i class="fa fa-fw fa-<%= site.options().post.icon %>"></i> Everything</h2>
-    <% } %>
-  </div>
-  <div class="col-xs-12 col-md-5 col-lg-4" style="padding-top: 10px;">
-    <% if (posts.length > 0) { %>
-      <% include ../partials/posts/paginator %>
-    <% } %>
-  </div>
-</div>
-<% if (posts.length > 0) { %>
-  <table class="table xtable-striped">
-    <tbody>
-    <% posts.forEach(function(post) { %>
-      <tr>
-        <td class="col-xs-12 col-md-10 col-lg-10" style="position: relative; padding: 5px 0;">
-          
-        <% if (site.options().post.voting.enabled == true) { %>
+  <div class="col-md-9">
+    <div class="row">
+      <div class="col-md-6 col-lg-7">
+        <% if (topic) { %>
         <div class="media">
+          <% if (topic.icon) { %>
           <div class="media-left">
-            <div style="width: 170px; display: block; margin: 10px 0; margin-right: 10px;" class="hidden-xs">
-              <% include ../partials/posts/vote-inline %> 
-            </div>
-            <div style="width: 80px; display: block; margin: 10px 0; margin-right: 10px;" class="visible-xs">
-              <% include ../partials/posts/vote %> 
-            </div>
-          </div>
-          <div class="media-body">
-        <% } %>
-            <h3 href="<%= post.getUrl() %>" class="post-title" style="margin-top: 5px; margin-bottom: 10px;"><a href="<%= post.getUrl() %>"><%= post.title %></a></h3>
-            
-            <% if (post.priority) { %>
-            <span class="label label-default" style="background-color: <%= post.priority.color %>;"><%= post.priority.name %></span>
-            <% } %>
-
-            <% if (post.creator) { %>
-            <a href="<%= post.getUrl() %>" class="text-default" style="text-decoration: none;">
-              <img src="<%= post.creator.avatar(26)%>" alt="Avatar" height="26" width="26" hspace="2" class="img-circle" />
-              <%= post.creator.profile.name || "Anonymous" %>
-            </a>
-            <% } %>
-            <br class="visible-xs"/>
-            <span href="<%= post.getUrl() %>" class="text-muted">
-              <span class="hidden-xs">
-                <i class="fa fa-fw fa-clock-o"></i> <time class="timeago" datetime="<%= post.created.toISOString() %>"><%= post.created.toDateString() %></time>
-              </span>
-              <span class="visible-xs" style="margin-top: 10px;">
-                <i class="fa fa-fw fa-clock-o"></i> <time class="timeago" datetime="<%= post.created.toISOString() %>"><%= post.created.toDateString() %></time>
-                <a href="<%= post.getUrl() %>" class="pull-right <%= (post.comments.length > 0) ? 'text-default' : 'text-muted' %>"><i class="fa fa-fw fa-lg fa-comments"></i> <%= post.comments.length %></a>
-              </span>
+            <span class="fa-stack fa-2x" style="margin-bottom: 10px;">
+              <i class="fa fa-circle fa-stack-2x text-primary"></i>
+              <i class="fa fa-<%= topic.icon %> fa-stack-1x fa-inverse"></i>
             </span>
-        <% if (site.options().post.voting.enabled == true) { %>
+          </div>
+          <% } %>
+          <div class="media-body text-primary">
+            <h2 style="margin-top: 10px; margin-bottom: 20px;"><%= topic.name %></h2>
+          </div>
+        </div>
+        <% } else { %>
+        <div class="media">
+          <% if (site.options().post.icon) { %>
+          <div class="media-left">
+            <span class="fa-stack fa-2x" style="margin-bottom: 10px;">
+              <i class="fa fa-circle fa-stack-2x text-primary"></i>
+              <i class="fa fa-<%= site.options().post.icon %> fa-stack-1x fa-inverse"></i>
+            </span>
+          </div>
+          <% } %>
+          <div class="media-body text-primary">
+            <h2 style="margin-top: 10px; margin-bottom: 20px;"><%= site.options().post.name %> <i class="fa fa-angle-right"></i> everything</h2>
           </div>
         </div>
         <% } %>
-        </td>
-        <td class="hidden-xs col-md-2 col-lg-2 text-right" style="padding: 5px 0;">
-          <a href="<%= post.getUrl() %>" 
-             class="btn <%= (post.comments.length > 0) ? 'btn-primary' : 'btn-default' %> rounded"
-             style="margin-top: 10px;"><i class="fa fa-fw fa-lg fa-comments"></i> <%= post.comments.length %> <i class="fa fa-fw fa-chevron-right"></i></a>
-        </td>
-      </tr>
-    <% }) %>
-    </tbody>
-  </table>
-<% } else { %>
-  <br/>
-  <p class="text-center lead">There's nothing here yet.</p>
-  <p class="text-center">
-    <% if (user) { %>
-      <% if (typeof(topic) != "undefined" && topic != null) { %>
-        <a class="hidden-xs hidden-sm btn btn-lg btn-success" href="<%= site.options().post.path %>/<%= topic.path %>/new" data-dismiss="modal" data-toggle="modal" data-target="#newPostModal"><i class="fa fa-lg fa-fw fa-plus-circle"></i> New</a>
-        <a class="visible-xs visible-sm btn btn-lg btn-success" href="<%= site.options().post.path %>/<%= topic.path %>/new" ><i class="fa fa-lg fa-fw fa-plus-circle"></i> New</a>
-      <% } else { %>
-        <a class="btn btn-lg btn-success" href="/new" data-dismiss="modal" data-toggle="modal" data-target="#newPostModal" data-shortcut-key="n"><i class="fa fa-lg fa-fw fa-plus-circle"></i> New</a>
-      <% } %>
+      </div>
+      <div class="col-xs-12 col-md-6 col-lg-5" style="padding-top: 10px;">
+        <div class="dropdown visible-xs visible-sm pull-left">
+          <button class="btn btn-default dropdown-toggle" type="button" id="dropdownMenu1" data-toggle="dropdown" aria-expanded="true">
+            TOPICS
+            <span class="caret"></span>
+          </button>
+          <ul class="dropdown-menu" role="menu" aria-labelledby="dropdownMenu1">
+            <li role="presentation"><a role="menuitem" tabindex="-1" href="<%= site.options().post.path %>/everything"><% if (site.options().post.icon) { %><i class="fa fa-fw fa-lg fa-<%= site.options().post.icon %>"></i> <% } %>Everything</a></li>
+            <% topics.forEach(function(t) { %>
+            <li role="presentation"><a role="menuitem" tabindex="-1" href="<%= site.options().post.path %>/<%= t.path %>"><% if (t.icon) { %><i class="fa fa-fw fa-lg fa-<%= t.icon %>"></i> <% } %><%= t.name %></a></li>
+            <% }); %>
+          </ul>
+        </div>
+        <% if (posts.length > 0) { %>
+          <% include ../partials/posts/paginator %>
+        <% } %>
+      </div>
+    </div>
+    <% if (posts.length > 0) { %>
+    <table class="table table-striped">
+      <tbody>
+      <% posts.forEach(function(post) { %>
+        <tr href="<%= post.getUrl() %>">
+          <td class="col-xs-12 col-md-8 col-lg-9" style="position: relative;">
+            <% if (site.options().post.voting.enabled == true) { %>
+            <div class="media">
+              <div class="media-left">
+                <div class="panel panel-default" style="width: 80px; margin: 0;">
+                  <div class="panel-body text-center" style="padding: 5px 0;">
+                    <p data-score="<%= post.postId %>" class="lead score"><%= post.upvotes() - post.downvotes() %></p>
+                  </div>
+                  <div class="panel-footer text-center" style="padding: 8px 0;">
+                    <span>score</span>
+                  </div>
+                </div>
+              </div>
+              <div class="media-body">
+            <% } %>
+                <h4 href="<%= post.getUrl() %>" class="post-title" style="margin-top: 0; margin-bottom: 10px;"><a class="text-default" href="<%= post.getUrl() %>"><%= post.title %></a></h4>
+              
+                <div class="hidden-xs hidden-sm hidden-md" style="position: absolute; bottom: 8px;">
+                  <% if (!topic && post.topic) { %>
+                  <span class="label label-primary">
+                    <% if (post.topic.icon) { %>
+                    <i class="fa fa-fw fa-<%= post.topic.icon %>"></i>
+                    <% } else { %>
+                    <%= post.topic.name %>
+                    <% } %>
+                  </span>
+                  <% } %>
+                  <% if (post.priority) { %>
+                  <span class="label label-default" style="background-color: <%= post.priority.color %>;"><%= post.priority.name %></span>
+                  <% } %>
+                  <% if (post.comments.length > 0) { %>
+                  <span class="label label-default"><i class="fa fa-fw fa-comments"></i> <%= post.comments.length %></span>
+                  <% } else { %>
+                  <span class="label label-default" style="opacity: 0.5;"><i class="fa fa-fw fa-comments"></i> <%= post.comments.length %></span>
+                  <% } %>
+                </div>
+
+                <div class="visible-sm visible-xs" style="margin-top: 5px;">
+                  <% if (post.creator) { %>
+                  <a href="<%= post.getUrl() %>" class="text-default" style="text-decoration: none;">
+                    <img src="<%= post.creator.avatar(26)%>" alt="Avatar" height="26" width="26" class="img-circle" />
+                    <%= post.creator.profile.name || "Anonymous" %>
+                  </a>
+                  <% } %>
+                  <span href="<%= post.getUrl() %>" class="text-muted">
+                    <i class="fa fa-fw fa-clock-o"></i> <time class="timeago" datetime="<%= post.created.toISOString() %>"><%= post.created.toDateString() %></time>
+                  </span>
+                </div>
+
+                <div class="visible-xs visible-sm visible-md" style="margin-top: 5px;">
+                  <% if (!topic && post.topic) { %>
+                  <span class="label label-primary" style="margin-bottom: 5px;">
+                    <% if (post.topic.icon) { %>
+                    <i class="fa fa-fw fa-<%= post.topic.icon %>"></i>
+                    <% } else { %>
+                    <%= post.topic.name %>
+                    <% } %>
+                  </span>
+                  <% } %>
+                  <% if (post.priority) { %>
+                  <span class="label label-default" style="margin-bottom: 5px; background-color: <%= post.priority.color %>;"><%= post.priority.name %></span>
+                  <% } %>
+                  <% if (post.comments.length > 0) { %>
+                  <span class="label label-default"><i class="fa fa-fw fa-comments"></i> <%= post.comments.length %></span>
+                  <% } else { %>
+                  <span class="label label-default" style="opacity: 0.5;"><i class="fa fa-fw fa-comments"></i> <%= post.comments.length %></span>
+                  <% } %>
+                </div>
+            <% if (site.options().post.voting.enabled == true) { %>
+              </div>
+            </div>
+            <% } %>
+          </td>
+          <td class="hidden-xs hidden-sm col-md-4 col-lg-3">
+            <div class"clearfix" style="padding-right: 5px; padding-top: 5px;">
+              <span href="<%= post.getUrl() %>" class="text-muted pull-right">
+                <i class="fa fa-fw fa-clock-o"></i> <time class="timeago" datetime="<%= post.created.toISOString() %>"><%= post.created.toDateString() %></time>
+              </span>
+            </div>
+            <% if (post.creator) { %>
+              <div class"clearfix" style="margin-top: 35px; padding-right: 5px;">
+              <a href="<%= post.getUrl() %>" class="text-default pull-right" style="text-decoration: none;">
+                <img src="<%= post.creator.avatar(26)%>" alt="Avatar" height="26" width="26" hspace="2" class="img-circle" />
+                <%= post.creator.profile.name || "Anonymous" %>
+              </a>
+              </div>
+            <% } %>
+          </td>
+        </tr>
+      <% }) %>
+      </tbody>
+    </table>
     <% } else { %>
-    <a class="btn btn-lg btn-success" href="/signup" data-dismiss="modal" data-toggle="modal" data-target="#signupModal"  data-shortcut-key="n"><i class="fa fa-lg fa-fw fa-plus-circle"></i> New</a>
-    <% } %>
-  </p>
+    <br/>
+    <p class="text-center lead">There's nothing here yet.</p>
+    <p class="text-center">
+      <% if (user) { %>
+        <% if (typeof(topic) != "undefined" && topic != null) { %>
+          <a class="hidden-xs hidden-sm btn btn-lg btn-success" href="<%= site.options().post.path %>/<%= topic.path %>/new" data-dismiss="modal" data-toggle="modal" data-target="#newPostModal"><i class="fa fa-lg fa-fw fa-plus-circle"></i> New</a>
+          <a class="visible-xs visible-sm btn btn-lg btn-success" href="<%= site.options().post.path %>/<%= topic.path %>/new" ><i class="fa fa-lg fa-fw fa-plus-circle"></i> New</a>
+        <% } else { %>
+          <a class="btn btn-lg btn-success" href="/new" data-dismiss="modal" data-toggle="modal" data-target="#newPostModal" data-shortcut-key="n"><i class="fa fa-lg fa-fw fa-plus-circle"></i> New</a>
+        <% } %>
+      <% } else { %>
+      <a class="btn btn-lg btn-success" href="/signup" data-dismiss="modal" data-toggle="modal" data-target="#signupModal"  data-shortcut-key="n"><i class="fa fa-lg fa-fw fa-plus-circle"></i> New</a>
+      <% } %>
+    </p>
 <% } %>
+  </div>
+  <div class="col-md-3">
+    <div class="hidden-xs hidden-sm">
+      <h5 class="text-muted">TOPICS</h5>
+      <div class="list-group">
+        <a href="<%= site.options().post.path %>/everything" class="list-group-item <% if (!topic) { %>active<% } %>">
+          <div class="media">
+            <div class="media-left">
+              <i class="fa fa-fw fa-<%= site.options().post.icon %>"></i>
+            </div>
+            <div class="media-body">
+              Everything
+            </div>
+          </div>
+        </a>
+      <% topics.forEach(function(t) { %>
+        <a href="<%= site.options().post.path %>/<%= t.path %>" class="list-group-item <% if (topic && topic.name == t.name) { %>active<% } %>">
+          <div class="media">
+            <div class="media-left">
+              <i class="fa fa-fw fa-lg fa-<% if (t.icon) { %><%= t.icon %>"><% } %></i>
+            </div>
+            <div class="media-body">
+              <%= t.name %>
+              <% if (topic && topic.name == t.name) { %>
+              <span class="text-white pull-right"><%= t.postCount %></span>
+              <% } else { %>
+              <span class="text-primary pull-right"><%= t.postCount %></span>
+              <% } %>
+            </div>
+          </div>
+        </a>
+      <% }); %>
+      </div>
+    </div>
+  </div>
+</div>
 <div class="row">
   <div class="col-md-12">
     <br/>
