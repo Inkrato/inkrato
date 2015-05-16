@@ -30,16 +30,8 @@
 }
 
 .jumbotron.jumbotron-home {
-  border-radius: 4px;
-  .gradient(@brand-primary, darken(saturate(@brand-primary, 12%), 8%));
-}
-
-.jumbotron.jumbotron-home h1 {
-  font-size: 48px;
-}
-
-.jumbotron.jumbotron-home h1 .text-primary {
-  text-shadow: none;
+  .gradient(darken(saturate(@brand-primary, 12%), 8%), @brand-primary);
+  padding: 10px 0;
 }
 
 .jumbotron.jumbotron-heading {

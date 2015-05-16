@@ -1,29 +1,22 @@
-#TODO
-
-1) List view bugfixes (mobile and desktop)
-2) Add Priority
-3) Add Status
-5) Backup/Restore instructions
-4) Create Posts API
-5) Create Users API
-
 # inkrato README
 
-This is a preview release of the inkrato community edition - an open sourced community feedback platform from inkrato. 
+This is a preview release of the inkrato community edition - an open source collaboration platform for teams and communities.
 
 This initial release is not feature complete.
 
 You can see a demo of this software running at:
 http://beta.inkrato.com
 
-This will eventually replace the curent version, which is live at:
+This version will eventually replace the current commercial version of inkrato:
 http://feedback.inkrato.com
 
-The inkrato platform has been used as a feedback platform from political groups (the Labour Digital Goverment Review), charitable organisations (Friends of the Earth), for video games (PlanetSide Tracker) as well as as by commercial organisations.
+## About the inkrato platform
 
-The release the next generation client as open source software allows anyone to take advantage of the work done to host a community site of their own.
+The inkrato platform has been used as a feedback platform for a wide range of uses - by activists (for the Labour Digital Goverment Review), charitable organisations (Friends of the Earth) for video game communites (PlanetSide Tracker), by private companies and by local community groups.
 
-Commercial enquires should be sent to feedback@inkrato.com
+The release of the next generation client as open source software allows anyone to take advantage of it host a community site of their own, for free.
+
+Commercial instances and bespoke versions are available on request. Commercial enquires should be sent to feedback@inkrato.com
 
 ## Licensing
 
