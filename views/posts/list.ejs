@@ -54,21 +54,14 @@
     <table class="table table-striped">
       <tbody>
       <% posts.forEach(function(post) { %>
-        <tr href="<%= post.getUrl() %>">
+        <tr>
           <td class="col-xs-12 col-md-8 col-lg-9" style="position: relative;">
             <% if (site.options().post.voting.enabled == true) { %>
             <div class="media">
               <div class="media-left">
-                <div class="panel panel-default" style="width: 80px; margin: 0;">
-                  <div class="panel-body text-center" style="padding: 5px 0;">
-                    <p data-score="<%= post.postId %>" class="lead score"><%= post.upvotes() - post.downvotes() %></p>
-                  </div>
-                  <div class="panel-footer text-center" style="padding: 8px 0;">
-                    <span>score</span>
-                  </div>
-                </div>
+                <% include ../partials/posts/vote-list %>
               </div>
-              <div class="media-body">
+              <div class="media-body" href="<%= post.getUrl() %>">
             <% } %>
                 <h4 href="<%= post.getUrl() %>" class="post-title" style="margin-top: 0; margin-bottom: 10px;"><a class="text-default" href="<%= post.getUrl() %>"><%= post.title %></a></h4>
               
@@ -128,7 +121,7 @@
             </div>
             <% } %>
           </td>
-          <td class="hidden-xs hidden-sm col-md-4 col-lg-3">
+          <td class="hidden-xs hidden-sm col-md-4 col-lg-3" href="<%= post.getUrl() %>">
             <div class"clearfix" style="padding-right: 5px; padding-top: 5px;">
               <span href="<%= post.getUrl() %>" class="text-muted pull-right">
                 <i class="fa fa-fw fa-clock-o"></i> <time class="timeago" datetime="<%= post.created.toISOString() %>"><%= post.created.toDateString() %></time>
@@ -186,11 +179,7 @@
             </div>
             <div class="media-body">
               <%= t.name %>
-              <% if (topic && topic.name == t.name) { %>
-              <span class="text-white pull-right"><%= t.postCount %></span>
-              <% } else { %>
-              <span class="text-primary pull-right"><%= t.postCount %></span>
-              <% } %>
+              <span class="badge pull-right"><%= t.postCount %></span>
             </div>
           </div>
         </a>
