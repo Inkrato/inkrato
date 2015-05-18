@@ -281,8 +281,10 @@ app.use(function (err, req, res, next) {
     || (~err.message.indexOf('Cast to ObjectId failed')))) {
     return next();
   }
+  // @todo: Log error with remote error service
   console.error(err.stack);
-  res.status(500).render('500', { error: err.stack });
+  // @todo Redirect to self-contained error page which does not require any variables beyond those declared here
+  res.status(500).render('500', { error: err.stack, title: Site.getName() });
 });
 
 /**

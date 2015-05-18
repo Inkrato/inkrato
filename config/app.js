@@ -18,7 +18,7 @@ module.exports = {
     topics: [
       { name: "Problems", icon: "warning", description: "Things that aren't working properly" },
       { name: "Suggestions", icon: "lightbulb-o", description: "New features and ideas for improvement" },
-      { name: "Questions", icon: "question", description: "Support questions and other enquiries" },
+      { name: "Questions", icon: "question", description: "Support questions and other enquiries" }
     ],
     // List of labels to allow on posts
     priorities: [

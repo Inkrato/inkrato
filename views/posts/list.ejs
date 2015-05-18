@@ -27,7 +27,7 @@
           </div>
           <% } %>
           <div class="media-body text-primary">
-            <h2 style="margin-top: 10px; margin-bottom: 20px;"><%= site.options().post.name %> <i class="fa fa-angle-right"></i> everything</h2>
+            <h2 style="margin-top: 10px; margin-bottom: 20px;"><%= site.options().post.name %></h2>
           </div>
         </div>
         <% } %>
@@ -35,7 +35,7 @@
       <div class="col-xs-12 col-md-6 col-lg-5" style="padding-top: 10px;">
         <div class="dropdown visible-xs visible-sm pull-left">
           <button class="btn btn-default dropdown-toggle" type="button" id="dropdownMenu1" data-toggle="dropdown" aria-expanded="true">
-            TOPICS
+            <% if (site.options().post.icon) { %><i class="fa fa-fw fa-lg fa-<%= site.options().post.icon %>"></i> <% } %>
             <span class="caret"></span>
           </button>
           <ul class="dropdown-menu" role="menu" aria-labelledby="dropdownMenu1">
@@ -46,6 +46,7 @@
             <% }); %>
           </ul>
         </div>
+
         <% if (posts.length > 0) { %>
           <% include ../partials/posts/paginator %>
         <% } %>
