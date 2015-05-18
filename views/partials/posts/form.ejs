@@ -7,6 +7,7 @@
       <h5 class="text-muted visible-xs visible-sm">TOPIC</h5>
       <select name="topic" class="selectpicker" data-width="100%">
         <option value="0" <% if (!post.topic) { %> selected="selected"<% } %> data-content='<strong style="opacity: 0.5;">NONE</strong>'>NONE</option>
+        <option value="0" disabled="disabled" data-divider="true"></option>
         <% topics.forEach(function(topicOption) { %>
           <option
             value="<%= topicOption.id %>" 

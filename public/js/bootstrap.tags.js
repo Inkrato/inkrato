@@ -6,7 +6,7 @@
 
   var defaultOptions = {
     tagClass: function(item) {
-      return 'label label-info';
+      return 'tag label label-info';
     },
     itemValue: function(item) {
       return item ? item.toString() : item;
@@ -44,7 +44,7 @@
     this.placeholderText = element.hasAttribute('placeholder') ? this.$element.attr('placeholder') : '';
     this.inputSize = Math.max(1, this.placeholderText.length);
 
-    this.$container = $('<p class="bootstrap-tagsinput tags"></p>');
+    this.$container = $('<p class="bootstrap-tagsinput tags clearfix"></p>');
     this.$input = $('<input type="text" style="width: 100px; display: inline-block;" class="form-control" placeholder="' + this.placeholderText + '"/>').appendTo(this.$container);
 
     this.$element.before(this.$container);
@@ -129,7 +129,7 @@
       self.itemsArray.push(item);
 
       // add a tag element
-      var $tag = $('<span class="tag ' + htmlEncode(tagClass) + (itemTitle !== null ? ('" title="' + itemTitle) : '') + '"><i class="fa fa-tag"></i> ' + htmlEncode(itemText) + ' <span data-role="remove" class="small"><i class="fa fa-times-circle"></i></span></span>');
+      var $tag = $('<span class="' + htmlEncode(tagClass) + (itemTitle !== null ? ('" title="' + itemTitle) : '') + '"><i class="fa fa-tag"></i> ' + htmlEncode(itemText) + ' <span data-role="remove" class="small"><i class="fa fa-times-circle"></i></span></span>');
       $tag.data('item', item);
       self.findInputWrapper().before($tag);
       $tag.after(' ');

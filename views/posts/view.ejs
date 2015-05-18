@@ -8,15 +8,10 @@
   </div>
   <div class="media-body">
 <% } %>
-    <a id="show-properties" class="row visible-xs visible-sm" href="javascript:$('#properties').removeClass('hidden-xs hidden-sm');$('#show-properties').removeClass('visible-xs visible-sm').addClass('hidden');">
+    <a id="show-properties" class="row visible-xs visible-sm" href="javascript:$('#show-properties').removeClass('visible-xs visible-sm').hide();$('#properties').hide().removeClass('hidden-xs hidden-sm').slideDown();">
       <div class="col-xs-12">
         <% if (post.creator) { %>
-        <img src="<%= post.creator.avatar(45) %>" height="45" width="45" alt="Avatar" class="img-circle pull-left" style="margin-right: 5px;"/>
-        <% } %>
-        <% if (post.topic != null) { %>
-          <% if (post.topic.icon) { %>
-          <h3 class="label label-lg label-primary pull-left" style="margin-top: 0; margin-right: 5px;"><i class="fa fa-lg fa-<%= post.topic.icon %>"></i></h3>
-          <% } %>
+        <img src="<%= post.creator.avatar(47) %>" height="47" width="47" alt="Avatar" class="img-circle pull-left" style="margin-right: 5px;"/>
         <% } %>
         <% if (post.state) { %>
           <% if (post.state.open == true) { %>
@@ -28,6 +23,11 @@
         <% if (post.priority) { %>
           <h3 class="label label-lg label-default pull-left" style="margin-top: 0; margin-right: 5px; background-color: <%= post.priority.color %>;"><i class="fa fa-lg fa-circle"></i></h3>
         <% } %>
+        <% if (post.topic != null) { %>
+          <% if (post.topic.icon) { %>
+          <h3 class="label label-lg label-primary pull-left" style="margin-top: 0; margin-right: 5px;"><i class="fa fa-lg fa-<%= post.topic.icon %>"></i></h3>
+          <% } %>
+        <% } %>
       </div>
     </a>
     <div class="row">
@@ -36,9 +36,9 @@
         <div class="media media-avatar">
           <div class="media-left">
             <% if (post.creator) { %>
-            <img src="<%= post.creator.avatar(48) %>" height="48" width="48" alt="Avatar" class="img-circle"/>
+            <img src="<%= post.creator.avatar(55) %>" height="55" width="55" alt="Avatar" class="img-circle"/>
             <% } else { %>
-            <h4 style="margin: 0; width: 48px; height: 48px;" class="text-center text-muted"><i style="margin-top: 5px;" class="fa fa-2x fa-user"></i></h4>
+            <h4 style="margin: 0; width: 55px; height: 55px;" class="text-center text-muted"><i style="margin-top: 5px;" class="fa fa-2x fa-user"></i></h4>
             <% } %>
           </div>
           <div class="media-body">
@@ -83,18 +83,15 @@
           </a>
         </p>
         <% } %>
-        <h1 class="page-header"><%= post.title %></h1>
+        <h2 class="page-header"><%= post.title %></h2>
         <% post.description.split("\n").forEach(function(line, i) { %>
-          <% if (i == 0) { %>
-          <p class="lead"><%- linkify(line) %></p>
-          <% } else { %>
-          <p class="lead"><%- linkify(line) %></p>
-          <% } %>
+          <p><%- linkify(line) %></p>
         <% }); %>
         <% if (post.tags.length > 0) {%>
-        <p class="tags">
+        <br/>
+        <p class="tags clearfix">
         <% post.tags.forEach(function(tag) { %>
-          <span class="label label-info"><i class="fa fa-tag"></i> <%= tag %></span>
+          <span class="tag label label-info"><i class="fa fa-tag"></i> <%= tag %></span>
         <% }); %>
         </p>
         <% } %>

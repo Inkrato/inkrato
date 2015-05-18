@@ -16,9 +16,9 @@
           <div class="media media-avatar">
             <div class="media-left">
               <% if (post.creator) { %>
-              <img src="<%= post.creator.avatar(48) %>" height="48" width="48" alt="Avatar" class="img-circle"/>
+              <img src="<%= post.creator.avatar(55) %>" height="55" width="55" alt="Avatar" class="img-circle"/>
               <% } else { %>
-              <h4 style="margin: 0; width: 48px; height: 48px;" class="text-center text-muted"><i style="margin-top: 5px;" class="fa fa-2x fa-user"></i></h4>
+              <h4 style="margin: 0; width: 55px; height: 55px;" class="text-center text-muted"><i style="margin-top: 5px;" class="fa fa-2x fa-user"></i></h4>
               <% } %>
             </div>
             <div class="media-body">
@@ -33,6 +33,7 @@
           <h5 class="text-muted">STATUS</h5>
           <select name="state" class="selectpicker" data-width="100%">
             <option value="0" <% if (!post.state) { %> selected="selected"<% } %> data-content='<strong style="opacity: 0.5;">NONE</strong>'>NONE</option>
+            <option value="0" disabled="disabled" data-divider="true"></option>
             <% states.forEach(function(option) { %>
               <option
                 value="<%= option._id %>"
@@ -48,6 +49,7 @@
           <h5 class="text-muted">PRIORITY</h5>
           <select name="priority" class="selectpicker" data-width="100%">
             <option value="0" <% if (!post.priority) { %> selected="selected"<% } %> data-content='<strong style="opacity: 0.5;">NONE</strong>'>NONE</option>
+            <option value="0" disabled="disabled" data-divider="true"></option>
             <% priorities.forEach(function(option) { %>
               <option
                 value="<%= option._id %>"
@@ -69,6 +71,27 @@
             </div>
           </div>
           <% include ../partials/posts/comments %>
+          <% if (user) { %>
+          <div class="media text-muted">
+            <div class="media-left" style="padding-right: 20px;">
+              <a href="#"><img src="<%= user.avatar(48) %>" height="48" width="48" alt="Avatar" class="img-circle"/></a>
+            </div>
+            <div class="media-body">
+              <input type="hidden" name="_csrf" value="<%= _csrf %>"/>
+              <div class="form-group">
+                <p style="margin-bottom: 5px;">
+                <span class="media-heading"><%= user.profile.name || "Anonymous" %></span>
+                <span class="text-muted pull-right"><i class="fa fa-clock-o"></i> <time datetime="<%= new Date().toISOString() %>"><%= new Date().toDateString() %></time></span>
+                </p>
+                <label for="message" class="control-label hidden">Add comment</label>
+                <textarea type="text" name="comment" id="comment" rows="3"  disabled="disabled" class="form-control autoresize disabled" placeholder="Add comment..." autocomplete="off"></textarea>
+              </div>
+              <div class="form-group text-right">
+                <button type="submit" class="btn btn-primary disabled" disabled="disabled"><i class="fa fa-lg fa-fw fa-comment"></i> Add comment</button>
+              </div>
+            </div>
+          </div>
+          <% } %>
         </div>
       </div>
     </form>

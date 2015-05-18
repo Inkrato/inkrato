@@ -15,7 +15,7 @@
           <h5 class="text-muted">CREATED BY</h5>
           <div class="media media-avatar">
             <div class="media-left">
-              <img src="<%= user.avatar(48) %>" height="48" width="48" alt="Avatar" class="img-circle"/>
+              <img src="<%= user.avatar(55) %>" height="55" width="55" alt="Avatar" class="img-circle"/>
             </div>
             <div class="media-body">
               <h4 class="media-heading"><%= user.profile.name || "Anonymous" %></h4>
@@ -25,6 +25,7 @@
           <h5 class="text-muted">STATUS</h5>
           <select name="state" class="selectpicker" data-width="100%">
             <option value="0" selected="selected" data-content='<strong style="opacity: 0.5;">NONE</strong>'>NONE</option>
+            <option value="0" disabled="disabled" data-divider="true"></option>
             <% states.forEach(function(option) { %>
               <option
                 value="<%= option._id %>"
@@ -39,6 +40,7 @@
           <h5 class="text-muted">PRIORITY</h5>
           <select name="priority" class="selectpicker" data-width="100%">
             <option value="0" selected="selected" data-content='<strong style="opacity: 0.5;">NONE</strong>'>NONE</option>
+            <option value="0" disabled="disabled" data-divider="true"></option>
             <% priorities.forEach(function(option) { %>
               <option
                 value="<%= option._id %>"

@@ -30,8 +30,18 @@
 }
 
 .jumbotron.jumbotron-home {
-  .gradient(darken(saturate(@brand-primary, 12%), 8%), @brand-primary);
-  padding: 10px 0;
+  margin-top: -20px;
+  .gradient(darken(saturate(@brand-primary, 12%), 8%), darken(saturate(@brand-primary, 12%), 11%));
+  padding: 10px 20px 0 20px;
+}
+
+.jumbotron.jumbotron-home h1 {
+  margin-top: 0;
+  font-size: 64px;
+}
+
+.jumbotron.jumbotron-home h2 {
+    font-size: 32px;
 }
 
 .jumbotron.jumbotron-heading {
@@ -154,14 +164,24 @@ textarea {
   border-radius: 50px;
 }
 
-.tags .label {
+.tags .tag {
   margin-bottom: 5px;
 }
 
 .tags input[type="text"] {
+  padding: 18px 10px;
   margin-bottom: 10px;
 }
 
-.post-title {
-  font-weight: 400;
+.tags .tag,
+.tags input[type="text"] {
+  float: left;
+  margin-right: 5px;
+}
+
+@media (min-width: @screen-lg-min) {
+  .post-list .post-title {
+    max-height: 40px;
+    overflow: hidden;
+  }
 }
