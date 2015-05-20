@@ -33,23 +33,7 @@
     <div class="row">
       <div id="properties" class="col-md-4 col-lg-3 col-md-push-8 col-lg-push-9 hidden-xs hidden-sm">
         <h5 class="text-muted">CREATED BY</h5>
-        <div class="media media-avatar">
-          <div class="media-left">
-            <% if (post.creator) { %>
-            <img src="<%= post.creator.avatar(55) %>" height="55" width="55" alt="Avatar" class="img-circle"/>
-            <% } else { %>
-            <h4 style="margin: 0; width: 55px; height: 55px;" class="text-center text-muted"><i style="margin-top: 5px;" class="fa fa-2x fa-user"></i></h4>
-            <% } %>
-          </div>
-          <div class="media-body">
-            <% if (post.creator) { %>
-            <h4 class="media-heading"><%= post.creator.profile.name || "Anonymous" %></h4>
-            <% } else { %>
-            <h4 class="media-heading text-muted">Deleted Account</h4>
-            <% } %>
-            <span class="text-muted"><i class="fa fa-clock-o"></i> <time class="timeago" datetime="<%= post.created.toISOString() %>"><%= post.created.toDateString() %></time></span>
-          </div>
-        </div>
+        <% include ../partials/posts/creator %>
         <% if (post.state) { %>
         <h5 class="text-muted">STATUS</h5>
           <% if (post.state.open == true) { %>
@@ -98,7 +82,7 @@
         <% if (typeof(user) != 'undefined' && ( (post.creator && user.id == post.creator.id) || user.role == 'ADMIN' || user.role == 'MODERATOR')) { %>
         <br/>
         <p class="text-right">
-          <a href="<%= post.getEditUrl() %>" class="btn btn-default" data-shortcut-key="e"><i class="fa fa-lg fa-fw fa-pencil"></i> Edit</a>
+          <a href="<%= post.getEditUrl() %>" class="btn btn-default" data-shortcut-key="e"><i class="fa fa-lg fa-fw fa-pencil"></i> <span class="kb-shortcut">E</span>dit</a>
         </p>
         <% } %>
         <% include ../partials/posts/comments %>
