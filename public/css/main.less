@@ -24,7 +24,6 @@
   text-decoration: underline;
 }
 
-
 .navbar-static-top {
   margin-bottom: 0
 }
@@ -179,9 +178,27 @@ textarea {
   margin-right: 5px;
 }
 
+.post-list .post-title {
+  font-size: 18px;
+  line-height: 20px;
+  font-weight: 400;
+  margin: 0 0 5px 0;
+}
+
+.post-list .post-preview {
+  min-height: 40px;
+}
+
+@media (min-width: @screen-md-min) {
+  .post-list .post-preview {
+    min-height: 70px;
+  }
+}
+
 @media (min-width: @screen-lg-min) {
-  .post-list .post-title {
-    max-height: 40px;
+  .post-list .post-preview {
+    min-height: 70px;
+    height: 70px;
     overflow: hidden;
   }
 }

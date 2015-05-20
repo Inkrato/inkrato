@@ -2,6 +2,9 @@
   <div class="panel-body text-center" style="padding: 4px 0 6px 0;">
     <p data-score="<%= post.postId %>" class="score"><%= post.upvotes() - post.downvotes() %></p>
   </div>
+  <div class="panel-footer text-center text-muted" style="padding: 4px 0 6px 0;">
+    score
+  </div>
 </div>
 <div class="btn-group btn-group-justified">
   <% if (user) { %>
