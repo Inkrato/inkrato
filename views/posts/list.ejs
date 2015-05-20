@@ -3,7 +3,7 @@
     <div class="row">
       <div class="col-md-6 col-lg-7">
         <% if (topic) { %>
-        <div class="media">
+        <div class="media hidden-xs hidden-sm">
           <% if (topic.icon) { %>
           <div class="media-left">
             <span class="fa-stack fa-2x" style="margin-bottom: 10px;">
@@ -17,7 +17,7 @@
           </div>
         </div>
         <% } else { %>
-        <div class="media">
+        <div class="media hidden-xs hidden-sm">
           <% if (site.options().post.icon) { %>
           <div class="media-left">
             <span class="fa-stack fa-2x" style="margin-bottom: 10px;">
@@ -31,22 +31,33 @@
           </div>
         </div>
         <% } %>
-      </div>
-      <div class="col-xs-12 col-md-6 col-lg-5" style="padding-top: 10px;">
-        <div class="dropdown visible-xs visible-sm pull-left">
-          <button class="btn btn-default dropdown-toggle" type="button" id="dropdownMenu1" data-toggle="dropdown" aria-expanded="true">
-            <% if (site.options().post.icon) { %><i class="fa fa-fw fa-lg fa-<%= site.options().post.icon %>"></i> <% } %>
-            <span class="caret"></span>
+        <div class="dropdown visible-xs visible-sm" style="margin-bottom: 10px;">
+          <button class="btn btn-block btn-primary dropdown-toggle" type="button" id="dropdownMenu1" data-toggle="dropdown" aria-expanded="true">
+            <div class="row">
+            <div class="col-xs-11" style="overflow: hidden;">
+              <span class="pull-left">
+              <% if (topic) { %>
+                <% if (site.options().post.icon) { %><i class="fa fa-fw fa-lg fa-<%= topic.icon %>"></i> <% } %> <%= topic.name %>
+              <% } else { %>
+                <% if (site.options().post.icon) { %><i class="fa fa-fw fa-lg fa-<%= site.options().post.icon %>"></i> <% } %> <%= site.options().post.name %>
+              <% } %>
+              </span>
+            </div>
+            <div class="col-xs-1">
+              <i class="fa fa-lg fa-caret-down pull-right" style="margin: 5px 5px 0 0;"></i>
+            </div>
+            </div>
           </button>
           <ul class="dropdown-menu" role="menu" aria-labelledby="dropdownMenu1">
-            <li role="presentation"><a role="menuitem" tabindex="-1" href="<%= site.options().post.path %>/everything"><% if (site.options().post.icon) { %><i class="fa fa-fw fa-lg fa-<%= site.options().post.icon %>"></i> <% } %>Everything</a></li>
+            <li role="presentation"><a role="menuitem" tabindex="-1" href="<%= site.options().post.path %>/everything"><% if (site.options().post.icon) { %><i class="fa fa-fw fa-lg fa-<%= site.options().post.icon %>"></i> <% } %> <%= site.options().post.name %></a></li>
             <li role="presentation" class="divider"></li>
             <% topics.forEach(function(t) { %>
             <li role="presentation"><a role="menuitem" tabindex="-1" href="<%= site.options().post.path %>/<%= t.path %>"><% if (t.icon) { %><i class="fa fa-fw fa-lg fa-<%= t.icon %>"></i> <% } %><%= t.name %></a></li>
             <% }); %>
           </ul>
         </div>
-
+      </div>
+      <div class="col-xs-12 col-md-6 col-lg-5" style="padding-top: 10px;">
         <% if (posts.length > 0) { %>
           <% include ../partials/posts/paginator %>
         <% } %>
