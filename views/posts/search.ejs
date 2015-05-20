@@ -21,7 +21,9 @@
               </div>
               <div class="media-body">
             <% } %>
-                <p href="<%= post.getUrl() %>" class="post-title lead" style="margin-top: 0; margin-bottom: 10px;"><a class="text-default" href="<%= post.getUrl() %>"><%= post.title %></a></p>
+                <div href="<%= post.getUrl() %>" class="post-preview">
+                  <h3 class="post-title"><a class="text-default" href="<%= post.getUrl() %>"><%= post.title %></a></h3>
+                </div>
               
                 <div class="hidden-xs hidden-sm hidden-md" style="position: absolute; bottom: 8px;">
                   <% if ( post.topic) { %>

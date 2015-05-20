@@ -6,28 +6,22 @@
         <div class="media hidden-xs hidden-sm">
           <% if (topic.icon) { %>
           <div class="media-left">
-            <span class="fa-stack fa-2x" style="margin-bottom: 10px;">
-              <i class="fa fa-circle fa-stack-2x text-primary"></i>
-              <i class="fa fa-<%= topic.icon %> fa-stack-1x fa-inverse"></i>
-            </span>
+            <i style="margin-top: 15px;" class="text-primary fa fa-lg fa-<%= topic.icon %>"></i>
           </div>
           <% } %>
           <div class="media-body text-primary">
-            <h2 style="margin-top: 10px; margin-bottom: 20px;"><%= topic.name %></h2>
+            <h4 style="margin-top: 10px; margin-bottom: 20px;"><%= topic.name %></h4>
           </div>
         </div>
         <% } else { %>
         <div class="media hidden-xs hidden-sm">
           <% if (site.options().post.icon) { %>
           <div class="media-left">
-            <span class="fa-stack fa-2x" style="margin-bottom: 10px;">
-              <i class="fa fa-circle fa-stack-2x text-primary"></i>
-              <i class="fa fa-<%= site.options().post.icon %> fa-stack-1x fa-inverse"></i>
-            </span>
+            <i style="margin-top: 15px;" class="text-primary fa fa-lg fa-<%= site.options().post.icon %>"></i>
           </div>
           <% } %>
           <div class="media-body text-primary">
-            <h2 style="margin-top: 10px; margin-bottom: 20px;"><%= site.options().post.name %></h2>
+            <h4 style="margin-top: 10px; margin-bottom: 20px;"><%= site.options().post.name %></h4>
           </div>
         </div>
         <% } %>
@@ -76,8 +70,8 @@
               </div>
               <div class="media-body" href="<%= post.getUrl() %>">
             <% } %>
-                <div class="post-preview">
-                  <h3 href="<%= post.getUrl() %>" class="post-title"><a class="text-default" href="<%= post.getUrl() %>"><%= post.title %></a></h3>
+                <div href="<%= post.getUrl() %>" class="post-preview">
+                  <h3 class="post-title"><a class="text-default" href="<%= post.getUrl() %>"><%= post.title %></a></h3>
                   <p class="visible-lg text-muted"><%= post.description%></p>
                 </div>
                 
@@ -175,7 +169,6 @@
   </div>
   <div class="col-md-3">
     <div class="hidden-xs hidden-sm">
-      <h5 class="text-muted">TOPICS</h5>
       <div class="list-group">
         <a href="<%= site.options().post.path %>/everything" class="list-group-item <% if (!topic) { %>active<% } %>">
           <div class="media">
@@ -183,10 +176,13 @@
               <i class="fa fa-fw fa-<%= site.options().post.icon %>"></i>
             </div>
             <div class="media-body">
-              Everything
+              <%= site.options().post.name %>
             </div>
           </div>
         </a>
+      </div>
+
+      <h5 class="text-muted">FITLER BY TOPIC</h5>
       <% topics.forEach(function(t) { %>
         <a href="<%= site.options().post.path %>/<%= t.path %>" class="list-group-item <% if (topic && topic.name == t.name) { %>active<% } %>">
           <div class="media">
@@ -203,12 +199,12 @@
       </div>
     </div>
   </div>
-</div>
-<div class="row">
-  <div class="col-md-12">
-    <br/>
-    <% if (posts.length > 0) { %>
-      <% include ../partials/posts/paginator %>
-    <% } %>
+  <div class="row">
+    <div class="col-md-12">
+      <br/>
+      <% if (posts.length > 0) { %>
+        <% include ../partials/posts/paginator %>
+      <% } %>
+    </div>
   </div>
 </div>
