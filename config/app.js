@@ -5,6 +5,7 @@ module.exports = {
   
   // The name and contact email address
   name: "inkrato",
+  description: "collaboration platform",
   email: "feedback@inkrato.com",
   
   ssl: process.env.FORCE_SSL || false,

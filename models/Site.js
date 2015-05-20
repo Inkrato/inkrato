@@ -11,6 +11,10 @@ module.exports = function() {
   this.getName = function() {
      return config.app.name;
   }
+  
+  this.getDescription = function() {
+     return config.app.description;
+  }
 
   this.getEmail = function() {
      return config.app.email;
