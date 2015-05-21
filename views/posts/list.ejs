@@ -186,9 +186,11 @@
       <% topics.forEach(function(t) { %>
         <a href="<%= site.options().post.path %>/<%= t.path %>" class="list-group-item <% if (topic && topic.name == t.name) { %>active<% } %>">
           <div class="media">
+            <% if (t.icon != "") { %>
             <div class="media-left">
               <i class="fa fa-fw fa-lg fa-<% if (t.icon) { %><%= t.icon %>"><% } %></i>
             </div>
+            <% } %>
             <div class="media-body">
               <%= t.name %>
               <span class="badge pull-right"><%= t.postCount %></span>
