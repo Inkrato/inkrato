@@ -6,7 +6,7 @@
 <div class="media">
   <div class="media-left hidden-xs" style="padding-right: 20px;">
     <% if (comment.creator) { %>
-    <img src="<%= post.creator.avatar(55) %>" height="55" width="55" alt="Avatar" class="img-circle"/>
+    <img src="<%= comment.creator.avatar(55) %>" height="55" width="55" alt="Avatar" class="img-circle"/>
     <% } else { %>
     <h4 class="text-muted text-center" style="height: 50px; width: 50px;"><i style="margin-top: 5px;" class="fa fa-2x fa-user"></i></h4>
     <% } %>
