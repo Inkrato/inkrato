@@ -166,6 +166,13 @@
       <% } %>
     </p>
 <% } %>
+    <div class="row">
+      <div class="col-md-12">
+        <% if (posts.length > 0) { %>
+          <% include ../partials/posts/paginator %>
+        <% } %>
+      </div>
+    </div>
   </div>
   <div class="col-md-3">
     <div class="hidden-xs hidden-sm">
@@ -198,15 +205,8 @@
           </div>
         </a>
       <% }); %>
+      
       </div>
-    </div>
-  </div>
-  <div class="row">
-    <div class="col-md-12">
-      <br/>
-      <% if (posts.length > 0) { %>
-        <% include ../partials/posts/paginator %>
-      <% } %>
     </div>
   </div>
 </div>
