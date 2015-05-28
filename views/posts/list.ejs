@@ -21,7 +21,7 @@
           </div>
           <% } %>
           <div class="media-body text-primary">
-            <h4 style="margin-top: 10px; margin-bottom: 20px;"><%= site.options().post.name %></h4>
+            <h4 style="margin-top: 10px; margin-bottom: 20px;">All <%= site.options().post.name %></h4>
           </div>
         </div>
         <% } %>
@@ -33,7 +33,7 @@
               <% if (topic) { %>
                 <% if (site.options().post.icon) { %><i class="fa fa-fw fa-lg fa-<%= topic.icon %>"></i> <% } %> <%= topic.name %>
               <% } else { %>
-                <% if (site.options().post.icon) { %><i class="fa fa-fw fa-lg fa-<%= site.options().post.icon %>"></i> <% } %> <%= site.options().post.name %>
+                <% if (site.options().post.icon) { %><i class="fa fa-fw fa-lg fa-<%= site.options().post.icon %>"></i> All <% } %> <%= site.options().post.name %>
               <% } %>
               </span>
             </div>
@@ -42,11 +42,11 @@
             </div>
             </div>
           </button>
-          <ul class="dropdown-menu" role="menu" aria-labelledby="dropdownMenu1">
-            <li role="presentation"><a role="menuitem" tabindex="-1" href="<%= site.options().post.path %>/everything"><% if (site.options().post.icon) { %><i class="fa fa-fw fa-lg fa-<%= site.options().post.icon %>"></i> <% } %> <%= site.options().post.name %></a></li>
+          <ul class="dropdown-menu" role="menu" aria-labelledby="dropdownMenu1" style="width: 100%;">
+            <li role="presentation"><a role="menuitem" tabindex="-1" href="<%= site.options().post.path %>/everything"><% if (site.options().post.icon) { %><i class="fa fa-fw fa-lg fa-<%= site.options().post.icon %>"></i> <% } %> All <%= site.options().post.name %></a></li>
             <li role="presentation" class="divider"></li>
             <% topics.forEach(function(t) { %>
-            <li role="presentation"><a role="menuitem" tabindex="-1" href="<%= site.options().post.path %>/<%= t.path %>"><% if (t.icon) { %><i class="fa fa-fw fa-lg fa-<%= t.icon %>"></i> <% } %><%= t.name %></a></li>
+            <li role="presentation"><a role="menuitem" tabindex="-1" href="<%= site.options().post.path %>/<%= t.path %>"><% if (t.icon) { %><i class="fa fa-fw fa-lg fa-<%= t.icon %>"></i> <% } %> <%= t.name %> (<%= t.postCount %>)</a></li>
             <% }); %>
           </ul>
         </div>
@@ -183,13 +183,13 @@
               <i class="fa fa-fw fa-<%= site.options().post.icon %>"></i>
             </div>
             <div class="media-body">
-              <%= site.options().post.name %>
+              All <%= site.options().post.name %>
             </div>
           </div>
         </a>
       </div>
 
-      <h5 class="text-muted">FITLER BY TOPIC</h5>
+      <h5 class="text-muted">FILTER BY TOPIC</h5>
       <% topics.forEach(function(t) { %>
         <a href="<%= site.options().post.path %>/<%= t.path %>" class="list-group-item <% if (topic && topic.name == t.name) { %>active<% } %>">
           <div class="media">
