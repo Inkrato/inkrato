@@ -108,7 +108,7 @@ $(function() {
   // Shim to make any element with a valid "href" value clickable
   // (This exists under standards like XHTML 2.0 but not natively in browsers.)
   $("*[href]").bind('touch click', function() {
-    if ($(this).attr('href') != "" && !$(this).attr('href').match(/^#/) && !$(this).attr.match(/^javascript:/))
+    if ($(this).attr('href') != "" && !$(this).attr('href').match(/^#/) && !$(this).attr('href').match(/^javascript:/) )
       window.location = $(this).attr('href');
   });
   
