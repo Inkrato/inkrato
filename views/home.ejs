@@ -1,19 +1,20 @@
 </div>
-<div class="jumbotron jumbotron-home text-center">
-  <h1 class="hidden-xs hidden-sm">
+<div class="jumbotron jumbotron-home text-center clearfix" style="position: relative;">
+  <h1>
     <i class="fa fa-comments"></i>
     inkrato
     <br class="visible-sm visible-xs"/>
     <small>community edition</small>
   </h1>
-  <h2>
+  <h2 style="margin-bottom: 80px;">
     An open source collaboration platform for teams and communities
   </h2>
-  <br/>
+  <span class="fa-stack fa-4x text-center" style="position: absolute; bottom: -70px; width: 100%; left: 0;">
+    <i class="fa fa-circle fa-stack-2x text-white"></i>
+    <i class="fa fa-chevron-down fa-stack-1x text-primary"></i>
+  </span>
 </div>
-<div class="container">
-<br/>
-<br class="hidden-xs"/>
+<div class="container" style="padding-top: 40px;">
 <div class="row boxes">
 <% topics.forEach(function(topic) { %>
   <div class="box col-md-4" href="<%= site.options().post.path %>/<%= topic.path %>">
@@ -48,6 +49,12 @@
     </div>
   </div>
 <% }); %>
+</div>
+<br/>
+<div class="text-center">
+  <a href="<%= site.options().post.path %>/" class="btn btn-lg btn-primary">
+    <i class="fa fa-fw fa-<%= site.options().post.icon %>"></i> All <%= site.options().post.name %> <i class="fa fa-fw fa-chevron-right"></i>
+  </a>
 </div>
 <br/>
 <script>
