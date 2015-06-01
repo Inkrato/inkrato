@@ -23,69 +23,65 @@ exports.getPosts = function(req, res) {
   var numberOfResults = 10;
   if (numberOfResults > numberOfResultsLimit)
     numberOfResults = numberOfResultsLimit;
+
+  var closedStateIds = [];
+  var totalOpenPosts = 0;
   
   var pageNumber = (parseInt(req.query.page) > 1) ? parseInt(req.query.page) : 1;
-
+  
   var skip = 0;
   if (pageNumber > 1)
     skip = (pageNumber - 1) * numberOfResults;
-  
-  
-  Topic
-  .find({ deleted: false }, null, { sort : { order: 1 } })
-  .exec(function (err, topics) {
-    Q.all(topics.map(function(topic) {
-      var deferred = Q.defer();
-      
-      // Get the count counts for all posts in a non-closed state
-      State
-      .find({ deleted: false, open: false })
-      .exec(function (err, states) {
+
+  State
+  .find({ deleted: false, open: false })
+  .exec(function (err, states) {
+    states.forEach(function(state, index) {
+      closedStateIds.push(state.id);
+    });
+  })
+  .then(function() {
+    // Get the count for thte total number of open posts
+    var deferred = Q.defer();
+    return Post.count({ deleted: false, state: { $ne: closedStateIds } }, function(err, count) {
+      totalOpenPosts = count;
+      deferred.resolve(totalOpenPosts);
+    })
+    return deferred.promise;
+  })
+  .then(function() {
+    return Topic
+    .find({ deleted: false }, null, { sort : { order: 1 } })
+    .exec(function (err, topics) {
+      return Q.all(topics.map(function(topic) {
+        var deferred = Q.defer();
         
-        var closedStateIds = [];
-        states.forEach(function(state, index) {
-          closedStateIds.push(state.id);
-        });
-        
+        // Get the count counts for all posts on this topic in a non-closed state
         Post.count({ topic: topic._id, state: { $ne: closedStateIds } }, function(err, count) {
           topic.postCount = count;
           deferred.resolve(topic);
         });
-
-      });
-      return deferred.promise;
-    }))
+      }));
+    })
     .then(function(topicsWithPostCount) {
       // If topic is "everything" show all posts
       if (req.params.topic == "everything") {
-        State
-        .find({ deleted: false, open: false })
-        .exec(function (err, states) {
-      
-          var closedStateIds = [];
-          states.forEach(function(state, index) {
-            closedStateIds.push(state.id);
-          });
-
-          Post
-          .find({ deleted: false, state: { $ne: closedStateIds } }, null, { skip: skip, limit: numberOfResults, sort : { _id: -1 } })
-          .populate('creator', 'profile email picture role')
-          .populate('topic')
-          .populate('state')
-          .populate('priority')
-          .exec(function (err, posts) {
-            Post.count({}, function(err, count) {
-                res.render('posts/list', { title: res.locals.title + " - " + Site.options().post.name,
-                                           topic: null,
-                                           posts: posts,
-                                           postCount: count,
-                                           postLimit: numberOfResults,
-                                           page: pageNumber,
-                                           topics: topicsWithPostCount
-                });
+        Post
+        .find({ deleted: false, state: { $ne: closedStateIds } }, null, { skip: skip, limit: numberOfResults, sort : { _id: -1 } })
+        .populate('creator', 'profile email picture role')
+        .populate('topic')
+        .populate('state')
+        .populate('priority')
+        .exec(function (err, posts) {
+            res.render('posts/list', { title: res.locals.title + " - " + Site.options().post.name,
+                                       topic: null,
+                                       posts: posts,
+                                       postCount: totalOpenPosts,
+                                       postLimit: numberOfResults,
+                                       postTotal: totalOpenPosts,
+                                       page: pageNumber,
+                                       topics: topicsWithPostCount
             });
-          });
-      
         });
       } else {
         Topic
@@ -98,40 +94,30 @@ exports.getPosts = function(req, res) {
           if (!topic)
             return res.render('404');
       
-          State
-          .find({ deleted: false, open: false })
-          .exec(function (err, states) {
-        
-            var closedStateIds = [];
-            states.forEach(function(state, index) {
-              closedStateIds.push(state.id);
+          Post
+          .find({ topic: topic._id, deleted: false, state: { $ne: closedStateIds } }, null, { skip: skip, limit: numberOfResults, sort : { _id: -1 } })
+          .populate('creator', 'profile email picture role')
+          .populate('topic')
+          .populate('state')
+          .populate('priority')
+          .exec(function (err, posts) {
+            Post.count({ topic: topic._id, deleted: false, state: { $ne: closedStateIds } }, function(err, count) {
+                res.render('posts/list', { title: res.locals.title + " - " + Site.options().post.name,
+                                           topic: topic,
+                                           posts: posts,
+                                           postCount: count,
+                                           postLimit: numberOfResults,
+                                           postTotal: totalOpenPosts,
+                                           page: pageNumber,
+                                           topics: topicsWithPostCount,
+                });
             });
-        
-            Post
-            .find({ topic: topic._id, deleted: false, state: { $ne: closedStateIds } }, null, { skip: skip, limit: numberOfResults, sort : { _id: -1 } })
-            .populate('creator', 'profile email picture role')
-            .populate('topic')
-            .populate('state')
-            .populate('priority')
-            .exec(function (err, posts) {
-              Post.count({ topic: topic._id, deleted: false }, function(err, count) {
-                  res.render('posts/list', { title: res.locals.title + " - " + Site.options().post.name,
-                                             topic: topic,
-                                             posts: posts,
-                                             postCount: count,
-                                             postLimit: numberOfResults,
-                                             page: pageNumber,
-                                             topics: topicsWithPostCount
-                  });
-              });
-            });
+
           });
-      
         });
       }
     });
   });
-    
 
 };
 
