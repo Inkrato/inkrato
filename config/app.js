@@ -10,6 +10,8 @@ module.exports = {
   
   ssl: process.env.FORCE_SSL || false,
   
+  host: process.env.HOST || false,
+  
   posts: {
     // The name and URL path to use for "posts" on the site
     name: "Issues",

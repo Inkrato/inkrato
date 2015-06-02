@@ -189,17 +189,36 @@ if (Site.options().ssl == true) {
   console.log("FORCE_SSL option enabled. All requests will be redirected to HTTPS URLs")
   app.use(function(req, res, next) {
     var schema = req.headers['x-forwarded-proto'];
-
     if (schema === 'https') {
       // Already https; don't do anything special.
       next();
-    }
-    else {
+    } else {
       // Redirect to https.
       res.redirect('https://' + req.headers.host + req.url);
     }
   });
 }
+
+if (Site.options().host != false) {
+  if (Site.options().ssl === true) {
+    console.log("HOST option specified. Requests to other hosts will be redirected to https://"+Site.options().host)
+  } else {
+    console.log("HOST option specified. Requests to other hosts will be redirected to http://"+Site.options().host)
+  }
+  app.use(function(req, res, next) {
+        if (req.headers.host == Site.options().host) {
+      next();
+      return;
+    }
+    
+    if (Site.options().ssl === true) {
+      res.redirect('https://' + Site.options().host + req.url);
+    } else {
+      res.redirect('http://' + Site.options().host + req.url);
+    }
+  });
+}
+
 
 /**
  * Main routes.
