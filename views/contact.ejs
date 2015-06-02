@@ -1,12 +1,10 @@
-<h1 class="page-header"><i class="fa fa-envelope-o"></i> Contact us</h1>
+<h1 class="page-header"><i class="fa fa-envelope-o"></i> Get in touch</h1>
 <% if (confirmation == true) { %>
-<p class="lead">Thanks for getting in touch.</p>
+<br/>
+<p class="lead text-center">Thanks for getting in touch! We'll get back to you as soon as we can.</p>
 <% } else { %>
 <form role="form" method="post" action="/contact" class="form-horizontal" data-validator="true">
   <input type="hidden" name="_csrf" value="<%= _csrf %>">
-  <p class="lead text-center">
-    Any questions or comments you'd like to share privately? We'd love to hear from you!
-  </p>
   <div class="form-group">
     <div class="col-sm-offset-2 col-sm-8 messages"></div>
   </div>

@@ -1,10 +1,5 @@
-<div class="panel panel-default" style="width: 80px; margin-bottom: 10px;">
-  <div class="panel-body text-center" style="padding: 15px 0;">
-    <p data-score="<%= post.postId %>" class="lead score"><%= post.upvotes() - post.downvotes() %></p>
-  </div>
-  <div class="panel-footer text-center text-muted" style="padding: 5px 0;">
-    <span>score</span>
-  </div>
+<div style="width: 80px; margin-bottom: 5px;">
+  <% include pie %>
 </div>
 <div class="btn-group btn-group-justified">
   <% if (user) { %>
@@ -40,10 +35,10 @@
       </form>
       <% } %>
     <% } else { %>
-    <a href="#" disabled="disabled" class="btn btn-default btn-vote">
+    <a href="#" disabled="disabled" class="btn btn-default btn-vote" style="padding: 4px 0 6px 0;">
       <i class="fa fa-lg text-muted fa-chevron-up"></i>
     </a>
-    <a href="#" disabled="disabled" class="btn btn-default btn-vote">
+    <a href="#" disabled="disabled" class="btn btn-default btn-vote" style="padding: 4px 0 6px 0;">
       <i class="fa fa-lg text-muted fa-chevron-down"></i>
     </a>
     <% } %>

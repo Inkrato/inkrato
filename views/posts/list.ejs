@@ -71,6 +71,8 @@
                 <% include ../partials/posts/vote-list %>
               </div>
               <div class="media-body" href="<%= post.getUrl() %>">
+            <% } else { %>
+              <div class="pull-left" style="height: 110px; width: 0;"></div>
             <% } %>
                 <div href="<%= post.getUrl() %>" class="post-preview">
                   <h3 class="post-title"><a class="text-default" href="<%= post.getUrl() %>"><%= post.title %></a></h3>
@@ -82,9 +84,8 @@
                   <span class="label label-primary">
                     <% if (post.topic.icon) { %>
                     <i class="fa fa-fw fa-<%= post.topic.icon %>"></i>
-                    <% } else { %>
-                    <%= post.topic.name %>
                     <% } %>
+                    <%= post.topic.name %>
                   </span>
                   <% } %>
                   <% if (post.priority) { %>

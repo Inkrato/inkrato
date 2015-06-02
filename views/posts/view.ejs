@@ -1,33 +1,37 @@
 <% if (site.options().post.voting.enabled == true) { %>
-<div class="visible-xs visible-sm" style="margin-bottom: 20px;">
-  <% include ../partials/posts/vote-mobile %>
-</div>
 <div class="media" style="position: relative; top: -10px;">
   <div class="hidden-xs hidden-sm media-left" style="padding-right: 20px;">
     <% include ../partials/posts/vote %>
   </div>
   <div class="media-body">
 <% } %>
-  <div id="show-properties" class="panel panel-default visible-xs visible-sm">
+  <div class="panel panel-default visible-xs visible-sm">
     <div class="panel-heading" style="padding: 5px">
       <a class="clearfix" style="display: block;" href="javascript:$('#show-properties').removeClass('visible-xs visible-sm').hide();$('#properties').hide().removeClass('hidden-xs hidden-sm').slideDown();">
-        <% if (post.creator) { %>
-        <img src="<%= post.creator.avatar(47) %>" height="47" width="47" alt="Avatar" class="img-circle pull-left" style="margin-right: 5px;"/>
-        <% } %>
-        <% if (post.state) { %>
-          <% if (post.state.open == true) { %>
-            <h3 class="label label-lg label-success pull-left" style="margin: 0 5px 0 0;"><i class="fa fa-lg fa-circle-o"></i></h3>
-          <% } else { %>
-            <h3 class="label label-lg label-danger pull-left" style="margin: 0 5px 0 0;"><i class="fa fa-lg fa-times"></i></h3>
+        <div id="show-properties" class="pull-left">
+          <% if (post.creator) { %>
+          <img src="<%= post.creator.avatar(47) %>" height="44" width="44" alt="Avatar" class="img-circle pull-left" style="margin-right: 5px;"/>
           <% } %>
-        <% } %>
-        <% if (post.priority) { %>
-          <h3 class="label label-lg label-default pull-left" style="margin: 0 5px 0 0; background-color: <%= post.priority.color %>;"><i class="fa fa-lg fa-circle"></i></h3>
-        <% } %>
-        <% if (post.topic != null) { %>
-          <% if (post.topic.icon) { %>
-          <h3 class="label label-lg label-primary pull-left" style="margin: 0 5px 0 0;"><i class="fa fa-lg fa-<%= post.topic.icon %>"></i></h3>
+          <% if (post.state) { %>
+            <% if (post.state.open == true) { %>
+              <h3 class="label label-lg label-success pull-left" style="margin: 0 5px 0 0;"><i class="fa fa-lg fa-circle-o"></i></h3>
+            <% } else { %>
+              <h3 class="label label-lg label-danger pull-left" style="margin: 0 5px 0 0;"><i class="fa fa-lg fa-times"></i></h3>
+            <% } %>
           <% } %>
+          <% if (post.priority) { %>
+            <h3 class="label label-lg label-default pull-left" style="margin: 0 5px 0 0; background-color: <%= post.priority.color %>;"><i class="fa fa-lg fa-circle"></i></h3>
+          <% } %>
+          <% if (post.topic != null) { %>
+            <% if (post.topic.icon) { %>
+            <h3 class="label label-lg label-primary pull-left" style="margin: 0 5px 0 0;"><i class="fa fa-lg fa-<%= post.topic.icon %>"></i></h3>
+            <% } %>
+          <% } %>
+        </div>
+        <% if (site.options().post.voting.enabled == true) { %>
+        <div class="pull-right" style="height: 45px;">
+          <% include ../partials/posts/vote-mobile %>
+        </div>
         <% } %>
       </a>
       </div>

@@ -1,7 +1,5 @@
 <div class="clearfix">
-  <div class="btn btn-lg btn-default disabled pull-left">
-    <span style="opacity: 0.5;">score</span> &nbsp; <strong data-score="<%= post.postId %>"><%= post.upvotes() - post.downvotes() %></strong>
-  </div>
+
   <div class="btn-group pull-right">
     <% if (user) { %>
       <% if (post.postId) { %>
@@ -35,13 +33,6 @@
           </button>
         </form>
         <% } %>
-      <% } else { %>
-      <a href="#" disabled="disabled" class="btn btn-default btn-vote">
-        <i class="fa fa-lg text-muted fa-chevron-up"></i>
-      </a>
-      <a href="#" disabled="disabled" class="btn btn-default btn-vote">
-        <i class="fa fa-lg text-muted fa-chevron-down"></i>
-      </a>
       <% } %>
     <% } else { %>
     <a href="#" data-toggle="modal" data-dismiss="modal" data-target="#signupModal" class="btn btn-default btn-vote">
@@ -52,4 +43,11 @@
     </a>
     <% } %>
   </div>
+
+  <% if (post.postId) { %>
+  <div class="pull-right" style="height: 45px; width: 45px; margin-bottom: 10px; margin-right: 10px;">
+    <% include pie-mobile %>
+  </div>
+  <% } %>
+  
 </div>

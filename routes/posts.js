@@ -324,7 +324,7 @@ exports.postUpvote = function(req, res, next) {
       if (err) return next(err);
       // If it's an ajax request, return a json response
       if (req.xhr) {
-        return res.json({ score: post.upvotes() - post.downvotes() });
+        return res.json({ score: post.upvotes() - post.downvotes(), upvotes: post.upvotes(), downvotes: post.downvotes() });
       } else {
         return res.redirect(req.session.returnTo || post.getUrl());
       }
@@ -360,7 +360,7 @@ exports.postDownvote = function(req, res, next) {
       if (err) return next(err);
       // If it's an ajax request, return a json response
       if (req.xhr) {
-        return res.json({ score: post.upvotes() - post.downvotes() });
+        return res.json({ score: post.upvotes() - post.downvotes(), upvotes: post.upvotes(), downvotes: post.downvotes() });
       } else {
         return res.redirect(req.session.returnTo || post.getUrl());
       }
@@ -397,7 +397,7 @@ exports.postUnvote = function(req, res, next) {
 
       // If it's an ajax request, return a json response
       if (req.xhr) {
-        return res.json({ score: post.upvotes() - post.downvotes() });
+        return res.json({ score: post.upvotes() - post.downvotes(), upvotes: post.upvotes(), downvotes: post.downvotes() });
       } else {
         return res.redirect(req.session.returnTo || post.getUrl());
       }

@@ -10,13 +10,8 @@
             <% if (site.options().post.voting.enabled == true) { %>
             <div class="media">
               <div class="media-left">
-                <div class="panel panel-default" style="width: 80px; margin: 0;">
-                  <div class="panel-body text-center" style="padding: 5px 0;">
-                    <p data-score="<%= post.postId %>" class="lead score"><%= post.upvotes() - post.downvotes() %></p>
-                  </div>
-                  <div class="panel-footer text-center" style="padding: 8px 0;">
-                    <span>score</span>
-                  </div>
+                <div style="width: 80px; margin-bottom: 5px;">
+                  <% include ../partials/posts/pie %>
                 </div>
               </div>
               <div class="media-body">

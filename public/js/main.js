@@ -8,6 +8,7 @@
 //= require bootstrap.select
 //= require bootstrap.typeahead
 //= require form-validator
+//= require jquery.peity
 
 $(function() { 
   
@@ -139,7 +140,10 @@ $(function() {
   });  
   $("form[data-downvote]").bind('touch click', function() {
     downvote(this);
-  });  
+  });
+  
+  // Using http://benpickles.github.io/peity/ for donuts
+  $(".data-attributes span").peity("donut");
 
 });
 
@@ -149,6 +153,16 @@ function upvote(form) {
     $(form).attr("action"),
     $(form).serialize(),
     function(response) {
+      
+      $('*[data-votes="'+postId+'"]').each(function() {
+        var data = response.downvotes+","+response.upvotes;
+        if (response.upvotes == 0 && response.downvotes == 0)
+          data += ",1";
+        $("span", this)
+        .text(data)
+        .change();
+      });
+      
       if ($(form).hasClass("btn-default")) {
         $('form[data-upvote="'+postId+'"]').each(function() {
           $(this).removeClass("btn-default").addClass("btn-success");
@@ -184,6 +198,16 @@ function downvote(form) {
     $(form).attr("action"),
     $(form).serialize(),
     function(response) {
+      
+      $('*[data-votes="'+postId+'"]').each(function() {
+        var data = response.downvotes+","+response.upvotes;
+        if (response.upvotes == 0 && response.downvotes == 0)
+          data += ",1";
+        $("span", this)
+        .text(data)
+        .change();
+      });
+
       if ($(form).hasClass("btn-default")) {
         $('form[data-downvote="'+postId+'"]').each(function() {
           $(this).removeClass("btn-default").addClass("btn-danger");
