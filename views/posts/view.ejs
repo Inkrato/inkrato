@@ -12,6 +12,7 @@
           <% if (post.creator) { %>
           <img src="<%= post.creator.avatar(47) %>" height="44" width="44" alt="Avatar" class="img-circle pull-left" style="margin-right: 5px;"/>
           <% } %>
+          <!--
           <% if (post.state) { %>
             <% if (post.state.open == true) { %>
               <h3 class="label label-lg label-success pull-left" style="margin: 0 5px 0 0;"><i class="fa fa-lg fa-circle-o"></i></h3>
@@ -19,6 +20,7 @@
               <h3 class="label label-lg label-danger pull-left" style="margin: 0 5px 0 0;"><i class="fa fa-lg fa-times"></i></h3>
             <% } %>
           <% } %>
+          -->
           <% if (post.priority) { %>
             <h3 class="label label-lg label-default pull-left" style="margin: 0 5px 0 0; background-color: <%= post.priority.color %>;"><i class="fa fa-lg fa-circle"></i></h3>
           <% } %>
