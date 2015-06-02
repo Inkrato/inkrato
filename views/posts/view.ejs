@@ -5,9 +5,8 @@
   </div>
   <div class="media-body">
 <% } %>
-  <div class="panel panel-default visible-xs visible-sm">
-    <div class="panel-heading" style="padding: 5px">
-      <a class="clearfix" style="display: block;" href="javascript:$('#show-properties').removeClass('visible-xs visible-sm').hide();$('#properties').hide().removeClass('hidden-xs hidden-sm').slideDown();">
+    <div class="clearfix" style="margin-bottom: 10px;">
+      <a class="clearfix pull-left" style="display: block;" href="javascript:$('#show-properties').removeClass('visible-xs visible-sm').hide();$('#properties').hide().removeClass('hidden-xs hidden-sm').slideDown();">
         <div id="show-properties" class="pull-left">
           <% if (post.creator) { %>
           <img src="<%= post.creator.avatar(47) %>" height="44" width="44" alt="Avatar" class="img-circle pull-left" style="margin-right: 5px;"/>
@@ -30,13 +29,12 @@
             <% } %>
           <% } %>
         </div>
-        <% if (site.options().post.voting.enabled == true) { %>
-        <div class="pull-right" style="height: 45px;">
-          <% include ../partials/posts/vote-mobile %>
-        </div>
-        <% } %>
       </a>
+      <% if (site.options().post.voting.enabled == true) { %>
+      <div class="pull-right" style="height: 45px;">
+        <% include ../partials/posts/vote-mobile %>
       </div>
+      <% } %>
     </div>
     <div class="row">
       <div id="properties" class="col-md-4 col-lg-3 col-md-push-8 col-lg-push-9 hidden-xs hidden-sm">
