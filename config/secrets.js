@@ -16,15 +16,15 @@ module.exports = {
   sessionSecret: process.env.SESSION_SECRET || '526aa78cdeedf412fd27fedb5ab5ecf8',
 
   sendgrid: {
-    user: process.env.SENDGRID_USER || '1',
-    password: process.env.SENDGRID_PASSWORD || ''
+    user: process.env.SENDGRID_USER || 'inkrato',
+    password: process.env.SENDGRID_PASSWORD || 'fd891ce949aca6a2667b4'
   },
 
   facebook: {
     clientID: process.env.FACEBOOK_ID || '',
     clientSecret: process.env.FACEBOOK_SECRET || '',
     callbackURL: '/auth/facebook/callback',
-    passReqToCallback: process.env.SENDGRID_USER ||true
+    passReqToCallback: process.env.SENDGRID_USER || ''
   },
 
   github: {

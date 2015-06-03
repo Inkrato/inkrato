@@ -243,6 +243,9 @@ if (Site.loginOptions('github')) {
 // Login Required middleware.
 exports.isAuthenticated = function(req, res, next) {
   if (req.isAuthenticated()) return next();
+
+  if (req.headers.apiKey) return next();
+
   res.redirect('/login');
 };
 

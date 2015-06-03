@@ -192,10 +192,8 @@ if (Site.options().host != false) {
     console.log("HOST option specified. Requests to other hosts will be redirected to http://"+Site.options().host)
   }
   app.use(function(req, res, next) {
-        if (req.headers.host == Site.options().host) {
-      next();
-      return;
-    }
+    if (req.headers.host == Site.options().host)
+      return next();
     
     if (Site.options().ssl === true) {
       res.redirect('https://' + Site.options().host + req.url);
@@ -239,6 +237,7 @@ app.get('/profile', routes.passport.isAuthenticated, routes.user.getAccount);
 app.get('/account', routes.passport.isAuthenticated, routes.user.getAccount);
 app.get('/account/profile', routes.passport.isAuthenticated, routes.user.getAccount);
 app.post('/account/profile', routes.passport.isAuthenticated, routes.user.postUpdateProfile);
+app.post('/account/profile/apikey', routes.passport.isAuthenticated, routes.user.postApiKey);
 app.post('/account/password', routes.passport.isAuthenticated, routes.user.postUpdatePassword);
 app.post('/account/delete', routes.passport.isAuthenticated, routes.user.postDeleteAccount);
 app.get('/account/unlink/:provider', routes.passport.isAuthenticated, routes.user.getOauthUnlink);

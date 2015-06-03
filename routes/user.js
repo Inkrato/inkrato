@@ -53,7 +53,7 @@ exports.postLogin = function(req, res, next) {
     }
     req.logIn(user, function(err) {
       if (err) return next(err);
-      req.flash('success', { msg: 'Success! You are logged in.' });
+      //req.flash('success', { msg: 'Success! You are logged in.' });
       res.redirect(req.session.returnTo || '/');
     });
   })(req, res, next);
@@ -189,7 +189,7 @@ exports.postUpdateProfile = function(req, res, next) {
         }
       } 
       
-      req.flash('success', { msg: 'Your profile information has been updated.' });
+      req.flash('success', { msg: 'Your profile has been updated.' });
       res.redirect('/profile');
     });
   });
@@ -416,15 +416,24 @@ exports.postResetPassword = function(req, res, next) {
           pass: config.secrets.sendgrid.password
         }
       });
+      
+      var text = 'You are receiving this email because you (or someone else) has requested the reset of the password for your account.\n\n' +
+                 'Please click on the following link, or paste this into your browser to complete the process:\n\n';
+    
+      if (Site.options().ssl == true) {
+        text += 'https://' + req.headers.host + '/change-password/' + token + '\n\n';
+      } else {
+        text += 'http://' + req.headers.host + '/change-password/' + token + '\n\n';
+      }
+              
+      text += 'If you did not request this, please ignore this email and your password will remain unchanged.\n' +
+              '\n\n-- \n';
+              
       var mailOptions = {
         to: user.email,
         from: config.app.email,
         subject: Site.getName()+ ' - Password reset',
-        text: 'You are receiving this email because you (or someone else) have requested the reset of the password for your account.\n\n' +
-              'Please click on the following link, or paste this into your browser to complete the process:\n\n' +
-              'http://' + req.headers.host + '/change-password/' + token + '\n\n' +
-              'If you did not request this, please ignore this email and your password will remain unchanged.\n' +
-              '\n\n-- \n'
+        text: text
       };
       transporter.sendMail(mailOptions, function(err) {
         req.flash('info', { msg: 'An e-mail has been sent to ' + user.email + ' with further instructions.' });
@@ -434,5 +443,44 @@ exports.postResetPassword = function(req, res, next) {
   ], function(err) {
     if (err) return next(err);
     res.redirect('/reset-password');
+  });
+};
+
+/**
+ * POST /account/profile/apikey
+ * Fetch a users API Key (generates a one if it doesn't exist)
+ */
+exports.postApiKey = function(req, res, next) {  
+  User.findById(req.user.id, function(err, user) {
+    if (err) return next(err);
+
+    user.apiKey = crypto.randomBytes(16).toString('hex');
+    
+    user.save(function(err) {
+      
+      if (!user.email)
+        if (err) return next(err);
+
+      var transporter = nodemailer.createTransport({
+        service: 'SendGrid',
+        auth: {
+          user: config.secrets.sendgrid.user,
+          pass: config.secrets.sendgrid.password
+        }
+      });
+      var mailOptions = {
+        to: user.email,
+        from: config.app.email,
+        subject: Site.getName()+ ' - API Key',
+        text: 'You are receiving this email because you have requested an API Key for '+req.headers.host+'.\n\n'+
+              'Your API Key: '+user.apiKey+'\n\n'+
+              'This key uniquely identifies you and can be used to access the API with the same permissions as your account.\n\n'+
+              '\n\n-- \n'
+      };
+      transporter.sendMail(mailOptions, function(err) {
+        req.flash('success', { msg: 'An e-mail has been sent to ' + user.email + ' with your API Key.' });
+        res.redirect('/profile');
+      });
+    });
   });
 };

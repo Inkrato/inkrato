@@ -43,7 +43,7 @@ $(function() {
       allow_dismiss: false,
       offset: {
         from: "top",
-        amount: $(".navbar").height() + 10
+        amount: $(".navbar").height() + $(".jumbotron-heading").height() + 45
       }
     });
   });
@@ -143,7 +143,7 @@ $(function() {
   });
   
   // Using http://benpickles.github.io/peity/ for donuts
-  $(".data-attributes span").peity("donut");
+  $(".donut span").peity("donut");
 
 });
 

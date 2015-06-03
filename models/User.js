@@ -32,6 +32,9 @@ var schema = new mongoose.Schema({
   resetPasswordToken: String,
   resetPasswordExpires: Date,
   emailVerificationToken: String,
+  
+  apiKey: String,
+  
   deleted: { type: Boolean, default: false  }
 });
 
