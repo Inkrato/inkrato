@@ -244,7 +244,7 @@ if (Site.loginOptions('github')) {
 exports.isAuthenticated = function(req, res, next) {
   if (req.isAuthenticated()) return next();
 
-  if (req.headers.apiKey) return next();
+  //if (req.headers.apiKey) return next();
 
   res.redirect('/login');
 };
