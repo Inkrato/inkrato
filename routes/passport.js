@@ -1,6 +1,7 @@
 var _ = require('lodash'),
     passport = require('passport'),
     LocalStrategy = require('passport-local').Strategy,
+    LocalAPIKeyStrategy = require('passport-localapikey').Strategy,
     FacebookStrategy = require('passport-facebook').Strategy,
     TwitterStrategy = require('passport-twitter').Strategy,
     GitHubStrategy = require('passport-github').Strategy,
@@ -38,6 +39,17 @@ if (Site.loginOptions('email')) {
     });
   }));
 }
+
+// Authenticate using an API Key
+passport.use(new LocalAPIKeyStrategy(
+  function(apiKey, done) {
+    User.findOne({ apiKey: apiKey }, function (err, user) {
+      if (err) { return done(err); }
+      if (!user) { return done(null, false); }
+      return done(null, user);
+    });
+  }
+));
 
 /**
  * OAuth Strategy Overview
@@ -240,14 +252,14 @@ if (Site.loginOptions('github')) {
   }));
 }
 
-// Login Required middleware.
+// Login required middleware.
 exports.isAuthenticated = function(req, res, next) {
   if (req.isAuthenticated()) return next();
-
-  //if (req.headers.apiKey) return next();
-
   res.redirect('/login');
 };
+
+// API Key verification middleware
+exports.apiKey = passport.authenticate('localapikey', { session: false, failureRedirect: '/api/unauthorized' });
 
 // Authorization Required middleware.
 exports.isAuthorized = function(req, res, next) {

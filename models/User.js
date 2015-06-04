@@ -45,6 +45,13 @@ var schema = new mongoose.Schema({
 
 schema.pre('save', function(next) {
   var user = this;
+  
+  // If a profile picture is not set OR if it's set to a gravatar, update
+  // the users gravatar so it's always consistant with their email address
+  if ((this.email && !this.profile.picture) || (this.email && (/https:\/\/gravatar\.com\/avatar\//).test(this.profile.picture))) {
+    var md5 = crypto.createHash('md5').update(this.email).digest('hex');
+    this.profile.picture = 'https://gravatar.com/avatar/' + md5;
+  }
 
   // If there is is only one active user on the site, make them an administrator
   mongoose.model('User', schema).count({}, function(err, count) {
@@ -86,12 +93,23 @@ schema.methods.comparePassword = function(candidatePassword, cb) {
 schema.methods.avatar = function(size) {
   // @todo Allow use of imported avatar as well as gravatar
   if (!size) size = 200;
+  
+  // If their profile picture is an gravatar then return it (after adding size)
+  if ((/https:\/\/gravatar\.com\/avatar\//).test(this.profile.picture))
+    return this.profile.picture + '?s=' + size + '&d=retro';
+  
+  // If there is some other profile picture specified, just return it
+  if (this.profile.picture)
+    return this.profile.picture;
 
-  if (!this.email) {
-    return 'https://gravatar.com/avatar/?s=' + size + '&d=retro';
+  // If they don't have a profile picture use their email to generate a gravatar
+  if (this.email) {
+    var md5 = crypto.createHash('md5').update(this.email).digest('hex');
+    return 'https://gravatar.com/avatar/' + md5 + '?s=' + size + '&d=retro';
   }
 
-  var md5 = crypto.createHash('md5').update(this.email).digest('hex');
+  // Fallback option is to generate a gravatar using their UserID
+  var md5 = crypto.createHash('md5').update(this.id).digest('hex');
   return 'https://gravatar.com/avatar/' + md5 + '?s=' + size + '&d=retro';
 };
 

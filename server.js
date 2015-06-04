@@ -47,15 +47,17 @@ mongoose.connection.on('error', function() {
 });
 
 /**
- * CSRF whitelist.
+ * CSRF URL whitelist.
  */
 var csrfExclude = [];
 
-// i18n configuration
+/**
+ * i18n configuration
+ */
 i18n.configure({
     // setup some locales - other locales default to en silently
-    locales:['en', 'de'],
-    defaultLocale: 'de',
+    locales:['en', 'de', 'fr', 'es'],
+    defaultLocale: 'en',
 
     // set cookie name to parse locale settings from
     cookie: 'lang',
@@ -106,8 +108,14 @@ app.use(passport.initialize());
 app.use(passport.session());
 app.use(flash());
 app.use(function(req, res, next) {
-  // CSRF protection.
+  // CSRF protection
+  // Skip CSRF protection for white listed URLs
   if (_.contains(csrfExclude, req.path)) return next();
+  // Skip CSRF protection for calls to the API (valid API Key required instead)
+  if ((/^\/api/).test(req.path)) {
+    res.locals._csrf = "undefined";
+    return next();
+  }
   csrf(req, res, next);
 });
 app.use(function(req, res, next) {
@@ -131,6 +139,10 @@ app.use(function(req, res, next) {
   res.locals.topics = GLOBAL.topics;
   res.locals.priorities = GLOBAL.priorities;
   res.locals.states = GLOBAL.states;
+
+  // Set to true for requests made via the API
+  if ((/^\/api/).test(req.path))
+    req.api = true;
   
   next();
 });
@@ -259,6 +271,17 @@ if (Site.options().post.voting.enabled == true) {
   app.post('/unvote/:id', routes.passport.isAuthenticated, routes.posts.postUnvote);
 }
 app.post('/comments/add/:id', routes.passport.isAuthenticated, routes.posts.comments.postAddComment);
+
+/**
+ * Routes that can be accessed using an API key
+ */
+app.post('/api/new', routes.passport.apiKey, routes.posts.postNewPost);
+app.get('/api/view/:id', routes.passport.apiKey, routes.posts.getPost);
+app.post('/api/edit/:id', routes.passport.apiKey, routes.posts.postEditPost);
+app.post('/api/upvote/:id', routes.passport.apiKey, routes.posts.postUpvote);
+app.post('/api/downvote/:id', routes.passport.apiKey, routes.posts.postDownvote);
+app.post('/api/unvote/:id', routes.passport.apiKey, routes.posts.postUnvote);
+app.get('/api/unauthorized', function(req, res, next) { return res.status(401).json({errors: [{ param: 'apikey', msg: 'Valid API Key required' }]}); } );
 
 /**
  * OAuth sign-in routes.

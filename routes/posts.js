@@ -68,7 +68,7 @@ exports.getPosts = function(req, res) {
       if (req.params.topic == "everything") {
         Post
         .find({ deleted: false, state: { $ne: closedStateIds } }, null, { skip: skip, limit: numberOfResults, sort : { _id: -1 } })
-        .populate('creator', 'profile email picture role')
+        .populate('creator', 'profile')
         .populate('topic')
         .populate('state')
         .populate('priority')
@@ -96,7 +96,7 @@ exports.getPosts = function(req, res) {
       
           Post
           .find({ topic: topic._id, deleted: false, state: { $ne: closedStateIds } }, null, { skip: skip, limit: numberOfResults, sort : { _id: -1 } })
-          .populate('creator', 'profile email picture role')
+          .populate('creator', 'profile')
           .populate('topic')
           .populate('state')
           .populate('priority')
@@ -152,10 +152,12 @@ exports.postNewPost = function(req, res, next) {
     return res.json({ errors: errors });
   
   if (errors) {
+    if (req.xhr || req.api)
+      return res.json({ errors: errors });
     req.flash('errors', errors);
     return res.render('posts/new');
   }
-
+  
   var post = new Post({
     title: req.body.title,
     description: req.body.description,
@@ -180,7 +182,11 @@ exports.postNewPost = function(req, res, next) {
     .findOne({ postId: post.postId })
     .populate('topic')
     .exec(function (err, post) {
-      return res.redirect(post.getUrl());
+      if (req.xhr || req.api) {
+        return res.json(post);
+      } else {
+        return res.redirect(post.getUrl());
+      }
     });
     
   });
@@ -194,16 +200,22 @@ exports.getPost = function(req, res) {
   
   Post
   .findOne({ postId: postId })
-  .populate('creator', 'profile email picture role')
-  .populate('comments.creator', 'profile email picture role')
+  .populate('creator', 'profile')
+  .populate('comments.creator', 'profile')
   .populate('topic')
   .populate('state')
   .populate('priority')
   .exec(function (err, post) {
-    if (err || (post.deleted && post.deleted == true))
-      return res.render('404');
-    
-    return res.render('posts/view', { title: res.locals.title + " - " + post.title, post: post, topic: post.topic });
+    if (err || (post.deleted && post.deleted == true)) {
+        return res.render('404');
+    }
+
+    // If it's an AJAX or API request, return a JSON response
+    if (req.xhr || req.api) {
+      res.json(post);
+    } else {
+      return res.render('posts/view', { title: res.locals.title + " - " + post.title, post: post, topic: post.topic });
+    }
   });
 };
 
@@ -215,8 +227,8 @@ exports.getEditPost = function(req, res) {
 
   Post
   .findOne({ postId: postId })
-  .populate('creator', 'profile email picture role')
-  .populate('comments.creator', 'profile email picture role')
+  .populate('creator', 'profile role')
+  .populate('comments.creator', 'profile')
   .populate('topic')
   .populate('state')
   .populate('priority')
@@ -247,13 +259,15 @@ exports.postEditPost = function(req, res, next) {
     return res.json({ errors: errors });
   
   if (errors) {
+    if (req.xhr || req.api)
+      return res.json({ errors: errors });
     req.flash('errors', errors);
     return res.redirect('back');
   }
   
   Post
   .findOne({ postId: req.params.id })
-  .populate('creator', 'profile email picture role')
+  .populate('creator', 'profile role')
   .populate('topic')
   .populate('state')
   .populate('priority')
@@ -289,7 +303,11 @@ exports.postEditPost = function(req, res, next) {
       .findOne({ postId: post.postId })
       .populate('topic')
       .exec(function (err, post) {
-        return res.redirect(post.getUrl());
+        if (req.xhr || req.api) {
+          return res.json(post);
+        } else {
+          return res.redirect(post.getUrl());
+        }
       });
     });
       
@@ -308,6 +326,8 @@ exports.postUpvote = function(req, res, next) {
     return res.json({ errors: errors });
   
   if (errors) {
+    if (req.xhr || req.api)
+      return res.json({ errors: errors });
     req.flash('errors', errors);
     return res.redirect('back');
   }
@@ -322,8 +342,8 @@ exports.postUpvote = function(req, res, next) {
     
     post.save(function(err) {
       if (err) return next(err);
-      // If it's an ajax request, return a json response
-      if (req.xhr) {
+      // If it's an AJAX or API request, return a JSON response
+      if (req.xhr || req.api) {
         return res.json({ score: post.upvotes() - post.downvotes(), upvotes: post.upvotes(), downvotes: post.downvotes() });
       } else {
         return res.redirect(req.session.returnTo || post.getUrl());
@@ -344,6 +364,8 @@ exports.postDownvote = function(req, res, next) {
     return res.json({ errors: errors });
   
   if (errors) {
+    if (req.xhr || req.api)
+      return res.json({ errors: errors });
     req.flash('errors', errors);
     return res.redirect('back');
   }
@@ -358,8 +380,8 @@ exports.postDownvote = function(req, res, next) {
     
     post.save(function(err) {
       if (err) return next(err);
-      // If it's an ajax request, return a json response
-      if (req.xhr) {
+      // If it's an AJAX or API request, return a JSON response
+      if (req.xhr || req.api) {
         return res.json({ score: post.upvotes() - post.downvotes(), upvotes: post.upvotes(), downvotes: post.downvotes() });
       } else {
         return res.redirect(req.session.returnTo || post.getUrl());
@@ -380,6 +402,8 @@ exports.postUnvote = function(req, res, next) {
     return res.json({ errors: errors });
   
   if (errors) {
+    if (req.xhr || req.api)
+      return res.json({ errors: errors });
     req.flash('errors', errors);
     return res.redirect('back');
   }
@@ -395,8 +419,8 @@ exports.postUnvote = function(req, res, next) {
     post.save(function(err) {
       if (err) return next(err);
 
-      // If it's an ajax request, return a json response
-      if (req.xhr) {
+      // If it's an AJAX or API request, return a JSON response
+      if (req.xhr || req.api) {
         return res.json({ score: post.upvotes() - post.downvotes(), upvotes: post.upvotes(), downvotes: post.downvotes() });
       } else {
         return res.redirect(req.session.returnTo || post.getUrl());
@@ -415,6 +439,11 @@ exports.search = postsSearch;
  */
 exports.comments = postsComments;
 
+/**
+ * Function to perform regexs on strings for tags
+ * e.g. to split a string like: 'London, "United Kingdom", UK' into an array of
+ * strings like ['London', 'United Kingdom', 'UK']
+ */
 function splitTags(str) {
   if (!str || str.trim() == '')
     return [];

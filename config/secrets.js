@@ -16,8 +16,8 @@ module.exports = {
   sessionSecret: process.env.SESSION_SECRET || '526aa78cdeedf412fd27fedb5ab5ecf8',
 
   sendgrid: {
-    user: process.env.SENDGRID_USER || 'inkrato',
-    password: process.env.SENDGRID_PASSWORD || 'fd891ce949aca6a2667b4'
+    user: process.env.SENDGRID_USER || '',
+    password: process.env.SENDGRID_PASSWORD || ''
   },
 
   facebook: {
