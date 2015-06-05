@@ -74,9 +74,13 @@
         </p>
         <% } %>
         <h2 class="page-header"><%= post.title %></h2>
-        <% post.description.split("\n").forEach(function(line, i) { %>
-          <p><%- linkify(line) %></p>
-        <% }); %>
+        <% if (post.descriptionHtml) { %>
+          <%- post.descriptionHtml %>
+        <% } else { %>
+          <% post.description.split("\n").forEach(function(line, i) { %>
+            <p><%- linkify(line) %></p>
+          <% }); %>
+        <% } %>
         <% if (post.tags.length > 0) {%>
         <br/>
         <p class="tags clearfix">

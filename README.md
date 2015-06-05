@@ -30,7 +30,7 @@ Only SendGrid is currently supported for email (which must be configred for feat
 
 ## Using the API
 
-Once logged in you can visit your Profile page to request an API Key to be emailed to you. You can then access the API endpoints documented below.
+Once logged in you can visit your Profile page to request an API Key to be emailed to you so you can access the API endpoints.
 
 You will need to pass the API Key as either a form or query string parameter named 'apikey' or as an HTTP header named 'x-apikey' in each request.
 
@@ -137,13 +137,13 @@ Downvotes a post. You can vote up, down or not at all on a post. Only your last 
 
 Pass the postId (a number) in place of ':id' and it will return a JSON response with the updated total score, upvotes and downvotes for that post.
 
-### POST /api/unvote/:id
+#### POST /api/unvote/:id
 
 Reset your vote on a post (sets it to neither an upvote or a downvote). You can vote up, down or not at all on a post. Only your last voting action on counts (if you cange your vote, your previous votes are discarded).
 
 Pass the postId (a number) in place of ':id' and it will return a JSON response with the updated total score, upvotes and downvotes for that post.
 
-### GET /api/search
+#### GET /api/search
 
 Parameters:
 
@@ -157,15 +157,15 @@ Example response:
       count: Number     // Total number of matching results (max 100)
     }
 
-### GET /api/topics
+#### GET /api/topics
 
 Returns an array of the valid Topic objects (and their id value).
 
-### GET /api/states
+#### GET /api/states
 
 Returns an array of the valid Priority objects (and their id value).
 
-### GET /api/priorities
+#### GET /api/priorities
 
 Returns an array of the valid Priority objects (and their id value).
 

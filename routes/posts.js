@@ -5,8 +5,8 @@ var Post = require('../models/Post'),
     Site = require('../models/Site'),
     postsSearch = require('./posts/search'),
     postsComments = require('./posts/comments'),
-    Q = require("q");
-
+    Q = require("q"),
+    marked = require('marked');
 
 /**
  * Return list of topics
@@ -219,6 +219,8 @@ exports.getPost = function(req, res) {
     if (req.xhr || req.api) {
       res.json(post);
     } else {
+      post.descriptionHtml = marked(post.description);
+      
       return res.render('posts/view', { title: res.locals.title + " - " + post.title, post: post, topic: post.topic });
     }
   });
