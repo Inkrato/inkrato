@@ -1,7 +1,7 @@
 var _ = require('lodash'),
     passport = require('passport'),
     LocalStrategy = require('passport-local').Strategy,
-    LocalAPIKeyStrategy = require('passport-localapikey').Strategy,
+    LocalAPIKeyStrategy = require('../lib/passport-localapikey'),
     FacebookStrategy = require('passport-facebook').Strategy,
     TwitterStrategy = require('passport-twitter').Strategy,
     GitHubStrategy = require('passport-github').Strategy,

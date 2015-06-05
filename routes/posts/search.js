@@ -11,9 +11,10 @@ exports.getSearch = function(req, res) {
       { sort: { created: -1 },
         limit: 100,
         populate: [ { path: 'creator', fields: 'profile email picture role'},
+                    { path: 'comments', fields: 'creator' },
+                    { path: 'topic', fields: 'name icon path'},
                     { path: 'state', fields: 'name open'},
-                    { path: 'priority', fields: 'name color'},
-                    { path: 'topic', fields: 'name icon path'}
+                    { path: 'priority', fields: 'name color'}
                   ]
       },
       function(err, data) {
@@ -23,7 +24,13 @@ exports.getSearch = function(req, res) {
           posts: data.results,
           count: data.totalCount
         };
-        // If it's an ajax request, return a json response
+        
+        // If it's an API requst, return the JSON
+        if (req.api)
+          return res.json(response);
+        
+        // If it's an ajax request, return a json response with a URL added
+        // The URL is used by the typeahead search field to suggest results
         if (req.xhr) {
           response.posts = [];
           data.results.forEach(function(post) {
@@ -44,7 +51,7 @@ exports.getSearch = function(req, res) {
       posts: [],
       count: 0
     };
-    if (req.xhr) {
+    if (req.xhr || req.api) {
       return res.json(response);
     } else {
       return res.render('posts/search', response);

@@ -99,6 +99,20 @@ h1, h2
   color: #fff;
 }
 
+.break {
+  -ms-word-break: break-all;
+
+   /* Be VERY careful with this, breaks normal words wh_erever */
+   word-break: break-all;
+
+   /* Non standard for webkit */
+   word-break: break-word;
+
+  -webkit-hyphens: auto;
+     -moz-hyphens: auto;
+          hyphens: auto;
+}
+
 .post-preview-body .post-title {
   margin-top: 0;
   margin-bottom: 10px;

@@ -1,6 +1,7 @@
 var Post = require('../models/Post'),
     Topic = require('../models/Topic'),
     State = require('../models/State'),
+    Priority = require('../models/Priority'),
     Site = require('../models/Site'),
     postsSearch = require('./posts/search'),
     postsComments = require('./posts/comments'),
@@ -11,7 +12,7 @@ var Post = require('../models/Post'),
  * Return list of topics
  * GET /posts/
  */
-exports.getTopics = function(req, res) {
+exports.getTopicList = function(req, res) {
   return res.redirect(Site.options().post.path+"/everything");
 };
 
@@ -180,7 +181,11 @@ exports.postNewPost = function(req, res, next) {
     // Fetch back from DB so topic is properly populated for the page template
     Post
     .findOne({ postId: post.postId })
+    .populate('creator', 'profile')
+    .populate('comments.creator', 'profile')
     .populate('topic')
+    .populate('state')
+    .populate('priority')
     .exec(function (err, post) {
       if (req.xhr || req.api) {
         return res.json(post);
@@ -301,7 +306,11 @@ exports.postEditPost = function(req, res, next) {
       // Fetch back from DB so topic is properly populated for the page template
       Post
       .findOne({ postId: post.postId })
+      .populate('creator', 'profile')
+      .populate('comments.creator', 'profile')
       .populate('topic')
+      .populate('state')
+      .populate('priority')
       .exec(function (err, post) {
         if (req.xhr || req.api) {
           return res.json(post);
@@ -429,6 +438,43 @@ exports.postUnvote = function(req, res, next) {
   });
 }
 
+/**
+ * GET /api/topics
+ * Returns a list of Topics available to specify for clients using the API
+ */
+exports.getTopics = function(req, res) {
+  Topic
+  .find({ deleted: false })
+  .exec(function (err, topics) {
+    return res.json(topics);
+  });
+};
+
+/**
+ * GET /api/states
+ * Returns a list of States available to specify for clients using the API
+ */
+exports.getStates= function(req, res) {
+  State
+  .find({ deleted: false })
+  .exec(function (err, states) {
+    return res.json(states);
+  });
+};
+
+/**
+ * GET /api/priorities
+ * Returns a list of Priorities available to specify for clients using the API
+ */
+exports.getPriorities = function(req, res) {
+  Priority
+  .find({ deleted: false })
+  .exec(function (err, priorities) {
+    return res.json(priorities);
+  });
+};
+
+  
 /**
  * Routes for /posts/:topic/search/*
  */

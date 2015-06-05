@@ -6,7 +6,9 @@
         <li class="active"><a href="#details" data-toggle="tab"><i class="fa fa-lg fa-fw fa-user"></i> Your details <p class="pull-right"><i class="fa fa-chevron-right"></i></p></a></li>
         <li><a href="#changePassword" data-toggle="tab"><i class="fa fa-lg fa-fw fa-key"></i> Change password <p class="pull-right"><i class="fa fa-chevron-right"></i></p></a></li>
         <li><a href="#permissions" data-toggle="tab"><i class="fa fa-lg fa-fw fa-lock"></i> Permissions <p class="pull-right"><i class="fa fa-chevron-right"></i></p></a></li>
+        <% if (site.options().api == true) { %>
         <li><a href="#api" data-toggle="tab"><i class="fa fa-lg fa-fw fa-cogs"></i> API Access <p class="pull-right"><i class="fa fa-chevron-right"></i></p></a></li>
+        <% } %>
         <li><a href="#deleteAccount" data-toggle="tab"><i class="fa fa-lg fa-fw fa-trash"></i> Delete account <p class="pull-right"><i class="fa fa-chevron-right"></i></p></a></li>
       </ul>
   </div>
@@ -191,6 +193,7 @@
             </form>
           </div>
 
+          <% if (site.options().api == true) { %>
           <div class="tab-pane" id="api">
             <h2 style="margin-top: 0;">API Access</h2>
             <br/>
@@ -207,6 +210,7 @@
             </form>
             <br/>
           </div>
+          <% } %>
 
           <div class="tab-pane" id="deleteAccount">
             <h2 style="margin-top: 0;">Delete your account</h2>

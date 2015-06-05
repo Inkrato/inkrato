@@ -36,6 +36,7 @@ module.exports = function() {
     return {
       ssl: ssl,
       host: host,
+      api: config.app.api,
       post: {
         name: config.app.posts.name,
         path: '/'+encodeURI(config.app.posts.path.replace(/\//g, '')),

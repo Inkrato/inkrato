@@ -1,5 +1,6 @@
 /**
- * Module dependencies.
+ * inkrato community edition
+ * Iain Collins <iain@inkrato.com>
  */
 
 var express = require('express'),
@@ -39,7 +40,7 @@ var config = {
 };
 
 /**
- * Connect to MongoDB.
+ * Connect to MongoDB
  */
 mongoose.connect(config.secrets.db);
 mongoose.connection.on('error', function() {
@@ -47,7 +48,7 @@ mongoose.connection.on('error', function() {
 });
 
 /**
- * CSRF URL whitelist.
+ * CSRF URL whitelist
  */
 var csrfExclude = [];
 
@@ -73,7 +74,7 @@ i18n.configure({
 });
 
 /**
- * Express configuration.
+ * Express configuration
  */
 app.set('port', process.env.PORT || 3000);
 app.set('views', path.join(__dirname, 'views'));
@@ -140,14 +141,14 @@ app.use(function(req, res, next) {
   res.locals.priorities = GLOBAL.priorities;
   res.locals.states = GLOBAL.states;
 
-  // Set to true for requests made via the API
+  // Set req.api to true for requests made via the API
   if ((/^\/api/).test(req.path))
     req.api = true;
   
   next();
 });
 app.use(function(req, res, next) {
-  // Remember original destination before login.
+  // Remember original destination before login
   
   // Exceptions for paths we want to ignore
   // e.g. login pages, JavaScript files that make ajax calls
@@ -182,13 +183,15 @@ var routes = {
 };
 
 app.use(function(req, res, next) {
-  // Open up calls to cross site origin requests
+  // Open up to allow cross site origin requests from permitted domains
   // res.setHeader("Access-Control-Allow-Origin", "*");
-  // Specify which headers and methods can be set by the client
-  // Explicitly required for compatiblity with many browser based REST clients
+  
+  // Explicitly specify which headers and methods can be used by the client
+  // This is required for compatiblity with some browser based REST clients
+  // e.g. AngularJS
   // res.setHeader("Access-Control-Allow-Headers", "Origin,X-Requested-With,Content-Type,Accept,Session-Id,Api-Key");
   // res.setHeader("Access-Control-Allow-Methods", "POST,GET,OPTIONS,PUT,DELETE");
-  
+
   if (req.method == "OPTIONS") {
       // Return immediately for all OPTIONS requests
       res.send();
@@ -220,17 +223,17 @@ if (Site.options().ssl == true) {
   app.use(function(req, res, next) {
     var schema = req.headers['x-forwarded-proto'];
     if (schema === 'https') {
-      // Already https; don't do anything special.
+      // Already https; don't do anything special
       next();
     } else {
-      // Redirect to https.
+      // Redirect to https
       res.redirect('https://' + req.headers.host + req.url);
     }
   });
 }
 
 /**
- * Main routes.
+ * Main routes
  */
 app.get('/', routes.home.index);
 app.get('/about', routes.about.getAbout);
@@ -249,14 +252,17 @@ app.get('/profile', routes.passport.isAuthenticated, routes.user.getAccount);
 app.get('/account', routes.passport.isAuthenticated, routes.user.getAccount);
 app.get('/account/profile', routes.passport.isAuthenticated, routes.user.getAccount);
 app.post('/account/profile', routes.passport.isAuthenticated, routes.user.postUpdateProfile);
-app.post('/account/profile/apikey', routes.passport.isAuthenticated, routes.user.postApiKey);
+
+if (Site.options().api == true)
+  app.post('/account/profile/apikey', routes.passport.isAuthenticated, routes.user.postApiKey);
+
 app.post('/account/password', routes.passport.isAuthenticated, routes.user.postUpdatePassword);
 app.post('/account/delete', routes.passport.isAuthenticated, routes.user.postDeleteAccount);
 app.get('/account/unlink/:provider', routes.passport.isAuthenticated, routes.user.getOauthUnlink);
 app.get('/new', routes.passport.isAuthenticated, routes.posts.getNewPost);
 app.post('/new', routes.passport.isAuthenticated, routes.posts.postNewPost);
 app.get('/search', routes.posts.search.getSearch);
-app.get(Site.options().post.path, routes.posts.getTopics);
+app.get(Site.options().post.path, routes.posts.getTopicList);
 app.get(Site.options().post.path+'/:topic', routes.posts.getPosts);
 app.get(Site.options().post.path+'/:topic/new', routes.passport.isAuthenticated, routes.posts.getNewPost);
 app.post(Site.options().post.path+'/:topic/new', routes.passport.isAuthenticated, routes.posts.postNewPost);
@@ -275,16 +281,22 @@ app.post('/comments/add/:id', routes.passport.isAuthenticated, routes.posts.comm
 /**
  * Routes that can be accessed using an API key
  */
-app.post('/api/new', routes.passport.apiKey, routes.posts.postNewPost);
-app.get('/api/view/:id', routes.passport.apiKey, routes.posts.getPost);
-app.post('/api/edit/:id', routes.passport.apiKey, routes.posts.postEditPost);
-app.post('/api/upvote/:id', routes.passport.apiKey, routes.posts.postUpvote);
-app.post('/api/downvote/:id', routes.passport.apiKey, routes.posts.postDownvote);
-app.post('/api/unvote/:id', routes.passport.apiKey, routes.posts.postUnvote);
-app.get('/api/unauthorized', function(req, res, next) { return res.status(401).json({errors: [{ param: 'apikey', msg: 'Valid API Key required' }]}); } );
+if (Site.options().api == true) {
+  app.post('/api/new', routes.passport.apiKey, routes.posts.postNewPost);
+  app.get('/api/view/:id', routes.passport.apiKey, routes.posts.getPost);
+  app.get('/api/topics', routes.passport.apiKey, routes.posts.getTopics);
+  app.get('/api/states', routes.passport.apiKey, routes.posts.getStates);
+  app.get('/api/priorities', routes.passport.apiKey, routes.posts.getPriorities);
+  app.post('/api/edit/:id', routes.passport.apiKey, routes.posts.postEditPost);
+  app.post('/api/upvote/:id', routes.passport.apiKey, routes.posts.postUpvote);
+  app.post('/api/downvote/:id', routes.passport.apiKey, routes.posts.postDownvote);
+  app.post('/api/unvote/:id', routes.passport.apiKey, routes.posts.postUnvote);
+  app.get('/api/search', routes.passport.apiKey, routes.posts.search.getSearch);
+  app.get('/api/unauthorized', function(req, res, next) { return res.status(401).json({errors: [{ param: 'apikey', msg: 'Valid API Key required' }]}); } );
+}
 
 /**
- * OAuth sign-in routes.
+ * OAuth sign-in routes
  */
 if (Site.loginOptions('facebook')) {
   app.get('/auth/facebook', passport.authenticate('facebook', { scope: ['email', 'user_location'] }));
@@ -312,7 +324,7 @@ if (Site.loginOptions('github')) {
 }
 
 /**
- * 500 Error Handler.
+ * 500 Error Handler
  */
 app.use(function (err, req, res, next) {
   // treat as 404
@@ -328,7 +340,7 @@ app.use(function (err, req, res, next) {
 });
 
 /**
- * 404 File Not Found Handler.
+ * 404 File Not Found Handler
  */
 app.use(function (req, res, next) {
   res.status(404).render('404', { url: req.originalUrl });

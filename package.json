@@ -1,9 +1,9 @@
 {
   "name": "inkrato",
-  "version": "0.2.0",
+  "version": "0.3.0",
   "repository": {
     "type": "git",
-    "url": "https://github.com/Inkrato/inkrato.git"
+    "url": "https://github.com/inkrato/inkrato.git"
   },
   "scripts": {
     "start": "node server.js",
@@ -54,7 +54,6 @@
     "passport-github": "^0.1.5",
     "passport-google-oauth": "^0.1.5",
     "passport-local": "^1.0.0",
-    "passport-localapikey": "0.0.3",
     "passport-twitter": "^1.0.2",
     "q": "^1.2.0",
     "request": "^2.37.0",
