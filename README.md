@@ -2,7 +2,7 @@
 
 This is an early release of the inkrato community edition - an open source collaboration platform for teams and communities.
 
-This version ships will fully working core functionality (including an API) but does not yet have some of the more sophisticated and deverse functionality of the earlier propriatory version.
+This version ships will fully working core functionality (including an API) but does not have all functionality of the earlier, proprietary version.
 
 You are free to use and modify this software for both non-commercial and commercial purposes.
 
@@ -18,15 +18,17 @@ You can also pass options at runtime via environment variables:
 
     > PORT 80 npm start
 
-To customise the user interface theme edit the variables in `public/css/theme.less` and reload the page (the CSS will be auto-generated).
+To customize the user interface theme edit the variables in `public/css/theme.less` and reload the page (the CSS will be auto-generated).
 
-### Configuring secrets.js
+### Configuring
 
-IMPORTANT! You should not commit a configured secrets.js to a public repository.
+You can safely configure and commit changes to `config/app.js` to your version.
+
+IMPORTANT! You should not commit a configured `secrets.js` to a public repository (this would expose private authentication details).
 
 Any oAuth options you provide configuration details for (Twitter, Facebook, Google) will automatically appear on the sign-in screen.
 
-Only SendGrid is currently supported for email (which must be configred for features like password reset and API Key access to work). They offer a free teir for low-volume usage.
+Only SendGrid is currently supported for email (which must be configured for features like password reset and API Key access to work). They offer a free tier for low-volume usage.
 
 ### Deploying to Heroku
 
@@ -192,8 +194,8 @@ Each 'post' (which could be a ticket, feedback, bug report or something else, de
 Notes:
 
 * _id is an internal Object ID ( HEX).
-* postId is an autoincrimenting integer ID, and this is the ID you shoud use when viewing and updating posts.
-* Topics, Status and Priorites are optional. They are specified by Object ID (HEX). Currently there is no API to query the avalible values.
+* postId is an auto-incrementing integer ID, and this is the ID you should use when viewing and updating posts.
+* Topics, Status and Priorities are optional. They are specified by Object ID (HEX). Currently there is no API to query the available values.
 
 ### API Endpoints
 
@@ -209,11 +211,11 @@ Parameters:
 * String  state         A valid State ID (an Object ID), optional
 * String  priority      A valid Priority ID (an Object ID), optional
 
-On success you should get a 200 response and a JSON represenation of the new post.
+On success you should get a 200 response and a JSON representation of the new post.
 
 #### GET /api/view/:id
 
-Pass the postId (a number) in place of ':id' and it will return a JSON respresentation of the requested post..
+Pass the postId (a number) in place of ':id' and it will return a JSON representation of the requested post..
 
 #### POST /api/edit/:id
 
@@ -227,11 +229,11 @@ Parameters:
 * String  state         A valid State ID (an Object ID), optional
 * String  priority      A valid Priority ID (an Object ID), optional
 
-On success you should get a 200 response and a JSON represenation of the updated post.
+On success you should get a 200 response and a JSON representation of the updated post.
 
 #### POST /api/upvote/:id
 
-Upvotes a post. You can vote up, down or not at all on a post. Only your last voting action on counts (if you cange your vote, your previous votes are discarded).
+Upvotes a post. You can vote up, down or not at all on a post. Only your last voting action on counts (if you change your vote, your previous votes are discarded).
 
 Pass the postId (a number) in place of ':id' and it will return a JSON response with the updated total score, upvotes and downvotes for that post.
 
@@ -244,7 +246,7 @@ Pass the postId (a number) in place of ':id' and it will return a JSON response 
 
 #### POST /api/unvote/:id
 
-Reset your vote on a post (sets it to neither an upvote or a downvote). You can vote up, down or not at all on a post. Only your last voting action on counts (if you cange your vote, your previous votes are discarded).
+Reset your vote on a post (sets it to neither an upvote or a downvote). You can vote up, down or not at all on a post. Only your last voting action on counts (if you change your vote, your previous votes are discarded).
 
 Pass the postId (a number) in place of ':id' and it will return a JSON response with the updated total score, upvotes and downvotes for that post.
 
@@ -276,7 +278,7 @@ Returns an array of the valid Priority objects (and their id value).
 
 ## Security considerations
 
-There is currently no email address verification requirement, rate-limiting, capatcha support or ability to moderate users or spam, meaning there is currently little protection against users with malicious intent.
+There is currently no email address verification requirement, rate-limiting, CAPTCHA support or ability to moderate users or spam, meaning there is currently little protection against users with malicious intent.
 
 If there are no user accounts in the system, the first user to login is granted ADMIN access (and can edit any post), but subsequent users have normal privileges and while they can create new posts they can only edit their own posts.
 
@@ -284,7 +286,7 @@ If you wish to grant admin access to additional users you can update the monogo 
 
 ## About the inkrato platform
 
-The inkrato platform has been used as a feedback platform for a wide range of uses - by activists (for the Labour Digital Goverment Review), charitable organisations (Friends of the Earth) for video game communites (PlanetSide Tracker), by private companies and by local community groups.
+The inkrato platform has been used as a feedback platform for a wide range of uses - by activists (for the Labour Digital Government Review), charitable organizations (Friends of the Earth) for video game communities (PlanetSide Tracker), by private companies and by local community groups.
 
 The release of this next generation version as open source software allows anyone to take advantage of it host a community site of their own, for free.
 
@@ -294,7 +296,7 @@ This version will eventually replace the current, proprietary version of inkrato
 
 ## Licensing
 
-This software is released to the community under the MIT Licence.
+This software is released to the community under the MIT License.
 
 This projects contains portions of code from the hackathon-starter project (in particular related to oAuth) by Sahat Yalkabov, which is incorporated under the MIT License.
 
