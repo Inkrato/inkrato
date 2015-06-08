@@ -5,5 +5,5 @@
   "repository": "https://github.com/inkrato/inkrato",
   "keywords": ["forum", "tracker", "community", "collaboration"],
   "success_url": "/",
-  "addons": ["mongolab:shared-single-small"]
+  "addons": ["mongolab:sandbox"]
 }
