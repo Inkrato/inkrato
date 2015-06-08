@@ -12,44 +12,55 @@
       <div class="modal-body">
         <form name="login" method="post" action="/login" data-validator="true">
           <div class="row">
-            <% if (site.loginOptions('facebook') || site.loginOptions('google') || site.loginOptions('twitter') || site.loginOptions('github') ) { %>
-            <div class="col-sm-6">
-              <h4>Use an existing account</h4>
+            <% if (!site.loginOptions('facebook') && !site.loginOptions('google') && !site.loginOptions('twitter') && !site.loginOptions('github') && !site.loginOptions('email')) { %>
+            <div class="col-sm-12">
+              <h2 style="margin-top: 0;"><i class="fa fa-warning"></i> No login methods configured</h2>
               <br/>
-              <% if (site.loginOptions('facebook')) { %>
-              <a href="/auth/facebook" class="btn btn-lg btn-block btn-default btn-facebook btn-social"><i class="fa fa-lg fa-fw fa-facebook"></i> Sign in with Facebook</a>
-              <% } %>
-              <% if (site.loginOptions('google')) { %>
-              <a href="/auth/google" class="btn btn-lg btn-block btn-default btn-google-plus btn-social"><i class="fa fa-lg fa-fw fa-google-plus"></i> Sign in with Google</a>
-              <% } %>
-              <% if (site.loginOptions('twitter')) { %>
-              <a href="/auth/twitter" class="btn btn-lg btn-block btn-default btn-twitter btn-social"><i class="fa fa-lg fa-fw fa-twitter"></i> Sign in with Twitter</a>
-              <% } %>
-              <% if (site.loginOptions('github')) { %>
-              <a href="/auth/github" class="btn btn-lg btn-block btn-default btn-github btn-social"><i class="fa fa-lg fa-fw fa-github"></i> Sign in with GitHub</a>
-              <% } %>
-              <br/>
+              <p class="lead">There are no login methods configured for this site.</p>
+              <p>Edit <strong>config/secrets.js</strong> or setup <strong>Environment Variables</strong> to specify email login details or configure Facebook, Twitter, Google+ or GitHub for oAuth login.</p>
+              </br>
+              <p class="text-center"><a class="btn btn-default" href="https://github.com/Inkrato/inkrato/blob/master/README.md">Check out the README for details</a></p>
             </div>
             <% } else { %>
-            <div class="col-sm-3">&nbsp;</div>
-            <% } %>
-            <% if (site.loginOptions('email')) { %>
-            <div class="col-sm-6">
-              <h4>Log in via email</h4>
-              <br/>
-              <div class="messages"></div>
-              <input type="hidden" name="_csrf" value="<%= _csrf %>">
-              <div class="form-group">
-                <label for="email" class="control-label">Email</label><input type="text" name="email" id="email" placeholder="Email" autofocus="" class="form-control">
+              <% if (site.loginOptions('facebook') || site.loginOptions('google') || site.loginOptions('twitter') || site.loginOptions('github') ) { %>
+              <div class="col-sm-6">
+                <h4>Use an existing account</h4>
+                <br/>
+                <% if (site.loginOptions('facebook')) { %>
+                <a href="/auth/facebook" class="btn btn-lg btn-block btn-default btn-facebook btn-social"><i class="fa fa-lg fa-fw fa-facebook"></i> Sign in with Facebook</a>
+                <% } %>
+                <% if (site.loginOptions('google')) { %>
+                <a href="/auth/google" class="btn btn-lg btn-block btn-default btn-google-plus btn-social"><i class="fa fa-lg fa-fw fa-google-plus"></i> Sign in with Google</a>
+                <% } %>
+                <% if (site.loginOptions('twitter')) { %>
+                <a href="/auth/twitter" class="btn btn-lg btn-block btn-default btn-twitter btn-social"><i class="fa fa-lg fa-fw fa-twitter"></i> Sign in with Twitter</a>
+                <% } %>
+                <% if (site.loginOptions('github')) { %>
+                <a href="/auth/github" class="btn btn-lg btn-block btn-default btn-github btn-social"><i class="fa fa-lg fa-fw fa-github"></i> Sign in with GitHub</a>
+                <% } %>
+                <br/>
               </div>
-              <div class="form-group">
-                <label for="password" class="control-label">Password</label><input type="password" name="password" id="password" placeholder="Password" class="form-control">
+              <% } else { %>
+              <div class="col-sm-3">&nbsp;</div>
+              <% } %>
+              <% if (site.loginOptions('email')) { %>
+              <div class="col-sm-6">
+                <h4>Log in via email</h4>
+                <br/>
+                <div class="messages"></div>
+                <input type="hidden" name="_csrf" value="<%= _csrf %>">
+                <div class="form-group">
+                  <label for="email" class="control-label">Email</label><input type="text" name="email" id="email" placeholder="Email" autofocus="" class="form-control">
+                </div>
+                <div class="form-group">
+                  <label for="password" class="control-label">Password</label><input type="password" name="password" id="password" placeholder="Password" class="form-control">
+                </div>
+                <div class="form-group text-right">
+                  <a href="/reset-password" class="btn btn-default"><i class="fa fa-fw fa-key"></i> Reset password</a> 
+                  <button type="submit" class="btn btn-primary"><i class="fa fa-fw fa-sign-in"></i> Log in</button> 
+                </div>
               </div>
-              <div class="form-group text-right">
-                <a href="/reset-password" class="btn btn-default"><i class="fa fa-fw fa-key"></i> Reset password</a> 
-                <button type="submit" class="btn btn-primary"><i class="fa fa-fw fa-sign-in"></i> Log in</button> 
-              </div>
-            </div>
+              <% } %>
             <% } %>
           </div>
           <% if (site.loginOptions('email')) { %>

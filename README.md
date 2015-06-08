@@ -2,7 +2,7 @@
 
 This is an early release of the inkrato community edition - an open source collaboration platform for teams and communities.
 
-This version ships will fully working core functionality (including an API) but does not yet have some of the more sophisticated and deverse functionality of the propriatory version.
+This version ships will fully working core functionality (including an API) but does not yet have some of the more sophisticated and deverse functionality of the earlier propriatory version.
 
 You are free to use and modify this software for both non-commercial and commercial purposes.
 
@@ -27,6 +27,119 @@ IMPORTANT! You should not commit a configured secrets.js to a public repository.
 Any oAuth options you provide configuration details for (Twitter, Facebook, Google) will automatically appear on the sign-in screen.
 
 Only SendGrid is currently supported for email (which must be configred for features like password reset and API Key access to work). They offer a free teir for low-volume usage.
+
+### Deploy to Heroku
+
+An easy way to start working with the project is to click the button below which
+will clone this project and deploy a working app to Heroku:
+
+[![Deploy](https://www.herokucdn.com/deploy/button.png)](https://heroku.com/deploy?template=https://github.com/inkrato/inkrato)
+
+Once deployed you will need to configure the following **Config Variables** in your applications settings, via https://dashboard.heroku.com
+
+* **MONGODB**
+
+    The address of your MongoDB instance (the [MongoLab addon](https://addons.heroku.com/mongolab) is a great way to get started).
+
+        e.g. mongodb://heroku_app35008034:k2fn2h2jk13b12bh123i12j3l1k3j2.mongolab.com:31571/heroku_app35008034
+        
+* **SESSION_SECRET**
+
+    A random seed unique to your site, used to generate session keys
+
+In addition you will then need to configure at least one of the following service to enable the corresponding login options:
+
+*NB: If only developing and testing locally specify `http://localhost:3000` in place of `http://YOURAPPNAME.herokuapp.com/ in the configuration steps below.*
+
+#### Email Login
+
+Configuration Variables:
+
+* SENDGRID_USER
+* SENDGRID_PASSWORD
+
+Configuration steps:
+
+1. Go to https://sendgrid.com/user/signup
+2. Sign up and confirm your your account via the activation email
+3. Set add `SENDGRID_USER` and `SENDGRID_PASSWORD` Config Variables with your account details.
+
+#### Facebook Login
+
+Configuration Variables:
+
+* FACEBOOK_ID
+* FACEBOOK_SECRET
+
+Configuration steps:
+
+1. Go to [Facebook Developers](https://developers.facebook.com/)
+2. Click **Apps > Create a New App** in the navigation bar
+3. Enter *Display Name*, then choose a category, then click **Create app**
+5. Specify *App ID* as the **FACEBOOK_ID** Config Variable
+6. Specify *App Secret* as the **FACEBOOK_SECRET** Config Variable
+7. Click on *Settings* on the sidebar, then click **+ Add Platform**
+8. Select **Website**
+9. Enter `http://YOURAPPNAME.herokuapp.com` as the *Site URL*
+
+#### Twitter Login
+
+Configuration Variables:
+
+* TWITTER_KEY
+* TWITTER_SECRET
+  
+Configuration steps:
+
+1. Sign in at [https://dev.twitter.com](https://dev.twitter.com/)
+2. From the profile picture dropdown menu select **My Applications**
+3. Click **Create a new application**
+4. Enter your application name, website and description
+5. For **Callback URL**: `http://YOURAPPNAME.herokuapp.com/auth/twitter/callback`
+6. Go to **Settings** tab
+7. Under *Application Type* select **Read and Write** access
+8. Check the box **Allow this application to be used to Sign in with Twitter**
+9. Click **Update this Twitter's applications settings**
+10. Specify *Consumer Key* as the **TWITTER_KEY** Config Variable
+11. Specify *Consumer Secret* as the **TWITTER_SECRET** Config Variable
+
+#### Google+ Login
+
+Configuration Variables:
+
+* GOOGLE_ID
+* GOOGLE_SECRET
+
+Configuration steps:
+
+1. Visit [Google Cloud Console](https://cloud.google.com/console/project)
+2. Click the **CREATE PROJECT** button
+3. Enter *Project Name*, then click **CREATE**
+4. Then select *APIs & auth* from the sidebar and click on *Credentials* tab
+5. Click **CREATE NEW CLIENT ID** button and enter the following data:
+ - **Application Type**: Web Application
+ - **Authorized Javascript origins**: `http://YOURAPPNAME.herokuapp.com/`
+ - **Authorized redirect URI**: `http://YOURAPPNAME.herokuapp.com/auth/google/callback`
+6. Specify *Client ID* as the **GOOGLE_ID** Config Variable
+7. Specify *Client Secret* as the **GOOGLE_SECRET** Config Variable
+  
+#### GitHub Login
+
+Configuration Variables:
+
+* GITHUB_ID
+* GITHUB_SECRET
+  
+Configuration steps:
+
+1. Go to [Account Settings](https://github.com/settings/profile)
+2. Select **Applications** from the sidebar
+3. Select **Developer applications** then click on **Register new application**
+4. Enter *Application Name* and *Homepage URL*.
+5. Enter  `http://YOURAPPNAME.herokuapp.com/auth/github/callback` as the *Authorization Callback URL*
+6. Click **Register application**
+7. Specify *Client ID* as the **GITHUB_ID** Config Variable
+8. Specify *Client Secret* as the **GITHUB_SECRET** Config Variable
 
 ## Using the API
 
