@@ -1,0 +1,38 @@
+<!-- Comments -->
+<hr/>
+<h4 class="text-muted"><i class="fa fa-comments"></i> Comments</h4>
+<br/>
+<% post.comments.forEach(function(comment) { %>
+<div class="media">
+  <div class="media-left hidden-xs" style="padding-right: 20px;">
+    <% if (comment.creator) { %>
+    <img src="<%= comment.creator.avatar(55) %>" height="55" width="55" alt="Avatar" class="img-circle"/>
+    <% } else { %>
+    <h4 class="text-muted text-center" style="height: 50px; width: 50px;"><i style="margin-top: 5px;" class="fa fa-2x fa-user"></i></h4>
+    <% } %>
+  </div>
+  <div class="media-body panel panel-default">
+    <div class="panel-heading" style="padding: 5px;">
+      <% if (comment.creator) { %>
+      <img src="<%= comment.creator.avatar(24) %>" height="24" width="24" alt="Avatar" class="visible-xs pull-left img-circle"/>
+      <span class="media-heading" style="margin-left: 5px;"><%= comment.creator.profile.name || "Anonymous" %></span>
+      <% } else { %>
+      <span class="media-heading text-muted"> Deleted Account</span>
+      <% } %>
+      <span class="text-muted pull-right"><i class="fa fa-clock-o"></i> <time class="timeago" datetime="<%= comment.created.toISOString() %>"><%= comment.created.toDateString() %></time></span>                
+    </div>
+    <div class="panel-body" style="padding: 10px 10px 0 10px;">
+      <span class="comment">
+        <% if (comment.messageHtml) { %>
+          <%- comment.messageHtml %>
+        <% } else { %>
+          <% comment.message.split("\n").forEach(function(line) { %>
+            <p><%- linkify(line) %></p>
+          <% }); %>
+        <% } %>
+      </span>
+    </div>
+  </div>
+</div>
+<% }); %>
+<br/>

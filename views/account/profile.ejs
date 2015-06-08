@@ -1,0 +1,264 @@
+<h1 class="page-header">Your profile</h1>
+<div class="row">
+  <div class="hidden-xs hidden-sm col-md-3"> <!-- required for floating -->
+      <!-- Nav tabs -->
+      <ul class="nav nav-pills nav-stacked hidden-no-js">
+        <li class="active"><a href="#details" data-toggle="tab"><i class="fa fa-lg fa-fw fa-user"></i> Your details <p class="pull-right"><i class="fa fa-chevron-right"></i></p></a></li>
+        <li><a href="#changePassword" data-toggle="tab"><i class="fa fa-lg fa-fw fa-key"></i> Change password <p class="pull-right"><i class="fa fa-chevron-right"></i></p></a></li>
+        <li><a href="#permissions" data-toggle="tab"><i class="fa fa-lg fa-fw fa-lock"></i> Permissions <p class="pull-right"><i class="fa fa-chevron-right"></i></p></a></li>
+        <% if (site.options().api == true) { %>
+        <li><a href="#api" data-toggle="tab"><i class="fa fa-lg fa-fw fa-cogs"></i> API Access <p class="pull-right"><i class="fa fa-chevron-right"></i></p></a></li>
+        <% } %>
+        <li><a href="#deleteAccount" data-toggle="tab"><i class="fa fa-lg fa-fw fa-trash"></i> Delete account <p class="pull-right"><i class="fa fa-chevron-right"></i></p></a></li>
+      </ul>
+  </div>
+  <div class="col-md-9">
+    <div class="row">
+      
+      <!-- Profile image + linking options -->
+      <div class="col-sm-5 col-sm-push-7">
+
+        <p class="text-center">
+          <img src="<%= user.avatar(200) %>" class="img-circle" alt="Avatar" style="margin: 20px 0;" />
+        </p>
+        <p class="text-center">
+          <small>&nbsp; You can change your avatar at <a target="_blank" href="http://gravatar.com"><i class="fa fa-lg fa-external-link"></i> gravatar.com</a></small>
+        </p>
+        
+        <br/>
+
+        <% // @todo Don't show unlink options if a password isn't set and/or email isn't verified %>
+        
+        <% if (site.loginOptions('facebook') || site.loginOptions('facebook') || site.loginOptions('twitter') || site.loginOptions('github')) { %>
+        <h4>Connect accounts</h4>
+        <p><strong>Tip!</strong> Connecting your accounts allows you to log in even if you lose access to your email account.</p>
+        <br/>
+        <% } %>
+        
+        <!-- Connected accounts -->
+        <% if (user.facebook && site.loginOptions('facebook')) { %>
+          <p class="text-success clearfix">
+            <i class="fa fa-lg fa-fw fa-check-circle"></i> Facebook
+            <a href="/account/unlink/facebook" class="pull-right btn btn-sm btn-default"><i class="fa fa-lg fa-fw fa-unlink"></i> Unlink</a>            
+          </p>
+        <% } %>
+        <% if (user.google && site.loginOptions('google')) { %>
+        <p class="text-success clearfix">
+          <i class="fa fa-lg fa-fw fa-check-circle"></i> Google
+          <a href="/account/unlink/google" class="pull-right btn btn-sm btn-default"><i class="fa fa-lg fa-fw fa-unlink"></i> Unlink</a>            
+        </p>
+        <% } %>
+        <% if (user.twitter && site.loginOptions('twitter')) { %>
+        <p class="text-success clearfix">
+          <i class="fa fa-lg fa-fw fa-check-circle"></i> Twitter
+          <a href="/account/unlink/twitter" class="pull-right btn btn-sm btn-default"><i class="fa fa-lg fa-fw fa-unlink"></i> Unlink</a>            
+        </p>
+        <% } %>
+        <% if (user.github && site.loginOptions('github')) { %>
+        <p class="text-success clearfix">
+          <i class="fa fa-lg fa-fw fa-check-circle"></i> GitHub
+          <a href="/account/unlink/github" class="pull-right btn btn-sm btn-default"><i class="fa fa-lg fa-fw fa-unlink"></i> Unlink</a>
+        </p>
+        <% } %>
+        
+        <!-- Unconnected accounts -->
+        <% if (!user.facebook && site.loginOptions('facebook')) { %>
+        <p>
+          <a href="/auth/facebook" class="btn btn-block btn-default btn-facebook"><i class="fa fa-lg fa-fw fa-facebook"></i> Connect to Facebook</a>
+        </p>
+        <% } %>
+        <% if (!user.google && site.loginOptions('google')) { %>
+        <p>
+          <a href="/auth/google" class="btn btn-block btn-default btn-google-plus"><i class="fa fa-lg fa-fw fa-google"></i> Connect to Google</a>
+        </p>
+        <% } %>
+        <% if (!user.twitter && site.loginOptions('twitter')) { %>
+        <p>
+          <a href="/auth/twitter" class="btn btn-block btn-default btn-twitter"><i class="fa fa-lg fa-fw fa-twitter"></i> Connect to Twitter</a>
+        </p>
+        <% } %>
+        <% if (!user.github && site.loginOptions('github')) { %>
+          <p>
+            <a href="/auth/github" class="btn btn-block btn-default btn-github"><i class="fa fa-lg fa-fw fa-github"></i> Connect to GitHub</a>
+          </p>
+        <% } %>
+      </div>
+      <!-- End image + linking options -->
+      
+      <div class="col-sm-7 col-sm-pull-5">
+        <!-- Tab panes -->
+        <div class="tab-content tabs-vertical">
+          <div class="tab-pane active" id="details">
+            <h2 style="margin-top: 0;">Your details</h2>
+            <br/>
+            <form action="/account/profile" method="post" class="form-horizontal" data-validator="true">
+              <div class="messages"></div>
+              <input type="hidden" name="_csrf" value="<%= _csrf %>">
+              <div class="form-group">
+                <label for="email" class="col-sm-4 control-label">Email</label>
+                <div class="col-sm-7">
+                  <input type="email" name="email" id="email" value="<%= (user.email.match(/\@unverified$/g)) ? '' : user.email %>" class="form-control">
+                </div>
+              </div>
+              <div class="form-group">
+                <label for="name" class="col-sm-4 control-label">Name</label>
+                <div class="col-sm-7">
+                  <input type="text" name="name" id="name" value="<%= user.profile.name %>" class="form-control">
+                </div>
+              </div>
+              <div class="form-group">
+                <label for="Gender" class="col-sm-4 control-label">Organization</label>
+                <div class="col-sm-7">
+                  <input type="text" name="organization" id="organization" value="<%= user.profile.organization %>" class="form-control">
+                </div>
+              </div>
+              <div class="form-group">
+                <label for="location" class="col-sm-4 control-label">Location</label>
+                <div class="col-sm-7">
+                  <input type="text" name="location" id="location" value="<%= user.profile.location %>" class="form-control">
+                </div>
+              </div>
+              <div class="form-group">
+                <label for="website" class="col-sm-4 control-label">Website</label>
+                <div class="col-sm-7">
+                  <input type="text" name="website" id="website" value="<%= user.profile.website %>" class="form-control">
+                </div>
+              </div>
+              <div class="form-group text-right">
+                <div class="col-sm-offset-4 col-sm-7">
+                  <button type="submit" class="btn btn btn-primary"><i class="fa fa-check"></i> Save profile</button>
+                </div>
+              </div>
+            </form>
+          </div>
+          
+          <div class="tab-pane" id="permissions">
+            <h2 style="margin-top: 0;">Permissions</h2>
+            <br/>
+            <!--
+            <% if (user.verified) { %>
+            <p class="text-success">
+              <i class="fa fa-lg fa-fw fa-check-circle"></i> Email address verififed
+            </p>
+            <% } else { %>
+            <p class="text-danger">
+              <i class="fa fa-lg fa-fw fa-times-circle"></i> Email address not verififed
+            </p>
+            <% } %>
+            -->
+            <% if (user.role == 'ADMIN' || user.role == 'MODERATOR') { %>
+            <p class="text-success">
+              <i class="fa fa-lg fa-fw fa-check-circle"></i> You have moderator access
+            </p>
+            <% } else { %>
+            <p class="text-danger">
+              <i class="fa fa-lg fa-fw fa-times-circle"></i> You do not have moderator access
+            </p>
+            <% } %>
+            <% if (user.role == 'ADMIN') { %>
+            <p class="text-success">
+              <i class="fa fa-lg fa-fw fa-check-circle"></i> You have administrator access
+            </p>
+            <% } else { %>
+            <p class="text-danger">
+              <i class="fa fa-lg fa-fw fa-times-circle"></i> You do not have administrator access
+            </p>
+            <% } %>
+            <br/>
+          </div>
+
+          <div class="tab-pane" id="changePassword">
+            <h2 style="margin-top: 0;">Change your password</h2>
+            <br/>
+            <form action="/account/password" method="post" class="form-horizontal" data-validator="true">
+              <input type="hidden" name="_csrf" value="<%= _csrf %>"/>
+              <div class="messages"></div>
+              <div class="form-group">
+                <label for="password" class="col-sm-4 control-label">New password</label>
+                <div class="col-sm-7">
+                  <input type="password" name="password" id="password" class="form-control">
+                </div>
+              </div>
+              <div class="form-group">
+                <label for="confirmPassword" class="col-sm-4 control-label">Confirm password</label>
+                <div class="col-sm-7">
+                  <input type="password" name="confirmPassword" id="confirmPassword" class="form-control">
+                </div>
+              </div>
+              <div class="form-group text-right">
+                <div class="col-sm-offset-4 col-sm-7">
+                  <button type="submit" class="btn btn btn-primary">Change password</button>
+                </div>
+              </div>
+            </form>
+          </div>
+
+          <% if (site.options().api == true) { %>
+          <div class="tab-pane" id="api">
+            <h2 style="margin-top: 0;">API Access</h2>
+            <br/>
+            <p>
+              To request an API Key you must have a valid email address.
+            </p>
+            <p>
+              Your existing API Key will expire if you request a new one.
+            </p>
+            <br/>
+            <form name="request-api-key" method="POST" action="/account/profile/apikey" class="text-center">
+              <input type="hidden" name="_csrf" value="<%= _csrf %>">
+              <button type="submit" class="btn btn-default"><i class="fa fa-lg fa-fw fa-envelope"></i> Request API Key</button>
+            </form>
+            <br/>
+          </div>
+          <% } %>
+
+          <div class="tab-pane" id="deleteAccount">
+            <h2 style="margin-top: 0;">Delete your account</h2>
+            <br/>
+            <p>
+              You can delete your account at any time. If you confirm you wish to delete your account, it cannot be restored.
+            </p>
+            <p>
+              Any posts or comments you have made will still exist, but they will be marked as belonging to a deleted account.
+            </p>
+            <br/>
+            <p class="text-center hidden-no-js">
+              <a href="#" data-toggle="modal" data-target="#deleteAccountModal" class="btn btn-danger"><i class="fa fa-lg fa-fw fa-trash"></i> Delete my account</a>
+            </p>
+            <form name="delete-account" method="post" action="/account/delete" class="visible-no-js text-center">
+              <input type="hidden" name="_csrf" value="<%= _csrf %>">
+              <button type="submit" class="btn btn-danger"><i class="fa fa-fw fa-lg fa-trash"></i>Delete account</button>
+            </form>
+            <br/>
+          </div>
+          
+        </div>  <!-- End tabs -->
+      </div>
+      
+    </div>
+  </div>
+</div>
+
+<div class="modal fade" id="deleteAccountModal" tabindex="-1" role="dialog" aria-labelledby="deleteAccountModalLabel" aria-hidden="true">
+  <div class="modal-dialog">
+    <div class="modal-content">
+      <div class="modal-header">
+        <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+        <h4 class="modal-title" id="deleteAccountModalLabel">Are you sure you wish to delete your account?</h4>
+      </div>
+      <div class="modal-body text-center">
+        <br/>
+        <p class="lead text-danger">
+          <strong><i class="fa fa-lg fa-warning"></i> Warning</strong> Deleted accounts cannot be restored.
+        </p>
+        <br/>
+      </div>
+      <div class="modal-footer">
+        <form name="delete-account" method="post" action="/account/delete">
+          <input type="hidden" name="_csrf" value="<%= _csrf %>">
+          <a href="#" class="btn btn-default" data-dismiss="modal"><i class="fa fa-lg fa-fw fa-ban"></i> Cancel</a>
+          <button type="submit" class="btn btn-danger"><i class="fa fa-fw fa-lg fa-trash"></i>Delete account</button>
+        </form>
+      </div>
+    </div>
+</div>

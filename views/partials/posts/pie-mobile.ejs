@@ -1,0 +1,8 @@
+<% var total = parseInt(post.upvotes()) + parseInt(post.downvotes()); %>
+<div data-votes="<%= post.postId %>" class="donut text-center" style="position: relative; top: -15px; height: 65px;">
+  <% if (total == 0) { %>
+  <span class="hidden" data-peity='{ "width": "100%", "fill": ["#D45252", "#6EBF7D", "#eeeeee"], "innerRadius": 10, "radius": 39 }'>0,0,1</span>
+  <% } else { %>
+  <span class="hidden" data-peity='{  "width": "100%", "fill": ["#D45252", "#6EBF7D", "#eeeeee"], "innerRadius": 10, "radius": 39 }'><%= post.downvotes() %>,<%= post.upvotes() %>,0</span>
+  <% } %>
+</div>

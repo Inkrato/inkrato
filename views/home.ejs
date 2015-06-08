@@ -1,0 +1,83 @@
+</div>
+<div class="jumbotron jumbotron-home text-center clearfix" style="position: relative;">
+  <div class="hidden-xs hidden-sm">
+    <h1>
+      <i class="fa fa-comments"></i>
+      inkrato
+      <small>community edition</small>
+    </h1>
+    <h2 style="margin-bottom: 80px;">
+      An open source collaboration platform for teams and communities
+    </h2>
+  </div>
+  <div class="visible-xs visible-sm">
+    <h1>
+      <i class="fa fa-comments"></i>
+      inkrato
+    </h1>
+    <p style="margin-bottom: 80px;">
+      An open source collaboration platform for teams and communities
+    </p>
+  </div>
+  <span class="fa-stack fa-4x text-center" style="position: absolute; bottom: -65px; width: 100%; left: 0;">
+    <i class="fa fa-circle fa-stack-2x text-white"></i>
+    <i class="fa fa-chevron-down fa-stack-1x text-primary"></i>
+  </span>
+</div>
+<div class="container" style="padding-top: 40px;">
+<div class="row boxes">
+<% topics.forEach(function(topic) { %>
+  <div class="box col-md-4" href="<%= site.options().post.path %>/<%= topic.path %>">
+    <div class="media">
+      <div class="media-left" style="padding: 2px;">
+        <% if (topic.icon) { %>
+        <span class="fa-stack fa-3x" style="margin-right: 10px; margin-bottom: 10px;">
+          <i class="fa fa-circle fa-stack-2x text-primary"></i>
+          <i class="fa fa-<%= topic.icon %> fa-stack-1x fa-inverse"></i>
+        </span>
+        <% } %>
+      </div>
+      <div class="media-body">
+        <div class="row">
+          <div class="col-xs-8">
+            <h3 style="margin-top: 10px;" class="text-primary">
+              <a href="<%= site.options().post.path %>/<%= topic.path %>"><%= topic.name %></a>
+            </h3>
+            <p class="text-muted">
+              <%= topic.description %>
+            </p>
+          </div>
+          <div class="col-xs-4 text-center" style="padding-top: 10px;">
+              <br class="visible-xs"/>
+              <a href="<%= site.options().post.path %>/<%= topic.path %>" style="text-decoration: none;">
+                <span class="lead text-default"><%= topic.postCount %></span>
+              </a>
+          </div>
+        </div>
+        <br/>
+      </div>
+    </div>
+  </div>
+<% }); %>
+</div>
+<br/>
+<div class="text-center">
+  <a href="<%= site.options().post.path %>/" class="btn btn-lg btn-primary">
+    <i class="fa fa-fw fa-<%= site.options().post.icon %>"></i> All <%= site.options().post.name %> <i class="fa fa-fw fa-chevron-right"></i>
+  </a>
+</div>
+<br/>
+<script>
+$(document).ready(function(){
+  // Make all boxes equal height on page load
+  // @todo Redraw on page resize end
+  $('.boxes').each(function(){
+    var maxHeight = 0;
+    $('.box', this).each(function(){
+      if ($(this).height() > maxHeight)
+        maxHeight = $(this).height();
+    });  
+    $('.box', this).height(maxHeight);
+  });
+});
+</script>

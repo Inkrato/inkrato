@@ -1,0 +1,144 @@
+@import "bootstrap/variables.less";
+
+/* Extentions for draggable modals */
+.modal-draggable .modal-backdrop {
+  position: fixed;
+}
+
+.modal.modal-draggable {
+    overflow: overflow-y;
+}
+
+.modal-draggable .modal-header:hover {
+  cursor: move;
+}
+
+/* Several common themes set the z-index of a draggable modal below the overlay */
+.modal-dialog {
+  z-index: 10000;
+}
+
+/* Dialog animations */
+
+.modal.fade .modal-dialog {
+  -webkit-transform: none;
+  transform: none;
+  -webkit-animation: bounce-out-animation 500ms linear both;
+  animation: bounce-out-animation 500ms linear both;
+}
+
+.modal.fade.in .modal-dialog {
+  -webkit-transform: none;
+  transform: none;
+  -webkit-animation: bounce-in-animation 500ms linear both;
+  animation: bounce-in-animation 500ms linear both;
+}
+
+.modal-header {
+  border-radius: @border-radius-large @border-radius-large 0 0;
+}
+
+.modal-footer {
+  border-radius: 0 0 @border-radius-large @border-radius-large;
+}
+
+.form-control {
+  box-shadow: inset 0 0 0 1px @input-border;
+}
+
+.form-control:focus {
+  box-shadow: inset 0 0 0 1px @input-border-focus;
+}
+
+.has-error .form-control {
+  box-shadow: inset 0 0 0 1px @state-danger-text !important;
+}
+
+.input-group-search .form-control,
+.input-group-search .btn {
+  border-color: transparent;
+  box-shadow: none;
+}
+
+.input-group-search .form-control:focus {
+  border-color: @input-border-focus;
+  box-shadow: inset 0 0 0 1px @input-border-focus;
+}
+
+.input-group-search .input-group-btn .btn-default {
+  background-color: @input-bg;
+}
+
+.input-group-searchh .form-control:focus {
+  box-shadow: inset 0 0 0 2px @input-border;
+}
+
+.form-control-feedback {
+  margin-top: 15px;
+  font-size: inherit;
+}
+
+.label {
+  padding: 4px 10px 6px 10px;
+  font-size: @font-size-base;
+}
+
+.tags input {
+  height: 32px;
+}
+
+.tags  {
+  padding-top: 6px;
+  line-height: 32px !important;
+}
+
+.panel {
+  box-shadow: none;
+}
+
+.navbar-collapse {
+  box-shadow: none !important;
+  animation: none !important;
+}
+
+/* Always render tab panes inline on small devices */
+.tab-pane {
+  @media (max-width: @screen-sm-max) {
+    display: block !important;
+    visibility: visible !important;
+  }
+}
+
+.img-circle {
+  border-radius: 0;
+}
+
+hr {
+  border: none;
+  border-bottom: 2px dotted @gray-lighter;
+}
+
+.label {
+  border-radius: 0px !important;
+  padding: 10px;
+  display: inline-block;
+}
+
+.label-lg {
+  padding: 13px 15px 14px 15px;
+}
+
+.label.label-info {
+  border-radius: 50px !important;
+}
+
+.bootstrap-select .btn-default {
+  background: @modal-content-bg; 
+  box-shadow: inset 0 0 0 1px @input-border;
+  border: 1px solid @input-border;
+}
+
+.bootstrap-select.open .btn-default {
+  box-shadow: inset 0 0 0 1px @input-border-focus;
+  border: 1px solid @input-border-focus;
+}

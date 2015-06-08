@@ -1,0 +1,87 @@
+<!DOCTYPE HTML>
+<html lang="en" class="no-js">
+  <head>
+    <meta charset="utf-8"/>
+    <meta http-equiv="X-UA-Compatible" content="IE=edge"/>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0"/>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8"/>
+    <meta name="description" content="">
+    <title><%= title %></title>
+    <link rel="shortcut icon" href="/favicon.ico"/>
+    <%- css('main') %>
+    <!--[if lt IE 9]>
+      <script src="https://oss.maxcdn.com/libs/html5shiv/3.7.0/html5shiv.js"></script>
+      <script src="https://oss.maxcdn.com/libs/respond.js/1.3.0/respond.min.js"></script>
+    <![endif]-->
+    <script>
+      document.documentElement.className = document.documentElement.className.replace("no-js","js");
+    </script>
+    <%- js('application') %>
+  </head>
+  <body>
+    <% include partials/navbar %>
+    <div class="jumbotron jumbotron-heading">
+      <div class="container">
+        <div class="row">
+          <div class="col-sm-7">
+            <h1><%= site.getName() %> <small class="hidden-sm hidden-xs"><%= site.getDescription() %></small></h1>
+            <p style="margin: 0; opacity: 0.5; font-size: 18px; font-weight: 400;">
+              <a href="/" class="text-white"><i class="fa fa-home"></i> home</a>
+              <% if (path.split("/")[1]) { %>
+              <i class="fa fa-lg fa-angle-right"></i>
+              <a href="/<%= path.split("/")[1] %>/" class="text-white"><%= decodeURI(path.split("/")[1]) %></a>
+              <% } %>
+              <!--
+              <% if (path.split("/")[2] && isNaN(path.split("/")[2])) { %>
+              <i class="fa fa-lg fa-angle-right"></i>
+              <a href="/<%= path.split("/")[1] %>/<%= path.split("/")[2] %>/" class="text-white"><%= decodeURI(path.split("/")[2]) %></a>
+              <% } %>
+              -->
+            </p>
+          </div>
+          <div class="col-sm-5">
+            <form name="search-posts" method="get" action="/search" class="form-horizontal hidden-smx hidden-xs">
+              <div class="form-group col-sm-12 col-md-10 pull-right" style="margin: 0;">
+                <div class="input-group input-group-search"> 
+                  <input id="search" name="q" value="<%= typeof(query) != "undefined" ? query : '' %>" type="search" class="form-control" autocomplete="off" data-provide="typeahead" placeholder="Search" />
+                  <div class="input-group-btn">
+                    <button type="submit" name="search" class="btn btn-default"><i class="fa fa-search"></i></button>
+                  </div>
+                </div>
+              </div>
+            </form>
+          </div>
+        </div>
+      </div>
+    </div>
+    <div class="container">
+      <% include partials/flash %>
+      <%- body %>
+    </div>
+    
+    <div class="container">
+      <div class="footer text-muted text-center">
+        <hr/>
+        <p>
+          <a href="https://github.com/inkrato/inkrato"><i class="fa fa-lg fa-fw fa-github"></i> Powered by <strong>inkrato community edition</strong></a>
+        </p>
+        <p>
+          Software <i class="fa fa-copyright"></i> INKRATO LIMITED, 2015. Based in London, UK. Company no. 08633888
+        </p>
+      </div>
+    </div>
+  
+    <%
+      // @todo Sign in dialogs should be loaded via AJAX
+    %>
+    
+    <% if (user) { %>
+      <% include partials/new-post-dialog %>
+    <% } else { %>
+      <% include partials/sign-in-dialogs %>
+    <% } %>
+    
+    <%- js('main') %>
+  </script>
+  </body>
+</html>

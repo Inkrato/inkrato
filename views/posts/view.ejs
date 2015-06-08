@@ -1,0 +1,105 @@
+<% if (site.options().post.voting.enabled == true) { %>
+<div class="media" style="position: relative; top: -10px;">
+  <div class="hidden-xs hidden-sm media-left" style="padding-right: 20px;">
+    <% include ../partials/posts/vote %>
+  </div>
+  <div class="media-body">
+<% } %>
+    <div class="clearfix visible-sm visible-xs" style="margin-bottom: 10px;">
+      <a class="clearfix pull-left" style="display: block;" href="javascript:$('#show-properties').removeClass('visible-xs visible-sm').hide();$('#properties').hide().removeClass('hidden-xs hidden-sm').slideDown();">
+        <div id="show-properties" class="pull-left">
+          <% if (post.creator) { %>
+          <img src="<%= post.creator.avatar(47) %>" height="44" width="44" alt="Avatar" class="img-circle pull-left" style="margin-right: 5px;"/>
+          <% } %>
+          <!--
+          <% if (post.state) { %>
+            <% if (post.state.open == true) { %>
+              <h3 class="label label-lg label-success pull-left" style="margin: 0 5px 0 0;"><i class="fa fa-lg fa-circle-o"></i></h3>
+            <% } else { %>
+              <h3 class="label label-lg label-danger pull-left" style="margin: 0 5px 0 0;"><i class="fa fa-lg fa-times"></i></h3>
+            <% } %>
+          <% } %>
+          -->
+          <% if (post.priority) { %>
+            <h3 class="label label-lg label-default pull-left" style="margin: 0 5px 0 0; background-color: <%= post.priority.color %>;"><i class="fa fa-lg fa-circle"></i></h3>
+          <% } %>
+          <% if (post.topic != null) { %>
+            <% if (post.topic.icon) { %>
+            <h3 class="label label-lg label-primary pull-left" style="margin: 0 5px 0 0;"><i class="fa fa-lg fa-<%= post.topic.icon %>"></i></h3>
+            <% } %>
+          <% } %>
+        </div>
+      </a>
+      <% if (site.options().post.voting.enabled == true) { %>
+      <div class="pull-right" style="height: 45px;">
+        <% include ../partials/posts/vote-mobile %>
+      </div>
+      <% } %>
+    </div>
+    <div class="row">
+      <div id="properties" class="col-md-4 col-lg-3 col-md-push-8 col-lg-push-9 hidden-xs hidden-sm">
+        <h5 class="text-muted">CREATED BY</h5>
+        <% include ../partials/posts/creator %>
+        <% if (post.state) { %>
+        <h5 class="text-muted">STATUS</h5>
+          <% if (post.state.open == true) { %>
+            <h3 class="label label-lg label-success" style="text-align: left; width: 100%; display: block; margin-top: 0;"><i class="fa fa-lg fa-circle-o"></i>&nbsp; <%= post.state.name %></h3>
+          <% } else { %>
+            <h3 class="label label-lg label-danger" style="text-align: left; width: 100%; display: block;  margin-top: 0;"><i class="fa fa-lg fa-times"></i>&nbsp; <%= post.state.name %></h3>
+          <% } %>
+        <% } %>
+        <% if (post.priority) { %>
+        <h5 class="text-muted">PRIORITY</h5>
+        <h3 class="label label-lg label-default" style="text-align: left; width: 100%; display: block; margin-top: 0; background-color: <%= post.priority.color %>;"><%= post.priority.name %></h3>
+        <% } %>
+        <% if (post.topic != null) { %>
+        <div class="visible-xs visible-sm">
+          <h5 class="text-muted">TOPIC</h5>
+          <a href="<%= site.options().post.path %>/<%= post.topic.path %>" class="label label-lg label-primary" style="text-align: left; display: block;">
+            <% if (post.topic.icon) { %><i class="fa fa-lg fa-fw fa-<%= post.topic.icon %>"></i><% } %>
+            <%= post.topic.name %>
+          </a>
+        </div>
+        <% } %>
+        <br/>
+      </div>
+      <div class="col-sm-12 col-md-8 col-lg-9 col-md-pull-4 col-lg-pull-3">
+        <!-- Post Body -->
+        <% if (post.topic != null) { %>
+        <p id="topic" style="margin: 1px 0 10px 0;" class="hidden-xs hidden-sm">
+          <a href="<%= site.options().post.path %>/<%= post.topic.path %>" class="label label-primary hidden-xs hidden-sm">
+            <% if (post.topic.icon) { %><i class="fa fa-lg fa-fw fa-<%= post.topic.icon %>"></i><% } %>
+            <%= post.topic.name %>
+          </a>
+        </p>
+        <% } %>
+        <h2 class="page-header"><%= post.title %></h2>
+        <% if (post.descriptionHtml) { %>
+          <%- post.descriptionHtml %>
+        <% } else { %>
+          <% post.description.split("\n").forEach(function(line, i) { %>
+            <p><%- linkify(line) %></p>
+          <% }); %>
+        <% } %>
+        <% if (post.tags.length > 0) {%>
+        <br/>
+        <p class="tags clearfix">
+        <% post.tags.forEach(function(tag) { %>
+          <span class="tag label label-info"><i class="fa fa-tag"></i> <%= tag %></span>
+        <% }); %>
+        </p>
+        <% } %>
+        <% if (typeof(user) != 'undefined' && ( (post.creator && user.id == post.creator.id) || user.role == 'ADMIN' || user.role == 'MODERATOR')) { %>
+        <br/>
+        <p class="text-right">
+          <a href="<%= post.getEditUrl() %>" class="btn btn-default" data-shortcut-key="e"><i class="fa fa-lg fa-fw fa-pencil"></i> <span class="kb-shortcut">E</span>dit</a>
+        </p>
+        <% } %>
+        <% include ../partials/posts/comments %>
+        <% include ../partials/posts/add-comment %>
+      </div>
+    </div>
+<% if (site.options().post.voting.enabled == true) { %>
+  </div>
+</div>
+<% } %>

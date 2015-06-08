@@ -1,0 +1,23 @@
+<div id="flash-messages">
+  <% if (messages.errors) { %>
+    <% messages.errors.forEach(function(error) { %>
+    <div class="alert alert-danger fade in">
+      <p><i class="fa fa-lg fa-fw fa-warning"></i> <%= error.msg %></p>
+    </div>
+    <% }); %>
+  <% } else if (messages.info) { %>
+    <% messages.info.forEach(function(info) { %>
+    <div class="alert alert-info fade in">
+      <p>
+        <i class="fa fa-lg fa-fw fa-info-circle"></i> <%= info.msg %>
+      </p>
+    </div>
+    <% }); %>
+  <% } else if (messages.success) { %>
+    <% messages.success.forEach(function(success) { %>
+    <div class="alert alert-success fade in">
+      <p><i class="fa fa-lg fa-fw fa-check"></i> <%= success.msg %></p>
+    </div>
+    <% }); %>
+  <% } %>
+</div>
