@@ -39,7 +39,7 @@ Once deployed you will need to add **Config Variables** via https://dashboard.he
 
 You can set **Config Variables** by clicking the **Manage App** button that Heroku dashboard displays after deploying your app for the first time, then selecting **Settings**.
 
-*NB: If only developing and testing locally specify `http://localhost:3000` in place of `http://YOURAPPNAME.herokuapp.com/ in the configuration steps below.*
+*NB: If only developing and testing locally specify `http://localhost:3000` in place of `http://YOURAPPNAME.herokuapp.com/` in the configuration steps below.*
 
 You will need to configure at least one of the following login services:
 
