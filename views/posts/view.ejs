@@ -1,3 +1,4 @@
+
 <% if (site.options().post.voting.enabled == true) { %>
 <div class="media" style="position: relative; top: -10px;">
   <div class="hidden-xs hidden-sm media-left" style="padding-right: 20px;">
@@ -74,13 +75,15 @@
         </p>
         <% } %>
         <h2 class="page-header"><%= post.title %></h2>
-        <% if (post.descriptionHtml) { %>
-          <%- post.descriptionHtml %>
-        <% } else { %>
-          <% post.description.split("\n").forEach(function(line, i) { %>
-            <p><%- linkify(line) %></p>
-          <% }); %>
-        <% } %>
+        <div class="break">
+          <% if (post.descriptionHtml) { %>
+            <%- post.descriptionHtml %>
+          <% } else { %>
+            <% post.description.split("\n").forEach(function(line, i) { %>
+              <p><%- linkify(line) %></p>
+            <% }); %>
+          <% } %>
+        </div>
         <% if (post.tags.length > 0) {%>
         <br/>
         <p class="tags clearfix">
@@ -95,7 +98,9 @@
           <a href="<%= post.getEditUrl() %>" class="btn btn-default" data-shortcut-key="e"><i class="fa fa-lg fa-fw fa-pencil"></i> <span class="kb-shortcut">E</span>dit</a>
         </p>
         <% } %>
-        <% include ../partials/posts/comments %>
+        <div class="break">
+          <% include ../partials/posts/comments %>
+        </div>
         <% include ../partials/posts/add-comment %>
       </div>
     </div>
