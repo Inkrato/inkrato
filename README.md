@@ -28,28 +28,20 @@ Any oAuth options you provide configuration details for (Twitter, Facebook, Goog
 
 Only SendGrid is currently supported for email (which must be configred for features like password reset and API Key access to work). They offer a free teir for low-volume usage.
 
-### Deploy to Heroku
+### Deploying to Heroku
 
 An easy way to start working with the project is to click the button below which
 will clone this project and deploy a working app to Heroku:
 
 [![Deploy](https://www.herokucdn.com/deploy/button.png)](https://heroku.com/deploy?template=https://github.com/inkrato/inkrato)
 
-Once deployed you will need to configure the following **Config Variables** in your applications settings, via https://dashboard.heroku.com
+Once deployed you will need to add **Config Variables** via https://dashboard.heroku.com
 
-* **MONGODB**
-
-    The address of your MongoDB instance (the [MongoLab addon](https://addons.heroku.com/mongolab) is a great way to get started).
-
-        e.g. mongodb://heroku_app35008034:k2fn2h2jk13b12bh123i12j3l1k3j2.mongolab.com:31571/heroku_app35008034
-        
-* **SESSION_SECRET**
-
-    A random seed unique to your site, used to generate session keys
-
-In addition you will then need to configure at least one of the following service to enable the corresponding login options:
+You can set **Config Variables** by clicking the **Manage App** button that Heroku dashboard displays after deploying your app for the first time, then selecting **Settings**.
 
 *NB: If only developing and testing locally specify `http://localhost:3000` in place of `http://YOURAPPNAME.herokuapp.com/ in the configuration steps below.*
+
+You will need to configure at least one of the following login services:
 
 #### Email Login
 

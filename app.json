@@ -1,6 +1,9 @@
 {
   "name": "inkrato",
   "description": "An open source collaboration platform for teams and communities",
+  "website": "http://inkrato.com",
   "repository": "https://github.com/inkrato/inkrato",
-  "keywords": ["forum", "tracker", "community", "collaboration"]
+  "keywords": ["forum", "tracker", "community", "collaboration"],
+  "success_url": "/",
+  "addons": ["mongolab:shared-single-small"]
 }

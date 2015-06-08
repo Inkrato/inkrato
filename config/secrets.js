@@ -11,7 +11,7 @@ module.exports = {
 
   // Reset the DB on the command line with: 
   // > mongo inkrato --eval "db.dropDatabase()"
-  db: process.env.MONGODB || 'mongodb://localhost:27017/inkrato',
+  db: process.env.MONGODB || process.env.MONGOLAB_URI || 'mongodb://localhost:27017/inkrato',
 
   sessionSecret: process.env.SESSION_SECRET || '526aa78cdeedf412fd27fedb5ab5ecf8',
 
@@ -35,7 +35,7 @@ module.exports = {
   },
 
   twitter: {
-    consumerKey: process.env.TWITTER_KEY || '',
+    consumerKey: process.env.TWITTER_ID|| process.env.TWITTER_KEY || '',
     consumerSecret: process.env.TWITTER_SECRET  || '',
     callbackURL: '/auth/twitter/callback',
     passReqToCallback: true
