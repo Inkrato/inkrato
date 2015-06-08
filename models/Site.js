@@ -43,7 +43,8 @@ module.exports = function() {
         icon: config.app.posts.icon,
         voting: {
           enabled: true
-        }
+        },
+        markdown: config.app.posts.markdown
       }
     };
   }

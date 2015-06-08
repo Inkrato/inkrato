@@ -57,7 +57,10 @@ module.exports = {
       { name: "Open", open: true },
       { name: "In Progress", open: true },
       { name: "Closed", open: false }
-    ]
+    ],
+    
+    // Allow markdown in posts and comments
+    markdown: true
   }
   
 };

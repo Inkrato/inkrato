@@ -9,6 +9,20 @@ var Post = require('../models/Post'),
     marked = require('marked');
 
 /**
+ * Set Markdown parser settings
+ */
+marked.setOptions({
+  renderer: new marked.Renderer(),
+  gfm: true,
+  tables: true,
+  breaks: false,
+  pedantic: false,
+  sanitize: true,
+  smartLists: true,
+  smartypants: true
+});
+
+/**
  * Return list of topics
  * GET /posts/
  */
@@ -211,16 +225,19 @@ exports.getPost = function(req, res) {
   .populate('state')
   .populate('priority')
   .exec(function (err, post) {
-    if (err || (post.deleted && post.deleted == true)) {
+    if (err || (post.deleted && post.deleted == true))
         return res.render('404');
-    }
-
+    
     // If it's an AJAX or API request, return a JSON response
     if (req.xhr || req.api) {
       res.json(post);
     } else {
-      post.descriptionHtml = marked(post.description);
-      
+      if (Site.options().post.markdown == true) {
+        post.descriptionHtml = marked(post.description);
+        post.comments.forEach(function(comment) {
+          comment.messageHtml = marked(comment.message);
+        });
+      }
       return res.render('posts/view', { title: res.locals.title + " - " + post.title, post: post, topic: post.topic });
     }
   });
@@ -237,7 +254,7 @@ exports.getEditPost = function(req, res) {
   .populate('creator', 'profile role')
   .populate('comments.creator', 'profile')
   .populate('topic')
-  .populate('state')
+  .populate('state') 
   .populate('priority')
   .exec(function (err, post) {
     if (err || (post.deleted && post.deleted == true))
@@ -247,7 +264,13 @@ exports.getEditPost = function(req, res) {
         && req.user.role != 'MODERATOR'
         && req.user.role != 'ADMIN')
       return res.render('403');
-    
+
+    if (Site.options().post.markdown == true) {
+      post.comments.forEach(function(comment) {
+        comment.messageHtml = marked(comment.message);
+      });
+    }
+
     return res.render('posts/edit', { title: res.locals.title + " - Edit " + post.title, post: post, topic: post.topic });
   });
 };

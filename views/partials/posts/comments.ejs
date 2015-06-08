@@ -23,9 +23,13 @@
     </div>
     <div class="panel-body" style="padding: 10px 10px 0 10px;">
       <span class="comment">
-        <% comment.message.split("\n").forEach(function(line) { %>
-          <p><%- linkify(line) %></p>
-        <% }); %>
+        <% if (comment.messageHtml) { %>
+          <%- comment.messageHtml %>
+        <% } else { %>
+          <% comment.message.split("\n").forEach(function(line) { %>
+            <p><%- linkify(line) %></p>
+          <% }); %>
+        <% } %>
       </span>
     </div>
   </div>

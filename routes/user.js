@@ -436,7 +436,11 @@ exports.postResetPassword = function(req, res, next) {
         text: text
       };
       transporter.sendMail(mailOptions, function(err) {
-        req.flash('info', { msg: 'An e-mail has been sent to ' + user.email + ' with further instructions.' });
+        if (err) {
+          req.flash('errors', { msg: 'Failed to send email to ' + user.email + '.' });
+        } else {
+          req.flash('info', { msg: 'An e-mail has been sent to ' + user.email + ' with further instructions.' });
+        }
         done(err, 'done');
       });
     }
@@ -478,7 +482,11 @@ exports.postApiKey = function(req, res, next) {
               '\n\n-- \n'
       };
       transporter.sendMail(mailOptions, function(err) {
-        req.flash('success', { msg: 'An e-mail has been sent to ' + user.email + ' with your API Key.' });
+        if (err) {
+          req.flash('errors', { msg: 'Failed to send email to ' + user.email + '.' });
+        } else {
+          req.flash('success', { msg: 'An e-mail has been sent to ' + user.email + ' with your API Key.' });
+        }
         res.redirect('/profile');
       });
     });
