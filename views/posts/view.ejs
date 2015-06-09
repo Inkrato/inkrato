@@ -6,7 +6,7 @@
   </div>
   <div class="media-body">
 <% } %>
-    <div class="clearfix visible-sm visible-xs" style="margin-bottom: 10px;">
+    <div class="clearfix visible-sm visible-xs" style="margin-bottom: 20px;">
       <a class="clearfix pull-left" style="display: block;" href="javascript:$('#show-properties').removeClass('visible-xs visible-sm').hide();$('#properties').hide().removeClass('hidden-xs hidden-sm').slideDown();">
         <div id="show-properties" class="pull-left">
           <% if (post.creator) { %>
@@ -62,7 +62,7 @@
           </a>
         </div>
         <% } %>
-        <% if (true || similar) { %>
+        <% if (similar && similar.length > 0) { %>
         <br/>
         <div class="panel panel-default">
           <div class="panel-heading">
@@ -78,7 +78,6 @@
           </div>
         </div>
         <% } %>
-        <br/>
       </div>
       <div class="col-sm-12 col-md-8 col-lg-9 col-md-pull-4 col-lg-pull-3">
         <!-- Post Body -->
