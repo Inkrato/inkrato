@@ -3,6 +3,7 @@ var mongoose = require('mongoose'),
     mongooseSearch = require('mongoose-search-plugin'),
     mongooseVoting = require('mongoose-voting'),
     mongooseConverse = require('../lib/mongoose-converse'),
+    mongooseMoreLikeThis = require('mongoose-mlt'),
     User = require('./User'),
     Site = require('./Site'),
     crypto = require('crypto'),
@@ -40,16 +41,15 @@ schema.pre('save', function(next) {
 schema.methods.getUrl = function() {
   // If topic not found, use "everything" as topic path (works for all posts)
   var topicPath = 'everything';
-  if (this.topic)
+  if (this.topic && !/undefined/.test(this.topic.path))
     topicPath = this.topic.path;
-  
   return Site.options().post.path+'/'+topicPath+'/'+this.postId+'/'+slug(this.title.toLowerCase());
 };
 
 schema.methods.getEditUrl = function() {
   // If topic not found, use "everything" as topic path (works for all posts)
   var topicPath = 'everything';
-  if (this.topic)
+  if (this.topic && !/undefined/.test(this.topic.path))
     topicPath = this.topic.path;
 
   return Site.options().post.path+'/'+topicPath+'/edit/'+this.postId;
@@ -87,5 +87,12 @@ schema.plugin(mongooseSearch, {
 });
 schema.plugin(mongooseVoting, { ref: 'User' });
 schema.plugin(mongooseConverse, { ref: 'User'});
+
+schema.index({ 'title': 'text', 'description': 'text' });
+schema.plugin(mongooseMoreLikeThis, {
+  limit: 100,
+  tfThreshold: 2,
+  termLimit: 25
+});
 
 module.exports = mongoose.model('Post', schema);

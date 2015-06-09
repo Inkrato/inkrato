@@ -227,18 +227,23 @@ exports.getPost = function(req, res) {
   .exec(function (err, post) {
     if (err || (post.deleted && post.deleted == true))
         return res.render('404');
-    
-    // If it's an AJAX or API request, return a JSON response
+
     if (req.xhr || req.api) {
+      // If it's an AJAX or API request, return a JSON response
       res.json(post);
     } else {
+      // If it's not an AJAX request, parse body and comments for markdown
+      // (if markdown option is enabled)
       if (Site.options().post.markdown == true) {
         post.descriptionHtml = marked(post.description);
         post.comments.forEach(function(comment) {
           comment.messageHtml = marked(comment.message);
         });
       }
-      return res.render('posts/view', { title: res.locals.title + " - " + post.title, post: post, topic: post.topic });
+      // Look for and add similar posts
+      Post.mlt(post._id, { deleted: false }, null,  null, function(err, similar) {
+        return res.render('posts/view', { title: res.locals.title + " - " + post.title, post: post, topic: post.topic, similar: similar });
+      });
     }
   });
 };
