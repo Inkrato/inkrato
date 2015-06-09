@@ -24,7 +24,7 @@
     <i class="fa fa-chevron-down fa-stack-1x text-primary"></i>
   </span>
 </div>
-<div class="container" style="padding-top: 40px;">
+<div class="container container-fluid" style="padding-top: 40px;">
 <div class="row boxes">
 <% topics.forEach(function(topic) { %>
   <div class="box col-md-4" href="<%= site.options().post.path %>/<%= topic.path %>">
@@ -62,7 +62,7 @@
 </div>
 <br/>
 <div class="text-center">
-  <a href="<%= site.options().post.path %>/" class="btn btn-lg btn-primary">
+  <a href="<%= site.options().post.path %>/" class="btn btn-lg btn-primary rounded">
     <i class="fa fa-fw fa-<%= site.options().post.icon %>"></i> All <%= site.options().post.name %> <i class="fa fa-fw fa-chevron-right"></i>
   </a>
 </div>

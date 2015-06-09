@@ -5,21 +5,21 @@
    <table class="post-list table table-striped">
      <tbody>
      <% posts.forEach(function(post) { %>
-        <tr href="<%= post.getUrl() %>">
+        <tr>
           <td class="col-xs-12 col-md-8 col-lg-9" style="position: relative;">
             <% if (site.options().post.voting.enabled == true) { %>
             <div class="media">
               <div class="media-left">
-                <div style="width: 80px; margin-bottom: 5px;">
-                  <% include ../partials/posts/pie %>
-                </div>
+                <% include ../partials/posts/vote-list %>
               </div>
-              <div class="media-body">
+              <div class="media-body" href="<%= post.getUrl() %>">
             <% } %>
-                <div href="<%= post.getUrl() %>" class="post-preview">
+              <div class="pull-left" style="height: 110px; width: 0;"></div>
+                <div href="<%= post.getUrl() %>" class="post-preview break">
                   <h3 class="post-title"><a class="text-default" href="<%= post.getUrl() %>"><%= post.title %></a></h3>
+                  <p class="visible-lg text-muted"><%= post.description%></p>
                 </div>
-              
+                
                 <div class="hidden-xs hidden-sm hidden-md" style="position: absolute; bottom: 8px;">
                   <% if ( post.topic) { %>
                   <span class="label label-primary">

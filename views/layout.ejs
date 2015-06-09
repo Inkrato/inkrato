@@ -21,7 +21,7 @@
   <body>
     <% include partials/navbar %>
     <div class="jumbotron jumbotron-heading">
-      <div class="container">
+      <div class="container container-fluid">
         <div class="row">
           <div class="col-sm-7">
             <h1><%= site.getName() %> <small class="hidden-sm hidden-xs"><%= site.getDescription() %></small></h1>
@@ -54,7 +54,7 @@
         </div>
       </div>
     </div>
-    <div class="container">
+    <div class="container container-fluid">
       <% include partials/flash %>
       <%- body %>
     </div>
