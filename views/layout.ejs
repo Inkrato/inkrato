@@ -25,7 +25,7 @@
         <div class="row">
           <div class="col-sm-7">
             <h1><%= site.getName() %> <small class="hidden-sm hidden-xs"><%= site.getDescription() %></small></h1>
-            <p style="margin: 0; opacity: 0.5; font-size: 18px; font-weight: 400;">
+            <p style="margin: 5px 0 0 0; opacity: 0.8; font-size: 18px; font-weight: 400;">
               <a href="/" class="text-white"><i class="fa fa-home"></i> home</a>
               <% if (path.split("/")[1]) { %>
               <i class="fa fa-lg fa-angle-right"></i>
@@ -43,9 +43,9 @@
             <form name="search-posts" method="get" action="/search" class="form-horizontal hidden-smx hidden-xs">
               <div class="form-group col-sm-12 col-md-10 pull-right" style="margin: 0;">
                 <div class="input-group input-group-search"> 
-                  <input id="search" name="q" value="<%= typeof(query) != "undefined" ? query : '' %>" type="search" class="form-control" autocomplete="off" data-provide="typeahead" placeholder="Search" />
+                  <input id="search" name="q" value="<%= typeof(query) != "undefined" ? query : '' %>" type="search" class="form-control rounded" autocomplete="off" data-provide="typeahead" placeholder="Search" />
                   <div class="input-group-btn">
-                    <button type="submit" name="search" class="btn btn-default"><i class="fa fa-search"></i></button>
+                    <button type="submit" name="search" class="btn btn-default rounded"><i class="fa fa-search"></i></button>
                   </div>
                 </div>
               </div>

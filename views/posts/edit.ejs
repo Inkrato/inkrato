@@ -37,7 +37,7 @@
             <% priorities.forEach(function(option) { %>
               <option
                 value="<%= option._id %>"
-                data-content='<i class="fa fa-lg fa-circle" style="color: <%= option.color %>;"></i>&nbsp; <%= option.name %>'
+                data-content='<i class="fa fa-lg fa-flag" style="color: <%= option.color %>;"></i>&nbsp; <%= option.name %>'
                 <% if (post.priority && (post.priority.id == option.id)) { %>selected="selected"<% } %>
               ><%= option.name %></option>
             <% }); %>

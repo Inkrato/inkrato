@@ -193,10 +193,18 @@ textarea {
 }
 
 .post-list .post-title {
-  font-size: 18px;
-  line-height: 20px;
+  font-size: 22px;
+  line-height: 22px;
   font-weight: 400;
-  margin: 0 0 5px 0;
+  margin: 0 0 20px 0;
+} 
+
+@media (min-width: @screen-md-min) {
+  .post-list .post-title {
+    font-size: 20px;
+    line-height: 20px;
+    margin: 0 0 5px 0;
+  } 
 }
 
 .post-list .post-preview {

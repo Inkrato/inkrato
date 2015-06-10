@@ -22,12 +22,17 @@
           <% } %>
           -->
           <% if (post.priority) { %>
-            <h3 class="label label-lg label-default pull-left" style="margin: 0 5px 0 0; background-color: <%= post.priority.color %>;"><i class="fa fa-lg fa-circle"></i></h3>
+            <span class="label label-lg label-default pull-left" style="margin: 0 5px 0 0; background-color: <%= post.priority.color %>;"><i class="fa fa-fw fa-lg fa-flag"></i></span>
           <% } %>
           <% if (post.topic != null) { %>
             <% if (post.topic.icon) { %>
-            <h3 class="label label-lg label-primary pull-left" style="margin: 0 5px 0 0;"><i class="fa fa-lg fa-<%= post.topic.icon %>"></i></h3>
+            <span class="label label-lg label-primary pull-left" style="margin: 0 5px 0 0;"><i class="fa fa-fw fa-lg fa-<%= post.topic.icon %>"></i></span>
             <% } %>
+          <% } %>
+          <% if (post.comments.length > 0) { %>
+          <span class="label label-lg label-default"><i class="fa fa-lg fa-fw fa-comments"></i> <%= post.comments.length %></span>
+          <% } else { %>
+          <span class="label label-lg label-default" style="opacity: 0.5;"><i class="fa fa-lg fa-fw fa-comments"></i> <%= post.comments.length %></span>
           <% } %>
         </div>
       </a>
@@ -51,7 +56,7 @@
         <% } %>
         <% if (post.priority) { %>
         <h5 class="text-muted">PRIORITY</h5>
-        <h3 class="label label-lg label-default" style="text-align: left; width: 100%; display: block; margin-top: 0; background-color: <%= post.priority.color %>;"><%= post.priority.name %></h3>
+        <h3 class="label label-lg label-default" style="text-align: left; width: 100%; display: block; margin-top: 0; background-color: <%= post.priority.color %>;"><i class="fa fa-lg fa-flag"></i>&nbsp; <%= post.priority.name %></h3>
         <% } %>
         <% if (post.topic != null) { %>
         <div class="visible-xs visible-sm">

@@ -1,6 +1,12 @@
 <!-- Comments -->
 <hr/>
-<h4 class="text-muted"><i class="fa fa-comments"></i> Comments</h4>
+<% if (post.comments.length == 0) { %>
+  <h4 class="text-muted"><i class="fa fa-lg fa-fw fa-comments"></i> Comments</h4>
+<% } else if (post.comments.length == 1) { %>
+  <h4 class="text-muted"><i class="fa fa-lg fa-fw fa-comments"></i> 1 Comment</h4>
+<% } else { %>
+  <h4 class="text-muted"><i class="fa fa-lg fa-fw fa-comments"></i> <%= post.comments.length %> Comments</h4>
+<% } %>
 <br/>
 <% post.comments.forEach(function(comment) { %>
 <div class="media">
