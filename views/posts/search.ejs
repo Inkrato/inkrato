@@ -43,10 +43,10 @@
                 
                 <div href="<%= post.getUrl() %>" class="post-preview break" href="<%= post.getUrl() %>">
                   <h3 class="post-title"><a class="text-default" href="<%= post.getUrl() %>"><%= post.title %></a></h3>
-                  <p class="visible-lg text-muted"><%= post.description%></p>
+                  <p class="hidden-xs hidden-sm text-muted"><%= post.description%></p>
                 </div>
                 
-                <div class="hidden-xs hidden-sm hidden-md" style="position: absolute; bottom: 8px;">
+                <div class="hidden-xs hidden-sm" style="position: absolute; bottom: 8px;">
                   <% if (post.topic) { %>
                   <span class="label label-primary">
                     <% if (post.topic.icon) { %>
