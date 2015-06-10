@@ -29,11 +29,13 @@
             <span class="label label-lg label-primary pull-left" style="margin: 0 5px 0 0;"><i class="fa fa-fw fa-lg fa-<%= post.topic.icon %>"></i></span>
             <% } %>
           <% } %>
+          <!--
           <% if (post.comments.length > 0) { %>
           <span class="label label-lg label-default"><i class="fa fa-lg fa-fw fa-comments"></i> <%= post.comments.length %></span>
           <% } else { %>
           <span class="label label-lg label-default" style="opacity: 0.5;"><i class="fa fa-lg fa-fw fa-comments"></i> <%= post.comments.length %></span>
           <% } %>
+          -->
         </div>
       </a>
       <% if (site.options().post.voting.enabled == true) { %>
