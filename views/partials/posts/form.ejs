@@ -20,7 +20,7 @@
     <% if (post.topic != null) { %>
     <span id="topicLabel" style="margin: 0;" class="hidden-xs hidden-sm">
       <h5 class="text-muted visible-xs visible-sm">TOPIC</h5>
-        <a href="javascript:$('#topicLabel').hide();$('#topicSelect').removeClass('visible-xs visible-sm');" class="label label-primary" style="padding: 10px; display: inline-block; margin-right: 10px;">
+        <a href="#" onclick="$('#topicLabel').hide();$('#topicSelect').removeClass('visible-xs visible-sm');return false;" class="label label-primary" style="padding: 10px; display: inline-block; margin-right: 10px;">
           <% if (post.topic.icon) { %><i class="fa fa-lg fa-fw fa-<%= post.topic.icon %>"></i><% } %>
           <%= post.topic.name %>
           &nbsp;<i class="fa fa-fw fa-lg fa-pencil-square"></i></a>
