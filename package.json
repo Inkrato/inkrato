@@ -1,7 +1,7 @@
 {
   "name": "inkrato",
-  "description": "Community issue tracking and discussion forum",
-  "version": "0.3.2",
+  "description": "Community issue tracker and discussion forum",
+  "version": "0.3.4",
   "homepage": "https://www.inkrato.com",
   "repository": {
     "type": "git",
@@ -48,6 +48,7 @@
     "moment": "^2.9.0",
     "mongoose": "3.8.25",
     "mongoose-auto-increment": "3.2.2",
+    "mongoose-gridstore": "^0.1.25",
     "mongoose-mlt": "git://github.com/iaincollins/mongoose-mlt",
     "mongoose-search-plugin": "^0.1.2",
     "mongoose-voting": "^0.2.0",

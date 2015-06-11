@@ -56,7 +56,7 @@ exports.getPosts = function(req, res) {
     });
   })
   .then(function() {
-    // Get the count for thte total number of open posts
+    // Get the count for the total number of open posts
     var deferred = Q.defer();
     return Post.count({ deleted: false, state: { $ne: closedStateIds } }, function(err, count) {
       totalOpenPosts = count;
