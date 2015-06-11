@@ -1,7 +1,7 @@
 {
   "name": "inkrato",
-  "description": "Community issue tracking and discussion",
-  "version": "0.3.0",
+  "description": "Community issue tracking and discussion forum",
+  "version": "0.3.2",
   "homepage": "https://www.inkrato.com",
   "repository": {
     "type": "git",

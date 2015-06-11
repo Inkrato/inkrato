@@ -123,16 +123,8 @@
                   <% } %>
                 </div>
 
-                <div class="visible-sm visible-xs" style="margin-top: 5px;">
-                  <% if (post.creator) { %>
-                  <a href="<%= post.getUrl() %>" class="text-default" style="text-decoration: none;">
-                    <img src="<%= post.creator.avatar(26)%>" alt="Avatar" height="44" width="44" class="img-circle" style="margin-right: 5px;"/>
-                    <%= post.creator.profile.name || "Anonymous" %>
-                  </a>
-                  <% } %>
-                  <span href="<%= post.getUrl() %>" class="text-muted">
-                    <i class="fa fa-fw fa-clock-o"></i> <time class="timeago" datetime="<%= post.created.toISOString() %>"><%= post.created.toDateString() %></time>
-                  </span>
+                <div class="visible-sm visible-xs" style="margin-top: 5px;" href="<%= post.getUrl() %>">
+                  <% include ../partials/posts/creator %>
                 </div>
             <% if (site.options().post.voting.enabled == true) { %>
               </div>
@@ -140,19 +132,9 @@
             <% } %>
           </td>
           <td class="hidden-xs hidden-sm col-md-4 col-lg-3" href="<%= post.getUrl() %>" href="<%= post.getUrl() %>">
-            <div class"clearfix" style="padding-right: 5px; padding-top: 5px;">
-              <span href="<%= post.getUrl() %>" class="text-muted pull-right">
-                <i class="fa fa-fw fa-clock-o"></i> <time class="timeago" datetime="<%= post.created.toISOString() %>"><%= post.created.toDateString() %></time>
-              </span>
+            <div href="<%= post.getUrl() %>">
+                <% include ../partials/posts/creator %>
             </div>
-            <% if (post.creator) { %>
-              <div class"clearfix" style="margin-top: 35px; padding-right: 5px;">
-              <a href="<%= post.getUrl() %>" class="text-default pull-right" style="text-decoration: none;">
-                <img src="<%= post.creator.avatar(26)%>" alt="Avatar" height="26" width="26" hspace="2" class="img-circle" />
-                <%= post.creator.profile.name || "Anonymous" %>
-              </a>
-              </div>
-            <% } %>
           </td>
         </tr>
       <% }) %>
