@@ -71,6 +71,10 @@ schema.methods.getAddCommentUrl = function() {
   return '/comments/add/'+this.postId;
 };
 
+schema.methods.getScore = function() {
+  return this.upvotes() - this.downvotes();
+};
+
 /**
  * Auto-incrimenting ID value (in addition to _id property)
   */

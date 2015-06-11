@@ -149,9 +149,20 @@ textarea {
 }
 
 .score {
-  margin: 0;
-  font-weight: 400;
-  font-size: @font-size-large;
+  display: block;
+  position: relative;
+  top: 4px; 
+  left: 5px;
+  padding: 19px 0 21px 0;
+  z-index: 2;
+  height: 70px;
+  width: 70px;
+  background: rgba(255,255,255,0.7);
+}
+
+.score .text-muted,
+.score-mobile .text-muted {
+  opacity: 0.25;
 }
 
 .gradient (@startColor: #000000, @endColor: #ffffff) {
@@ -248,4 +259,5 @@ textarea {
 
 .donut {
   height: 80px;
+  width: 100%;
 }

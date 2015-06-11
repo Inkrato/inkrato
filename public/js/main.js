@@ -186,7 +186,13 @@ function upvote(form) {
         });
       }
       $('*[data-score="'+postId+'"]').each(function() {
-        $(this).html(response.score);
+        if (response.score > 0) {
+          $(this).html('<span class="text-success"><strong>'+response.score+'</strong></span>');
+        } else if (response.score < 0) {
+          $(this).html('<span class="text-danger"><strong>'+response.score+'</strong></span>');
+        } else {
+          $(this).html('<span class="text-muted"><strong>'+response.score+'</strong></span>');
+        }
       });
     }
   );
@@ -231,7 +237,13 @@ function downvote(form) {
         });
       }
       $('*[data-score="'+postId+'"]').each(function() {
-        $(this).html(response.score);
+        if (response.score > 0) {
+          $(this).html('<span class="text-success"><strong>'+response.score+'</strong></span>');
+        } else if (response.score < 0) {
+          $(this).html('<span class="text-danger"><strong>'+response.score+'</strong></span>');
+        } else {
+          $(this).html('<span class="text-muted"><strong>'+response.score+'</strong></span>');
+        }
       });
     }
   );
