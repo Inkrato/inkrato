@@ -1,15 +1,10 @@
+var nodemailer = require("nodemailer"),
+    Site = require('../models/Site');
+
 var config = {
   app: require('../config/app'),
   secrets: require('../config/secrets')
 };
-var nodemailer = require("nodemailer");
-var transporter = nodemailer.createTransport({
-  service: 'SendGrid',
-  auth: {
-    user: config.secrets.sendgrid.user,
-    pass: config.secrets.sendgrid.password
-  }
-});
 
 /**
  * GET /contact
@@ -27,9 +22,9 @@ exports.getContact = function(req, res) {
  * @param message
  */
 exports.postContact = function(req, res) {
-  req.assert('name', 'Please provide your name').notEmpty();
-  req.assert('email', 'Invalid email address').isEmail();
-  req.assert('message', 'The message body cannot be blank').notEmpty();
+  req.assert('name', 'Please tell us your name').notEmpty();
+  req.assert('email', 'Email address invalid').isEmail();
+  req.assert('message', 'Message body is blank').notEmpty();
 
   var errors = req.validationErrors();
 
@@ -54,6 +49,7 @@ exports.postContact = function(req, res) {
     text: body
   };
 
+  var transporter = nodemailer.createTransport(Site.getMailTransport());
   transporter.sendMail(mailOptions, function(err) {
     if (err) {
       req.flash('errors', { msg: "Failed to send email" });

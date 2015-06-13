@@ -67,12 +67,25 @@ module.exports = function() {
         if (config.secrets.github.clientID != '')
           return true;
         break;
-      case "email":
-        if (config.secrets.sendgrid.user != '')
-          return true;
-        break;
       default:
         return false;
+    }
+  }
+  
+  this.getMailTransport = function() {
+    // @todo Add support for other mail services
+    if (config.secrets.sendgrid.user != "" && config.secrets.sendgrid.password != "") {
+      // Use sendgrid service if configured
+      return {
+        service: 'SendGrid',
+        auth: {
+          user: config.secrets.sendgrid.user,
+          pass: config.secrets.sendgrid.password
+        }
+      };
+    } else {
+      // Use direct SMTP mail service if no mail service configured
+      return null;
     }
   }
   

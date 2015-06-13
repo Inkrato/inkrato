@@ -27,7 +27,7 @@ exports.getLogin = function(req, res) {
  * @param password
  */
 exports.postLogin = function(req, res, next) {
-  req.assert('email', 'Email address is invalid').isEmail();
+  req.assert('email', 'Email address invalid').isEmail();
   req.assert('password', 'Password cannot be blank').notEmpty();
 
   var errors = req.validationErrors();
@@ -45,7 +45,7 @@ exports.postLogin = function(req, res, next) {
     if (err) return next(err);
     if (!user) {
       if (req.headers['x-validate']) {
-        return res.json({ errors: [ { param: 'email', msg: ''}, { param: 'password', msg: 'Email address is invalid or password' } ] });
+        return res.json({ errors: [ { param: 'email', msg: ''}, { param: 'password', msg: 'Email address invalid or password' } ] });
       } else {
         req.flash('errors', { msg: info.message });
         return res.redirect('/login');
@@ -86,7 +86,7 @@ exports.getSignup = function(req, res) {
 exports.postSignup = function(req, res, next) {
   if (req.user) return res.redirect('/account');
   
-  req.assert('email', 'Email address is invalid').isEmail();
+  req.assert('email', 'Email address invalid').isEmail();
   req.assert('password', 'Password must be at least 4 characters').len(4);
   req.assert('confirmPassword', 'Passwords do not match').equals(req.body.password);
 
@@ -147,7 +147,7 @@ exports.getAccount = function(req, res) {
  * Update profile information.
  */
 exports.postUpdateProfile = function(req, res, next) {
-  req.assert('email', 'Email address is invalid').isEmail();
+  req.assert('email', 'Email address invalid').isEmail();
 
   var errors = req.validationErrors();
 
@@ -322,13 +322,7 @@ exports.postChangePassword = function(req, res, next) {
         });
     },
     function(user, done) {
-      var transporter = nodemailer.createTransport({
-        service: 'SendGrid',
-        auth: {
-          user: config.secrets.sendgrid.user,
-          pass: config.secrets.sendgrid.password
-        }
-      });
+      var transporter = nodemailer.createTransport(Site.getMailTransport());
       var mailOptions = {
         to: user.email,
         from: config.app.email,
@@ -365,7 +359,7 @@ exports.getResetPassword = function(req, res) {
  * @param email
  */
 exports.postResetPassword = function(req, res, next) {
-  req.assert('email', 'Email address is invalid').isEmail();
+  req.assert('email', 'Email address invalid').isEmail();
 
   var errors = req.validationErrors();
 
@@ -388,7 +382,7 @@ exports.postResetPassword = function(req, res, next) {
     function(token, done) {
       User.findOne({ email: req.body.email.toLowerCase() }, function(err, user) {
         if (!user) {
-          var msg = 'No account with that email address exists.';
+          var msg = "That isn't the email address you signed up with";
           if (req.headers['x-validate']) {
             return res.json({ errors: [ { param: 'email', msg: msg } ] });
           } else {
@@ -409,13 +403,7 @@ exports.postResetPassword = function(req, res, next) {
       });
     },
     function(token, user, done) {
-      var transporter = nodemailer.createTransport({
-        service: 'SendGrid',
-        auth: {
-          user: config.secrets.sendgrid.user,
-          pass: config.secrets.sendgrid.password
-        }
-      });
+      var transporter = nodemailer.createTransport(Site.getMailTransport());
       
       var text = 'You are receiving this email because you (or someone else) has requested the reset of the password for your account.\n\n' +
                  'Please click on the following link, or paste this into your browser to complete the process:\n\n';
@@ -465,13 +453,7 @@ exports.postApiKey = function(req, res, next) {
       if (!user.email)
         if (err) return next(err);
 
-      var transporter = nodemailer.createTransport({
-        service: 'SendGrid',
-        auth: {
-          user: config.secrets.sendgrid.user,
-          pass: config.secrets.sendgrid.password
-        }
-      });
+      var transporter = nodemailer.createTransport(Site.getMailTransport());
       var mailOptions = {
         to: user.email,
         from: config.app.email,

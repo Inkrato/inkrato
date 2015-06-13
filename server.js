@@ -174,7 +174,7 @@ app.use(express.static(path.join(__dirname, 'public'), { maxAge: week * 4 }));
  * Route handlers
  */
 var routes = {
-  passport: require('./routes/passport'),
+  auth: require('./routes/auth'),
   user: require('./routes/user'),
   home: require('./routes/home'),
   about: require('./routes/about'),
@@ -248,50 +248,50 @@ app.get('/signup', routes.user.getSignup);
 app.post('/signup', routes.user.postSignup);
 app.get('/contact', routes.contact.getContact);
 app.post('/contact', routes.contact.postContact);
-app.get('/profile', routes.passport.isAuthenticated, routes.user.getAccount);
-app.get('/account', routes.passport.isAuthenticated, routes.user.getAccount);
-app.get('/account/profile', routes.passport.isAuthenticated, routes.user.getAccount);
-app.post('/account/profile', routes.passport.isAuthenticated, routes.user.postUpdateProfile);
+app.get('/profile', routes.auth.isAuthenticated, routes.user.getAccount);
+app.get('/account', routes.auth.isAuthenticated, routes.user.getAccount);
+app.get('/account/profile', routes.auth.isAuthenticated, routes.user.getAccount);
+app.post('/account/profile', routes.auth.isAuthenticated, routes.user.postUpdateProfile);
 
 if (Site.options().api == true)
-  app.post('/account/profile/apikey', routes.passport.isAuthenticated, routes.user.postApiKey);
+  app.post('/account/profile/apikey', routes.auth.isAuthenticated, routes.user.postApiKey);
 
-app.post('/account/password', routes.passport.isAuthenticated, routes.user.postUpdatePassword);
-app.post('/account/delete', routes.passport.isAuthenticated, routes.user.postDeleteAccount);
-app.get('/account/unlink/:provider', routes.passport.isAuthenticated, routes.user.getOauthUnlink);
-app.get('/new', routes.passport.isAuthenticated, routes.posts.getNewPost);
-app.post('/new', routes.passport.isAuthenticated, routes.posts.postNewPost);
+app.post('/account/password', routes.auth.isAuthenticated, routes.user.postUpdatePassword);
+app.post('/account/delete', routes.auth.isAuthenticated, routes.user.postDeleteAccount);
+app.get('/account/unlink/:provider', routes.auth.isAuthenticated, routes.user.getOauthUnlink);
+app.get('/new', routes.auth.isAuthenticated, routes.posts.getNewPost);
+app.post('/new', routes.auth.isAuthenticated, routes.posts.postNewPost);
 app.get('/search', routes.posts.search.getSearch);
 app.get(Site.options().post.path, routes.posts.getTopicList);
 app.get(Site.options().post.path+'/:topic', routes.posts.getPosts);
-app.get(Site.options().post.path+'/:topic/new', routes.passport.isAuthenticated, routes.posts.getNewPost);
-app.post(Site.options().post.path+'/:topic/new', routes.passport.isAuthenticated, routes.posts.postNewPost);
-app.get(Site.options().post.path+'/:topic/edit/:id', routes.passport.isAuthenticated, routes.posts.getEditPost);
-app.post(Site.options().post.path+'/:topic/edit/:id', routes.passport.isAuthenticated, routes.posts.postEditPost);
+app.get(Site.options().post.path+'/:topic/new', routes.auth.isAuthenticated, routes.posts.getNewPost);
+app.post(Site.options().post.path+'/:topic/new', routes.auth.isAuthenticated, routes.posts.postNewPost);
+app.get(Site.options().post.path+'/:topic/edit/:id', routes.auth.isAuthenticated, routes.posts.getEditPost);
+app.post(Site.options().post.path+'/:topic/edit/:id', routes.auth.isAuthenticated, routes.posts.postEditPost);
 // These routes come after other topic routes to work correctly
 app.get(Site.options().post.path+'/:topic/:id/:slug', routes.posts.getPost);
 app.get(Site.options().post.path+'/:topic/:id', routes.posts.getPost);
 if (Site.options().post.voting.enabled == true) {
-  app.post('/upvote/:id', routes.passport.isAuthenticated, routes.posts.postUpvote);
-  app.post('/downvote/:id', routes.passport.isAuthenticated, routes.posts.postDownvote);
-  app.post('/unvote/:id', routes.passport.isAuthenticated, routes.posts.postUnvote);
+  app.post('/upvote/:id', routes.auth.isAuthenticated, routes.posts.postUpvote);
+  app.post('/downvote/:id', routes.auth.isAuthenticated, routes.posts.postDownvote);
+  app.post('/unvote/:id', routes.auth.isAuthenticated, routes.posts.postUnvote);
 }
-app.post('/comments/add/:id', routes.passport.isAuthenticated, routes.posts.comments.postAddComment);
+app.post('/comments/add/:id', routes.auth.isAuthenticated, routes.posts.comments.postAddComment);
 
 /**
  * Routes that can be accessed using an API key
  */
 if (Site.options().api == true) {
-  app.post('/api/new', routes.passport.apiKey, routes.posts.postNewPost);
-  app.get('/api/view/:id', routes.passport.apiKey, routes.posts.getPost);
-  app.get('/api/topics', routes.passport.apiKey, routes.posts.getTopics);
-  app.get('/api/states', routes.passport.apiKey, routes.posts.getStates);
-  app.get('/api/priorities', routes.passport.apiKey, routes.posts.getPriorities);
-  app.post('/api/edit/:id', routes.passport.apiKey, routes.posts.postEditPost);
-  app.post('/api/upvote/:id', routes.passport.apiKey, routes.posts.postUpvote);
-  app.post('/api/downvote/:id', routes.passport.apiKey, routes.posts.postDownvote);
-  app.post('/api/unvote/:id', routes.passport.apiKey, routes.posts.postUnvote);
-  app.get('/api/search', routes.passport.apiKey, routes.posts.search.getSearch);
+  app.post('/api/new', routes.auth.apiKey, routes.posts.postNewPost);
+  app.get('/api/view/:id', routes.auth.apiKey, routes.posts.getPost);
+  app.get('/api/topics', routes.auth.apiKey, routes.posts.getTopics);
+  app.get('/api/states', routes.auth.apiKey, routes.posts.getStates);
+  app.get('/api/priorities', routes.auth.apiKey, routes.posts.getPriorities);
+  app.post('/api/edit/:id', routes.auth.apiKey, routes.posts.postEditPost);
+  app.post('/api/upvote/:id', routes.auth.apiKey, routes.posts.postUpvote);
+  app.post('/api/downvote/:id', routes.auth.apiKey, routes.posts.postDownvote);
+  app.post('/api/unvote/:id', routes.auth.apiKey, routes.posts.postUnvote);
+  app.get('/api/search', routes.auth.apiKey, routes.posts.search.getSearch);
   app.get('/api/unauthorized', function(req, res, next) { return res.status(401).json({errors: [{ param: 'apikey', msg: 'Valid API Key required' }]}); } );
 }
 
