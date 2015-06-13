@@ -1,5 +1,5 @@
-<div class="text-center" style="position: relative; height: 40px;">
-  <p data-score="<%= post.postId %>" class="score-mobile" style="padding: 13px 0; margin: 0;">
+<div class="text-center" style="position: relative;">
+  <p data-score="<%= post.postId %>" class="hidden score-mobile" style="padding: 8px 0; margin: 0;">
     <% if (post.getScore() > 0) { %>
     <span class="text-success"><strong><%= post.getScore() %></strong></span>
     <% } else if (post.getScore() < 0) { %>
@@ -9,12 +9,11 @@
     <% } %>
   </p>
   <% var total = parseInt(post.upvotes()) + parseInt(post.downvotes()); %>
-  <div data-votes="<%= post.postId %>" class="donut text-center" style="position: absolute; top: -15px; height: 65px;">
+  <div data-votes="<%= post.postId %>" class="donut text-center" style="position: absolute; top: -0px; height: 40px;">
     <% if (total == 0) { %>
-    <span class="hidden" data-peity='{ "width": "100%", "fill": ["#D45252", "#6EBF7D", "#eeeeee"], "innerRadius": 18, "radius": 39 }'>0,0,1</span>
+    <span class="hidden" data-peity='{ "width": "100%", "fill": ["#D45252", "#6EBF7D", "#eeeeee"], "innerRadius": 8, "radius": 18 }'>0,0,1</span>
     <% } else { %>
-    <span class="hidden" data-peity='{  "width": "100%", "fill": ["#D45252", "#6EBF7D", "#eeeeee"], "innerRadius": 18, "radius": 39 }'><%= post.downvotes() %>,<%= post.upvotes() %>,0</span>
+    <span class="hidden" data-peity='{  "width": "100%", "fill": ["#D45252", "#6EBF7D", "#eeeeee"], "innerRadius": 8, "radius": 18 }'><%= post.downvotes() %>,<%= post.upvotes() %>,0</span>
     <% } %>
   </div>
-
 </div>

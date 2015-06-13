@@ -6,42 +6,40 @@
   </div>
   <div class="media-body">
 <% } %>
-    <div class="clearfix visible-sm visible-xs" style="margin-bottom: 20px;">
-      <a class="clearfix pull-left" style="display: block;" href="#" onclick="$('#show-properties').removeClass('visible-xs visible-sm').hide();$('#properties').hide().removeClass('hidden-xs hidden-sm').slideDown();return false;">
-        <div id="show-properties" class="pull-left">
-          <!--
-          <% if (post.creator) { %>
-          <img src="<%= post.creator.avatar(47) %>" height="44" width="44" alt="Avatar" class="img-circle pull-left" style="margin-right: 5px;"/>
-          <% } %>
-          -->
-          <!--
-          <% if (post.state) { %>
-            <% if (post.state.open == true) { %>
-              <h3 class="label label-lg label-success pull-left" style="margin: 0 5px 0 0;"><i class="fa fa-lg fa-circle-o"></i></h3>
-            <% } else { %>
-              <h3 class="label label-lg label-danger pull-left" style="margin: 0 5px 0 0;"><i class="fa fa-lg fa-times"></i></h3>
-            <% } %>
-          <% } %>
-          -->
-          <% if (post.priority) { %>
-            <span class="label label-lg label-default pull-left" style="margin: 0 5px 0 0; background-color: <%= post.priority.color %>;"><i class="fa fa-fw fa-lg fa-flag"></i></span>
-          <% } %>
-          <% if (post.topic != null) { %>
-            <% if (post.topic.icon) { %>
-            <span class="label label-lg label-primary pull-left" style="margin: 0 5px 0 0;"><i class="fa fa-fw fa-lg fa-<%= post.topic.icon %>"></i></span>
-            <% } %>
-          <% } %>
-          <!--
-          <% if (post.comments.length > 0) { %>
-          <span class="label label-lg label-default"><i class="fa fa-lg fa-fw fa-comments"></i> <%= post.comments.length %></span>
+    <div class="clearfix visible-sm visible-xs" style="margin-bottom: 5px;">
+      <span id="properties-summary" class="clearfix pull-right" style="display: block;">
+        <!--
+        <% if (post.creator) { %>
+        <img src="<%= post.creator.avatar(47) %>" height="37" width="37" alt="Avatar" class="img-circle pull-left" style="margin-right: 5px;"/>
+        <% } %>
+        -->
+        <!--
+        <% if (post.state) { %>
+          <% if (post.state.open == true) { %>
+            <h3 class="label label-lg label-success pull-left" style="margin: 0 5px 0 0;"><i class="fa fa-lg fa-circle-o"></i></h3>
           <% } else { %>
-          <span class="label label-lg label-default" style="opacity: 0.5;"><i class="fa fa-lg fa-fw fa-comments"></i> <%= post.comments.length %></span>
+            <h3 class="label label-lg label-danger pull-left" style="margin: 0 5px 0 0;"><i class="fa fa-lg fa-times"></i></h3>
           <% } %>
-          -->
-        </div>
-      </a>
+        <% } %>
+        -->
+        <% if (post.topic != null) { %>
+          <% if (post.topic.icon) { %>
+          <span class="label label-primary pull-left" style="margin: 0 5px 0 0;"><i class="fa fa-fw fa-lg fa-<%= post.topic.icon %>"></i></span>
+          <% } %>
+        <% } %>
+        <% if (post.priority) { %>
+          <span class="label label-default pull-left" style="margin: 0 5px 0 0; background-color: <%= post.priority.color %>;"><i class="fa fa-fw fa-lg fa-flag"></i></span>
+        <% } %>
+        <!--
+        <% if (post.comments.length > 0) { %>
+        <span class="label label-default"><i class="fa fa-lg fa-fw fa-comments"></i> <%= post.comments.length %></span>
+        <% } else { %>
+        <span class="label label-default" style="opacity: 0.5;"><i class="fa fa-lg fa-fw fa-comments"></i> <%= post.comments.length %></span>
+        <% } %>
+        -->
+      </span>
       <% if (site.options().post.voting.enabled == true) { %>
-      <div class="pull-right" style="height: 45px;">
+      <div class="pull-left" style="height: 45px;">
         <% include ../partials/posts/vote-mobile %>
       </div>
       <% } %>
@@ -87,7 +85,21 @@
           </div>
         </div>
         <% } %>
+        <div class="visible-xs visible-sm">
+          <a class="btn btn-xs btn-block btn-default properties" style="margin-bottom: 20px;" href="#"
+             onclick="$('#properties').slideUp();$('#properties-show').show();$('#properties-summary').show();return false;">
+            <span class="text-muted"><i class="fa fa-lg fa-caret-up"></i></span>
+          </a>
+        </div>
       </div>
+      
+      <div class="visible-xs visible-sm">
+        <a id="properties-show"  class="btn btn-xs btn-block btn-default properties" style="margin-bottom: 20px;" href="#"
+           onclick="$('#properties-show').hide();$('#properties-summary').hide();$('#properties').hide().removeClass('hidden-xs hidden-sm').slideDown();return false;">
+          <span class="text-muted"><i class="fa fa-lg fa-caret-down"></i></span>
+        </a>
+      </div>
+    
       <div class="col-sm-12 col-md-8 col-lg-9 col-md-pull-4 col-lg-pull-3">
         <!-- Post Body -->
         <% if (post.topic != null) { %>
