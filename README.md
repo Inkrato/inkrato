@@ -43,9 +43,11 @@ You can set **Config Variables** by clicking the **Manage App** button that Hero
 
 *NB: If only developing and testing locally specify `http://localhost:3000` in place of `http://YOURAPPNAME.herokuapp.com/` in the configuration steps below.*
 
-You will need to configure at least one of the following login services:
+By default inkrato is it's own mail server (for things like sending password reset emails and API activation keys) but you will likely want to configure at least one of the services below.
 
-#### Email Login
+#### Email Login supported by SendGrid
+
+SendGrid is a mail service as a platform with a free teir for low volume traffic. It's highly recommend you configure inkrato to use SendGrid, instead of it's own internal mail platform.
 
 Configuration Variables:
 
