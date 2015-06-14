@@ -95,8 +95,11 @@
                     <% if (post.priority) { %>
                     <span class="label label-default" style="margin-bottom: 5px; background-color: <%= post.priority.color %>;"><i class="fa fa-lg  fa-fw fa-flag"></i></span>
                     <% } %>
-
+                    <% if (post.comments.length > 0) { %>
                     <span><i class="fa fa-lg fa-fw fa-comments text-muted"></i> <%= post.comments.length %></span>
+                    <% } else { %>
+                    <span style="opacity: 0.5;"><i class="fa fa-lg fa-fw fa-comments text-muted"></i> <%= post.comments.length %></span>
+                    <% } %>
                   </div>
                   <div class="pull-left">
                     <% include ../partials/posts/vote-mobile %>
@@ -115,11 +118,6 @@
                   <% if (post.priority) { %>
                   <span class="label label-default" style="background-color: <%= post.priority.color %>;"><i class="fa fa-fw fa-flag"></i> <%= post.priority.name %></span>
                   <% } %>
-                  <% if (post.comments.length > 0) { %>
-                  <span class="label label-default"><i class="fa fa-fw fa-comments"></i> <%= post.comments.length %></span>
-                  <% } else { %>
-                  <span class="label label-default" style="opacity: 0.5;"><i class="fa fa-fw fa-comments"></i> <%= post.comments.length %></span>
-                  <% } %>
                 </div>
             <% if (site.options().post.voting.enabled == true) { %>
               </div>
@@ -130,6 +128,12 @@
             <div href="<%= post.getUrl() %>">
                 <% include ../partials/posts/creator %>
             </div>
+            <br/>
+            <% if (post.comments.length > 0) { %>
+            <span class="pull-right"><i class="fa fa-lg fa-fw fa-comments text-muted"></i> <%= post.comments.length %></span>
+            <% } else { %>
+            <span class="pull-right" style="opacity: 0.5;"><i class="fa fa-lg fa-fw fa-comments text-muted"></i> <%= post.comments.length %></span>
+            <% } %>
           </td>
         </tr>
       <% }) %>

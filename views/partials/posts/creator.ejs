@@ -8,7 +8,7 @@
   </div>
   <div class="media-body">
     <% if (post.creator) { %>
-    <h5 class="media-heading"><%= post.creator.profile.name || "Anonymous" %></h5>
+    <h5 class="media-heading" style="max-height: 20px; overflow: hidden;"><%= post.creator.profile.name || "Anonymous" %></h5>
     <% } else { %>
     <h5 class="media-heading text-muted">Deleted Account</h6>
     <% } %>
