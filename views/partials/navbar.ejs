@@ -66,6 +66,13 @@
         <li><a href="/signup" data-toggle="modal" data-dismiss="modal" data-target="#signupModal"><i class="fa fa-lg fa-fw fa-user-plus"></i> Sign up</a></li>
         <% } %>
       </ul>
+      <% if (user && user.verified != true) { %>
+      <ul class="nav navbar-right navbar-nav btn-warning">
+        <li>
+          <a href="/account/verify"  data-toggle="modal" data-dismiss="modal" data-target="#verifyModal"><i class="fa fa-lg fa-exclamation-circle"></i> <i class="fa fa-fw fa-lg fa-envelope"></i></a>
+        </li>
+      </ul>
+      <% } %>
     </div>
   </div>
 </div>

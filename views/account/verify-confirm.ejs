@@ -1,0 +1,18 @@
+<div class="row">
+  <div class="col-sm-8 col-sm-offset-2 text-center">
+    <h1 class="page-header">Verification email sent</h1>
+    <form name="verify" method="post" action="/account/verify">
+      <div class="messages"></div>
+      <input type="hidden" name="_csrf" value="<%= _csrf %>">
+      <p class="lead">
+        Please check your mailbox for your verification email.
+      </p>
+      <p class="lead">
+        If you can't find it, we can send it to you again.
+      </p>
+      <div class="form-group">
+        <button type="submit" class="btn btn-primary"><i class="fa fa-fw fa-repeat"></i> Re-send verification email</button>
+      </div>
+    </form>
+  </div>
+</div>

@@ -89,5 +89,17 @@ module.exports = function() {
     }
   }
   
+  this.getUrl = function(req) {
+    var host = req.headers.host;
+    if (config.app.host != false && config.app.host != "false")
+      host = config.app.host;
+
+    if (this.options().ssl == true) {
+      return 'https://' + host;
+    } else {
+      return'http://' + host;
+    }
+  }
+  
   return this;
 }();

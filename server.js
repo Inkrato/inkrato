@@ -252,6 +252,9 @@ app.get('/profile', routes.auth.isAuthenticated, routes.user.getAccount);
 app.get('/account', routes.auth.isAuthenticated, routes.user.getAccount);
 app.get('/account/profile', routes.auth.isAuthenticated, routes.user.getAccount);
 app.post('/account/profile', routes.auth.isAuthenticated, routes.user.postUpdateProfile);
+app.get('/account/verify', routes.auth.isAuthenticated, routes.user.getAccountVerify);
+app.post('/account/verify', routes.auth.isAuthenticated, routes.user.postAccountVerify);
+app.get('/account/verify/:token', routes.auth.isAuthenticated, routes.user.getAccountVerifyToken);
 
 if (Site.options().api == true)
   app.post('/account/profile/apikey', routes.auth.isAuthenticated, routes.user.postApiKey);
