@@ -104,10 +104,11 @@ exports.postSignup = function(req, res, next) {
   // If user does not exist, create account
   var user = new User({
     email: req.body.email,
-    password: req.body.password
+    password: req.body.password,
+    emailVerificationToken: crypto.randomBytes(16).toString('hex')
   });
   
-  User.findOne({ email: req.body.email }, function(err, existingUser) {    
+  User.findOne({ email: req.body.email }, function(err, existingUser) {
     // Check if user exists already
     if (existingUser) {
       var msg = 'An account with that email address already exists';
@@ -127,7 +128,21 @@ exports.postSignup = function(req, res, next) {
       if (err) return next(err);
       req.logIn(user, function(err) {
         if (err) return next(err);
-        res.redirect(req.session.returnTo || '/');
+        
+        // Trigger sending an email address verification email 
+        var transporter = nodemailer.createTransport(Site.getMailTransport());
+        var mailOptions = {
+          to: user.email,
+          from: config.app.email,
+          subject: Site.getName()+ ' - Verify your email address',
+          text: 'You are receiving this email to verify the email address you entered at '+Site.getUrl(req)+'.\n\n'+
+                'Follow the link below to verify your email address.\n\n'+
+                 Site.getUrl(req)+'/account/verify/'+user.emailVerificationToken+'\n\n'+
+                '\n\n-- \n'
+        };
+        transporter.sendMail(mailOptions, function(err) {
+          return res.redirect(req.session.returnTo || '/');
+        });
       });
     });
     
@@ -202,7 +217,7 @@ exports.postUpdateProfile = function(req, res, next) {
         var mailOptions = {
           to: user.email,
           from: config.app.email,
-          subject: Site.getName()+ '- Verify your email address',
+          subject: Site.getName()+ ' - Verify your email address',
           text: 'You are receiving this email to verify the email address you entered at '+Site.getUrl(req)+'.\n\n'+
                 'Follow the link below to verify your email address.\n\n'+
                  Site.getUrl(req)+'/account/verify/'+user.emailVerificationToken+'\n\n'+
@@ -449,9 +464,9 @@ exports.postResetPassword = function(req, res, next) {
       };
       transporter.sendMail(mailOptions, function(err) {
         if (err) {
-          req.flash('errors', { msg: 'Failed to send email to ' + user.email + '.' });
+          req.flash('errors', { msg: 'Unable to send password reset email. Please check your address.' });
         } else {
-          req.flash('info', { msg: 'An e-mail has been sent to ' + user.email + ' with further instructions.' });
+          req.flash('info', { msg: 'An email has been sent to you with further instructions.' });
         }
         done(err, 'done');
       });
@@ -489,9 +504,9 @@ exports.postApiKey = function(req, res, next) {
       };
       transporter.sendMail(mailOptions, function(err) {
         if (err) {
-          req.flash('errors', { msg: 'Failed to send email to ' + user.email + '.' });
+          req.flash('errors', { msg: 'Unable to send API Key via email. Please check your address.' });
         } else {
-          req.flash('success', { msg: 'An e-mail has been sent to ' + user.email + ' with your API Key.' });
+          req.flash('success', { msg: 'An email has been sent to you with your API Key.' });
         }
         res.redirect('/profile');
       });
@@ -528,7 +543,7 @@ exports.postAccountVerify = function(req, res) {
       var mailOptions = {
         to: user.email,
         from: config.app.email,
-        subject: Site.getName()+ '- Verify your email address',
+        subject: Site.getName()+ ' - Verify your email address',
         text: 'You are receiving this email to verify the email address you entered at '+Site.getUrl(req)+'.\n\n'+
               'Follow the link below to verify your email address.\n\n'+
                Site.getUrl(req)+'/account/verify/'+user.emailVerificationToken+'\n\n'+
@@ -536,8 +551,8 @@ exports.postAccountVerify = function(req, res) {
       };
       transporter.sendMail(mailOptions, function(err) {
         if (err) {
-          req.flash('errors', { msg: 'Failed to send email to ' + user.email + '.' });
-          return res.render('account/verify', { title: res.locals.title + " - Verify your email address" });
+          req.flash('errors', { msg: 'Unable to send verification email. Please check your address.' });
+          return res.redirect('/profile');
         } else {
           return res.render('account/verify-confirm', { title: res.locals.title + " - Verify your email address" });
         }

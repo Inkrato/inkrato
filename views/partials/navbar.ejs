@@ -5,6 +5,14 @@
       <span class="visible-xs">
         <a style="margin-right: 5px;" class="pull-left navbar-btn btn btn-primary" href="<%= site.options().post.path %>"><i class="fa fa-lg fa-<%= site.options().post.icon %>"></i></a>
         <% if (user) { %>
+          <% if (user.verified != true) { %>
+          <a style="margin-right: 5px;" href="/account/verify" class="pull-left navbar-btn btn btn-warning" data-toggle="modal" data-dismiss="modal" data-target="#verifyModal">
+            <div class="notification">
+              <i class="fa fa-2x fa-envelope"></i>
+              <span class="badge">1</span>
+            </div>
+          </a>
+          <% } %>
           <% if (typeof(topic) != "undefined" && topic != null) { %>
             <a class="pull-left navbar-btn btn btn-primary" href="<%= site.options().post.path %>/<%= topic.path %>/new"><i class="fa fa-lg fa-fw fa-plus-circle"></i> New</a>
           <% } else { %>
@@ -67,9 +75,14 @@
         <% } %>
       </ul>
       <% if (user && user.verified != true) { %>
-      <ul class="nav navbar-right navbar-nav btn-warning">
+      <ul class="hidden-xs nav navbar-right navbar-nav btn-warning">
         <li>
-          <a href="/account/verify"  data-toggle="modal" data-dismiss="modal" data-target="#verifyModal"><i class="fa fa-lg fa-exclamation-circle"></i> <i class="fa fa-fw fa-lg fa-envelope"></i></a>
+          <a href="/account/verify"  data-toggle="modal" data-dismiss="modal" data-target="#verifyModal">
+            <div class="notification">
+              <i class="fa fa-2x fa-envelope"></i>
+              <span class="badge">1</span>
+            </div>
+          </a>
         </li>
       </ul>
       <% } %>

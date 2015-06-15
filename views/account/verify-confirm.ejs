@@ -1,6 +1,7 @@
 <div class="row">
   <div class="col-sm-8 col-sm-offset-2 text-center">
-    <h1 class="page-header">Verification email sent</h1>
+    <h3 class="text-info"><i class="fa fa-check-circle"></i> Verification email sent</h3>
+    <br/>
     <form name="verify" method="post" action="/account/verify">
       <div class="messages"></div>
       <input type="hidden" name="_csrf" value="<%= _csrf %>">
@@ -10,8 +11,9 @@
       <p class="lead">
         If you can't find it, we can send it to you again.
       </p>
+      <br/>
       <div class="form-group">
-        <button type="submit" class="btn btn-primary"><i class="fa fa-fw fa-repeat"></i> Re-send verification email</button>
+        <button type="submit" class="btn btn-default"><i class="fa fa-fw fa-repeat"></i> Re-send verification email</button>
       </div>
     </form>
   </div>

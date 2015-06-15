@@ -4,6 +4,7 @@ var mongoose = require('mongoose'),
     crypto = require('crypto');
   
 var config = {
+  app: require('../config/app'),
   secrets: require('../config/secrets')
 };
 
@@ -53,23 +54,24 @@ schema.pre('save', function(next) {
     this.profile.picture = 'https://gravatar.com/avatar/' + md5;
   }
 
-  // If there is is only one active user on the site, make them an administrator
   mongoose.model('User', schema).count({}, function(err, count) {
+    // If there is only user on the site, make them the administrator
+    // For initial user to login & if everyone else deletes their accounts
     if (!err && count < 1)
       user.role = 'ADMIN';
-
+    
+    // If the password is unchanged, we are done
     if (!user.isModified('password')) return next();
-  
+
+    // If the password has been changed then generate a new hash for it
     bcrypt.genSalt(5, function(err, salt) {
       if (err) return next(err);
-
       bcrypt.hash(user.password, salt, null, function(err, hash) {
         if (err) return next(err);
         user.password = hash;
         next();
       });
     });
-    
   });
   
 });
