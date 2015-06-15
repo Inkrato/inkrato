@@ -8,8 +8,8 @@
           <% if (user.verified != true) { %>
           <a style="margin-right: 5px;" href="/account/verify" class="pull-left navbar-btn btn btn-warning" data-toggle="modal" data-dismiss="modal" data-target="#verifyModal">
             <div class="notification">
-              <i class="fa fa-2x fa-envelope"></i>
-              <span class="badge">1</span>
+              <i class="fa fa-lg fa-envelope"></i>
+              <span class="badge rounded">1</span>
             </div>
           </a>
           <% } %>
@@ -35,27 +35,25 @@
           <form name="search-posts" method="get" action="/search" class="form-horizontal">
             <div class="input-group input-group-search"> 
               <input name="q" value="<%= typeof(query) != "undefined" ? query : '' %>" type="search" class="form-control rounded" placeholder="Search" />
-              <div class="input-group-btn">
-                <button type="submit" name="search" class="btn btn-default rounded"><i class="fa fa-search"></i></button>
-              </div>
+              <div class="input-group-addon rounded"><i class="fa fa-search"></i></div>
             </div>
           </form>
         </li>
-        <li <% if (path.match(new RegExp("^"+site.options().post.path))) { %>class="active"<% } %>><a href="<%= site.options().post.path %>"><i class="fa fa-lg fa-fw fa-<%= site.options().post.icon %>"></i> <%= site.options().post.name %></a></li>
-        <li <% if (path.match("^\/contact")) { %>class="active"<% } %>><a href="/contact"><i class="fa fa-lg fa-fw fa-envelope"></i> Contact</a></li>
-      </ul>
-      <span class="hidden-xs">
-        &nbsp;
-        <% if (user) { %>
-          <% if (typeof(topic) != "undefined" && topic != null) { %>
-            <a class="navbar-btn btn btn-primary" href="<%= site.options().post.path %>/<%= topic.path %>/new" data-dismiss="modal" data-toggle="modal" data-target="#newPostModal" data-shortcut-key="n"><i class="fa fa-lg fa-fw fa-plus-circle"></i> New</a>
+        <li <% if (path.match(new RegExp("^"+site.options().post.path)) && typeof(newPost) == "undefined") { %>class="active"<% } %>><a href="<%= site.options().post.path %>"><i class="fa fa-lg fa-fw fa-<%= site.options().post.icon %>"></i> <%= site.options().post.name %></a></li>
+        <li <% if (path.match("^\/contact")) { %>class="active"<% } %>><a href="/contact"><i class="fa fa-lg fa-fw fa-envelope-o"></i> Contact</a></li>
+        <li class="hidden-xs <% if (typeof(newPost) != "undefined") { %>active<% } %>">
+          <% if (user) { %>
+            <a class="hidden" href="#" data-dismiss="modal" data-toggle="modal" data-target="#newPostModal" data-shortcut-key="n">New</a>
+            <% if (typeof(topic) != "undefined" && topic != null) { %>
+              <a href="<%= site.options().post.path %>/<%= topic.path %>/new"><i class="fa fa-lg fa-fw fa-plus-circle"></i> New</a>
+            <% } else { %>
+              <a href="/new" ><i class="fa fa-lg fa-fw fa-plus-circle"></i> New</a>
+            <% } %>
           <% } else { %>
-            <a class="navbar-btn btn btn-primary" href="/new" data-dismiss="modal" data-toggle="modal" data-target="#newPostModal" data-shortcut-key="n"><i class="fa fa-lg fa-fw fa-plus-circle"></i> New</a>
+          <a href="/signup" data-dismiss="modal" data-toggle="modal" data-target="#signupModal"  data-shortcut-key="n"><i class="fa fa-lg fa-fw fa-plus-circle"></i> New</a>
           <% } %>
-        <% } else { %>
-        <a class="navbar-btn btn btn-primary" href="/signup" data-dismiss="modal" data-toggle="modal" data-target="#signupModal"  data-shortcut-key="n"><i class="fa fa-lg fa-fw fa-plus-circle"></i> New</a>
-        <% } %>
-      </span>
+        </li>
+      </ul>
       <ul class="nav navbar-right navbar-nav">
         <% if (user) { %>
         <li class="dropdown <% if (path.match("^\/contact")) { %>class="active"<% } %>">
@@ -79,8 +77,8 @@
         <li>
           <a href="/account/verify"  data-toggle="modal" data-dismiss="modal" data-target="#verifyModal">
             <div class="notification">
-              <i class="fa fa-2x fa-envelope"></i>
-              <span class="badge">1</span>
+              <i class="fa fa-lg fa-envelope"></i>
+              <span class="badge rounded">1</span>
             </div>
           </a>
         </li>

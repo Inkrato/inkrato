@@ -41,6 +41,7 @@ exports.getSearch = function(req, res) {
           });
           return res.json(response);
         } else {
+          response.topic = null;
           return res.render('posts/search', response);
        }
       });
@@ -54,6 +55,7 @@ exports.getSearch = function(req, res) {
     if (req.xhr || req.api) {
       return res.json(response);
     } else {
+      response.topic = null;
       return res.render('posts/search', response);
     }
   }

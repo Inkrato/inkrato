@@ -1,79 +1,11 @@
 <% if (query) { %>
-<h1 class="page-header"><%= count %> search results for "<%= query %>"</h1>
+<p class="lead"><%= count %> search results for "<%= query %>"</p>
 <div class="row">
   <div class="col-sm-12">
    <table class="post-list table table-striped">
      <tbody>
      <% posts.forEach(function(post) { %>
-        <tr>
-          <td class="col-xs-12 col-md-8 col-lg-9" style="position: relative;">
-            <% if (site.options().post.voting.enabled == true) { %>
-            <div class="media">
-              <div class="media-left hidden-xs hidden-sm">
-                <% include ../partials/posts/vote-list %>
-              </div>
-              <div class="media-body">
-            <% } %>
-                <div class="visible-sm visible-xs" style="margin-top: 5px;" href="<%= post.getUrl() %>">
-                  <% include ../partials/posts/creator %>
-                </div>
-            
-                <div href="<%= post.getUrl() %>" class="post-preview break" href="<%= post.getUrl() %>">
-                  <h3 class="post-title"><a class="text-default" href="<%= post.getUrl() %>"><%= post.title %></a></h3>
-                  <p class="hidden-xs hidden-sm text-muted"><%= post.description%></p>
-                </div>
-                
-                <div class="visible-xs visible-sm clearfix">
-                  <div class="pull-right" href="<%= post.getUrl() %>">
-                    <% if (post.topic) { %>
-                      <span class="label label-primary" style="margin-bottom: 5px;">
-                      <% if (post.topic.icon) { %>
-                      <i class="fa fa-lg fa-fw fa-<%= post.topic.icon %>"></i>
-                      <% } else { %>
-                      <%= post.topic.name %>
-                      <% } %>
-                    </span>
-                    <% } %>
-                    <% if (post.priority) { %>
-                    <span class="label label-default" style="margin-bottom: 5px; background-color: <%= post.priority.color %>;"><i class="fa fa-lg  fa-fw fa-flag"></i></span>
-                    <% } %>
-
-                    <span><i class="fa fa-lg fa-fw fa-comments text-muted"></i> <%= post.comments.length %></span>
-                  </div>
-                  <div class="pull-left">
-                    <% include ../partials/posts/vote-mobile %>
-                  </div>
-                </div>
-                
-                <div class="hidden-xs hidden-sm" style="position: absolute; bottom: 8px;">
-                  <% if (post.topic) { %>
-                  <span class="label label-primary">
-                    <% if (post.topic.icon) { %>
-                    <i class="fa fa-fw fa-<%= post.topic.icon %>"></i>
-                    <% } %>
-                    <%= post.topic.name %>
-                  </span>
-                  <% } %>
-                  <% if (post.priority) { %>
-                  <span class="label label-default" style="background-color: <%= post.priority.color %>;"><i class="fa fa-fw fa-flag"></i> <%= post.priority.name %></span>
-                  <% } %>
-                  <% if (post.comments.length > 0) { %>
-                  <span class="label label-default"><i class="fa fa-fw fa-comments"></i> <%= post.comments.length %></span>
-                  <% } else { %>
-                  <span class="label label-default" style="opacity: 0.5;"><i class="fa fa-fw fa-comments"></i> <%= post.comments.length %></span>
-                  <% } %>
-                </div>
-            <% if (site.options().post.voting.enabled == true) { %>
-              </div>
-            </div>
-            <% } %>
-          </td>
-          <td class="hidden-xs hidden-sm col-md-4 col-lg-3" href="<%= post.getUrl() %>" href="<%= post.getUrl() %>">
-            <div href="<%= post.getUrl() %>">
-                <% include ../partials/posts/creator %>
-            </div>
-          </td>
-        </tr>
+        <% include ../partials/posts/list %>
      <% }) %>
      </tbody>
    </table>

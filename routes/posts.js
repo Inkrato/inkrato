@@ -144,12 +144,11 @@ exports.getNewPost = function(req, res) {
     Topic
     .findOne({ path: encodeURI(req.params.topic) })
     .exec(function (err, topic) {
-
       if (err) return next(err);
-      res.render('posts/new', { title: res.locals.title + " - New", topic: topic, post: new Post() });
+      res.render('posts/new', { title: res.locals.title + " - New", topic: topic, post: new Post(), newPost: true});
     });
   } else {
-    res.render('posts/new', { title: res.locals.title + " - New", topic: null, post: new Post() });
+    res.render('posts/new', { title: res.locals.title + " - New", topic: null, post: new Post(), newPost: true });
   }
 
 };

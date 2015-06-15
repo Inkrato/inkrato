@@ -138,12 +138,10 @@ textarea {
   min-height: 100px;
 }
 
-.navbar-inverse .nav.navbar-main li:hover a,
-.navbar-inverse .nav.navbar-main li.active a {
+.navbar .nav.navbar-main li:hover a,
+.navbar .nav.navbar-main li.active a {
   @media (min-width: @screen-sm-min) {
-    box-shadow: inset 0 -10px 0 -5px @navbar-inverse-link-color;
-    background: transparent;
-    transition: all .2s;
+    background: @brand-primary;
   }
 }
 
@@ -263,30 +261,18 @@ textarea {
 
 .navbar .notification {
   position: relative;
-  display: inline-block;
-  width: 35px;
 }
 
 .navbar .notification .fa {
-  position: absolute;
-  top: -23px;
+  margin-right: 28px;
 }
 
 .navbar .notification .badge {
-  position: absolute;
-  left: 18px;
-  top: -4px;
   background: @brand-danger;
   color: #fff;
-}
-
-.navbar .navbar-btn .notification {
-  background: aqua;
-  left: -16px;
-}
-
-
-.navbar .navbar-btn .notification .badge {
-  left: 40px;
-  top: -6px;
-}
+  border: 2px solid #fff;
+  top: 2px;
+  position: absolute;
+  top: 0px;
+  right: -4px;
+} 
