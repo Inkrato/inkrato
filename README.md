@@ -6,7 +6,7 @@ It is designed for community discussion and collaborative issue tracking. It sup
 
 You are free to use and modify this software for both non-commercial and commercial purposes.
 
-You can see an instance of this software running at [https:///www.inkrato.com](https:///www.inkrato.com).
+You can see an instance of this software running at [https:///www.inkrato.com](https://www.inkrato.com).
 
 ## Getting Started
 
