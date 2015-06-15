@@ -2,9 +2,11 @@
 
 This is an early release of the inkrato community edition - an open source collaboration platform for teams and communities.
 
-It is designed for community discussion and collaborative issue tracking. It supports Email, Facebook, Twitter 
+It is designed for community discussion and collaborative issue tracking. It supports login via email, Facebook, Twitter, Google+ and GitHub. Members can post, reply to posts and up or downvote posts. There is also a REST based API.
 
-You are free to use and modify this software for both non-commercial and commercial purposes.
+What's being discussed or tracked (e.g. issues, feedback, ideas) is fully configurable, as are the discussion topics and labels and the UI theme.
+
+You are free to use and modify this software for both non-commercial and commercial purposes. Please bear in mind this is an early release.
 
 You can see an instance of this software running at [www.inkrato.com](https://www.inkrato.com).
 
@@ -28,7 +30,7 @@ You can also pass options at runtime via environment variables.
 
 e.g. `PORT 80 npm start`
 
-Any login options you provide configuration details for (Twitter, Facebook, Google, GitHub) will automatically appear on the sign-in screen.
+Any login options you provide configuration details for (Twitter, Facebook, Google+, GitHub) will automatically appear on the sign-in screen.
 
 You can optionally specify a SendGrid account as your email service. They offer a free tier for low-volume usage and the service provide integrated email list management.
 
