@@ -2,33 +2,37 @@
 
 This is an early release of the inkrato community edition - an open source collaboration platform for teams and communities.
 
-This version ships will fully working core functionality (including an API) but does not have all functionality of the earlier, proprietary version.
+It is designed for community discussion and collaborative issue tracking. It supports Email, Facebook, Twitter 
 
 You are free to use and modify this software for both non-commercial and commercial purposes.
 
-You can see an instance of this software running at https:///www.inkrato.com
+You can see an instance of this software running at [https:///www.inkrato.com](https:///www.inkrato.com).
 
 ## Getting Started
 
-You will need node.js and monogdb installed. After downloading be sure to run `npm install` to install required dependancies.
+You will need node.js and monogdb installed. Just run `npm install` to install required dependancies and `npm start` to run the application.
 
-To configure, edit `config/app.js` and `config/secrets.js` with your settings and run `npm start` to start the application running on port 3000.
+You can also deploy it on Heroku (see "Deploying to Heroku" below for more).
 
-You can also pass options at runtime via environment variables:
-
-    > PORT 80 npm start
-
-To customize the user interface theme edit the variables in `public/css/theme.less` and reload the page (the CSS will be auto-generated).
+[![Deploy](https://www.herokucdn.com/deploy/button.png)](https://heroku.com/deploy?template=https://github.com/inkrato/inkrato)
 
 ### Configuring
 
-You can safely configure and commit changes to `config/app.js` to your version.
+To configure your instance, edit `config/app.js` and reload the application.
 
-IMPORTANT! You should not commit a configured `secrets.js` to a public repository (this would expose private authentication details).
+Authentication details for login services like Facebook and Twitter can be added in `config/secrets.js`.
 
-Any oAuth options you provide configuration details for (Twitter, Facebook, Google) will automatically appear on the sign-in screen.
+*IMPORTANT! Don't commit a configured `secrets.js` to a public repository (this would expose private authentication details!).*
 
-Only SendGrid is currently supported for email (which must be configured for features like password reset and API Key access to work). They offer a free tier for low-volume usage.
+You can also pass options at runtime via environment variables.
+
+e.g. `PORT 80 npm start`
+
+Any login options you provide configuration details for (Twitter, Facebook, Google, GitHub) will automatically appear on the sign-in screen.
+
+You can optionally specify a SendGrid account as your email service. They offer a free tier for low-volume usage and the service provide integrated email list management.
+
+To customize the user interface theme edit the variables in `public/css/theme.less` and reload the page (new CSS will be auto-generated).
 
 ### Deploying to Heroku
 
@@ -45,7 +49,7 @@ You can set **Config Variables** by clicking the **Manage App** button that Hero
 
 By default inkrato is it's own mail server (for things like sending password reset emails and API activation keys) but you will likely want to configure at least one of the services below.
 
-#### Email Login supported by SendGrid
+#### SendGrid for Email
 
 SendGrid is a mail service as a platform with a free teir for low volume traffic. It's highly recommend you configure inkrato to use SendGrid, instead of it's own internal mail platform.
 
@@ -284,23 +288,23 @@ There is currently no email address verification requirement, rate-limiting, CAP
 
 If there are no user accounts in the system, the first user to login is granted ADMIN access (and can edit any post), but subsequent users have normal privileges and while they can create new posts they can only edit their own posts.
 
-If you wish to grant admin access to additional users you can update the monogo db Users collection to change their role property to 'ADMIN' (other roles are not yet supported).
+If you wish to grant admin access to additional users you can update the Users collection in monogodb and change their role to 'ADMIN'.
 
 ## About the inkrato platform
 
-The inkrato platform has been used as a feedback platform for a wide range of uses - by activists (for the Labour Digital Government Review), charitable organizations (Friends of the Earth) for video game communities (PlanetSide Tracker), by private companies and by local community groups.
+The inkrato platform has been used as a discussion platform for a wide range of uses - by activists (for the Labour Digital Government Review), charitable organizations (Friends of the Earth) for video game communities (PlanetSide Tracker), by private companies and by local community groups.
 
 The release of this next generation version as open source software allows anyone to take advantage of it host a community site of their own, for free.
 
 Commercial instances and bespoke versions are available on request. Commercial enquires should be sent to feedback@inkrato.com
 
-This version will eventually replace the current, proprietary version of inkrato at http://feedback.inkrato.com
+This version is designed to replace the origional version of inkrato which can still be found at http://feedback.inkrato.com
 
 ## Licensing
 
-This software is released to the community under the MIT License.
+This software is released under the MIT License.
 
-This projects contains portions of code from the hackathon-starter project (in particular related to oAuth) by Sahat Yalkabov, which is incorporated under the MIT License.
+This projects contains portions of code from Sahat Yalkabov's hackathon-starter project (in particular related to oAuth), which is also released under the MIT License.
 
 License
 -------
