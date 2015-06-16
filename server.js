@@ -83,9 +83,20 @@ app.engine('ejs', ejs.__express);
 partials.register('.ejs', ejs);
 app.use(partials());
 app.use(compress());
+
+/**
+ * Asset compression disabled temporarily due to CsswringCompressor throwing
+ * a CssSyntaxError at comments in less files.
+ *
+ * It should hopefully be posible to invoke a marginally documented feature that 
+ * allows options to be passed to mincer (which connect-assets invokes) so that
+ * csswring no longer chokes on (perfectly valid) comments. If not I'll likely
+ * swap out connect-assets for another asset manger.
+ */
 app.use(connectAssets({
   paths: [path.join(__dirname, 'public/css'), path.join(__dirname, 'public/js')],
-  helperContext: app.locals
+  helperContext: app.locals,
+  compress: false
 }));
 app.use(logger('dev'));
 app.use(bodyParser.json());
