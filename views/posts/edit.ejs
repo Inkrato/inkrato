@@ -65,7 +65,7 @@
             <div class="media-body">
               <div class="form-group">
                 <p style="margin-bottom: 5px;">
-                <span class="media-heading"><%= user.profile.name || "Anonymous" %></span>
+                <span class="media-heading"><strong><%= user.profile.name || "Anonymous" %></strong></span>
                 <span class="text-muted pull-right"><i class="fa fa-clock-o"></i> <time datetime="<%= new Date().toISOString() %>"><%= new Date().toDateString() %></time></span>
                 </p>
                 <label for="message" class="control-label hidden">Add comment</label>

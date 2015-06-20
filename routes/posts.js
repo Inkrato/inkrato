@@ -157,8 +157,8 @@ exports.getNewPost = function(req, res) {
  * POST /posts/:topic/new
  */
 exports.postNewPost = function(req, res, next) {
-  req.assert('title', 'Title cannot be blank').notEmpty();
-  req.assert('description', 'Description cannot be blank').notEmpty();
+  req.assert('summary', 'Summary cannot be blank').notEmpty();
+  req.assert('detail', 'Detail cannot be blank').notEmpty();
   
   var errors = req.validationErrors();
 
@@ -173,8 +173,8 @@ exports.postNewPost = function(req, res, next) {
   }
   
   var post = new Post({
-    title: req.body.title,
-    description: req.body.description,
+    summary: req.body.summary,
+    detail: req.body.detail,
     tags: splitTags(req.body.tags),
     creator: req.user.id
   });
@@ -234,7 +234,7 @@ exports.getPost = function(req, res) {
       // If it's not an AJAX request, parse body and comments for markdown
       // (if markdown option is enabled)
       if (Site.options().post.markdown == true) {
-        post.descriptionHtml = marked(post.description);
+        post.detailHtml = marked(post.detail);
         post.comments.forEach(function(comment) {
           comment.messageHtml = marked(comment.message);
         });
@@ -284,8 +284,8 @@ exports.getEditPost = function(req, res) {
  */
 exports.postEditPost = function(req, res, next) {
   req.assert('id', 'Post ID cannot be blank').notEmpty();
-  req.assert('title', 'Title cannot be blank').notEmpty();
-  req.assert('description', 'Description cannot be blank').notEmpty();
+  req.assert('summary', 'Summary cannot be blank').notEmpty();
+  req.assert('detail', 'Description cannot be blank').notEmpty();
 
   var errors = req.validationErrors();
 
@@ -314,8 +314,8 @@ exports.postEditPost = function(req, res, next) {
         && req.user.role != 'ADMIN')
       return res.render('403');
     
-    post.title = req.body.title;
-    post.description = req.body.description;
+    post.summary = req.body.summary;
+    post.detail = req.body.detail;
     post.tags = splitTags(req.body.tags);
 
     post.topic = null;

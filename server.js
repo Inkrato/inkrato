@@ -31,6 +31,12 @@ var hour = 3600000,
     day = hour * 24,
     week = day * 7;
 
+
+/**
+ * Automatically perform upgrade steps between versions, such as schema changes
+ */
+var migrationHelper = require('./lib/migration-helper');
+
 /**
  * App configuration settings
  */

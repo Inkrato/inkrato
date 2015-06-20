@@ -160,11 +160,11 @@ Viewing:
 
 Creating:
 
-    curl --data "apikey=2a94819c282bcf0811d28c33223c8c93&title=Create+a+post&description=testing" http://127.0.0.1:3000/api/new
+    curl --data "apikey=2a94819c282bcf0811d28c33223c8c93&summary=Create+a+post&detail=testing" http://127.0.0.1:3000/api/new
 
 Updating:
 
-    curl --data "apikey=2a94819c282bcf0811d28c33223c8c93&title=Updating+a+post&description=testing" http://127.0.0.1:3000/api/edit/1
+    curl --data "apikey=2a94819c282bcf0811d28c33223c8c93&summary=Updating+a+post&detail=testing" http://127.0.0.1:3000/api/edit/1
     
 ### Example response object
 
@@ -183,8 +183,8 @@ Each 'post' (which could be a ticket, feedback, bug report or something else, de
             "deleted": false,
             "order": 0
         },
-        "title": "This is an example title",
-        "description": "This is an example description",
+        "summary": "This is a summary, the title of the post.",
+        "detail": "This is some more detail, the main body of the post. It can contain **markdown**.",
         "creator": '55476d99fa09c09938fd2bb8,
         "__v": 9,
         "comments": [],
@@ -213,7 +213,7 @@ For submitting a new post.
 
 Parameters:
 
-* String  title         Required
+* String  summary       Required
 * String  description   Required
 * String  topic         A valid Topic ID (an Object ID), optional
 * String  state         A valid State ID (an Object ID), optional
@@ -231,7 +231,7 @@ Updates an existing post.
 
 Parameters:
 
-* String  title         Required
+* String  summary       Required
 * String  description   Required
 * String  topic         A valid Topic ID (an Object ID), optional
 * String  state         A valid State ID (an Object ID), optional

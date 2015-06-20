@@ -16,8 +16,8 @@ var config = {
 
 var schema = new mongoose.Schema({
   postId: { type: Number, unique: true },
-  title: { type: String, required: true },
-  description: { type: String, required: true },
+  summary: { type: String, required: true },
+  detail: { type: String, required: true },
   tags: [ String ],
   topic: { type: mongoose.Schema.ObjectId, ref: 'Topic' },
   state: { type: mongoose.Schema.ObjectId, ref: 'State' },
@@ -40,10 +40,10 @@ schema.pre('save', function(next) {
 
 schema.methods.getUrl = function() {
   // If topic not found, use "everything" as topic path (works for all posts)
-  var topicPath = 'everything';
+  var topicPath = 'everything';  
   if (this.topic && !/undefined/.test(this.topic.path))
     topicPath = this.topic.path;
-  return Site.options().post.path+'/'+topicPath+'/'+this.postId+'/'+slug(this.title.toLowerCase());
+  return Site.options().post.path+'/'+topicPath+'/'+this.postId+'/'+slug(this.summary.toLowerCase());
 };
 
 schema.methods.getEditUrl = function() {
@@ -78,7 +78,7 @@ schema.methods.getScore = function() {
 /**
  * Auto-incrimenting ID value (in addition to _id property)
   */
-var connection = mongoose.createConnection(config.secrets.db); 
+var connection = mongoose.createConnection(config.secrets.db);
 mongooseAutoIncrement.initialize(connection);
 schema.plugin(mongooseAutoIncrement.plugin, {
     model: 'Post',
@@ -87,12 +87,12 @@ schema.plugin(mongooseAutoIncrement.plugin, {
 });
 
 schema.plugin(mongooseSearch, {
-  fields: ['title', 'description', 'tags']
+  fields: ['summary', 'detail', 'tags']
 });
 schema.plugin(mongooseVoting, { ref: 'User' });
 schema.plugin(mongooseConverse, { ref: 'User'});
 
-schema.index({ 'title': 'text', 'description': 'text' });
+schema.index({ 'summary': 'text', 'detail': 'text' });
 schema.plugin(mongooseMoreLikeThis, {
   limit: 100,
   tfThreshold: 2,

@@ -79,7 +79,7 @@
             <ul class="fa-ul">
               <% similar.forEach(function(similarPost, index) { %>
                 <% if (index > 15) return; %>
-                <li style="margin: 5px 0;"><i class="fa fa-li fa-angle-right text-muted"></i> <a href="<%= similarPost.getUrl() %>"><h5><%= similarPost.title %></h5></a></li>
+                <li style="margin: 5px 0;"><i class="fa fa-li fa-angle-right text-muted"></i> <a href="<%= similarPost.getUrl() %>"><h5><%= similarPost.summary %></h5></a></li>
               <% }); %>
             </ul>
           </div>
@@ -110,12 +110,12 @@
           </a>
         </p>
         <% } %>
-        <h2 class="page-header"><%= post.title %></h2>
+        <h2 class="page-header"><%= post.summary %></h2>
         <div class="break">
-          <% if (post.descriptionHtml) { %>
-            <%- post.descriptionHtml %>
+          <% if (post.detailHtml) { %>
+            <%- post.detailHtml %>
           <% } else { %>
-            <% post.description.split("\n").forEach(function(line, i) { %>
+            <% post.detail.split("\n").forEach(function(line, i) { %>
               <p><%- linkify(line) %></p>
             <% }); %>
           <% } %>

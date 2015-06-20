@@ -1,7 +1,7 @@
 {
   "name": "inkrato",
   "description": "Discussion and issue tracking for teams and communites",
-  "version": "0.3.14",
+  "version": "0.4.0",
   "homepage": "https://www.inkrato.com",
   "repository": {
     "type": "git",
@@ -46,6 +46,7 @@
     "marked": "^0.3.3",
     "method-override": "^2.1.0",
     "moment": "^2.9.0",
+    "mongodb": "^2.0.34",
     "mongoose": "3.8.25",
     "mongoose-auto-increment": "3.2.2",
     "mongoose-gridstore": "^0.1.25",
