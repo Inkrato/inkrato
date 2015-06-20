@@ -147,9 +147,13 @@ hr {
   border: 1px solid @input-border-focus;
 }
 
-.navbar-toggle,
 .navbar .btn-primary {
-  background: @brand-primary;
-  border-color: transparent; 
+  border-color: transparent;
+}
+
+.navbar-inverse .navbar-nav > .open > a,
+.navbar-inverse .navbar-nav > .open > a:hover,
+.navbar-inverse .navbar-nav > .open > a:focus {
+  background: darken(@brand-navbar, 10%);
   color: @brand-navbar-text;
 }

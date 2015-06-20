@@ -6,7 +6,7 @@
         <div class="media hidden-xs hidden-sm">
           <% if (topic.icon) { %>
           <div class="media-left">
-            <i style="margin-top: 15px;" class="text-primary fa fa-lg fa-<%= topic.icon %>"></i>
+            <h4 style="margin-top: 10px; margin-bottom: 20px;"><i class="text-primary fa fa-lg fa-<%= topic.icon %>"></i></h4>
           </div>
           <% } %>
           <div class="media-body text-primary">
@@ -17,7 +17,7 @@
         <div class="media hidden-xs hidden-sm">
           <% if (site.options().post.icon) { %>
           <div class="media-left">
-            <i style="margin-top: 15px;" class="text-primary fa fa-lg fa-<%= site.options().post.icon %>"></i>
+            <h4 style="margin-top: 10px; margin-bottom: 20px;"><i class="text-primary fa fa-lg fa-<%= site.options().post.icon %>"></i></h4>
           </div>
           <% } %>
           <div class="media-body text-primary">
@@ -26,14 +26,14 @@
         </div>
         <% } %>
         <div class="dropdown visible-xs visible-sm" style="margin-bottom: 10px;">
-          <button class="btn btn-block btn-default dropdown-toggle" type="button" id="dropdownMenu1" data-toggle="dropdown" aria-expanded="true">
+          <button class="btn btn-block btn-primary dropdown-toggle" type="button" id="dropdownMenu1" data-toggle="dropdown" aria-expanded="true">
             <div class="row">
             <div class="col-xs-10" style="overflow: hidden;">
               <span class="pull-left">
               <% if (topic) { %>
                 <% if (site.options().post.icon) { %><i class="fa fa-fw fa-lg fa-<%= topic.icon %>"></i> <% } %> <%= topic.name %>
               <% } else { %>
-                <% if (site.options().post.icon) { %><i class="fa fa-fw fa-lg fa-<%= site.options().post.icon %>"></i> All <% } %> <%= site.options().post.name %>
+                <% if (site.options().post.icon) { %><i class="fa fa-fw fa-lg fa-<%= site.options().post.icon %>"></i> <% } %> <%= site.options().post.name %>
               <% } %>
               </span>
             </div>
@@ -99,7 +99,7 @@
               <i class="fa fa-fw fa-<%= site.options().post.icon %>"></i>
             </div>
             <div class="media-body">
-              All <%= site.options().post.name %>
+              <%= site.options().post.name %>
               <span class="badge pull-right"><%= postTotal %></span>
             </div>
           </div>

@@ -27,9 +27,9 @@
 <div class="container container-fluid" style="padding-top: 40px;">
 <div class="row boxes">
 <% topics.forEach(function(topic) { %>
-  <div class="box text-center col-md-4" href="<%= site.options().post.path %>/<%= topic.path %>">
+  <div class="text-center <%= (topics.length % 2) ? 'col-md-4' : 'col-md-3' %>" href="<%= site.options().post.path %>/<%= topic.path %>" style="margin-bottom: 20px;">
     <% if (topic.icon) { %>
-    <span class="fa-stack fa-3x" style="margin-right: 10px; margin-bottom: 10px;">
+    <span class="fa-stack fa-3x" style="margin-bottom: 10px;">
       <i class="fa fa-circle fa-stack-2x text-primary"></i>
       <i class="fa fa-<%= topic.icon %> fa-stack-1x fa-inverse"></i>
     </span>
@@ -40,16 +40,16 @@
     <p class="text-muted">
       <%= topic.description %>
     </p>
-    <br/>
   </div>
 <% }); %>
 </div>
 <br/>
 <div class="text-center">
   <a href="<%= site.options().post.path %>/" class="btn btn-lg btn-primary rounded">
-    <i class="fa fa-fw fa-<%= site.options().post.icon %>"></i> All <%= postTotal %> <%= site.options().post.name %> <i class="fa fa-fw fa-chevron-right"></i>
+    <i class="fa fa-fw fa-<%= site.options().post.icon %>"></i> <%= site.options().post.name %> <i class="fa fa-fw fa-chevron-right"></i>
   </a>
 </div>
+<br/>
 <script>
 $(document).ready(function(){
   // Make all boxes equal height on page load

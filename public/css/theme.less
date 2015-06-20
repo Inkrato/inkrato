@@ -19,6 +19,8 @@
 @brand-primary:         #D7652C;
 @brand-navbar:          #C35022;
 @brand-navbar-text:     #fff;
+@brand-header:          #D7652C;
+@brand-header-text:     #fff;
 
 @brand-success:         #6EBF7D;
 @brand-info:            #448BDE;
@@ -133,9 +135,9 @@
 // Default background color used for all tables.
 @table-bg:                      transparent;
 // Background color used for `.table-striped`.
-@table-bg-accent:               #f9f9f9;
+@table-bg-accent:               darken(@body-bg,2%);
 // Background color used for `.table-hover`.
-@table-bg-hover:                #f5f5f5;
+@table-bg-hover:                darken(@body-bg,3%);
 @table-bg-active:               @table-bg-hover;
 
 // Border color for table and cell borders.
@@ -367,8 +369,8 @@
 @navbar-default-link-color:                @brand-navbar-text;
 @navbar-default-link-hover-color:          @brand-navbar-text;
 @navbar-default-link-hover-bg:             transparent;
-@navbar-default-link-active-color:         @brand-navbar-text;
-@navbar-default-link-active-bg:            darken(@navbar-default-bg, 6.5%);
+@navbar-default-link-active-color:         @brand-header-text;
+@navbar-default-link-active-bg:            @brand-header;
 @navbar-default-link-disabled-color:       darken(@navbar-default-bg, 6.5%);
 @navbar-default-link-disabled-bg:          transparent;
 
@@ -390,10 +392,10 @@
 
 // Inverted navbar links
 @navbar-inverse-link-color:                 @brand-navbar-text;
-@navbar-inverse-link-hover-color:           #fff;
+@navbar-inverse-link-hover-color:           @brand-navbar-text;
 @navbar-inverse-link-hover-bg:              transparent;
-@navbar-inverse-link-active-color:          #fff;
-@navbar-inverse-link-active-bg:             darken(@navbar-inverse-bg, 10%);
+@navbar-inverse-link-active-color:          @brand-header-text;
+@navbar-inverse-link-active-bg:             @brand-header;
 @navbar-inverse-link-disabled-color:        darken(@navbar-inverse-bg, 10%);
 @navbar-inverse-link-disabled-bg:           transparent;
 
@@ -479,8 +481,8 @@
 //##
 
 @jumbotron-padding:              20px;
-@jumbotron-color:                #fff;
-@jumbotron-bg:                   @brand-primary;
+@jumbotron-color:                @brand-header-text;
+@jumbotron-bg:                   @brand-header;
 @jumbotron-heading-color:        inherit;
 @jumbotron-font-size:            ceil((@font-size-base * 1.5));
 
@@ -781,12 +783,12 @@
 //
 //##
 
-@breadcrumb-padding-vertical:   8px;
-@breadcrumb-padding-horizontal: 15px;
+@breadcrumb-padding-vertical:   0px;
+@breadcrumb-padding-horizontal: 0px;
 // Breadcrumb background color
-@breadcrumb-bg:                 #f5f5f5;
+@breadcrumb-bg:                 transparent;
 // Breadcrumb text color
-@breadcrumb-color:              #ccc;
+@breadcrumb-color:              @brand-header-text;
 // Text color of current page in the breadcrumb
 @breadcrumb-active-color:       @gray-light;
 // Textual separator for between breadcrumb elements

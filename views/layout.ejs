@@ -20,32 +20,30 @@
   </head>
   <body>
     <% include partials/navbar %>
-    <div class="jumbotron jumbotron-heading">
+    <div class="jumbotron jumbotron-header">
       <div class="container container-fluid">
         <div class="row">
-          <div class="col-sm-8">
+          <div class="col-sm-8 col-lg-9">
             <h1><%= site.getName() %> <small class="hidden-sm hidden-xs"><%= site.getDescription() %></small></h1>
-            <p style="margin: 5px 0 0 0; opacity: 0.8; font-size: 18px; font-weight: 400;">
-              <a href="/" class="text-white"><i class="fa fa-home"></i> home</a>
+            <p class="breadcrumb" style="margin: 5px 0 0 0; opacity: 0.8; font-size: 18px; font-weight: 400;">
+              <a href="/"><i class="fa fa-home"></i> home</a>
               <% if (path.split("/")[1]) { %>
               <i class="fa fa-lg fa-angle-right"></i>
-              <a href="/<%= path.split("/")[1] %>/" class="text-white"><%= decodeURI(path.split("/")[1]) %></a>
+              <a href="/<%= path.split("/")[1] %>/"><%= decodeURI(path.split("/")[1]) %></a>
               <% } %>
               <!--
               <% if (path.split("/")[2] && isNaN(path.split("/")[2])) { %>
               <i class="fa fa-lg fa-angle-right"></i>
-              <a href="/<%= path.split("/")[1] %>/<%= path.split("/")[2] %>/" class="text-white"><%= decodeURI(path.split("/")[2]) %></a>
+              <a href="/<%= path.split("/")[1] %>/<%= path.split("/")[2] %>/"><%= decodeURI(path.split("/")[2]) %></a>
               <% } %>
               -->
             </p>
           </div>
-          <div class="col-sm-4">
-            <form name="search-posts" method="get" action="/search" class="form-horizontal hidden-smx hidden-xs" style="margin-top: 10px;">
+          <div class="col-sm-4 col-lg-3">
+            <form name="search-posts" method="get" action="/search" class="search form-horizontal hidden-sm hidden-xs" style="margin-top: 10px; position: relative; left: -20px;">
               <div class="form-group">
-                <div class="input-group input-group-search"> 
-                  <input id="search" name="q" value="<%= typeof(query) != "undefined" ? query : '' %>" type="text" class="form-control rounded" autocomplete="off" data-provide="typeahead" placeholder="Search" />
-                  <div class="input-group-addon rounded"><i class="fa fa-search"></i></div>
-                </div>
+                <div style="position: absolute; margin: 10px 15px;" class="rounded"><i class="fa fa-lg fa-search"></i></div>
+                <input id="search" name="q" value="<%= typeof(query) != "undefined" ? query : '' %>" type="text" style="padding-left: 40px;" class="form-control rounded" autocomplete="off" data-provide="typeahead" placeholder="Search" />
               </div>
             </form>
           </div>

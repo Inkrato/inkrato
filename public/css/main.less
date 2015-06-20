@@ -24,6 +24,9 @@
   text-decoration: underline;
 }
 
+.breadcrumb a {
+  color: @breadcrumb-color;
+}
 .navbar-static-top {
   margin-bottom: 0
 }
@@ -31,7 +34,7 @@
 .jumbotron.jumbotron-home {
   margin-top: -20px;
   padding: 10px 20px 0 20px;
-  .gradient(@brand-primary, darken(@brand-primary, 8%));
+  .gradient(@brand-header, darken(@brand-header, 5%));
 }
 
 .jumbotron.jumbotron-home h1 {
@@ -43,11 +46,11 @@
     font-size: 32px;
 }
 
-.jumbotron.jumbotron-heading {
+.jumbotron.jumbotron-header {
   padding: 15px 0 15px 0;
 }
 
-.jumbotron.jumbotron-heading h1 {
+.jumbotron.jumbotron-header h1 {
   position: relative;
   top: -2px;
   margin: 0;
@@ -55,12 +58,27 @@
   font-size: 39px;
 }
 
-.jumbotron.jumbotron-heading h1 small {
+.jumbotron.jumbotron-header h1 small {
   font-size: 26px;
 }
 
+.jumbotron.jumbotron-header .search .form-control {
+  box-shadow: inset 0 0 0 1px darken(@brand-header, 10%);
+  border: 1px solid darken(@brand-header, 10%);
+}
+
+.jumbotron.jumbotron-header .search .form-control:focus {
+  box-shadow: inset 0 0 0 1px @input-border-focus;
+  border: 1px solid @input-border-focus;;
+  background-color: @input-bg;
+}
+
+.jumbotron.jumbotron-header .search i {
+  color: @input-color;
+}
+
 .jumbotron h1 small {
-  color: @jumbotron-heading-color;
+  color: @jumbotron-color;
   opacity: 0.75;
 }
 
@@ -136,13 +154,6 @@ h1, h2
 
 textarea {
   min-height: 100px;
-}
-
-.navbar .nav.navbar-main li:hover a,
-.navbar .nav.navbar-main li.active a {
-  @media (min-width: @screen-sm-min) {
-    background: @brand-primary;
-  }
 }
 
 .score {
@@ -282,4 +293,9 @@ textarea {
   .bootstrap-select.fit-width {
     width: 100% !important;
   }
+}
+
+
+.typeahead {
+  overflow: hidden;
 }
