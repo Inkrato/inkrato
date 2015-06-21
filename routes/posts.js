@@ -241,9 +241,6 @@ exports.getPost = function(req, res) {
       }
       // Look for and add similar posts
       Post.mlt(post._id, { deleted: false }, null,  null, function(err, similar) {
-        console.log("x");
-        console.log(err);
-        console.log(similar);
         return res.render('posts/view', { title: post.summary, post: post, topic: post.topic, similar: similar });
       });
     }
