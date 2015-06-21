@@ -11,7 +11,7 @@ var config = {
  * Contact form page.
  */
 exports.getContact = function(req, res) {
-  res.render('contact', { title: res.locals.title + " - Contact", confirmation: false });
+  res.render('contact', { title: "Contact", confirmation: false });
 };
 
 /**
@@ -33,7 +33,7 @@ exports.postContact = function(req, res) {
 
   if (errors) {
     req.flash('errors', errors);
-    return res.render('contact', { title: res.locals.title + " - Contact", confirmation: false });
+    return res.render('contact', { title: "Contact", confirmation: false });
   }
 
   var from = req.body.email;
@@ -53,9 +53,9 @@ exports.postContact = function(req, res) {
   transporter.sendMail(mailOptions, function(err) {
     if (err) {
       req.flash('errors', { msg: "Failed to send email" });
-      return res.render('contact', { title: res.locals.title + " - Contact", confirmation: false });
+      return res.render('contact', { title: "Contact", confirmation: false });
     }
     req.flash('success', { msg: 'Message sent successfully!' });
-    res.render('contact', { title: res.locals.title + " - Contact", confirmation: true });
+    res.render('contact', { title: "Contact", confirmation: true });
   });
 };

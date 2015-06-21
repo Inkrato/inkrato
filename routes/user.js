@@ -17,7 +17,7 @@ var config = {
  */
 exports.getLogin = function(req, res) {
   if (req.user) return res.redirect('/');
-  res.render('account/login', { title: res.locals.title + " - Login" });
+  res.render('account/login', { title: "Login" });
 };
 
 /**
@@ -74,7 +74,7 @@ exports.logout = function(req, res) {
  */
 exports.getSignup = function(req, res) {
   if (req.user) return res.redirect('/account');
-  res.render('account/signup', { title: res.locals.title + " - Sign up" });
+  res.render('account/signup', { title: "Sign up" });
 };
 
 /**
@@ -134,7 +134,7 @@ exports.postSignup = function(req, res, next) {
         var mailOptions = {
           to: user.email,
           from: config.app.email,
-          subject: Site.getName()+ ' - Verify your email address',
+          subject: 'Verify your email address',
           text: 'You are receiving this email to verify the email address you entered at '+Site.getUrl(req)+'.\n\n'+
                 'Follow the link below to verify your email address.\n\n'+
                  Site.getUrl(req)+'/account/verify/'+user.emailVerificationToken+'\n\n'+
@@ -154,7 +154,7 @@ exports.postSignup = function(req, res, next) {
  * Profile page.
  */
 exports.getAccount = function(req, res) {
-  res.render('account/profile', { title: res.locals.title + " - Your profile" });
+  res.render('account/profile', { title: "Your profile" });
 };
 
 /**
@@ -217,7 +217,7 @@ exports.postUpdateProfile = function(req, res, next) {
         var mailOptions = {
           to: user.email,
           from: config.app.email,
-          subject: Site.getName()+ ' - Verify your email address',
+          subject: 'Verify your email address',
           text: 'You are receiving this email to verify the email address you entered at '+Site.getUrl(req)+'.\n\n'+
                 'Follow the link below to verify your email address.\n\n'+
                  Site.getUrl(req)+'/account/verify/'+user.emailVerificationToken+'\n\n'+
@@ -317,7 +317,7 @@ exports.getChangePassword = function(req, res) {
         req.flash('errors', { msg: 'Password reset token is invalid or has expired.' });
         return res.redirect('/reset-password');
       }
-      res.render('account/change-password', { title: res.locals.title + " - Change password" });
+      res.render('account/change-password', { title: "Change password" });
     });
 };
 
@@ -365,7 +365,7 @@ exports.postChangePassword = function(req, res, next) {
       var mailOptions = {
         to: user.email,
         from: config.app.email,
-        subject: Site.getName()+' - Your password has been changed',
+        subject: 'Your password has been changed',
         text: 'Hello,\n\n' +
               'This is a confirmation that the password for your account ' + user.email + ' has just been changed.\n' +
               '\n\n-- \n'
@@ -389,7 +389,7 @@ exports.getResetPassword = function(req, res) {
   if (req.isAuthenticated()) {
     return res.redirect('/');
   }
-  res.render('account/reset-password', { title: res.locals.title + " - Password reset" });
+  res.render('account/reset-password', { title: "Password reset" });
 };
 
 /**
@@ -459,7 +459,7 @@ exports.postResetPassword = function(req, res, next) {
       var mailOptions = {
         to: user.email,
         from: config.app.email,
-        subject: Site.getName()+ ' - Password reset',
+        subject: 'Password reset',
         text: text
       };
       transporter.sendMail(mailOptions, function(err) {
@@ -496,7 +496,7 @@ exports.postApiKey = function(req, res, next) {
       var mailOptions = {
         to: user.email,
         from: config.app.email,
-        subject: Site.getName()+ ' - API Key',
+        subject: 'Your API Key',
         text: 'You are receiving this email because you have requested an API Key for '+Site.getUrl(req)+'.\n\n'+
               'Your API Key: '+user.apiKey+'\n\n'+
               'This key uniquely identifies you and can be used to access the API with the same permissions as your account.\n\n'+
@@ -520,7 +520,7 @@ exports.postApiKey = function(req, res, next) {
  * Verify email address
  */
 exports.getAccountVerify = function(req, res) {
-  res.render('account/verify', { title: res.locals.title + " - Verify your email address" });
+  res.render('account/verify', { title: "Verify your email address" });
 };
 
 
@@ -543,7 +543,7 @@ exports.postAccountVerify = function(req, res) {
       var mailOptions = {
         to: user.email,
         from: config.app.email,
-        subject: Site.getName()+ ' - Verify your email address',
+        subject: 'Verify your email address',
         text: 'You are receiving this email to verify the email address you entered at '+Site.getUrl(req)+'.\n\n'+
               'Follow the link below to verify your email address.\n\n'+
                Site.getUrl(req)+'/account/verify/'+user.emailVerificationToken+'\n\n'+
@@ -554,7 +554,7 @@ exports.postAccountVerify = function(req, res) {
           req.flash('errors', { msg: 'Unable to send verification email. Please check your address.' });
           return res.redirect('/profile');
         } else {
-          return res.render('account/verify-confirm', { title: res.locals.title + " - Verify your email address" });
+          return res.render('account/verify-confirm', { title: "Verify your email address" });
         }
       });
     });
@@ -570,7 +570,7 @@ exports.getAccountVerifyToken = function(req, res) {
   .findOne({ emailVerificationToken: req.params.token })
   .exec(function(err, user) {
     if (!user)
-      return res.render('account/verify-invalid', { title: res.locals.title + " - Verify your email address" });
+      return res.render('account/verify-invalid', { title: "Verify your email address" });
 
     user.verified = true;
 

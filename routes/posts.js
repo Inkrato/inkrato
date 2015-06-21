@@ -88,7 +88,7 @@ exports.getPosts = function(req, res) {
         .populate('state')
         .populate('priority')
         .exec(function (err, posts) {
-            res.render('posts/list', { title: res.locals.title + " - " + Site.options().post.name,
+            res.render('posts/list', { title: Site.options().post.name,
                                        topic: null,
                                        posts: posts,
                                        postCount: totalOpenPosts,
@@ -117,7 +117,7 @@ exports.getPosts = function(req, res) {
           .populate('priority')
           .exec(function (err, posts) {
             Post.count({ topic: topic._id, deleted: false, state: { $ne: closedStateIds } }, function(err, count) {
-                res.render('posts/list', { title: res.locals.title + " - " + Site.options().post.name,
+                res.render('posts/list', { title: topic.name,
                                            topic: topic,
                                            posts: posts,
                                            postCount: count,
@@ -145,10 +145,10 @@ exports.getNewPost = function(req, res) {
     .findOne({ path: encodeURI(req.params.topic) })
     .exec(function (err, topic) {
       if (err) return next(err);
-      res.render('posts/new', { title: res.locals.title + " - New", topic: topic, post: new Post(), newPost: true});
+      res.render('posts/new', { title: "New", topic: topic, post: new Post(), newPost: true});
     });
   } else {
-    res.render('posts/new', { title: res.locals.title + " - New", topic: null, post: new Post(), newPost: true });
+    res.render('posts/new', { title: "New", topic: null, post: new Post(), newPost: true });
   }
 
 };
@@ -241,7 +241,10 @@ exports.getPost = function(req, res) {
       }
       // Look for and add similar posts
       Post.mlt(post._id, { deleted: false }, null,  null, function(err, similar) {
-        return res.render('posts/view', { title: res.locals.title + " - " + post.title, post: post, topic: post.topic, similar: similar });
+        console.log("x");
+        console.log(err);
+        console.log(similar);
+        return res.render('posts/view', { title: post.summary, post: post, topic: post.topic, similar: similar });
       });
     }
   });
@@ -275,7 +278,7 @@ exports.getEditPost = function(req, res) {
       });
     }
 
-    return res.render('posts/edit', { title: res.locals.title + " - Edit " + post.title, post: post, topic: post.topic });
+    return res.render('posts/edit', { title: "Edit: " + post.summary, post: post, topic: post.topic });
   });
 };
 
