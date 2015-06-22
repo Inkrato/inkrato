@@ -88,7 +88,7 @@ $(function() {
   // Control for the typeahead input for the search box
   // @todo Hook into the render event to improve how results are displayed
   $('#search').typeahead({
-    displayField: 'title',
+    displayField: 'summary',
     valueField: 'url',
     onSelect: function(item) {
       window.location = item.value;
