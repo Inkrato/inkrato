@@ -43,7 +43,7 @@ exports.index = function(req, res) {
           return deferred.promise;
       }))
       .then(function(topicsWithPostCount) {
-        res.render('home', { title: "Home", topics: topicsWithPostCount, postTotal: totalOpenPosts });
+        res.render('home', { topics: topicsWithPostCount, postTotal: totalOpenPosts });
       });
     });
   });

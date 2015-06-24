@@ -21,7 +21,7 @@
     
     <div class="clearfix" style="margin-bottom: 10px;">
       <% if (comment.creator) { %>
-      <img src="<%= comment.creator.avatar(24) %>" height="24" width="24" alt="Avatar" class="visible-xs pull-left img-circle"/>
+      <img src="<%= comment.creator.avatar(24) %>" style="margin-right: 5px;" height="24" width="24" alt="Avatar" class="visible-xs pull-left img-circle"/>
       <span class="media-heading"><strong><%= comment.creator.profile.name || "Anonymous" %></strong></span>
       <% } else { %>
       <span class="media-heading text-muted"><strong>Deleted Account</strong></span>

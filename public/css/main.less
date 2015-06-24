@@ -165,7 +165,7 @@ textarea {
   z-index: 2;
   height: 70px;
   width: 70px;
-  background: rgba(255,255,255,0.7);
+  background: fadeout(@body-bg, 50%);
 }
 
 .score .text-muted,
@@ -184,8 +184,10 @@ textarea {
 
 .media-avatar {
   background-color: @gray-lighter;
-  padding: 8px;
+  padding: 5px;
   margin: 0;
+  height: 58px;
+  overflow: hidden;
 }
 
 .media-avatar .media-heading {
@@ -214,7 +216,7 @@ textarea {
 .post-list .post-title {
   font-size: 20px;
   line-height: 20px;
-  font-weight: 400;
+  font-weight: 500;
   margin: 20px 0 20px 0;
 } 
 
@@ -270,32 +272,20 @@ textarea {
   width: 100%;
 }
 
-.navbar .notification {
-  position: relative;
-}
-
-.navbar .notification .fa {
-  margin-right: 28px;
-}
-
-.navbar .notification .badge {
-  background: @brand-danger;
-  color: #fff;
-  border: 2px solid #fff;
-  top: 2px;
-  position: absolute;
-  top: 0px;
-  right: -4px;
-} 
-
-
 @media (max-width: @screen-sm-max) {
   .bootstrap-select.fit-width {
     width: 100% !important;
   }
 }
 
-
 .typeahead {
   overflow: hidden;
+}
+
+.body-background {
+  background: @body-bg;
+}
+
+.body-background-color {
+  color: @body-bg;
 }

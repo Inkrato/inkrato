@@ -21,7 +21,7 @@
           </div>
           <% } %>
           <div class="media-body text-primary">
-            <h4 style="margin-top: 10px; margin-bottom: 20px;">All <%= site.options().post.name %></h4>
+            <h4 style="margin-top: 10px; margin-bottom: 20px;"> <%= site.options().post.name %></h4>
           </div>
         </div>
         <% } %>
@@ -44,7 +44,7 @@
           </button>
           <ul class="dropdown-menu" role="menu" aria-labelledby="dropdownMenu1" style="width: 100%;">
             <li role="presentation"><a role="menuitem" tabindex="-1" href="<%= site.options().post.path %>/everything"><% if (site.options().post.icon) { %>
-              <i class="fa fa-fw fa-lg fa-<%= site.options().post.icon %>"></i> <% } %> All <%= site.options().post.name %> (<%= postTotal %>)</a>
+              <i class="fa fa-fw fa-lg fa-<%= site.options().post.icon %>"></i> <% } %> <%= site.options().post.name %> (<%= postTotal %>)</a>
             </li>
             <li role="presentation" class="divider"></li>
             <% topics.forEach(function(t) { %>
