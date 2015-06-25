@@ -26,7 +26,7 @@
           </div>
           <% } %>
           <div class="media-body text-primary">
-            <h4 style="margin-top: 10px; margin-bottom: 20px;"> <%= site.options().post.name %></h4>
+            <h4 style="margin-top: 10px; margin-bottom: 20px;"> Everything</h4>
           </div>
         </div>
         <% } %>
@@ -38,7 +38,7 @@
               <% if (topic) { %>
                 <% if (site.options().post.icon) { %><i class="fa fa-fw fa-lg fa-<%= topic.icon %>"></i> <% } %> <%= topic.name %>
               <% } else { %>
-                <% if (site.options().post.icon) { %><i class="fa fa-fw fa-lg fa-<%= site.options().post.icon %>"></i> <% } %> <%= site.options().post.name %>
+                <% if (site.options().post.icon) { %><i class="fa fa-fw fa-lg fa-<%= site.options().post.icon %>"></i> <% } %> Everything
               <% } %>
               </span>
             </div>
@@ -49,7 +49,7 @@
           </button>
           <ul class="dropdown-menu" role="menu" aria-labelledby="dropdownMenu1" style="width: 100%;">
             <li role="presentation"><a role="menuitem" tabindex="-1" href="/<%= root %>/everything"><% if (site.options().post.icon) { %>
-              <i class="fa fa-fw fa-lg fa-<%= site.options().post.icon %>"></i> <% } %> <%= site.options().post.name %> (<%= postTotal %>)</a>
+              <i class="fa fa-fw fa-lg fa-<%= site.options().post.icon %>"></i> <% } %> Everything (<%= postTotal %>)</a>
             </li>
             <li role="presentation" class="divider"></li>
             <% topics.forEach(function(t) { %>
@@ -112,7 +112,7 @@
               <i class="fa fa-fw fa-<%= site.options().post.icon %>"></i>
             </div>
             <div class="media-body">
-              <%= site.options().post.name %>
+              Everything
               <span class="badge pull-right"><%= postTotal %></span>
             </div>
           </div>
