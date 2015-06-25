@@ -16,7 +16,7 @@
 <% } else { %>
   <div class="row boxes">
   <% topics.forEach(function(topic) { %>
-    <div class="hidden-xs text-center <%= (topics.length % 2) ? 'col-md-4' : 'col-md-3' %>" href="<%= site.options().post.path %>/<%= topic.slug %>" style="margin-bottom: 20px;">
+    <div class="hidden-xs text-center <%= (topics.length % 2) ? 'col-md-4' : 'col-md-3' %>" href="/<%= site.options().post.slug %>/<%= topic.slug %>" style="margin-bottom: 20px;">
       <% if (topic.icon) { %>
       <span class="hidden-xs fa-stack fa-3x" style="margin-bottom: 10px;">
         <i class="fa fa-circle fa-stack-2x text-primary"></i>
@@ -24,13 +24,13 @@
       </span>
       <% } %>
       <h3 style="margin-top: 0px;" class="text-primary">
-        <a href="<%= site.options().post.path %>/<%= topic.slug %>"><%= topic.postCount %> <%= topic.name %></a>
+        <a href="/<%= site.options().post.slug %>/<%= topic.slug %>"><%= topic.postCount %> <%= topic.name %></a>
       </h3>
       <p class="text-muted">
         <%= topic.description %>
       </p>
     </div>
-    <div class="visible-xs text-center <%= (topics.length % 2) ? 'col-md-4' : 'col-md-3' %>" href="<%= site.options().post.path %>/<%= topic.slug %>" style="margin-bottom: 20px;">
+    <div class="visible-xs text-center <%= (topics.length % 2) ? 'col-md-4' : 'col-md-3' %>" href="/<%= site.options().post.slug %>/<%= topic.slug %>" style="margin-bottom: 20px;">
       <h3 style="margin-top: 0px; magin-bottom: 0;" class="text-primary">
         <% if (topic.icon) { %>
         <span class="fa-stack fa-1x">
@@ -38,7 +38,7 @@
           <i class="fa fa-<%= topic.icon %> fa-stack-1x fa-inverse"></i>
         </span>
         <% } %>
-        <a href="<%= site.options().post.path %>/<%= topic.slug %>"><%= topic.postCount %> <%= topic.name %></a>
+        <a href="/<%= site.options().post.slug %>/<%= topic.slug %>"><%= topic.postCount %> <%= topic.name %></a>
       </h3>
       <p class="text-muted">
         <%= topic.description %>
@@ -48,7 +48,7 @@
   </div>
   <br/>
   <div class="text-center">
-    <a href="<%= site.options().post.path %>/" class="btn btn-lg btn-primary rounded">
+    <a href="/<%= site.options().post.slug %>/" class="btn btn-lg btn-primary rounded">
       <i class="fa fa-fw fa-<%= site.options().post.icon %>"></i> <%= site.options().post.name %> <i class="fa fa-fw fa-chevron-right"></i>
     </a>
   </div>
