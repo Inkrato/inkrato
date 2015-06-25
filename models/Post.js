@@ -19,6 +19,7 @@ var schema = new mongoose.Schema({
   summary: { type: String, required: true },
   detail: { type: String, required: true },
   tags: [ String ],
+  forum: { type: mongoose.Schema.ObjectId, ref: 'Forum' },
   topic: { type: mongoose.Schema.ObjectId, ref: 'Topic' },
   state: { type: mongoose.Schema.ObjectId, ref: 'State' },
   priority: { type: mongoose.Schema.ObjectId, ref: 'Priority' },
@@ -29,7 +30,7 @@ var schema = new mongoose.Schema({
 });
 
 /**
- * Update the date on a post when it is modifeid
+ * Update the date on a post when it is modified
  */
 schema.pre('save', function(next) {
   if (!this.isNew)
@@ -39,20 +40,30 @@ schema.pre('save', function(next) {
 });
 
 schema.methods.getUrl = function() {
-  // If topic not found, use "everything" as topic path (works for all posts)
-  var topicPath = 'everything';  
-  if (this.topic && !/undefined/.test(this.topic.path))
-    topicPath = this.topic.path;
-  return Site.options().post.path+'/'+topicPath+'/'+this.postId+'/'+slug(this.summary.toLowerCase());
+  // If topic not found, use "everything" as topic slug
+  var topicSlug = 'everything';  
+  // Graceful handling of deleted topics
+  if (this.topic && !/undefined/.test(this.topic.slug))
+    topicSlug = this.topic.slug;
+  
+  var root = Site.options().post.slug;
+  if (GLOBAL.forums.length > 0 && this.forum && !/undefined/.test(this.forum.slug))
+    root = this.forum.slug;
+  
+  return '/'+root+'/'+topicSlug+'/'+this.postId+'/'+slug(this.summary);
 };
 
 schema.methods.getEditUrl = function() {
-  // If topic not found, use "everything" as topic path (works for all posts)
-  var topicPath = 'everything';
-  if (this.topic && !/undefined/.test(this.topic.path))
-    topicPath = this.topic.path;
+  // If topic not found, use "everything" as topic slug
+  var topicSlug = 'everything';
+  if (this.topic && !/undefined/.test(this.topic.slug))
+    topicSlug = this.topic.slug;
 
-  return Site.options().post.path+'/'+topicPath+'/edit/'+this.postId;
+  var root = Site.options().post.slug;
+  if (GLOBAL.forums.length > 0 && this.forum && !/undefined/.test(this.forum.slug))
+    root = this.forum.slug;
+
+  return '/'+root+'/'+topicSlug+'/edit/'+this.postId;
 };
 
 schema.methods.getUpvoteUrl = function() {

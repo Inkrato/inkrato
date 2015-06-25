@@ -15,4 +15,4 @@ schema.pre('save', function(next) {
   next();
 });
 
-module.exports = mongoose.model('Topic', schema);
+module.exports = mongoose.model('Forum', schema);

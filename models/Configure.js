@@ -5,7 +5,8 @@
 var Q = require('q'),
     Topic = require('../models/Topic'),
     Priority = require('../models/Priority'),
-    State = require('../models/State');
+    State = require('../models/State'),
+    Forum = require('../models/Forum');
 
 module.exports = new function() {
   
@@ -29,7 +30,7 @@ module.exports = new function() {
         // Return list of all currently enabled topics
         Topic
         .find({ deleted: false }, null, { sort : { order: 1 } })
-        .exec(function (err, topicsFromDatabase) {
+        .exec(function(err, topicsFromDatabase) {
           deferred.resolve(topicsFromDatabase);
         });
       });
@@ -44,7 +45,7 @@ module.exports = new function() {
 
     Topic
     .findOne({ name: topic.name })
-    .exec(function (err, topicInDatabase) {
+    .exec(function(err, topicInDatabase) {
       if (topicInDatabase) {
         // If the topic exists aready, update it and mark it as enabled
         topicInDatabase.name = topic.name;
@@ -99,7 +100,7 @@ module.exports = new function() {
         // Return list of all currently enabled priorities
         Priority
         .find({ deleted: false }, null, { sort : { order: 1 } })
-        .exec(function (err, prioritiesFromDatabase) {
+        .exec(function(err, prioritiesFromDatabase) {
           deferred.resolve(prioritiesFromDatabase);
         });
       });
@@ -115,7 +116,7 @@ module.exports = new function() {
 
     Priority
     .findOne({ name: priority.name })
-    .exec(function (err, priorityInDatabase) {
+    .exec(function(err, priorityInDatabase) {
       if (priorityInDatabase) {
         // If the priority exists aready, update it and mark it as enabled
         priorityInDatabase.name = priority.name;
@@ -168,7 +169,7 @@ module.exports = new function() {
         // Return list of all currently enabled states
         State
         .find({ deleted: false }, null, { sort : { order: 1 } })
-        .exec(function (err, stateFromDatabase) {
+        .exec(function(err, stateFromDatabase) {
           deferred.resolve(stateFromDatabase);
         });
       });
@@ -183,7 +184,7 @@ module.exports = new function() {
 
     State
     .findOne({ name: state.name })
-    .exec(function (err, stateInDatabase) {
+    .exec(function(err, stateInDatabase) {
       if (stateInDatabase) {
         // If the state exists aready, update it and mark it as enabled
         stateInDatabase.name = state.name;
@@ -214,5 +215,73 @@ module.exports = new function() {
 
     return deferred.promise;
   };
+  
+  // Update forum list
+  this.forums = function(forums) {
+    var deferred = Q.defer(); 
+    
+    // Start by marking all existing forums as deleted
+    Forum.update({}, { $set: { deleted: true } },  { multi: true }, function() {
+
+      // Once all forums marked as deleted, (re)enable each configured forum
+      Q.fcall(function() {
+        var promises = [];
+        forums.forEach(function(forum, index) {
+          var promise = enableForum(forum, index);
+          promises.push(promise);
+        });
+        return Q.all(promises);
+      })
+      .then(function() {
+        // Return list of all currently enabled forums
+        Forum
+        .find({ deleted: false }, null, { sort : { order: 1 } })
+        .exec(function(err, forumFromDatabase) {
+          deferred.resolve(forumFromDatabase);
+        });
+      });
+      
+    });
+    return deferred.promise;
+  };
+
+  // On startup, create a state in the DB if that state doesn't exist already
+  function enableForum(forum, order) {
+    var deferred = Q.defer();
+
+    Forum
+    .findOne({ name: forum.name })
+    .exec(function(err, forumInDatabase) {
+      if (forumInDatabase) {
+        // If the forum exists aready, update it and mark it as enabled
+        forumInDatabase.name = forum.name;
+        forumInDatabase.icon = forum.icon;
+        forumInDatabase.description = forum.description;
+        forumInDatabase.order = order;
+        forumInDatabase.deleted = false;
+        forumInDatabase.save(function(err) {
+          if (err)
+            console.log('Unable to update forum in DB: '+forum.name);
+          deferred.resolve(forumInDatabase);
+        });
+      } else {
+        // If the state doesn't exist, create it
+        var newForum = new Forum({
+          name: forum.name,
+          icon: forum.icon,
+          description: forum.description,
+          order: order,
+          deleted: false
+        });
+        newForum.save(function(err) {
+          if (err)
+            console.log('Unable to create new forum in DB: '+forum.name);
+          deferred.resolve(newForum);
+        });
+      }
+    });
+
+    return deferred.promise;
+  };  
   
 };

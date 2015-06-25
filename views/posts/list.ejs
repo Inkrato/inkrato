@@ -1,3 +1,8 @@
+<% 
+  var root = site.options().post.slug;
+  if (typeof(forum) != "undefined" && forum != null)
+    root = forum.slug;
+%>
 <div class="row">
   <div class="col-md-9">
     <div class="row">
@@ -43,12 +48,12 @@
             </div>
           </button>
           <ul class="dropdown-menu" role="menu" aria-labelledby="dropdownMenu1" style="width: 100%;">
-            <li role="presentation"><a role="menuitem" tabindex="-1" href="<%= site.options().post.path %>/everything"><% if (site.options().post.icon) { %>
+            <li role="presentation"><a role="menuitem" tabindex="-1" href="/<%= root %>/everything"><% if (site.options().post.icon) { %>
               <i class="fa fa-fw fa-lg fa-<%= site.options().post.icon %>"></i> <% } %> <%= site.options().post.name %> (<%= postTotal %>)</a>
             </li>
             <li role="presentation" class="divider"></li>
             <% topics.forEach(function(t) { %>
-            <li role="presentation"><a role="menuitem" tabindex="-1" href="<%= site.options().post.path %>/<%= t.path %>"><% if (t.icon) { %><i class="fa fa-fw fa-lg fa-<%= t.icon %>"></i> <% } %> <%= t.name %> (<%= t.postCount %>)</a></li>
+            <li role="presentation"><a role="menuitem" tabindex="-1" href="/<%= root %>/<%= t.slug %>"><% if (t.icon) { %><i class="fa fa-fw fa-lg fa-<%= t.icon %>"></i> <% } %> <%= t.name %> (<%= t.postCount %>)</a></li>
             <% }); %>
           </ul>
         </div>
@@ -72,11 +77,19 @@
     <p class="text-center lead">There's nothing here yet.</p>
     <p class="text-center">
       <% if (user) { %>
-        <% if (typeof(topic) != "undefined" && topic != null) { %>
-          <a class="btn btn-lg btn-success" href="<%= site.options().post.path %>/<%= topic.path %>/new" ><i class="fa fa-lg fa-fw fa-plus-circle"></i> New</a>
-        <% } else { %>
-          <a class="btn btn-lg btn-success" href="/new" ><i class="fa fa-lg fa-fw fa-plus-circle"></i> New</a>
-        <% } %>
+          <% if (typeof(forum) != "undefined" && forum != null) { %>
+            <% if (typeof(topic) != "undefined" && topic != null) { %>
+              <a href="/<%= forum.slug %>/<%= topic.slug %>/new" class="btn btn-lg btn-success"><i class="fa fa-lg fa-fw fa-plus-circle"></i> New</a>
+            <% } else { %>
+              <a href="/<%= forum.slug %>/new" class="btn btn-lg btn-success"><i class="fa fa-lg fa-fw fa-plus-circle"></i> New</a>
+            <% } %>
+          <% } else { %>
+            <% if (typeof(topic) != "undefined" && topic != null) { %>
+              <a href="/<%= site.options().post.slug %>/<%= topic.slug %>/new" class="btn btn-lg btn-success"><i class="fa fa-lg fa-fw fa-plus-circle"></i> New</a>
+            <% } else { %>
+              <a href="/new" class="btn btn-lg btn-success"><i class="fa fa-lg fa-fw fa-plus-circle"></i> New</a>
+            <% } %>
+          <% } %>
       <% } else { %>
       <a class="btn btn-lg btn-success" href="/signup" data-dismiss="modal" data-toggle="modal" data-target="#signupModal"  data-shortcut-key="n"><i class="fa fa-lg fa-fw fa-plus-circle"></i> New</a>
       <% } %>
@@ -93,7 +106,7 @@
   <div class="col-md-3">
     <div class="hidden-xs hidden-sm">
       <div class="list-group">
-        <a href="<%= site.options().post.path %>/everything" class="list-group-item <% if (!topic) { %>active<% } %>">
+        <a href="/<%= root %>/everything" class="list-group-item <% if (!topic) { %>active<% } %>">
           <div class="media">
             <div class="media-left">
               <i class="fa fa-fw fa-<%= site.options().post.icon %>"></i>
@@ -108,7 +121,7 @@
 
       <h5 class="text-muted">LIST BY TOPIC</h5>
       <% topics.forEach(function(t) { %>
-        <a href="<%= site.options().post.path %>/<%= t.path %>" class="list-group-item <% if (topic && topic.name == t.name) { %>active<% } %>">
+        <a href="/<%= root %>/<%= t.slug %>" class="list-group-item <% if (topic && topic.name == t.name) { %>active<% } %>">
           <div class="media">
             <% if (t.icon != "") { %>
             <div class="media-left">

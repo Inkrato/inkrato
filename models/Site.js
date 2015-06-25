@@ -1,5 +1,5 @@
 var Q = require('q'),
-    Topic = require('../models/Topic');
+    slug = require('slug');
 
 var config = {
   app: require('../config/app'),
@@ -39,7 +39,7 @@ module.exports = function() {
       api: config.app.api,
       post: {
         name: config.app.posts.name,
-        path: '/'+encodeURI(config.app.posts.path.replace(/\//g, '')),
+        slug: slug(config.app.posts.name),
         icon: config.app.posts.icon,
         voting: {
           enabled: true

@@ -272,17 +272,21 @@ Example response:
       count: Number     // Total number of matching results (max 100)
     }
 
+#### GET /api/forums
+
+Returns an array of Forum objects (if forums have been configured).
+
 #### GET /api/topics
 
-Returns an array of the valid Topic objects (and their id value).
+Returns an array of Topic objects.
 
 #### GET /api/states
 
-Returns an array of the valid Priority objects (and their id value).
+Returns an array of State objects.
 
 #### GET /api/priorities
 
-Returns an array of the valid Priority objects (and their id value).
+Returns an array of Priority objects.
 
 ## Security considerations
 

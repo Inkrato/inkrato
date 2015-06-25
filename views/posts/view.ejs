@@ -1,4 +1,8 @@
-
+<% 
+  var root = site.options().post.slug;
+  if (typeof(forum) != "undefined" && forum != null)
+    root = forum.slug;
+%>
 <% if (site.options().post.voting.enabled == true) { %>
 <div class="media" style="position: relative; top: -10px;">
   <div class="hidden-xs hidden-sm media-left" style="padding-right: 20px;">
@@ -63,7 +67,7 @@
         <% if (post.topic != null) { %>
         <div class="visible-xs visible-sm">
           <h5 class="text-muted">TOPIC</h5>
-          <a href="<%= site.options().post.path %>/<%= post.topic.path %>" class="label label-lg label-primary" style="text-align: left; display: block;">
+          <a href="/<%= root %>/<%= post.topic.slug %>" class="label label-lg label-primary" style="text-align: left; display: block;">
             <% if (post.topic.icon) { %><i class="fa fa-lg fa-fw fa-<%= post.topic.icon %>"></i><% } %>
             <%= post.topic.name %>
           </a>
@@ -104,7 +108,7 @@
         <!-- Post Body -->
         <% if (post.topic != null) { %>
         <p id="topic" style="margin: 1px 0 10px 0;" class="hidden-xs hidden-sm">
-          <a href="<%= site.options().post.path %>/<%= post.topic.path %>" class="label label-primary hidden-xs hidden-sm">
+          <a href="/<%= root %>/<%= post.topic.slug %>" class="label label-primary hidden-xs hidden-sm">
             <% if (post.topic.icon) { %><i class="fa fa-lg fa-fw fa-<%= post.topic.icon %>"></i><% } %>
             <%= post.topic.name %>
           </a>

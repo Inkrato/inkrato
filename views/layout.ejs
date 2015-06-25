@@ -24,12 +24,16 @@
       <div class="container container-fluid">
         <div class="row">
           <div class="col-sm-8 col-lg-9">
-            <h1><%= site.getName() %> <small class="hidden-sm hidden-xs"><%= site.getDescription() %></small></h1>
+            <% if (typeof(forum) != "undefined" && forum != null) { %>
+              <h1><% if (forum.icon && forum.icon != "") { %><i class="fa fa-<%= forum.icon %>"></i> <% } %><%= forum.name %></h1>
+            <% } else { %>
+              <h1><%= site.getName() %> <small class="hidden-sm hidden-xs"><%= site.getDescription() %></small></h1>
+            <% } %>
             <p class="breadcrumb" style="margin: 5px 0 0 0; opacity: 0.8; font-size: 18px; font-weight: 400;">
               <a href="/"><i class="fa fa-home"></i> home</a>
               <% if (path.split("/")[1]) { %>
               <i class="fa fa-lg fa-angle-right"></i>
-              <a href="/<%= path.split("/")[1] %>/"><%= decodeURI(path.split("/")[1]) %></a>
+              <a href="/<%= path.split("/")[1] %>/"><%= decodeURI(path.split("/")[1].replace(/-/g, ' ')) %></a>
               <% } %>
               <!--
               <% if (path.split("/")[2] && isNaN(path.split("/")[2])) { %>
