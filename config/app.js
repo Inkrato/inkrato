@@ -4,9 +4,9 @@
 module.exports = {
   
   // The name and contact email address for the site (valid email required)
-  name: "inkrato",
-  description: "community edition",
-  email: "feedback@inkrato.com",
+  name: "gameplay.fail",
+  description: "Better feedback, better games.",
+  email: "help@gameplay.fail",
   
   // Set this option to true if you have an SSL certificate for your site
   ssl: process.env.FORCE_SSL || false,
@@ -27,15 +27,18 @@ module.exports = {
   //
   // Example forum object:
   // { name: "My feedback forum", icon: "comments", description: "About this  forum" }
-  forums: [],
+  forums: [
+    { name: "PlanetSide 2", icon: "comments", description: "Free-to-play massively multiplayer online first-person shooter by Daybreak Games" },
+    { name: "H1Z1", icon: "comments", description: "Free-to-play massively multiplayer online survivial horror by Daybreak Games" }
+  ],
   
   posts: {
     
     // The name, icon and URL path to use for "posts" on the site
     // e.g. "Tickets", "Feedback", "Discussions"
     // NB: The icons are from http://fontawesome.io/icons
-    name: "Issues",
-    icon: "list",
+    name: "Games",
+    icon: "gamepad",
     
     // Topics, Priorities and States are loaded from here on app startup.
     //
@@ -45,11 +48,12 @@ module.exports = {
     // To delete an option, just remove it from here and restart the app - it
     // will be marked as deleted and will be no longer selected in the UI.
          
-    // The list of topics to use to categorise posts
+    // The list of topics to use to categorize posts
     topics: [
-      { name: "Problems", icon: "warning", description: "Things that aren't working properly" },
-      { name: "Suggestions", icon: "lightbulb-o", description: "New features and ideas for improvement" },
-      { name: "Questions", icon: "question", description: "Support questions and other enquiries" }
+      { name: "Bugs", icon: "bug", description: "Things that aren't working properly" },
+      { name: "Ideas", icon: "lightbulb-o", description: "Share ideas for improvement" },
+      { name: "Questions", icon: "question", description: "Get for help and support" },
+      { name: "Tips", icon: "gamepad", description: "Share tips and advice" }
     ],
     
     // List of labels to allow on posts
@@ -63,9 +67,8 @@ module.exports = {
     
     // List of states to allow on posts
     states: [
-      { name: "Open", open: true },
-      { name: "In Progress", open: true },
-      { name: "Closed", open: false }
+      { name: "Unresolved", open: true },
+      { name: "Resolved", open: false }
     ],
     
     // Allow markdown in posts and comments
