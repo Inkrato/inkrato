@@ -17,7 +17,7 @@ var config = {
  */
 exports.getLogin = function(req, res) {
   if (req.user) return res.redirect('/');
-  res.render('account/login', { title: res.locals.title + " - Login" });
+  res.render('account/login', { title: "Login" });
 };
 
 /**
@@ -27,7 +27,7 @@ exports.getLogin = function(req, res) {
  * @param password
  */
 exports.postLogin = function(req, res, next) {
-  req.assert('email', 'Email address is invalid').isEmail();
+  req.assert('email', 'Email address invalid').isEmail();
   req.assert('password', 'Password cannot be blank').notEmpty();
 
   var errors = req.validationErrors();
@@ -45,7 +45,7 @@ exports.postLogin = function(req, res, next) {
     if (err) return next(err);
     if (!user) {
       if (req.headers['x-validate']) {
-        return res.json({ errors: [ { param: 'email', msg: ''}, { param: 'password', msg: 'Email address is invalid or password' } ] });
+        return res.json({ errors: [ { param: 'email', msg: ''}, { param: 'password', msg: 'Email address invalid or password' } ] });
       } else {
         req.flash('errors', { msg: info.message });
         return res.redirect('/login');
@@ -74,7 +74,7 @@ exports.logout = function(req, res) {
  */
 exports.getSignup = function(req, res) {
   if (req.user) return res.redirect('/account');
-  res.render('account/signup', { title: res.locals.title + " - Sign up" });
+  res.render('account/signup', { title: "Sign up" });
 };
 
 /**
@@ -86,7 +86,7 @@ exports.getSignup = function(req, res) {
 exports.postSignup = function(req, res, next) {
   if (req.user) return res.redirect('/account');
   
-  req.assert('email', 'Email address is invalid').isEmail();
+  req.assert('email', 'Email address invalid').isEmail();
   req.assert('password', 'Password must be at least 4 characters').len(4);
   req.assert('confirmPassword', 'Passwords do not match').equals(req.body.password);
 
@@ -104,10 +104,11 @@ exports.postSignup = function(req, res, next) {
   // If user does not exist, create account
   var user = new User({
     email: req.body.email,
-    password: req.body.password
+    password: req.body.password,
+    emailVerificationToken: crypto.randomBytes(16).toString('hex')
   });
   
-  User.findOne({ email: req.body.email }, function(err, existingUser) {    
+  User.findOne({ email: req.body.email }, function(err, existingUser) {
     // Check if user exists already
     if (existingUser) {
       var msg = 'An account with that email address already exists';
@@ -127,7 +128,21 @@ exports.postSignup = function(req, res, next) {
       if (err) return next(err);
       req.logIn(user, function(err) {
         if (err) return next(err);
-        res.redirect(req.session.returnTo || '/');
+        
+        // Trigger sending an email address verification email 
+        var transporter = nodemailer.createTransport(Site.getMailTransport());
+        var mailOptions = {
+          to: user.email,
+          from: config.app.email,
+          subject: 'Verify your email address',
+          text: 'You are receiving this email to verify the email address you entered at '+Site.getUrl(req)+'.\n\n'+
+                'Follow the link below to verify your email address.\n\n'+
+                 Site.getUrl(req)+'/account/verify/'+user.emailVerificationToken+'\n\n'+
+                '\n\n-- \n'
+        };
+        transporter.sendMail(mailOptions, function(err) {
+          return res.redirect(req.session.returnTo || '/');
+        });
       });
     });
     
@@ -139,7 +154,7 @@ exports.postSignup = function(req, res, next) {
  * Profile page.
  */
 exports.getAccount = function(req, res) {
-  res.render('account/profile', { title: res.locals.title + " - Your profile" });
+  res.render('account/profile', { title: "Your profile" });
 };
 
 /**
@@ -147,7 +162,7 @@ exports.getAccount = function(req, res) {
  * Update profile information.
  */
 exports.postUpdateProfile = function(req, res, next) {
-  req.assert('email', 'Email address is invalid').isEmail();
+  req.assert('email', 'Email address invalid').isEmail();
 
   var errors = req.validationErrors();
 
@@ -161,10 +176,19 @@ exports.postUpdateProfile = function(req, res, next) {
   }
   
   User.findById(req.user.id, function(err, user) {
-    
-    // @todo If email address changed, check to see if in use and return error (so x-validate doesn't trigger an update)
-    
+        
     if (err) return next(err);
+
+    // If the email address has changed reset account verification status    
+    if (user.email != req.body.email) {
+      user.verified = false;
+      user.emailVerificationToken = null;
+    }
+
+    //  Create new verification token if there isn't one
+    if (!user.emailVerificationToken)
+      user.emailVerificationToken = crypto.randomBytes(16).toString('hex');
+    
     user.email = req.body.email || '';
     user.profile.name = req.body.name || '';
     user.profile.organization = req.body.organization || '';
@@ -172,8 +196,8 @@ exports.postUpdateProfile = function(req, res, next) {
     user.profile.website = req.body.website || '';
 
     user.save(function(err) {
-      
-      // Check for duplicates
+      // Check for duplicate email addresses
+      // Two accounts are not allowed have the same email address
       if (err) {
         if (err.code == '11000') {
           var msg = 'An account with that email address already exists.';
@@ -188,9 +212,24 @@ exports.postUpdateProfile = function(req, res, next) {
           if (err) return next(err);
         }
       } 
-      
-      req.flash('success', { msg: 'Your profile has been updated.' });
-      res.redirect('/profile');
+      if (user.verified != true) {
+        var transporter = nodemailer.createTransport(Site.getMailTransport());
+        var mailOptions = {
+          to: user.email,
+          from: config.app.email,
+          subject: 'Verify your email address',
+          text: 'You are receiving this email to verify the email address you entered at '+Site.getUrl(req)+'.\n\n'+
+                'Follow the link below to verify your email address.\n\n'+
+                 Site.getUrl(req)+'/account/verify/'+user.emailVerificationToken+'\n\n'+
+                '\n\n-- \n'
+        };
+        transporter.sendMail(mailOptions, function(err) {
+          res.redirect('/profile');
+        });
+      } else {
+        req.flash('success', { msg: 'Your profile has been updated.' });
+        res.redirect('/profile');
+      }
     });
   });
 };
@@ -278,7 +317,7 @@ exports.getChangePassword = function(req, res) {
         req.flash('errors', { msg: 'Password reset token is invalid or has expired.' });
         return res.redirect('/reset-password');
       }
-      res.render('account/change-password', { title: res.locals.title + " - Change password" });
+      res.render('account/change-password', { title: "Change password" });
     });
 };
 
@@ -322,17 +361,11 @@ exports.postChangePassword = function(req, res, next) {
         });
     },
     function(user, done) {
-      var transporter = nodemailer.createTransport({
-        service: 'SendGrid',
-        auth: {
-          user: config.secrets.sendgrid.user,
-          pass: config.secrets.sendgrid.password
-        }
-      });
+      var transporter = nodemailer.createTransport(Site.getMailTransport());
       var mailOptions = {
         to: user.email,
         from: config.app.email,
-        subject: Site.getName()+' - Your password has been changed',
+        subject: 'Your password has been changed',
         text: 'Hello,\n\n' +
               'This is a confirmation that the password for your account ' + user.email + ' has just been changed.\n' +
               '\n\n-- \n'
@@ -356,7 +389,7 @@ exports.getResetPassword = function(req, res) {
   if (req.isAuthenticated()) {
     return res.redirect('/');
   }
-  res.render('account/reset-password', { title: res.locals.title + " - Password reset" });
+  res.render('account/reset-password', { title: "Password reset" });
 };
 
 /**
@@ -365,7 +398,7 @@ exports.getResetPassword = function(req, res) {
  * @param email
  */
 exports.postResetPassword = function(req, res, next) {
-  req.assert('email', 'Email address is invalid').isEmail();
+  req.assert('email', 'Email address invalid').isEmail();
 
   var errors = req.validationErrors();
 
@@ -388,7 +421,7 @@ exports.postResetPassword = function(req, res, next) {
     function(token, done) {
       User.findOne({ email: req.body.email.toLowerCase() }, function(err, user) {
         if (!user) {
-          var msg = 'No account with that email address exists.';
+          var msg = "That isn't the email address you signed up with";
           if (req.headers['x-validate']) {
             return res.json({ errors: [ { param: 'email', msg: msg } ] });
           } else {
@@ -409,13 +442,7 @@ exports.postResetPassword = function(req, res, next) {
       });
     },
     function(token, user, done) {
-      var transporter = nodemailer.createTransport({
-        service: 'SendGrid',
-        auth: {
-          user: config.secrets.sendgrid.user,
-          pass: config.secrets.sendgrid.password
-        }
-      });
+      var transporter = nodemailer.createTransport(Site.getMailTransport());
       
       var text = 'You are receiving this email because you (or someone else) has requested the reset of the password for your account.\n\n' +
                  'Please click on the following link, or paste this into your browser to complete the process:\n\n';
@@ -432,14 +459,14 @@ exports.postResetPassword = function(req, res, next) {
       var mailOptions = {
         to: user.email,
         from: config.app.email,
-        subject: Site.getName()+ ' - Password reset',
+        subject: 'Password reset',
         text: text
       };
       transporter.sendMail(mailOptions, function(err) {
         if (err) {
-          req.flash('errors', { msg: 'Failed to send email to ' + user.email + '.' });
+          req.flash('errors', { msg: 'Unable to send password reset email. Please check your address.' });
         } else {
-          req.flash('info', { msg: 'An e-mail has been sent to ' + user.email + ' with further instructions.' });
+          req.flash('info', { msg: 'An email has been sent to you with further instructions.' });
         }
         done(err, 'done');
       });
@@ -465,30 +492,92 @@ exports.postApiKey = function(req, res, next) {
       if (!user.email)
         if (err) return next(err);
 
-      var transporter = nodemailer.createTransport({
-        service: 'SendGrid',
-        auth: {
-          user: config.secrets.sendgrid.user,
-          pass: config.secrets.sendgrid.password
-        }
-      });
+      var transporter = nodemailer.createTransport(Site.getMailTransport());
       var mailOptions = {
         to: user.email,
         from: config.app.email,
-        subject: Site.getName()+ ' - API Key',
-        text: 'You are receiving this email because you have requested an API Key for '+req.headers.host+'.\n\n'+
+        subject: 'Your API Key',
+        text: 'You are receiving this email because you have requested an API Key for '+Site.getUrl(req)+'.\n\n'+
               'Your API Key: '+user.apiKey+'\n\n'+
               'This key uniquely identifies you and can be used to access the API with the same permissions as your account.\n\n'+
               '\n\n-- \n'
       };
       transporter.sendMail(mailOptions, function(err) {
         if (err) {
-          req.flash('errors', { msg: 'Failed to send email to ' + user.email + '.' });
+          req.flash('errors', { msg: 'Unable to send API Key via email. Please check your address.' });
         } else {
-          req.flash('success', { msg: 'An e-mail has been sent to ' + user.email + ' with your API Key.' });
+          req.flash('success', { msg: 'An email has been sent to you with your API Key.' });
         }
         res.redirect('/profile');
       });
+    });
+  });
+};
+
+
+/**
+ * GET /profile/verify
+ * Verify email address
+ */
+exports.getAccountVerify = function(req, res) {
+  res.render('account/verify', { title: "Verify your email address" });
+};
+
+
+/**
+ * POST /profile/verify
+ * Verify email address
+ */
+exports.postAccountVerify = function(req, res) {
+  User.findById(req.user.id, function(err, user) {
+    if (err) return next(err);
+
+    if (!user.emailVerificationToken)
+      user.emailVerificationToken = crypto.randomBytes(16).toString('hex');
+    
+    user.save(function(err) {
+      if (!user.email)
+        if (err) return next(err);
+
+      var transporter = nodemailer.createTransport(Site.getMailTransport());
+      var mailOptions = {
+        to: user.email,
+        from: config.app.email,
+        subject: 'Verify your email address',
+        text: 'You are receiving this email to verify the email address you entered at '+Site.getUrl(req)+'.\n\n'+
+              'Follow the link below to verify your email address.\n\n'+
+               Site.getUrl(req)+'/account/verify/'+user.emailVerificationToken+'\n\n'+
+              '\n\n-- \n'
+      };
+      transporter.sendMail(mailOptions, function(err) {
+        if (err) {
+          req.flash('errors', { msg: 'Unable to send verification email. Please check your address.' });
+          return res.redirect('/profile');
+        } else {
+          return res.render('account/verify-confirm', { title: "Verify your email address" });
+        }
+      });
+    });
+  });
+};
+
+/**
+ * POST /profile/verify
+ * Verify email address
+ */
+exports.getAccountVerifyToken = function(req, res) {
+  User
+  .findOne({ emailVerificationToken: req.params.token })
+  .exec(function(err, user) {
+    if (!user)
+      return res.render('account/verify-invalid', { title: "Verify your email address" });
+
+    user.verified = true;
+
+    user.save(function(err) {
+      if (err) return next(err);
+      req.flash('success', { msg: 'E-mail address verified.' });
+      return res.redirect('/profile');
     });
   });
 };

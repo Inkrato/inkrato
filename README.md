@@ -2,31 +2,39 @@
 
 This is an early release of the inkrato community edition - an open source collaboration platform for teams and communities.
 
-This version ships will fully working core functionality (including an API) but does not yet have some of the more sophisticated and deverse functionality of the earlier propriatory version.
+It is designed for community discussion and collaborative issue tracking. It supports login via email, Facebook, Twitter, Google+ and GitHub. Members can post, reply to posts and up or downvote posts. There is also a REST based API.
 
-You are free to use and modify this software for both non-commercial and commercial purposes.
+What's being discussed or tracked (e.g. issues, feedback, ideas) is fully configurable, as are the discussion topics and labels and the UI theme.
 
-You can see an instance of this software running at https:///www.inkrato.com
+You are free to use and modify this software for both non-commercial and commercial purposes. Please bear in mind this is an early release.
+
+You can see an instance of this software running at [www.inkrato.com](https://www.inkrato.com).
 
 ## Getting Started
 
-You will need node.js and monogdb installed. After downloading be sure to run `npm install` to install required dependancies.
+You will need node.js and monogdb installed. Just run `npm install` to install required dependancies and `npm start` to run the application.
 
-To configure, edit `config/app.js` and `config/secrets.js` with your settings and run `npm start` to start the application running on port 3000.
+You can also deploy it on Heroku (see "Deploying to Heroku" below for more).
 
-You can also pass options at runtime via environment variables:
+[![Deploy](https://www.herokucdn.com/deploy/button.png)](https://heroku.com/deploy?template=https://github.com/inkrato/inkrato)
 
-    > PORT 80 npm start
+### Configuring
 
-To customise the user interface theme edit the variables in `public/css/theme.less` and reload the page (the CSS will be auto-generated).
+To configure your instance, edit `config/app.js` and reload the application.
 
-### Configuring secrets.js
+Authentication details for login services like Facebook and Twitter can be added in `config/secrets.js`.
 
-IMPORTANT! You should not commit a configured secrets.js to a public repository.
+*IMPORTANT! Don't commit a configured `secrets.js` to a public repository (this would expose private authentication details!).*
 
-Any oAuth options you provide configuration details for (Twitter, Facebook, Google) will automatically appear on the sign-in screen.
+You can also pass options at runtime via environment variables.
 
-Only SendGrid is currently supported for email (which must be configred for features like password reset and API Key access to work). They offer a free teir for low-volume usage.
+e.g. `PORT 80 npm start`
+
+Any login options you provide configuration details for (Twitter, Facebook, Google+, GitHub) will automatically appear on the sign-in screen.
+
+You can optionally specify a SendGrid account as your email service. They offer a free tier for low-volume usage and the service provide integrated email list management.
+
+To customize the user interface theme edit the variables in `public/css/theme.less` and reload the page (new CSS will be auto-generated).
 
 ### Deploying to Heroku
 
@@ -41,9 +49,11 @@ You can set **Config Variables** by clicking the **Manage App** button that Hero
 
 *NB: If only developing and testing locally specify `http://localhost:3000` in place of `http://YOURAPPNAME.herokuapp.com/` in the configuration steps below.*
 
-You will need to configure at least one of the following login services:
+By default inkrato is it's own mail server (for things like sending password reset emails and API activation keys) but you will likely want to configure at least one of the services below.
 
-#### Email Login
+#### SendGrid for Email
+
+SendGrid is a mail service as a platform with a free teir for low volume traffic. It's highly recommend you configure inkrato to use SendGrid, instead of it's own internal mail platform.
 
 Configuration Variables:
 
@@ -150,11 +160,11 @@ Viewing:
 
 Creating:
 
-    curl --data "apikey=2a94819c282bcf0811d28c33223c8c93&title=Create+a+post&description=testing" http://127.0.0.1:3000/api/new
+    curl --data "apikey=2a94819c282bcf0811d28c33223c8c93&summary=Create+a+post&detail=testing" http://127.0.0.1:3000/api/new
 
 Updating:
 
-    curl --data "apikey=2a94819c282bcf0811d28c33223c8c93&title=Updating+a+post&description=testing" http://127.0.0.1:3000/api/edit/1
+    curl --data "apikey=2a94819c282bcf0811d28c33223c8c93&summary=Updating+a+post&detail=testing" http://127.0.0.1:3000/api/edit/1
     
 ### Example response object
 
@@ -173,8 +183,8 @@ Each 'post' (which could be a ticket, feedback, bug report or something else, de
             "deleted": false,
             "order": 0
         },
-        "title": "This is an example title",
-        "description": "This is an example description",
+        "summary": "This is a summary, the title of the post.",
+        "detail": "This is some more detail, the main body of the post. It can contain **markdown**.",
         "creator": '55476d99fa09c09938fd2bb8,
         "__v": 9,
         "comments": [],
@@ -192,8 +202,8 @@ Each 'post' (which could be a ticket, feedback, bug report or something else, de
 Notes:
 
 * _id is an internal Object ID ( HEX).
-* postId is an autoincrimenting integer ID, and this is the ID you shoud use when viewing and updating posts.
-* Topics, Status and Priorites are optional. They are specified by Object ID (HEX). Currently there is no API to query the avalible values.
+* postId is an auto-incrementing integer ID, and this is the ID you should use when viewing and updating posts.
+* Topics, Status and Priorities are optional. They are specified by Object ID (HEX). Currently there is no API to query the available values.
 
 ### API Endpoints
 
@@ -203,17 +213,17 @@ For submitting a new post.
 
 Parameters:
 
-* String  title         Required
+* String  summary       Required
 * String  description   Required
 * String  topic         A valid Topic ID (an Object ID), optional
 * String  state         A valid State ID (an Object ID), optional
 * String  priority      A valid Priority ID (an Object ID), optional
 
-On success you should get a 200 response and a JSON represenation of the new post.
+On success you should get a 200 response and a JSON representation of the new post.
 
 #### GET /api/view/:id
 
-Pass the postId (a number) in place of ':id' and it will return a JSON respresentation of the requested post..
+Pass the postId (a number) in place of ':id' and it will return a JSON representation of the requested post..
 
 #### POST /api/edit/:id
 
@@ -221,17 +231,17 @@ Updates an existing post.
 
 Parameters:
 
-* String  title         Required
+* String  summary       Required
 * String  description   Required
 * String  topic         A valid Topic ID (an Object ID), optional
 * String  state         A valid State ID (an Object ID), optional
 * String  priority      A valid Priority ID (an Object ID), optional
 
-On success you should get a 200 response and a JSON represenation of the updated post.
+On success you should get a 200 response and a JSON representation of the updated post.
 
 #### POST /api/upvote/:id
 
-Upvotes a post. You can vote up, down or not at all on a post. Only your last voting action on counts (if you cange your vote, your previous votes are discarded).
+Upvotes a post. You can vote up, down or not at all on a post. Only your last voting action on counts (if you change your vote, your previous votes are discarded).
 
 Pass the postId (a number) in place of ':id' and it will return a JSON response with the updated total score, upvotes and downvotes for that post.
 
@@ -244,7 +254,7 @@ Pass the postId (a number) in place of ':id' and it will return a JSON response 
 
 #### POST /api/unvote/:id
 
-Reset your vote on a post (sets it to neither an upvote or a downvote). You can vote up, down or not at all on a post. Only your last voting action on counts (if you cange your vote, your previous votes are discarded).
+Reset your vote on a post (sets it to neither an upvote or a downvote). You can vote up, down or not at all on a post. Only your last voting action on counts (if you change your vote, your previous votes are discarded).
 
 Pass the postId (a number) in place of ':id' and it will return a JSON response with the updated total score, upvotes and downvotes for that post.
 
@@ -262,41 +272,45 @@ Example response:
       count: Number     // Total number of matching results (max 100)
     }
 
+#### GET /api/forums
+
+Returns an array of Forum objects (if forums have been configured).
+
 #### GET /api/topics
 
-Returns an array of the valid Topic objects (and their id value).
+Returns an array of Topic objects.
 
 #### GET /api/states
 
-Returns an array of the valid Priority objects (and their id value).
+Returns an array of State objects.
 
 #### GET /api/priorities
 
-Returns an array of the valid Priority objects (and their id value).
+Returns an array of Priority objects.
 
 ## Security considerations
 
-There is currently no email address verification requirement, rate-limiting, capatcha support or ability to moderate users or spam, meaning there is currently little protection against users with malicious intent.
+There is currently no email address verification requirement, rate-limiting, CAPTCHA support or ability to moderate users or spam, meaning there is currently little protection against users with malicious intent.
 
 If there are no user accounts in the system, the first user to login is granted ADMIN access (and can edit any post), but subsequent users have normal privileges and while they can create new posts they can only edit their own posts.
 
-If you wish to grant admin access to additional users you can update the monogo db Users collection to change their role property to 'ADMIN' (other roles are not yet supported).
+If you wish to grant admin access to additional users you can update the Users collection in monogodb and change their role to 'ADMIN'.
 
 ## About the inkrato platform
 
-The inkrato platform has been used as a feedback platform for a wide range of uses - by activists (for the Labour Digital Goverment Review), charitable organisations (Friends of the Earth) for video game communites (PlanetSide Tracker), by private companies and by local community groups.
+The inkrato platform has been used as a discussion platform for a wide range of uses - by activists (for the Labour Digital Government Review), charitable organizations (Friends of the Earth) for video game communities (PlanetSide Tracker), by private companies and by local community groups.
 
 The release of this next generation version as open source software allows anyone to take advantage of it host a community site of their own, for free.
 
 Commercial instances and bespoke versions are available on request. Commercial enquires should be sent to feedback@inkrato.com
 
-This version will eventually replace the current, proprietary version of inkrato at http://feedback.inkrato.com
+This version is designed to replace the origional version of inkrato which can still be found at http://feedback.inkrato.com
 
 ## Licensing
 
-This software is released to the community under the MIT Licence.
+This software is released under the MIT License.
 
-This projects contains portions of code from the hackathon-starter project (in particular related to oAuth) by Sahat Yalkabov, which is incorporated under the MIT License.
+This projects contains portions of code from Sahat Yalkabov's hackathon-starter project (in particular related to oAuth), which is also released under the MIT License.
 
 License
 -------

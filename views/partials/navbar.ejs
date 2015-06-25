@@ -1,14 +1,22 @@
 <div class="navbar navbar-inverse navbar-static-top" role="navigation">
-  <div class="container">
+  <div class="container container-fluid">
     <div class="navbar-header">
       <a href="/" class="navbar-brand" data-shortcut-key="h"><i class="fa fa-lg fa-fw fa-home"></i></a>
       <span class="visible-xs">
-        <a style="margin-right: 5px;" class="pull-left navbar-btn btn btn-primary" href="<%= site.options().post.path %>"><i class="fa fa-lg fa-<%= site.options().post.icon %>"></i></a>
+        <a style="margin-right: 5px;" class="pull-left navbar-btn btn btn-primary" href="/<%= site.options().post.slug %>"><i class="fa fa-lg fa-<%= site.options().post.icon %>"></i></a>
         <% if (user) { %>
-          <% if (typeof(topic) != "undefined" && topic != null) { %>
-            <a class="pull-left navbar-btn btn btn-primary" href="<%= site.options().post.path %>/<%= topic.path %>/new"><i class="fa fa-lg fa-fw fa-plus-circle"></i> New</a>
+          <% if (typeof(forum) != "undefined" && forum != null) { %>
+            <% if (typeof(topic) != "undefined" && topic != null) { %>
+              <a href="/<%= forum.slug %>/<%= topic.slug %>/new" class="pull-left navbar-btn btn btn-primary"><i class="fa fa-lg fa-fw fa-plus-circle"></i> New</a>
+            <% } else { %>
+              <a href="/<%= forum.slug %>/new" class="pull-left navbar-btn btn btn-primary"><i class="fa fa-lg fa-fw fa-plus-circle"></i> New</a>
+            <% } %>
           <% } else { %>
-            <a class="pull-left navbar-btn btn btn-primary" href="/new"><i class="fa fa-lg fa-fw fa-plus-circle"></i> New</a>
+            <% if (typeof(topic) != "undefined" && topic != null) { %>
+              <a href="/<%= site.options().post.slug %>/<%= topic.slug %>/new" class="pull-left navbar-btn btn btn-primary"><i class="fa fa-lg fa-fw fa-plus-circle"></i> New</a>
+            <% } else { %>
+              <a href="/new" class="pull-left navbar-btn btn btn-primary"><i class="fa fa-lg fa-fw fa-plus-circle"></i> New</a>
+            <% } %>
           <% } %>
         <% } else { %>
         <a class="pull-left navbar-btn btn btn-primary" href="/signup" data-dismiss="modal" data-toggle="modal" data-target="#signupModal"  data-shortcut-key="n"><i class="fa fa-lg fa-fw fa-plus-circle"></i> New</a>
@@ -20,35 +28,46 @@
         <span class="icon-bar"></span>
         <span class="icon-bar"></span>
       </button>
+      <% if (user && user.verified != true) { %>
+      <a style="margin-right: 5px;" href="/account/verify" class="visible-xs pull-right navbar-btn btn btn-warning" data-toggle="modal" data-dismiss="modal" data-target="#verifyModal">
+        <i class="fa fa-lg fa-exclamation-circle"></i>
+      </a>
+      <% } %>
     </div>
     <div class="collapse navbar-collapse">
       <ul class="nav navbar-nav navbar-main">
         <li class="visible-xs" style="padding: 0 10px 0 10px; margin-bottom: 10px;">
           <form name="search-posts" method="get" action="/search" class="form-horizontal">
             <div class="input-group input-group-search"> 
-              <input name="q" value="<%= typeof(query) != "undefined" ? query : '' %>" type="search" class="form-control" placeholder="Search" />
-              <div class="input-group-btn">
-                <button type="submit" name="search" class="btn btn-default"><i class="fa fa-search"></i></button>
-              </div>
+              <input name="q" value="<%= typeof(query) != "undefined" ? query : '' %>" type="search" class="form-control rounded" placeholder="Search" />
+              <div class="input-group-addon rounded"><i class="fa fa-search"></i></div>
             </div>
           </form>
         </li>
-        <li <% if (path.match(new RegExp("^"+site.options().post.path))) { %>class="active"<% } %>><a href="<%= site.options().post.path %>"><i class="fa fa-lg fa-fw fa-<%= site.options().post.icon %>"></i> <%= site.options().post.name %></a></li>
-        <li <% if (path.match("^\/contact")) { %>class="active"<% } %>><a href="/contact"><i class="fa fa-lg fa-fw fa-envelope"></i> Contact</a></li>
-      </ul>
-      <span class="hidden-xs">
-        &nbsp;
-        <% if (user) { %>
-          <% if (typeof(topic) != "undefined" && topic != null) { %>
-            <a class="navbar-btn btn btn-primary" href="<%= site.options().post.path %>/<%= topic.path %>/new" data-dismiss="modal" data-toggle="modal" data-target="#newPostModal" data-shortcut-key="n"><i class="fa fa-lg fa-fw fa-plus-circle"></i> New</a>
+        <li <% if (path.match(new RegExp("^\/"+site.options().post.slug)) && typeof(newPost) == "undefined") { %>class="active"<% } %>><a href="/<%= site.options().post.slug %>"><i class="fa fa-lg fa-fw fa-<%= site.options().post.icon %>"></i> <%= site.options().post.name %></a></li>
+        <li class="hidden-xs <% if (typeof(newPost) != "undefined") { %>active<% } %>">
+          <% if (user) { %>
+            <a class="hidden" href="#" data-dismiss="modal" data-toggle="modal" data-target="#newPostModal" data-shortcut-key="n">New</a>
+            <% if (typeof(forum) != "undefined" && forum != null) { %>
+              <% if (typeof(topic) != "undefined" && topic != null) { %>
+                <a href="/<%= forum.slug %>/<%= topic.slug %>/new"><i class="fa fa-lg fa-fw fa-plus-circle"></i> New</a>
+              <% } else { %>
+                <a href="/<%= forum.slug %>/new" ><i class="fa fa-lg fa-fw fa-plus-circle"></i> New</a>
+              <% } %>
+            <% } else { %>
+              <% if (typeof(topic) != "undefined" && topic != null) { %>
+                <a href="/<%= site.options().post.slug %>/<%= topic.slug %>/new"><i class="fa fa-lg fa-fw fa-plus-circle"></i> New</a>
+              <% } else { %>
+                <a href="/new" ><i class="fa fa-lg fa-fw fa-plus-circle"></i> New</a>
+              <% } %>
+            <% } %>
           <% } else { %>
-            <a class="navbar-btn btn btn-primary" href="/new" data-dismiss="modal" data-toggle="modal" data-target="#newPostModal" data-shortcut-key="n"><i class="fa fa-lg fa-fw fa-plus-circle"></i> New</a>
+          <a href="/signup" data-dismiss="modal" data-toggle="modal" data-target="#signupModal"  data-shortcut-key="n"><i class="fa fa-lg fa-fw fa-plus-circle"></i> New</a>
           <% } %>
-        <% } else { %>
-        <a class="navbar-btn btn btn-primary" href="/signup" data-dismiss="modal" data-toggle="modal" data-target="#signupModal"  data-shortcut-key="n"><i class="fa fa-lg fa-fw fa-plus-circle"></i> New</a>
-        <% } %>
-      </span>
+        </li>
+      </ul>
       <ul class="nav navbar-right navbar-nav">
+        <li <% if (path.match("^\/contact")) { %>class="active"<% } %>><a href="/contact"><i class="fa fa-lg fa-fw fa-envelope-o"></i> Contact</a></li>
         <% if (user) { %>
         <li class="dropdown <% if (path.match("^\/contact")) { %>class="active"<% } %>">
           <a href="/profile" data-toggle="dropdown" class="dropdown-toggle">
@@ -66,6 +85,15 @@
         <li><a href="/signup" data-toggle="modal" data-dismiss="modal" data-target="#signupModal"><i class="fa fa-lg fa-fw fa-user-plus"></i> Sign up</a></li>
         <% } %>
       </ul>
+      <% if (user && user.verified != true) { %>
+      <ul class="hidden-xs nav navbar-right navbar-nav btn-warning">
+        <li>
+          <a href="/account/verify"  data-toggle="modal" data-dismiss="modal" data-target="#verifyModal">
+            <i class="fa fa-lg fa-exclamation-circle"></i>
+          </a>
+        </li>
+      </ul>
+      <% } %>
     </div>
   </div>
 </div>

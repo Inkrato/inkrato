@@ -96,6 +96,10 @@
   box-shadow: none;
 }
 
+.navbar {
+  border: 0 !important;
+}
+
 .navbar-collapse {
   box-shadow: none !important;
   animation: none !important;
@@ -141,4 +145,15 @@ hr {
 .bootstrap-select.open .btn-default {
   box-shadow: inset 0 0 0 1px @input-border-focus;
   border: 1px solid @input-border-focus;
+}
+
+.navbar .btn-primary {
+  border-color: transparent;
+}
+
+.navbar-inverse .navbar-nav > .open > a,
+.navbar-inverse .navbar-nav > .open > a:hover,
+.navbar-inverse .navbar-nav > .open > a:focus {
+  background: darken(@brand-navbar, 10%);
+  color: @brand-navbar-text;
 }

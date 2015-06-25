@@ -32,6 +32,11 @@ var hour = 3600000,
     week = day * 7;
 
 /**
+ * Automatically perform upgrade steps between versions, such as schema changes
+ */
+var migrationScript = require('./lib/migration-script');
+
+/**
  * App configuration settings
  */
 var config = {
@@ -83,9 +88,20 @@ app.engine('ejs', ejs.__express);
 partials.register('.ejs', ejs);
 app.use(partials());
 app.use(compress());
+
+/**
+ * Asset compression disabled temporarily due to CsswringCompressor throwing
+ * a CssSyntaxError at comments in less files.
+ *
+ * It should hopefully be posible to invoke a marginally documented feature that 
+ * allows options to be passed to mincer (which connect-assets invokes) so that
+ * csswring no longer chokes on (perfectly valid) comments. If not I'll likely
+ * swap out connect-assets for another asset manger.
+ */
 app.use(connectAssets({
   paths: [path.join(__dirname, 'public/css'), path.join(__dirname, 'public/js')],
-  helperContext: app.locals
+  helperContext: app.locals,
+  compress: false
 }));
 app.use(logger('dev'));
 app.use(bodyParser.json());
@@ -137,9 +153,11 @@ app.use(function(req, res, next) {
 
   // Expose post options (these will be populated before the server is started)
   // @todo Refactor to not use globals
+  res.locals.forums = GLOBAL.forums;
   res.locals.topics = GLOBAL.topics;
   res.locals.priorities = GLOBAL.priorities;
   res.locals.states = GLOBAL.states;
+  
 
   // Set req.api to true for requests made via the API
   if ((/^\/api/).test(req.path))
@@ -161,7 +179,7 @@ app.use(function(req, res, next) {
     return next();
   
   // Never return the user to the vote forms (they are POST only)
-  if (new RegExp('^' + '\/'+Site.options().post.path+'\/(upvote|downvote|unvote)\/').test(req.path))
+  if (new RegExp('^' + '\/(upvote|downvote|unvote)\/').test(req.path))
     return next();
     
   req.session.returnTo = req.path;
@@ -174,12 +192,13 @@ app.use(express.static(path.join(__dirname, 'public'), { maxAge: week * 4 }));
  * Route handlers
  */
 var routes = {
-  passport: require('./routes/passport'),
+  auth: require('./routes/auth'),
   user: require('./routes/user'),
   home: require('./routes/home'),
   about: require('./routes/about'),
   contact : require('./routes/contact'),
-  posts: require('./routes/posts')
+  posts: require('./routes/posts'),
+  forums: require('./routes/forums')
 };
 
 app.use(function(req, res, next) {
@@ -248,50 +267,50 @@ app.get('/signup', routes.user.getSignup);
 app.post('/signup', routes.user.postSignup);
 app.get('/contact', routes.contact.getContact);
 app.post('/contact', routes.contact.postContact);
-app.get('/profile', routes.passport.isAuthenticated, routes.user.getAccount);
-app.get('/account', routes.passport.isAuthenticated, routes.user.getAccount);
-app.get('/account/profile', routes.passport.isAuthenticated, routes.user.getAccount);
-app.post('/account/profile', routes.passport.isAuthenticated, routes.user.postUpdateProfile);
+app.get('/profile', routes.auth.isAuthenticated, routes.user.getAccount);
+app.get('/account', routes.auth.isAuthenticated, routes.user.getAccount);
+app.get('/account/profile', routes.auth.isAuthenticated, routes.user.getAccount);
+app.post('/account/profile', routes.auth.isAuthenticated, routes.user.postUpdateProfile);
+app.get('/account/verify', routes.auth.isAuthenticated, routes.user.getAccountVerify);
+app.post('/account/verify', routes.auth.isAuthenticated, routes.user.postAccountVerify);
+app.get('/account/verify/:token', routes.auth.isAuthenticated, routes.user.getAccountVerifyToken);
 
 if (Site.options().api == true)
-  app.post('/account/profile/apikey', routes.passport.isAuthenticated, routes.user.postApiKey);
+  app.post('/account/profile/apikey', routes.auth.isAuthenticated, routes.user.postApiKey);
 
-app.post('/account/password', routes.passport.isAuthenticated, routes.user.postUpdatePassword);
-app.post('/account/delete', routes.passport.isAuthenticated, routes.user.postDeleteAccount);
-app.get('/account/unlink/:provider', routes.passport.isAuthenticated, routes.user.getOauthUnlink);
-app.get('/new', routes.passport.isAuthenticated, routes.posts.getNewPost);
-app.post('/new', routes.passport.isAuthenticated, routes.posts.postNewPost);
+app.post('/account/password', routes.auth.isAuthenticated, routes.user.postUpdatePassword);
+app.post('/account/delete', routes.auth.isAuthenticated, routes.user.postDeleteAccount);
+app.get('/account/unlink/:provider', routes.auth.isAuthenticated, routes.user.getOauthUnlink);
+app.get('/new', routes.auth.isAuthenticated, routes.posts.getNewPost);
+app.post('/new', routes.auth.isAuthenticated, routes.posts.postNewPost);
 app.get('/search', routes.posts.search.getSearch);
-app.get(Site.options().post.path, routes.posts.getTopicList);
-app.get(Site.options().post.path+'/:topic', routes.posts.getPosts);
-app.get(Site.options().post.path+'/:topic/new', routes.passport.isAuthenticated, routes.posts.getNewPost);
-app.post(Site.options().post.path+'/:topic/new', routes.passport.isAuthenticated, routes.posts.postNewPost);
-app.get(Site.options().post.path+'/:topic/edit/:id', routes.passport.isAuthenticated, routes.posts.getEditPost);
-app.post(Site.options().post.path+'/:topic/edit/:id', routes.passport.isAuthenticated, routes.posts.postEditPost);
-// These routes come after other topic routes to work correctly
-app.get(Site.options().post.path+'/:topic/:id/:slug', routes.posts.getPost);
-app.get(Site.options().post.path+'/:topic/:id', routes.posts.getPost);
 if (Site.options().post.voting.enabled == true) {
-  app.post('/upvote/:id', routes.passport.isAuthenticated, routes.posts.postUpvote);
-  app.post('/downvote/:id', routes.passport.isAuthenticated, routes.posts.postDownvote);
-  app.post('/unvote/:id', routes.passport.isAuthenticated, routes.posts.postUnvote);
+  app.post('/upvote/:id', routes.auth.isAuthenticated, routes.posts.postUpvote);
+  app.post('/downvote/:id', routes.auth.isAuthenticated, routes.posts.postDownvote);
+  app.post('/unvote/:id', routes.auth.isAuthenticated, routes.posts.postUnvote);
 }
-app.post('/comments/add/:id', routes.passport.isAuthenticated, routes.posts.comments.postAddComment);
+app.post('/comments/add/:id', routes.auth.isAuthenticated, routes.posts.comments.postAddComment);
 
 /**
  * Routes that can be accessed using an API key
  */
 if (Site.options().api == true) {
-  app.post('/api/new', routes.passport.apiKey, routes.posts.postNewPost);
-  app.get('/api/view/:id', routes.passport.apiKey, routes.posts.getPost);
-  app.get('/api/topics', routes.passport.apiKey, routes.posts.getTopics);
-  app.get('/api/states', routes.passport.apiKey, routes.posts.getStates);
-  app.get('/api/priorities', routes.passport.apiKey, routes.posts.getPriorities);
-  app.post('/api/edit/:id', routes.passport.apiKey, routes.posts.postEditPost);
-  app.post('/api/upvote/:id', routes.passport.apiKey, routes.posts.postUpvote);
-  app.post('/api/downvote/:id', routes.passport.apiKey, routes.posts.postDownvote);
-  app.post('/api/unvote/:id', routes.passport.apiKey, routes.posts.postUnvote);
-  app.get('/api/search', routes.passport.apiKey, routes.posts.search.getSearch);
+  // @todo Add endpoint to post comment
+  // @todo Add endpoint to filter posts by topic, state priority and forum
+  // @todo Support post operations by id (hash) as well as postId (integer)
+  app.post('/api/new', routes.auth.apiKey, routes.posts.postNewPost);
+  app.get('/api/view/:id', routes.auth.apiKey, routes.posts.getPost);
+  app.get('/api/topics', routes.auth.apiKey, routes.posts.getTopics);
+  app.get('/api/forums', routes.auth.apiKey, routes.forums.getForums);
+  app.get('/api/states', routes.auth.apiKey, routes.posts.getStates);
+  app.get('/api/priorities', routes.auth.apiKey, routes.posts.getPriorities);
+  app.post('/api/edit/:id', routes.auth.apiKey, routes.posts.postEditPost);
+  if (Site.options().post.voting.enabled == true) {
+    app.post('/api/upvote/:id', routes.auth.apiKey, routes.posts.postUpvote);
+    app.post('/api/downvote/:id', routes.auth.apiKey, routes.posts.postDownvote);
+    app.post('/api/unvote/:id', routes.auth.apiKey, routes.posts.postUnvote);
+  }
+  app.get('/api/search', routes.auth.apiKey, routes.posts.search.getSearch);
   app.get('/api/unauthorized', function(req, res, next) { return res.status(401).json({errors: [{ param: 'apikey', msg: 'Valid API Key required' }]}); } );
 }
 
@@ -324,29 +343,6 @@ if (Site.loginOptions('github')) {
 }
 
 /**
- * 500 Error Handler
- */
-app.use(function (err, req, res, next) {
-  // treat as 404
-  if (err.message
-    && (~err.message.indexOf('not found')
-    || (~err.message.indexOf('Cast to ObjectId failed')))) {
-    return next();
-  }
-  // @todo: Log error with remote error service
-  console.error(err.stack);
-  // @todo Redirect to self-contained error page which does not require any variables beyond those declared here
-  res.status(500).render('500', { error: err.stack, title: Site.getName() });
-});
-
-/**
- * 404 File Not Found Handler
- */
-app.use(function (req, res, next) {
-  res.status(404).render('404', { url: req.originalUrl });
-});
-  
-/**
  * Load configuration to DB then start the server
  */  
 Configure.topics(config.app.posts.topics)
@@ -360,11 +356,66 @@ Configure.topics(config.app.posts.topics)
 })
 .then(function(states) {
   GLOBAL.states = states;
+  return Configure.forums(config.app.forums);
+})
+.then(function(forums) {
+  GLOBAL.forums = forums;
+
+  if (forums.length < 1) {
+    // If there are no forums, just make content available by topic
+    app.get('/'+Site.options().post.slug, routes.posts.getPosts);
+    app.get('/'+Site.options().post.slug+'/:topic', routes.posts.getPosts);
+    app.get('/'+Site.options().post.slug+'/:topic/new', routes.auth.isAuthenticated, routes.posts.getNewPost);
+    app.post('/'+Site.options().post.slug+'/:topic/new', routes.auth.isAuthenticated, routes.posts.postNewPost);
+    app.get('/'+Site.options().post.slug+'/:topic/edit/:id', routes.auth.isAuthenticated, routes.posts.getEditPost);
+    app.post('/'+Site.options().post.slug+'/:topic/edit/:id', routes.auth.isAuthenticated, routes.posts.postEditPost);
+    // These topic routes come after other topic routes to work correctly
+    app.get('/'+Site.options().post.slug+'/:topic/:id/:slug', routes.posts.getPost);
+    app.get('/'+Site.options().post.slug+'/:topic/:id', routes.posts.getPost);
+  } else {
+    // If if forums are defined, list topic by forum
+    forums.forEach(function(forum) {
+      app.get('/'+Site.options().post.slug, routes.forums.getForums);
+      app.get('/:forum/', routes.posts.getPosts);
+      app.get('/:forum/new', routes.auth.isAuthenticated, routes.posts.getNewPost);
+      app.get('/:forum/:topic', routes.posts.getPosts);
+      app.get('/:forum/:topic/new', routes.auth.isAuthenticated, routes.posts.getNewPost);
+      app.post('/:forum/:topic/new', routes.auth.isAuthenticated, routes.posts.postNewPost);
+      app.get('/:forum/:topic/edit/:id', routes.auth.isAuthenticated, routes.posts.getEditPost);
+      app.post('/:forum/:topic/edit/:id', routes.auth.isAuthenticated, routes.posts.postEditPost);
+      // These topic routes come after other topic routes to work correctly
+      app.get('/:forum/:topic/:id/:slug', routes.posts.getPost);
+      app.get('/:forum/:topic/:id', routes.posts.getPost);
+    });
+  }
+  
+  /**
+   * 500 Error Handler
+   */
+  app.use(function (err, req, res, next) {
+    // treat as 404
+    if (err.message
+      && (~err.message.indexOf('not found')
+      || (~err.message.indexOf('Cast to ObjectId failed')))) {
+      return next();
+    }
+    // @todo: Log error with remote error service
+    console.error(err.stack);
+    // @todo Redirect to self-contained error page which does not require any variables beyond those declared here
+    res.status(500).render('500', { error: err.stack, title: Site.getName() });
+  });
+
+  /**
+   * 404 File Not Found Handler
+   */
+  app.use(function (req, res, next) {
+    res.status(404).render('404', { url: req.originalUrl });
+  });
+  
   // With everything initialized, start the server
   app.listen(app.get('port'), function() {
     console.log('Express server listening on port %d in %s mode', app.get('port'), app.get('env'));
   });
-  
 });
 
 module.exports = app;

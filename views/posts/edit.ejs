@@ -37,7 +37,7 @@
             <% priorities.forEach(function(option) { %>
               <option
                 value="<%= option._id %>"
-                data-content='<i class="fa fa-lg fa-circle" style="color: <%= option.color %>;"></i>&nbsp; <%= option.name %>'
+                data-content='<i class="fa fa-lg fa-flag" style="color: <%= option.color %>;"></i>&nbsp; <%= option.name %>'
                 <% if (post.priority && (post.priority.id == option.id)) { %>selected="selected"<% } %>
               ><%= option.name %></option>
             <% }); %>
@@ -54,18 +54,20 @@
               <button type="submit" class="btn btn-primary"><i class="fa fa-lg fa-fw fa-check"></i> Save</button>
             </div>
           </div>
-          <% include ../partials/posts/comments %>
+          <div class="hidden break">
+            <% include ../partials/posts/comments %>
+          </div>
           <% if (user) { %>
-          <div class="media text-muted">
+          <div class="hidden media text-muted">
             <div class="media-left" style="padding-right: 20px;">
               <a href="#"><img src="<%= user.avatar(48) %>" height="48" width="48" alt="Avatar" class="img-circle"/></a>
             </div>
             <div class="media-body">
               <div class="form-group">
-                <p style="margin-bottom: 5px;">
-                <span class="media-heading"><%= user.profile.name || "Anonymous" %></span>
-                <span class="text-muted pull-right"><i class="fa fa-clock-o"></i> <time datetime="<%= new Date().toISOString() %>"><%= new Date().toDateString() %></time></span>
-                </p>
+                <div style="margin-bottom: 10px;">
+                  <span class="media-heading"><strong><%= user.profile.name || "Anonymous" %></strong></span>
+                  <span class="text-muted pull-right"><i class="fa fa-clock-o"></i> <time datetime="<%= new Date().toISOString() %>"><%= new Date().toDateString() %></time></span>
+                </div>
                 <label for="message" class="control-label hidden">Add comment</label>
                 <textarea type="text" name="comment" id="comment" rows="3"  disabled="disabled" class="form-control autoresize disabled" placeholder="Add comment..." autocomplete="off"></textarea>
               </div>

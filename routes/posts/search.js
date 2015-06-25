@@ -19,7 +19,7 @@ exports.getSearch = function(req, res) {
       },
       function(err, data) {
         var response = {
-          title: res.locals.title + " - Search",
+          title: res.locals.title + "Search",
           query: req.query.q,
           posts: data.results,
           count: data.totalCount
@@ -41,12 +41,12 @@ exports.getSearch = function(req, res) {
           });
           return res.json(response);
         } else {
+          response.topic = null;
           return res.render('posts/search', response);
        }
       });
   } else {
     var response = {
-      title: res.locals.title + " - Search",
       query: '',
       posts: [],
       count: 0
@@ -54,6 +54,8 @@ exports.getSearch = function(req, res) {
     if (req.xhr || req.api) {
       return res.json(response);
     } else {
+      response.title = "Search";
+      response.topic = null;
       return res.render('posts/search', response);
     }
   }

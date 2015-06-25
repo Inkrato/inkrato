@@ -5,7 +5,7 @@ module.exports = {
   
   // The name and contact email address for the site (valid email required)
   name: "inkrato",
-  description: "collaboration platform",
+  description: "community edition",
   email: "feedback@inkrato.com",
   
   // Set this option to true if you have an SSL certificate for your site
@@ -17,7 +17,17 @@ module.exports = {
   
   // If true then allows members with a valid email address to register to
   // request an API Key and be able to call the API endpoints
-  api: true,
+  api: false,
+
+  // You can opt to have all posts in the same discussion space - which works
+  // well for smaller, focused communities - or grouped into 'forums'.
+  //
+  // By default 'forums' are turned off. You need to specify at least one forum
+  // object in the forums[] array below to enable them.
+  //
+  // Example forum object:
+  // { name: "My feedback forum", icon: "comments", description: "About this  forum" }
+  forums: [],
   
   posts: {
     
@@ -26,7 +36,6 @@ module.exports = {
     // NB: The icons are from http://fontawesome.io/icons
     name: "Issues",
     icon: "list",
-    path: "/issues/",
     
     // Topics, Priorities and States are loaded from here on app startup.
     //
@@ -35,7 +44,7 @@ module.exports = {
     //
     // To delete an option, just remove it from here and restart the app - it
     // will be marked as deleted and will be no longer selected in the UI.
-     
+         
     // The list of topics to use to categorise posts
     topics: [
       { name: "Problems", icon: "warning", description: "Things that aren't working properly" },

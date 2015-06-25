@@ -8,32 +8,43 @@ var Post = require('../models/Post'),
  * Home page.
  */
 exports.index = function(req, res) {
-  Topic
-  .find({ deleted: false }, null, { sort : { order: 1 } })
-  .exec(function (err, topics) {
-    Q.all(topics.map(function(topic) {
-      var deferred = Q.defer();
-      
-      // Get the count counts for all posts in a non-closed state
-      State
-      .find({ deleted: false, open: false })
-      .exec(function (err, states) {
-        
-        var closedStateIds = [];
-        states.forEach(function(state, index) {
-          closedStateIds.push(state.id);
-        });
+  
+  var closedStateIds = [];
+  var totalOpenPosts = 0;
+  
+  State
+  .find({ deleted: false, open: false })
+  .exec(function (err, states) {
+    states.forEach(function(state, index) {
+      closedStateIds.push(state.id);
+    });
+  })
+  .then(function() {
+    // Get the count for the total number of open posts
+    var deferred = Q.defer();
+    return Post.count({ deleted: false, state: { $ne: closedStateIds } }, function(err, count) {
+      totalOpenPosts = count;
+      deferred.resolve(totalOpenPosts);
+    })
+    return deferred.promise;
+  })
+  .then(function() {
+    Topic
+    .find({ deleted: false }, null, { sort : { order: 1 } })
+    .exec(function (err, topics) {
+      Q.all(topics.map(function(topic) {
+        var deferred = Q.defer();
         
         Post.count({ topic: topic._id, state: { $ne: closedStateIds } }, function(err, count) {
           topic.postCount = count;
           deferred.resolve(topic);
         });
 
+          return deferred.promise;
+      }))
+      .then(function(topicsWithPostCount) {
+        res.render('home', { topics: topicsWithPostCount, postTotal: totalOpenPosts });
       });
-      return deferred.promise;
-    }))
-    .then(function(topicsWithPostCount) {
-      res.render('home', { title: res.locals.title + " - Home", topics: topicsWithPostCount });
     });
   });
 };

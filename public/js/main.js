@@ -88,7 +88,7 @@ $(function() {
   // Control for the typeahead input for the search box
   // @todo Hook into the render event to improve how results are displayed
   $('#search').typeahead({
-    displayField: 'title',
+    displayField: 'summary',
     valueField: 'url',
     onSelect: function(item) {
       window.location = item.value;
@@ -142,9 +142,9 @@ $(function() {
     downvote(this);
   });
   
-  // Using http://benpickles.github.io/peity/ for donuts
+  // Using http://benpickles.github.io/peity/ for simple charts
   $(".donut span").peity("donut");
-
+  $(".pie span").peity("pie");
 });
 
 function upvote(form) {
@@ -186,7 +186,13 @@ function upvote(form) {
         });
       }
       $('*[data-score="'+postId+'"]').each(function() {
-        $(this).html(response.score);
+        if (response.score > 0) {
+          $(this).html('<span class="text-success"><strong>'+response.score+'</strong></span>');
+        } else if (response.score < 0) {
+          $(this).html('<span class="text-danger"><strong>'+response.score+'</strong></span>');
+        } else {
+          $(this).html('<span class="text-muted"><strong>'+response.score+'</strong></span>');
+        }
       });
     }
   );
@@ -231,7 +237,13 @@ function downvote(form) {
         });
       }
       $('*[data-score="'+postId+'"]').each(function() {
-        $(this).html(response.score);
+        if (response.score > 0) {
+          $(this).html('<span class="text-success"><strong>'+response.score+'</strong></span>');
+        } else if (response.score < 0) {
+          $(this).html('<span class="text-danger"><strong>'+response.score+'</strong></span>');
+        } else {
+          $(this).html('<span class="text-muted"><strong>'+response.score+'</strong></span>');
+        }
       });
     }
   );
@@ -269,3 +281,36 @@ function resizeTextarea(textarea) {
       $(window).scrollTop(s);
   }
 }
+
+
+/**
+ * Smart resize by Paul Irish
+ * http://www.paulirish.com/2009/throttled-smartresize-jquery-event-handler/
+ */
+(function($,sr){
+  var debounce = function (func, threshold, execAsap) {
+      var timeout;
+      return function debounced () {
+          var obj = this, args = arguments;
+          function delayed () {
+              if (!execAsap)
+                  func.apply(obj, args);
+              timeout = null;
+          };
+
+          if (timeout)
+              clearTimeout(timeout);
+          else if (execAsap)
+              func.apply(obj, args);
+
+          timeout = setTimeout(delayed, threshold || 100);
+      };
+  }
+  jQuery.fn[sr] = function(fn){  return fn ? this.bind('resize', debounce(fn)) : this.trigger(sr); };
+})(jQuery,'smartresize');
+
+$(window).smartresize(function() {
+  // Update charts in response to window resize events
+  $(".donut span").change();
+  $(".pie span").change();
+});

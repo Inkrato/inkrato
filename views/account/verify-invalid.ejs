@@ -1,0 +1,18 @@
+<div class="row">
+  <div class="col-sm-8 col-sm-offset-2 text-center">
+    <h1 class="page-header text-danger"><i class="fa fa-times-circle"></i> Verification failed</h1>
+    <form name="verify" method="post" action="/account/verify">
+      <div class="messages"></div>
+      <input type="hidden" name="_csrf" value="<%= _csrf %>">
+      <p class="lead">
+        The verification link you have followed wasn't valid.
+      </p>
+      <p class="lead">
+        We can send you a new email to verify your email address.
+      </p>
+      <div class="form-group">
+        <button type="submit" class="btn btn-primary"><i class="fa fa-fw fa-envelope"></i> Send verification email</button>
+      </div>
+    </form>
+  </div>
+</div>

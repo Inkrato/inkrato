@@ -1,0 +1,33 @@
+<div class="modal fade modal-draggable" id="verifyModal" tabindex="-1" role="dialog" aria-labelledby="verifyModalLabel" aria-hidden="true">
+  <div class="modal-dialog">
+    <div class="modal-content">
+      <form name="verify" method="post" action="/account/verify">
+        <div class="messages"></div>
+        <input type="hidden" name="_csrf" value="<%= _csrf %>">
+        <div class="modal-header">
+          <h4 class="modal-title"><i class="fa fa-lg fa-fw fa-exclamation-circle"></i> Notification</h4>
+        </div>
+        <div class="modal-body">
+          <div class="row">
+            <div class="col-sm-12">
+            <h4 style="margin-bottom: 20px;">
+              Your email address has not been verified.
+            </h4>
+            <p>
+              To avoid losing access to this site you should verify your email address.
+            </p>
+            <p>
+              Please check your mailbox for your verification email.
+            </p>
+            <p>
+              If you can't find it we can send out a new one.
+            </p>
+          </div>
+        </div>
+      </div>
+      <div class="modal-footer">
+        <button type="submit" class="btn btn-primary"><i class="fa fa-fw fa-envelope"></i> Send verification email</button>
+      </div>
+    </form>
+  </div>
+</div>

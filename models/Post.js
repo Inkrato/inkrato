@@ -3,6 +3,7 @@ var mongoose = require('mongoose'),
     mongooseSearch = require('mongoose-search-plugin'),
     mongooseVoting = require('mongoose-voting'),
     mongooseConverse = require('../lib/mongoose-converse'),
+    mongooseMoreLikeThis = require('mongoose-mlt'),
     User = require('./User'),
     Site = require('./Site'),
     crypto = require('crypto'),
@@ -15,9 +16,10 @@ var config = {
 
 var schema = new mongoose.Schema({
   postId: { type: Number, unique: true },
-  title: { type: String, required: true },
-  description: { type: String, required: true },
+  summary: { type: String, required: true },
+  detail: { type: String, required: true },
   tags: [ String ],
+  forum: { type: mongoose.Schema.ObjectId, ref: 'Forum' },
   topic: { type: mongoose.Schema.ObjectId, ref: 'Topic' },
   state: { type: mongoose.Schema.ObjectId, ref: 'State' },
   priority: { type: mongoose.Schema.ObjectId, ref: 'Priority' },
@@ -28,7 +30,7 @@ var schema = new mongoose.Schema({
 });
 
 /**
- * Update the date on a post when it is modifeid
+ * Update the date on a post when it is modified
  */
 schema.pre('save', function(next) {
   if (!this.isNew)
@@ -38,21 +40,30 @@ schema.pre('save', function(next) {
 });
 
 schema.methods.getUrl = function() {
-  // If topic not found, use "everything" as topic path (works for all posts)
-  var topicPath = 'everything';
-  if (this.topic)
-    topicPath = this.topic.path;
+  // If topic not found, use "everything" as topic slug
+  var topicSlug = 'everything';  
+  // Graceful handling of deleted topics
+  if (this.topic && !/undefined/.test(this.topic.slug))
+    topicSlug = this.topic.slug;
   
-  return Site.options().post.path+'/'+topicPath+'/'+this.postId+'/'+slug(this.title.toLowerCase());
+  var root = Site.options().post.slug;
+  if (GLOBAL.forums.length > 0 && this.forum && !/undefined/.test(this.forum.slug))
+    root = this.forum.slug;
+  
+  return '/'+root+'/'+topicSlug+'/'+this.postId+'/'+slug(this.summary);
 };
 
 schema.methods.getEditUrl = function() {
-  // If topic not found, use "everything" as topic path (works for all posts)
-  var topicPath = 'everything';
-  if (this.topic)
-    topicPath = this.topic.path;
+  // If topic not found, use "everything" as topic slug
+  var topicSlug = 'everything';
+  if (this.topic && !/undefined/.test(this.topic.slug))
+    topicSlug = this.topic.slug;
 
-  return Site.options().post.path+'/'+topicPath+'/edit/'+this.postId;
+  var root = Site.options().post.slug;
+  if (GLOBAL.forums.length > 0 && this.forum && !/undefined/.test(this.forum.slug))
+    root = this.forum.slug;
+
+  return '/'+root+'/'+topicSlug+'/edit/'+this.postId;
 };
 
 schema.methods.getUpvoteUrl = function() {
@@ -71,10 +82,14 @@ schema.methods.getAddCommentUrl = function() {
   return '/comments/add/'+this.postId;
 };
 
+schema.methods.getScore = function() {
+  return this.upvotes() - this.downvotes();
+};
+
 /**
  * Auto-incrimenting ID value (in addition to _id property)
   */
-var connection = mongoose.createConnection(config.secrets.db); 
+var connection = mongoose.createConnection(config.secrets.db);
 mongooseAutoIncrement.initialize(connection);
 schema.plugin(mongooseAutoIncrement.plugin, {
     model: 'Post',
@@ -83,9 +98,16 @@ schema.plugin(mongooseAutoIncrement.plugin, {
 });
 
 schema.plugin(mongooseSearch, {
-  fields: ['title', 'description', 'tags']
+  fields: ['summary', 'detail', 'tags']
 });
 schema.plugin(mongooseVoting, { ref: 'User' });
 schema.plugin(mongooseConverse, { ref: 'User'});
+
+schema.index({ 'summary': 'text', 'detail': 'text' });
+schema.plugin(mongooseMoreLikeThis, {
+  limit: 100,
+  tfThreshold: 2,
+  termLimit: 25
+});
 
 module.exports = mongoose.model('Post', schema);

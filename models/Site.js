@@ -1,5 +1,5 @@
 var Q = require('q'),
-    Topic = require('../models/Topic');
+    slug = require('slug');
 
 var config = {
   app: require('../config/app'),
@@ -39,7 +39,7 @@ module.exports = function() {
       api: config.app.api,
       post: {
         name: config.app.posts.name,
-        path: '/'+encodeURI(config.app.posts.path.replace(/\//g, '')),
+        slug: slug(config.app.posts.name),
         icon: config.app.posts.icon,
         voting: {
           enabled: true
@@ -67,12 +67,37 @@ module.exports = function() {
         if (config.secrets.github.clientID != '')
           return true;
         break;
-      case "email":
-        if (config.secrets.sendgrid.user != '')
-          return true;
-        break;
       default:
         return false;
+    }
+  }
+  
+  this.getMailTransport = function() {
+    // @todo Add support for other mail services
+    if (config.secrets.sendgrid.user != "" && config.secrets.sendgrid.password != "") {
+      // Use sendgrid service if configured
+      return {
+        service: 'SendGrid',
+        auth: {
+          user: config.secrets.sendgrid.user,
+          pass: config.secrets.sendgrid.password
+        }
+      };
+    } else {
+      // Use direct SMTP mail service if no mail service configured
+      return null;
+    }
+  }
+  
+  this.getUrl = function(req) {
+    var host = req.headers.host;
+    if (config.app.host != false && config.app.host != "false")
+      host = config.app.host;
+
+    if (this.options().ssl == true) {
+      return 'https://' + host;
+    } else {
+      return'http://' + host;
     }
   }
   

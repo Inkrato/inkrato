@@ -2,3 +2,5 @@
 bower_components
 node_modules
 test
+builtAssets
+npm-debug.log
