@@ -51,7 +51,10 @@
     
     <% if (typeof(forum) != "undefined" && forum != null) { %>
     <div class="container container-fluid">
-      <h1 style="margin-top: 0; margin-bottom: 20px;"><a style="text-decoration: none;" href="/<%= forum.slug %>"><% if (forum.icon && forum.icon != "") { %><i class="fa fa-<%= forum.icon %>"></i> <% } %><%= forum.name %></a></h1>
+      <h1 style="margin: 0;"><a style="text-decoration: none;" href="/<%= forum.slug %>"><% if (forum.icon && forum.icon != "") { %><i class="fa fa-<%= forum.icon %>"></i> <% } %><%= forum.name %></a></h1>
+      <p style="margin-bottom: 20px;" class="text-muted lead">
+        <%= forum.description %>
+      </p>
     </div>
     <% } %>
     
