@@ -1,4 +1,5 @@
-var Forum = require('../models/Forum');
+var Site = require('../models/Site'),
+    Forum = require('../models/Forum');
 
 /**
  * Return list of forums
@@ -12,6 +13,6 @@ exports.getForums = function(req, res) {
     if (req.xhr || req.api)
       return res.json(forums);
     
-    return res.render('forums', { title: "Forums", forums: forums });
+    return res.render('forums', { title: Site.options().post.name, forums: forums });
   });
 };

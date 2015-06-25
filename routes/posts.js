@@ -623,7 +623,7 @@ function _getPosts(req, res, options, page, limit) {
         if (options.topic)
           title += ' - '+options.topic.name;
         
-        res.render('posts/list', { title: Site.options().post.name,
+        res.render('posts/list', { title: title,
                                    forum: options.forum,
                                    topic: options.topic,
                                    posts: posts,
