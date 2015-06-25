@@ -28,7 +28,8 @@ module.exports = {
   // Example forum object:
   // { name: "My feedback forum", icon: "comments", description: "About this  forum" }
   forums: [
-    { name: "PlanetSide 2", icon: "comments", description: "The FPS MMO RPG for PC and PS4" }
+    { name: "PlanetSide 2", icon: "comments", description: "Free-to-play massively multiplayer online first-person shooter by Daybreak Games" },
+    { name: "H1Z1", icon: "comments", description: "Free-to-play massively multiplayer online survivial horror by Daybreak Games" }
   ],
   
   posts: {
