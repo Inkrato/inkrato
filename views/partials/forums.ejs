@@ -1,21 +1,16 @@
 <div class="row">
 <% forums.forEach(function(forum) { %>
-<div class="col-md-12" href="/<%= forum.slug %>">
+<div class="col-md-offset-1 col-md-10" href="/<%= forum.slug %>">
   <div class="media">
     <div class="media-left" style="padding-right: 10px;">
       <% if (forum.icon) { %>
-      <a href="/<%= forum.slug %>"><span class="fa-stack fa-2x">
-        <i class="fa fa-circle fa-stack-2x text-primary"></i>
-        <i class="fa fa-<%= forum.icon %> fa-stack-1x fa-inverse"></i>
-      </span></a>
+      <h2><a href="/<%= forum.slug %>"><i class="fa fa-lg fa-fw fa-<%= forum.icon %>"></i></a></h2>
       <% } %>
     </div>
     <div class="media-body">
       <div class="row">
         <div class="col-xs-12">
-          <h2 class="text-primary" style="margin-top: 15px;">
-            <a href="/<%= forum.slug %>" style="text-decoration: none;"><%= forum.name %></a>
-          </h2>
+          <h2><a href="/<%= forum.slug %>" style="text-decoration: none;"><%= forum.name %></a></h2>
           <p class="text-muted lead">
             <%= forum.description %>
           </p>
