@@ -17,7 +17,7 @@
 // Change "@brand-primary" to change the whole base UI theme
 // e.g. Try using: #3B78C5, #178D64, #B40610, #D7652C
 @brand-primary:         #D65F19;
-@brand-navbar:          #D65F19;
+@brand-navbar:          @brand-primary;
 @brand-navbar-text:     #fff;
 @brand-header:          #333;
 @brand-header-text:     #fff;
@@ -74,7 +74,7 @@
 @headings-font-family:    inherit;
 @headings-font-weight:    500;
 @headings-line-height:    1.1;
-@headings-color:          #D7652C;
+@headings-color:          @brand-primary;
 
 
 //== Iconography
@@ -243,7 +243,7 @@
 // Hover color for dropdown links.
 @dropdown-link-hover-color:      #fff;
 // Hover background for dropdown links.
-@dropdown-link-hover-bg:         @input-border-focus;
+@dropdown-link-hover-bg:         @brand-primary;
 
 // Active dropdown menu item text color.
 @dropdown-link-active-color:     @component-active-color;
