@@ -11,7 +11,7 @@ var schema = new mongoose.Schema({
 });
 
 schema.pre('save', function(next) {
-  this.slug = slug(this.name);
+  this.slug = slug(this.name.toLowerCase());
   next();
 });
 
