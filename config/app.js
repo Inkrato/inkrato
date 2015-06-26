@@ -5,7 +5,7 @@ module.exports = {
   
   // The name and contact email address for the site (valid email required)
   name: "inkrato",
-  description: "community edition",
+  description: "An open source collaboration and discussion platform.",
   email: "feedback@inkrato.com",
   
   // Set this option to true if you have an SSL certificate for your site
