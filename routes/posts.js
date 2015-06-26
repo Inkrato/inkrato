@@ -7,8 +7,7 @@ var Post = require('../models/Post'),
     postsSearch = require('./posts/search'),
     postsComments = require('./posts/comments'),
     Q = require("q"),
-    marked = require('marked'),
-    slug = require('slug');
+    marked = require('marked');
 
 /**
  * Set Markdown parser settings
@@ -230,7 +229,12 @@ exports.getPost = function(req, res) {
         });
       }
       // Look for and add similar posts
-      Post.mlt(post._id, { deleted: false }, null,  null, function(err, similar) {
+      var mltQuery = { deleted: false };
+      
+      if (post.forum && post.forum.id)
+        mltQuery.forum = post.forum.id;
+        
+      Post.mlt(post._id, mltQuery, null,  null, function(err, similar) {
         return res.render('posts/view', { title: post.summary, post: post, forum: post.forum, topic: post.topic, similar: similar });
       });
     }

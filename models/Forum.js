@@ -1,6 +1,6 @@
 var mongoose = require('mongoose'),
     slug = require('slug');
-
+    
 var schema = new mongoose.Schema({
   name: { type: String, unique: true, required: true},
   icon: String,
@@ -11,7 +11,7 @@ var schema = new mongoose.Schema({
 });
 
 schema.pre('save', function(next) {
-  this.slug = slug(this.name);
+  this.slug = slug(this.name.toLowerCase());
   next();
 });
 

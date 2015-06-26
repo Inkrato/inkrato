@@ -39,7 +39,7 @@ module.exports = function() {
       api: config.app.api,
       post: {
         name: config.app.posts.name,
-        slug: slug(config.app.posts.name),
+        slug: slug(config.app.posts.name.toLowerCase()),
         icon: config.app.posts.icon,
         voting: {
           enabled: true

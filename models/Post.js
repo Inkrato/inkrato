@@ -50,7 +50,7 @@ schema.methods.getUrl = function() {
   if (GLOBAL.forums.length > 0 && this.forum && !/undefined/.test(this.forum.slug))
     root = this.forum.slug;
   
-  return '/'+root+'/'+topicSlug+'/'+this.postId+'/'+slug(this.summary);
+  return '/'+root+'/'+topicSlug+'/'+this.postId+'/'+slug(this.summary.toLowerCase());
 };
 
 schema.methods.getEditUrl = function() {
