@@ -24,7 +24,7 @@
       <div class="container container-fluid">
         <div class="row">
           <div class="col-sm-8 col-lg-9">
-            <h1><%= site.getName() %> <small class="hidden-sm hidden-xs"><%= site.getDescription() %></small></h1>
+            <h1><%= site.getName() %></h1>
             <p class="breadcrumb" style="margin: 5px 0 0 0; opacity: 0.8; font-size: 18px; font-weight: 400;">
               <a href="/"><i class="fa fa-home"></i> home</a>
               <% if (path.split("/")[1]) { %>
@@ -51,10 +51,25 @@
     
     <% if (typeof(forum) != "undefined" && forum != null) { %>
     <div class="container container-fluid">
-      <h1 style="margin: 0;"><a style="text-decoration: none;" href="/<%= forum.slug %>"><% if (forum.icon && forum.icon != "") { %><i class="fa fa-<%= forum.icon %>"></i> <% } %><%= forum.name %></a></h1>
-      <p style="margin-bottom: 20px;" class="text-muted lead">
-        <%= forum.description %>
-      </p>
+      <div class="forum-heading">
+        <div class="row">
+          <div class="col-md-9">
+            <h2><a style="text-decoration: none;" href="/<%= forum.slug %>"><% if (forum.icon && forum.icon != "") { %><i class="fa fa-<%= forum.icon %>"></i> <% } %><%= forum.name %></a></h2>
+            <p class="text-muted lead">
+              <%= forum.description %>
+            </p>
+          </div>
+          <div class="col-md-3 text-right">
+            <div style="padding: 10px 0;">
+              <% if (typeof(topic) != "undefined" && topic != null) { %>
+                <a href="/<%= forum.slug %>/<%= topic.slug %>/new" class="btn btn-lg btn-success"><i class="fa fa-lg fa-fw fa-plus-circle"></i> New</a>
+              <% } else { %>
+                <a href="/<%= forum.slug %>/new" class="btn btn-lg btn-success"><i class="fa fa-lg fa-fw fa-plus-circle"></i> New</a>
+              <% } %>
+            </div>
+          </div>
+        </div>
+      </div>
     </div>
     <% } %>
     

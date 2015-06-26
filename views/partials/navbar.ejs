@@ -4,22 +4,24 @@
       <a href="/" class="navbar-brand" data-shortcut-key="h"><i class="fa fa-lg fa-fw fa-home"></i></a>
       <span class="visible-xs">
         <a style="margin-right: 5px;" class="pull-left navbar-btn btn btn-primary" href="/<%= site.options().post.slug %>"><i class="fa fa-lg fa-<%= site.options().post.icon %>"></i></a>
-        <% if (user) { %>
-          <% if (typeof(forum) != "undefined" && forum != null) { %>
-            <% if (typeof(topic) != "undefined" && topic != null) { %>
-              <a href="/<%= forum.slug %>/<%= topic.slug %>/new" class="pull-left navbar-btn btn btn-primary"><i class="fa fa-lg fa-fw fa-plus-circle"></i> New</a>
+        <% if (forums.length < 1) { %>
+          <% if (user) { %>
+            <% if (typeof(forum) != "undefined" && forum != null) { %>
+              <% if (typeof(topic) != "undefined" && topic != null) { %>
+                <a href="/<%= forum.slug %>/<%= topic.slug %>/new" class="pull-left navbar-btn btn btn-primary"><i class="fa fa-lg fa-fw fa-plus-circle"></i> New</a>
+              <% } else { %>
+                <a href="/<%= forum.slug %>/new" class="pull-left navbar-btn btn btn-primary"><i class="fa fa-lg fa-fw fa-plus-circle"></i> New</a>
+              <% } %>
             <% } else { %>
-              <a href="/<%= forum.slug %>/new" class="pull-left navbar-btn btn btn-primary"><i class="fa fa-lg fa-fw fa-plus-circle"></i> New</a>
+              <% if (typeof(topic) != "undefined" && topic != null) { %>
+                <a href="/<%= site.options().post.slug %>/<%= topic.slug %>/new" class="pull-left navbar-btn btn btn-primary"><i class="fa fa-lg fa-fw fa-plus-circle"></i> New</a>
+              <% } else { %>
+                <a href="/new" class="pull-left navbar-btn btn btn-primary"><i class="fa fa-lg fa-fw fa-plus-circle"></i> New</a>
+              <% } %>
             <% } %>
           <% } else { %>
-            <% if (typeof(topic) != "undefined" && topic != null) { %>
-              <a href="/<%= site.options().post.slug %>/<%= topic.slug %>/new" class="pull-left navbar-btn btn btn-primary"><i class="fa fa-lg fa-fw fa-plus-circle"></i> New</a>
-            <% } else { %>
-              <a href="/new" class="pull-left navbar-btn btn btn-primary"><i class="fa fa-lg fa-fw fa-plus-circle"></i> New</a>
-            <% } %>
+          <a class="pull-left navbar-btn btn btn-primary" href="/signup" data-dismiss="modal" data-toggle="modal" data-target="#signupModal"  data-shortcut-key="n"><i class="fa fa-lg fa-fw fa-plus-circle"></i> New</a>
           <% } %>
-        <% } else { %>
-        <a class="pull-left navbar-btn btn btn-primary" href="/signup" data-dismiss="modal" data-toggle="modal" data-target="#signupModal"  data-shortcut-key="n"><i class="fa fa-lg fa-fw fa-plus-circle"></i> New</a>
         <% } %>
       </span>
       <button type="button" class="navbar-toggle" data-toggle="collapse" data-target=".navbar-collapse">
@@ -45,6 +47,7 @@
           </form>
         </li>
         <li <% if (path.match(new RegExp("^\/"+site.options().post.slug)) && typeof(newPost) == "undefined") { %>class="active"<% } %>><a href="/<%= site.options().post.slug %>"><i class="fa fa-lg fa-fw fa-<%= site.options().post.icon %>"></i> <%= site.options().post.name %></a></li>
+        <% if (forums.length < 1) { %>
         <li class="hidden-xs <% if (typeof(newPost) != "undefined") { %>active<% } %>">
           <% if (user) { %>
             <a class="hidden" href="#" data-dismiss="modal" data-toggle="modal" data-target="#newPostModal" data-shortcut-key="n">New</a>
@@ -65,6 +68,7 @@
           <a href="/signup" data-dismiss="modal" data-toggle="modal" data-target="#signupModal"  data-shortcut-key="n"><i class="fa fa-lg fa-fw fa-plus-circle"></i> New</a>
           <% } %>
         </li>
+        <% } %>
       </ul>
       <ul class="nav navbar-right navbar-nav">
         <li <% if (path.match("^\/contact")) { %>class="active"<% } %>><a href="/contact"><i class="fa fa-lg fa-fw fa-envelope-o"></i> Contact</a></li>
