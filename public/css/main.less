@@ -35,19 +35,23 @@
   margin-top: -20px;
   padding: 10px 20px 0 20px;
   .gradient(@brand-header, darken(@brand-header, 5%));
+  color: @brand-header-text;
 }
 
 .jumbotron.jumbotron-home h1 {
   margin-top: 0;
   font-size: 64px;
+  color: @brand-header-text;
 }
 
 .jumbotron.jumbotron-home h2 {
     font-size: 32px;
+  color: @brand-header-text;
 }
 
 .jumbotron.jumbotron-header {
   padding: 15px 0 15px 0;
+  color: @brand-header-text;
 }
 
 .jumbotron.jumbotron-header h1 {
@@ -60,6 +64,7 @@
 
 .jumbotron.jumbotron-header h1 small {
   font-size: 26px;
+  color: @brand-header-text;
 }
 
 .jumbotron.jumbotron-header .search .form-control {
@@ -288,4 +293,17 @@ textarea {
 
 .body-background-color {
   color: @body-bg;
+}
+
+.forum-heading {
+  border-bottom: 2px solid @brand-primary;
+  margin-bottom: 20px;
+}
+
+.forum-heading h2 {
+  margin: 0;
+}
+
+.forum-heading p {
+  margin-bottom: 10px;
 }
