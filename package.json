@@ -1,7 +1,7 @@
 {
   "name": "inkrato",
-  "description": "Discussion and issue tracking for teams and communites",
-  "version": "0.4.2",
+  "description": "An open source platform for online collaboration.",
+  "version": "0.5.2",
   "homepage": "https://www.inkrato.com",
   "repository": {
     "type": "git",

@@ -25,14 +25,14 @@ marked.setOptions({
 
 /**
  * Return list of topics
- * GET /posts/
+ * GET /:posts/
  */
 exports.getTopics = function(req, res) {
   return res.redirect('/'+Site.options().post.slug+'/everything');
 };
 
 /**
- * GET /posts/:topic
+ * GET /:posts/:topic
  */
 exports.getPosts = function(req, res) {
 
@@ -49,7 +49,7 @@ exports.getPosts = function(req, res) {
       
       // If Forum not found return 404
       if (!forum)
-        return res.render('404');
+        return res.status(404).render('404');
       
       options.forum = forum;
 
@@ -62,7 +62,7 @@ exports.getPosts = function(req, res) {
 
           // If Topic not found return 404
           if (!topic)
-            return res.render('404');
+            return res.status(404).render('404');
 
           options.topic = topic;
       
@@ -84,7 +84,7 @@ exports.getPosts = function(req, res) {
 
         // If Topic not found return 404
         if (!topic)
-          return res.render('404');
+          return res.status(404).render('404');
         
         options.topic = topic;
           
@@ -99,7 +99,7 @@ exports.getPosts = function(req, res) {
 };
 
 /**
- * GET /posts/:topic/new
+ * GET /:posts/:topic/new
  */
 exports.getNewPost = function(req, res) {
   if (req.params.forum) {
@@ -138,7 +138,7 @@ exports.getNewPost = function(req, res) {
 };
 
 /**
- * POST /posts/:topic/new
+ * POST /:posts/:topic/new
  */
 exports.postNewPost = function(req, res, next) {
   req.assert('summary', 'Summary cannot be blank').notEmpty();
@@ -199,7 +199,7 @@ exports.postNewPost = function(req, res, next) {
 };
 
 /**
- * GET /posts/:topic/:id
+ * GET /:posts/:topic/:id
  */
 exports.getPost = function(req, res) {
   var postId = req.params.id;
@@ -213,8 +213,11 @@ exports.getPost = function(req, res) {
   .populate('state')
   .populate('priority')
   .exec(function(err, post) {
-    if (err || (post.deleted && post.deleted == true))
-        return res.render('404');
+    if (err || !post) 
+      return res.status(404).render('404');
+
+    if (post.deleted && post.deleted == true)
+      return res.status(404).render('posts/deleted', { title: "Deleted", post: post,  forum: null, topic: null });
 
     if (req.xhr || req.api) {
       // If it's an AJAX or API request, return a JSON response
@@ -242,7 +245,7 @@ exports.getPost = function(req, res) {
 };
 
 /**
- * GET /posts/:topic/edit/:id
+ * GET /:posts/:topic/edit/:id
  */
 exports.getEditPost = function(req, res) {
   var postId = req.params.id;
@@ -257,7 +260,7 @@ exports.getEditPost = function(req, res) {
   .populate('priority')
   .exec(function(err, post) {
     if (err || (post.deleted && post.deleted == true))
-      return res.render('404');
+      return res.status(404).render('404');
 
     if ((post.creator && req.user.id != post.creator.id)
         && req.user.role != 'MODERATOR'
@@ -275,7 +278,7 @@ exports.getEditPost = function(req, res) {
 };
 
 /**
- * POST /posts/:topic/edit/:id
+ * POST /:posts/:topic/edit/:id
  */
 exports.postEditPost = function(req, res, next) {
   req.assert('id', 'Post ID cannot be blank').notEmpty();
@@ -303,7 +306,7 @@ exports.postEditPost = function(req, res, next) {
   .populate('priority')
   .exec(function(err, post) {
     if (err || (post.deleted && post.deleted == true))
-      return res.render('404');
+      return res.status(404).render('404');
     
     if ((post.creator && req.user.id != post.creator.id)
         && req.user.role != 'MODERATOR'
@@ -349,8 +352,118 @@ exports.postEditPost = function(req, res, next) {
   });
 };
 
+
 /**
- * POST /posts/:topic/upvote/:id
+ * POST /:posts/:topic/delete/:id
+ */
+exports.postDeletePost = function(req, res, next) {
+  req.assert('id', 'Post ID cannot be blank').notEmpty();
+
+  var errors = req.validationErrors();
+  
+  if (errors) {
+    if (req.xhr || req.api)
+      return res.json({ errors: errors });
+    req.flash('errors', errors);
+    return res.redirect('back');
+  }
+  
+  Post
+  .findOne({ postId: req.params.id })
+  .populate('creator', 'profile role')
+  .exec(function(err, post) {
+    if (err || !post)
+      return res.render('404');
+    
+    // Only the creator of the post, moderators and admins can delete a post
+    if ((post.creator && req.user.id != post.creator.id)
+        && req.user.role != 'MODERATOR'
+        && req.user.role != 'ADMIN')
+      return res.render('403');
+
+    post.deleted = true;
+    
+    post.save(function(err) {
+      if (err) return next(err);
+      // Fetch back from DB so topic is properly populated for the page template
+      Post
+      .findOne({ postId: post.postId })
+      .populate('creator', 'profile')
+      .populate('comments.creator', 'profile')
+      .populate('forum')
+      .populate('topic')
+      .populate('state')
+      .populate('priority')
+      .exec(function(err, post) {
+        if (req.xhr || req.api) {
+          return res.json(post);
+        } else {
+          return res.redirect(post.getUrl());
+        }
+      });
+    });
+
+  });
+};
+
+
+/**
+ * POST /:posts/:topic/undelete/:id
+ */
+exports.postUndeletePost = function(req, res, next) {
+  req.assert('id', 'Post ID cannot be blank').notEmpty();
+
+  var errors = req.validationErrors();
+  
+  if (errors) {
+    if (req.xhr || req.api)
+      return res.json({ errors: errors });
+    req.flash('errors', errors);
+    return res.redirect('back');
+  }
+  
+  Post
+  .findOne({ postId: req.params.id })
+  .populate('creator', 'profile role')
+  .exec(function(err, post) {
+    if (err || !post)
+      return res.render('404');
+    
+    // Only the creator of the post, moderators and admins can undelete a post
+    if ((post.creator && req.user.id != post.creator.id)
+        && req.user.role != 'MODERATOR'
+        && req.user.role != 'ADMIN')
+      return res.render('403');
+
+    post.deleted = false;
+    
+    post.save(function(err) {
+      if (err) return next(err);
+      // Fetch back from DB so topic is properly populated for the page template
+      Post
+      .findOne({ postId: post.postId })
+      .populate('creator', 'profile')
+      .populate('comments.creator', 'profile')
+      .populate('forum')
+      .populate('topic')
+      .populate('state')
+      .populate('priority')
+      .exec(function(err, post) {
+        if (req.xhr || req.api) {
+          return res.json(post);
+        } else {
+          req.flash('success', { msg: 'This page has been restored.' });
+          return res.redirect(post.getUrl());
+        }
+      });
+    });
+
+  });
+};
+
+
+/**
+ * POST /:posts/:topic/upvote/:id
  */
 exports.postUpvote = function(req, res, next) {
   req.assert('id', 'Post ID cannot be blank').notEmpty();
@@ -371,7 +484,7 @@ exports.postUpvote = function(req, res, next) {
   .findOne({ postId: req.params.id })
   .exec(function(err, post) {
     if (err || (post.deleted && post.deleted == true))
-      return res.render('404');
+      return res.status(404).render('404');
     
     post.upvote(req.user.id);
     
@@ -388,7 +501,7 @@ exports.postUpvote = function(req, res, next) {
 }
 
 /**
- * POST /posts/:topic/downvote/:id
+ * POST /:posts/:topic/downvote/:id
  */
 exports.postDownvote = function(req, res, next) {
   req.assert('id', 'Post ID cannot be blank').notEmpty();
@@ -409,7 +522,7 @@ exports.postDownvote = function(req, res, next) {
   .findOne({ postId: req.params.id })
   .exec(function(err, post) {
     if (err || (post.deleted && post.deleted == true))
-      return res.render('404');
+      return res.status(404).render('404');
     
     post.downvote(req.user.id);
     
@@ -426,7 +539,7 @@ exports.postDownvote = function(req, res, next) {
 }
 
 /**
- * POST /posts/:topic/unvote/:id
+ * POST /:posts/:topic/unvote/:id
  */
 exports.postUnvote = function(req, res, next) {
   req.assert('id', 'Post ID cannot be blank').notEmpty();
@@ -447,7 +560,7 @@ exports.postUnvote = function(req, res, next) {
   .findOne({ postId: req.params.id })
   .exec(function(err, post) {
     if (err || (post.deleted && post.deleted == true))
-      return res.render('404');
+      return res.status(404).render('404');
     
     post.unvote(req.user.id);
     
@@ -501,12 +614,12 @@ exports.getPriorities = function(req, res) {
 };
 
 /**
- * Routes for /posts/:topic/search/*
+ * Routes for /:posts/:topic/search/*
  */
 exports.search = postsSearch;
 
 /**
- * Routes for /posts/:topic/comments/*
+ * Routes for /:posts/:topic/comments/*
  */
 exports.comments = postsComments;
 

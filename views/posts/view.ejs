@@ -4,7 +4,7 @@
     root = forum.slug;
 %>
 <% if (site.options().post.voting.enabled == true) { %>
-<div class="media" style="position: relative; top: -10px;">
+<div class="media" style="margin-top: 0; padding-top: 0;">
   <div class="hidden-xs hidden-sm media-left" style="padding-right: 20px;">
     <% include ../partials/posts/vote %>
   </div>
@@ -135,6 +135,7 @@
         <% if (typeof(user) != 'undefined' && ( (post.creator && user.id == post.creator.id) || user.role == 'ADMIN' || user.role == 'MODERATOR')) { %>
         <br/>
         <p class="text-right">
+          <a href="#" data-toggle="modal" data-target="#deletePostModal" class="btn btn-danger"><i class="fa fa-lg fa-fw fa-trash"></i> Delete</a>
           <a href="<%= post.getEditUrl() %>" class="btn btn-default" data-shortcut-key="e"><i class="fa fa-lg fa-fw fa-pencil"></i> <span class="kb-shortcut">E</span>dit</a>
         </p>
         <% } %>
@@ -146,5 +147,30 @@
     </div>
 <% if (site.options().post.voting.enabled == true) { %>
   </div>
+</div>
+<% } %>
+
+<% if (typeof(user) != 'undefined' && ( (post.creator && user.id == post.creator.id) || user.role == 'ADMIN' || user.role == 'MODERATOR')) { %>
+<div class="modal fade" id="deletePostModal" tabindex="-1" role="dialog" aria-labelledby="deletePostModalLabel" aria-hidden="true">
+  <div class="modal-dialog">
+    <div class="modal-content">
+      <div class="modal-header">
+        <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+        <h4 class="modal-title" id="deletePostModalLabel"><i class="fa fa-fw fa-lg fa-trash"></i> Confirm deletion</h4>
+      </div>
+      <div class="modal-body">
+        <h4>
+          Are you sure you wish to delete this page?
+        </h4>
+        <p>You will be able to restore it later.</p>
+      </div>
+      <div class="modal-footer">
+        <form name="delete-post" method="post" action="<%= post.getDeleteUrl() %>">
+          <input type="hidden" name="_csrf" value="<%= _csrf %>">
+          <a href="#" class="btn btn-default" data-dismiss="modal"><i class="fa fa-lg fa-fw fa-ban"></i> Cancel</a>
+          <button type="submit" class="btn btn-danger"><i class="fa fa-fw fa-lg fa-trash"></i> Delete</button>
+        </form>
+      </div>
+    </div>
 </div>
 <% } %>

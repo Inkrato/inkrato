@@ -50,7 +50,12 @@ schema.methods.getUrl = function() {
   if (GLOBAL.forums.length > 0 && this.forum && !/undefined/.test(this.forum.slug))
     root = this.forum.slug;
   
-  return '/'+root+'/'+topicSlug+'/'+this.postId+'/'+slug(this.summary.toLowerCase());
+  var path = '/'+root+'/'+topicSlug+'/'+this.postId+'/';
+  
+  if (this.deleted != true)
+    path += slug(this.summary.toLowerCase());
+  
+  return path;
 };
 
 schema.methods.getEditUrl = function() {
@@ -65,6 +70,34 @@ schema.methods.getEditUrl = function() {
 
   return '/'+root+'/'+topicSlug+'/edit/'+this.postId;
 };
+
+schema.methods.getDeleteUrl = function() {
+  // If topic not found, use "everything" as topic slug
+  var topicSlug = 'everything';
+  if (this.topic && !/undefined/.test(this.topic.slug))
+    topicSlug = this.topic.slug;
+
+  var root = Site.options().post.slug;
+  if (GLOBAL.forums.length > 0 && this.forum && !/undefined/.test(this.forum.slug))
+    root = this.forum.slug;
+
+  return '/'+root+'/'+topicSlug+'/delete/'+this.postId;
+};
+
+
+schema.methods.getUndeleteUrl = function() {
+  // If topic not found, use "everything" as topic slug
+  var topicSlug = 'everything';
+  if (this.topic && !/undefined/.test(this.topic.slug))
+    topicSlug = this.topic.slug;
+
+  var root = Site.options().post.slug;
+  if (GLOBAL.forums.length > 0 && this.forum && !/undefined/.test(this.forum.slug))
+    root = this.forum.slug;
+
+  return '/'+root+'/'+topicSlug+'/undelete/'+this.postId;
+};
+
 
 schema.methods.getUpvoteUrl = function() {
   return '/upvote/'+this.postId;

@@ -20,7 +20,6 @@ exports.getSearch = function(req, res) {
       },
       function(err, data) {
         var response = {
-          title: res.locals.title + "Search",
           query: req.query.q,
           posts: data.results,
           count: data.totalCount
@@ -42,6 +41,7 @@ exports.getSearch = function(req, res) {
           });
           return res.json(response);
         } else {
+          response.title = "Search";
           response.topic = null;
           return res.render('posts/search', response);
        }

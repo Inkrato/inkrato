@@ -160,6 +160,8 @@ exports.getAccount = function(req, res) {
 /**
  * POST /account/profile
  * Update profile information.
+ * @fixme Calling with x-validate actually causes the update to happen.
+ *        This isn't causing any problems but is not intended behaviour.
  */
 exports.postUpdateProfile = function(req, res, next) {
   req.assert('email', 'Email address invalid').isEmail();
@@ -180,7 +182,9 @@ exports.postUpdateProfile = function(req, res, next) {
     if (err) return next(err);
 
     // If the email address has changed reset account verification status    
+    var sendVerificationEmail = false;
     if (user.email != req.body.email) {
+      sendVerificationEmail = true;
       user.verified = false;
       user.emailVerificationToken = null;
     }
@@ -211,8 +215,10 @@ exports.postUpdateProfile = function(req, res, next) {
           // Other errors
           if (err) return next(err);
         }
-      } 
-      if (user.verified != true) {
+      }
+      // If they use is not verified and their email address has changed send 
+      // verification email
+      if (sendVerificationEmail == true) {
         var transporter = nodemailer.createTransport(Site.getMailTransport());
         var mailOptions = {
           to: user.email,
@@ -224,11 +230,11 @@ exports.postUpdateProfile = function(req, res, next) {
                 '\n\n-- \n'
         };
         transporter.sendMail(mailOptions, function(err) {
-          res.redirect('/profile');
+          return res.redirect('/profile')
         });
       } else {
         req.flash('success', { msg: 'Your profile has been updated.' });
-        res.redirect('/profile');
+        return res.redirect('/profile')
       }
     });
   });

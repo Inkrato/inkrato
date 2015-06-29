@@ -157,7 +157,6 @@ app.use(function(req, res, next) {
   res.locals.topics = GLOBAL.topics;
   res.locals.priorities = GLOBAL.priorities;
   res.locals.states = GLOBAL.states;
-  
 
   // Set req.api to true for requests made via the API
   if ((/^\/api/).test(req.path))
@@ -195,7 +194,6 @@ var routes = {
   auth: require('./routes/auth'),
   user: require('./routes/user'),
   home: require('./routes/home'),
-  about: require('./routes/about'),
   contact : require('./routes/contact'),
   posts: require('./routes/posts'),
   forums: require('./routes/forums')
@@ -255,7 +253,6 @@ if (Site.options().ssl == true) {
  * Main routes
  */
 app.get('/', routes.home.index);
-app.get('/about', routes.about.getAbout);
 app.get('/login', routes.user.getLogin);
 app.post('/login', routes.user.postLogin);
 app.get('/logout', routes.user.logout);
@@ -299,12 +296,17 @@ if (Site.options().api == true) {
   // @todo Add endpoint to filter posts by topic, state priority and forum
   // @todo Support post operations by id (hash) as well as postId (integer)
   app.post('/api/new', routes.auth.apiKey, routes.posts.postNewPost);
+  app.put('/api/new', routes.auth.apiKey, routes.posts.postNewPost);
   app.get('/api/view/:id', routes.auth.apiKey, routes.posts.getPost);
   app.get('/api/topics', routes.auth.apiKey, routes.posts.getTopics);
   app.get('/api/forums', routes.auth.apiKey, routes.forums.getForums);
   app.get('/api/states', routes.auth.apiKey, routes.posts.getStates);
   app.get('/api/priorities', routes.auth.apiKey, routes.posts.getPriorities);
   app.post('/api/edit/:id', routes.auth.apiKey, routes.posts.postEditPost);
+  app.put('/api/edit/:id', routes.auth.apiKey, routes.posts.postEditPost);
+  app.post('/api/delete/:id', routes.auth.apiKey, routes.posts.postDeletePost);
+  app.delete('/api/delete/:id', routes.auth.apiKey, routes.posts.postDeletePost);
+  app.post('/api/undelete/:id', routes.auth.apiKey, routes.posts.postUndeletePost);
   if (Site.options().post.voting.enabled == true) {
     app.post('/api/upvote/:id', routes.auth.apiKey, routes.posts.postUpvote);
     app.post('/api/downvote/:id', routes.auth.apiKey, routes.posts.postDownvote);
@@ -369,6 +371,8 @@ Configure.topics(config.app.posts.topics)
     app.post('/'+Site.options().post.slug+'/:topic/new', routes.auth.isAuthenticated, routes.posts.postNewPost);
     app.get('/'+Site.options().post.slug+'/:topic/edit/:id', routes.auth.isAuthenticated, routes.posts.getEditPost);
     app.post('/'+Site.options().post.slug+'/:topic/edit/:id', routes.auth.isAuthenticated, routes.posts.postEditPost);
+    app.post('/'+Site.options().post.slug+'/:topic/delete/:id', routes.auth.isAuthenticated, routes.posts.postDeletePost);
+    app.post('/'+Site.options().post.slug+'/:topic/undelete/:id', routes.auth.isAuthenticated, routes.posts.postUndeletePost);
     // These topic routes come after other topic routes to work correctly
     app.get('/'+Site.options().post.slug+'/:topic/:id/:slug', routes.posts.getPost);
     app.get('/'+Site.options().post.slug+'/:topic/:id', routes.posts.getPost);
@@ -383,6 +387,8 @@ Configure.topics(config.app.posts.topics)
       app.post('/:forum/:topic/new', routes.auth.isAuthenticated, routes.posts.postNewPost);
       app.get('/:forum/:topic/edit/:id', routes.auth.isAuthenticated, routes.posts.getEditPost);
       app.post('/:forum/:topic/edit/:id', routes.auth.isAuthenticated, routes.posts.postEditPost);
+      app.post('/:forum/:topic/delete/:id', routes.auth.isAuthenticated, routes.posts.postDeletePost);
+      app.post('/:forum/:topic/undelete/:id', routes.auth.isAuthenticated, routes.posts.postUndeletePost);
       // These topic routes come after other topic routes to work correctly
       app.get('/:forum/:topic/:id/:slug', routes.posts.getPost);
       app.get('/:forum/:topic/:id', routes.posts.getPost);

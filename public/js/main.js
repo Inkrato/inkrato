@@ -43,7 +43,7 @@ $(function() {
       allow_dismiss: false,
       offset: {
         from: "top",
-        amount: $(".navbar").height() + $(".jumbotron-heading").height() + 45
+        amount: $(".navbar").height() + $(".jumbotron-heading").height() + 20
       }
     });
   });

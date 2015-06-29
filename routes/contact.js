@@ -37,25 +37,18 @@ exports.postContact = function(req, res) {
   }
 
   var from = req.body.email;
-  var name = req.body.name;
   var body = req.body.message;
   var to = config.app.email;
-  var subject = 'Website Contact Form';
+  var subject = 'Contact Form - '+req.headers.host;
 
   var mailOptions = {
     to: to,
     from: from,
     subject: subject,
-    text: body
+    text: body+"\n\n-- \n"+req.body.name+"\n"+req.body.email
   };
 
   var transporter = nodemailer.createTransport(Site.getMailTransport());
-  transporter.sendMail(mailOptions, function(err) {
-    if (err) {
-      req.flash('errors', { msg: "Failed to send email" });
-      return res.render('contact', { title: "Contact", confirmation: false });
-    }
-    req.flash('success', { msg: 'Message sent successfully!' });
-    res.render('contact', { title: "Contact", confirmation: true });
-  });
+  transporter.sendMail(mailOptions, function(err) { });
+  res.render('contact', { title: "Contact", confirmation: true });
 };
