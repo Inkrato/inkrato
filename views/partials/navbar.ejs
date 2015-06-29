@@ -6,18 +6,10 @@
         <a style="margin-right: 5px;" class="pull-left navbar-btn btn btn-primary" href="/<%= site.options().post.slug %>"><i class="fa fa-lg fa-<%= site.options().post.icon %>"></i></a>
         <% if (forums.length < 1) { %>
           <% if (user) { %>
-            <% if (typeof(forum) != "undefined" && forum != null) { %>
-              <% if (typeof(topic) != "undefined" && topic != null) { %>
-                <a href="/<%= forum.slug %>/<%= topic.slug %>/new" class="pull-left navbar-btn btn btn-primary"><i class="fa fa-lg fa-fw fa-plus-circle"></i> New</a>
-              <% } else { %>
-                <a href="/<%= forum.slug %>/new" class="pull-left navbar-btn btn btn-primary"><i class="fa fa-lg fa-fw fa-plus-circle"></i> New</a>
-              <% } %>
+            <% if (typeof(topic) != "undefined" && topic != null) { %>
+              <a href="/<%= site.options().post.slug %>/<%= topic.slug %>/new" class="pull-left navbar-btn btn btn-primary"><i class="fa fa-lg fa-fw fa-plus-circle"></i> New</a>
             <% } else { %>
-              <% if (typeof(topic) != "undefined" && topic != null) { %>
-                <a href="/<%= site.options().post.slug %>/<%= topic.slug %>/new" class="pull-left navbar-btn btn btn-primary"><i class="fa fa-lg fa-fw fa-plus-circle"></i> New</a>
-              <% } else { %>
-                <a href="/new" class="pull-left navbar-btn btn btn-primary"><i class="fa fa-lg fa-fw fa-plus-circle"></i> New</a>
-              <% } %>
+              <a href="/new" class="pull-left navbar-btn btn btn-primary"><i class="fa fa-lg fa-fw fa-plus-circle"></i> New</a>
             <% } %>
           <% } else { %>
           <a class="pull-left navbar-btn btn btn-primary" href="/signup" data-dismiss="modal" data-toggle="modal" data-target="#signupModal"  data-shortcut-key="n"><i class="fa fa-lg fa-fw fa-plus-circle"></i> New</a>
@@ -51,18 +43,10 @@
         <li class="hidden-xs <% if (typeof(newPost) != "undefined") { %>active<% } %>">
           <% if (user) { %>
             <a class="hidden" href="#" data-dismiss="modal" data-toggle="modal" data-target="#newPostModal" data-shortcut-key="n">New</a>
-            <% if (typeof(forum) != "undefined" && forum != null) { %>
-              <% if (typeof(topic) != "undefined" && topic != null) { %>
-                <a href="/<%= forum.slug %>/<%= topic.slug %>/new"><i class="fa fa-lg fa-fw fa-plus-circle"></i> New</a>
-              <% } else { %>
-                <a href="/<%= forum.slug %>/new" ><i class="fa fa-lg fa-fw fa-plus-circle"></i> New</a>
-              <% } %>
+            <% if (typeof(topic) != "undefined" && topic != null) { %>
+              <a href="/<%= site.options().post.slug %>/<%= topic.slug %>/new"><i class="fa fa-lg fa-fw fa-plus-circle"></i> New</a>
             <% } else { %>
-              <% if (typeof(topic) != "undefined" && topic != null) { %>
-                <a href="/<%= site.options().post.slug %>/<%= topic.slug %>/new"><i class="fa fa-lg fa-fw fa-plus-circle"></i> New</a>
-              <% } else { %>
-                <a href="/new" ><i class="fa fa-lg fa-fw fa-plus-circle"></i> New</a>
-              <% } %>
+              <a href="/new" ><i class="fa fa-lg fa-fw fa-plus-circle"></i> New</a>
             <% } %>
           <% } else { %>
           <a href="/signup" data-dismiss="modal" data-toggle="modal" data-target="#signupModal"  data-shortcut-key="n"><i class="fa fa-lg fa-fw fa-plus-circle"></i> New</a>

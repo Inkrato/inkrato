@@ -31,7 +31,7 @@
         
         <% if (site.loginOptions('facebook') || site.loginOptions('facebook') || site.loginOptions('twitter') || site.loginOptions('github')) { %>
         <h4>Connect accounts</h4>
-        <p><strong>Tip!</strong> Connecting your accounts allows you to log in even if you lose access to your email account.</p>
+        <p>Connecting your accounts allows you to log in even if you lose access to your email account.</p>
         <br/>
         <% } %>
         
@@ -212,7 +212,7 @@
             </p>
             <br/>
             <p class="text-center hidden-no-js">
-              <a href="#" data-toggle="modal" data-target="#deleteAccountModal" class="btn btn-danger"><i class="fa fa-lg fa-fw fa-trash"></i> Delete my account</a>
+              <a href="#" data-toggle="modal" data-target="#deleteAccountModal" class="btn btn-danger"><i class="fa fa-lg fa-fw fa-trash"></i> Delete account</a>
             </p>
             <form name="delete-account" method="post" action="/account/delete" class="visible-no-js text-center">
               <input type="hidden" name="_csrf" value="<%= _csrf %>">
@@ -233,13 +233,12 @@
     <div class="modal-content">
       <div class="modal-header">
         <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
-        <h4 class="modal-title" id="deleteAccountModalLabel">Are you sure you wish to delete your account?</h4>
+        <h4 class="modal-title" id="deleteAccountModalLabel"><i class="fa fa-fw fa-lg fa-trash"></i> Confirm deletion</h4>
       </div>
-      <div class="modal-body text-center">
-        <br/>
-        <p class="lead text-danger">
-          <strong><i class="fa fa-lg fa-warning"></i> Warning</strong> Deleted accounts cannot be restored.
-        </p>
+      <div class="modal-body">
+        <h4>Are you sure you want to delete your account?</h4>
+        <p>To preserve the integrity of conversations things you have posted, including comments, will still exist but your name will no longer appear next to them.</p>
+        <p class="text-danger"><i class="fa fa-lg fa-warning"></i> <strong>Deleted accounts cannot be restored.</strong></p>
         <br/>
       </div>
       <div class="modal-footer">

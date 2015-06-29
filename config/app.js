@@ -5,7 +5,7 @@ module.exports = {
   
   // The name and contact email address for the site (valid email required)
   name: "inkrato",
-  description: "An open source collaboration and discussion platform.",
+  description: "An open source online collaboration platform.",
   email: "feedback@inkrato.com",
   
   // Set this option to true if you have an SSL certificate for your site
@@ -16,7 +16,9 @@ module.exports = {
   host: process.env.HOST || false,
   
   // If true then allows members with a valid email address to register to
-  // request an API Key and be able to call the API endpoints
+  // request an API Key and be able to call the API endpoints.
+  //
+  // Currently recommended only for private instances due to potential for abuse
   api: false,
 
   // You can opt to have all posts in the same discussion space - which works
@@ -31,9 +33,10 @@ module.exports = {
   
   posts: {
     
-    // The name, icon and URL path to use for "posts" on the site
-    // e.g. "Tickets", "Feedback", "Discussions"
-    // NB: The icons are from http://fontawesome.io/icons
+    // The name, icon and URL path to use for "posts" menu option the site
+    // e.g. "Posts", "Issues", "Ideas", "Tickets", "Feedback", "Discussions"...
+    //
+    // NB: See Font Awesome for the list of icons: http://fontawesome.io/icons
     name: "Issues",
     icon: "list",
     

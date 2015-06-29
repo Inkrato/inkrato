@@ -1,7 +1,7 @@
 {
   "name": "inkrato",
   "description": "An open source collaboration and discussion platform.",
-  "version": "0.5.0",
+  "version": "0.5.1",
   "homepage": "https://www.inkrato.com",
   "repository": {
     "type": "git",
