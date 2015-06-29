@@ -4,9 +4,9 @@
 module.exports = {
   
   // The name and contact email address for the site (valid email required)
-  name: "gameplay.fail",
-  description: "Better feedback, better games.",
-  email: "help@gameplay.fail",
+  name: "inkrato",
+  description: "An open source platform for online collaboration.",
+  email: "feedback@inkrato.com",
   
   // Set this option to true if you have an SSL certificate for your site
   ssl: process.env.FORCE_SSL || false,
@@ -16,29 +16,29 @@ module.exports = {
   host: process.env.HOST || false,
   
   // If true then allows members with a valid email address to register to
-  // request an API Key and be able to call the API endpoints
+  // request an API Key and be able to call the API endpoints.
+  //
+  // Currently recommended only for private instances due to potential for abuse
   api: false,
 
   // You can opt to have all posts in the same discussion space - which works
-  // well for smaller, focused communities - or grouped into 'forums'.
+  // well for smaller, focused communities - or grouped into forums.
   //
-  // By default 'forums' are turned off. You need to specify at least one forum
-  // object in the forums[] array below to enable them.
-  //
-  // Example forum object:
-  // { name: "My feedback forum", icon: "comments", description: "About this  forum" }
-  forums: [
-    { name: "PlanetSide 2", icon: "comments", description: "Free-to-play massively multiplayer online first-person shooter by Daybreak Games" },
-    { name: "H1Z1", icon: "comments", description: "Free-to-play massively multiplayer online survivial horror by Daybreak Games" }
+  // You need to specify at least one forum object in the forums[] array below 
+  // to enable forums. Leave the array empty if you don't need seperate discussion forums.
+  forums: [ 
+    { name: "Feedback", icon: "comments-o", description: "Help make inkrato even better" },
+    { name: "Sandbox", icon: "wrench", description: "Try out inkrato here" }
   ],
   
   posts: {
     
-    // The name, icon and URL path to use for "posts" on the site
-    // e.g. "Tickets", "Feedback", "Discussions"
-    // NB: The icons are from http://fontawesome.io/icons
-    name: "Games",
-    icon: "gamepad",
+    // The name, icon and URL path to use for "posts" menu option the site
+    // e.g. "Posts", "Issues", "Ideas", "Tickets", "Feedback", "Discussions"...
+    //
+    // NB: See Font Awesome for the list of icons: http://fontawesome.io/icons
+    name: "Discussions",
+    icon: "comments",
     
     // Topics, Priorities and States are loaded from here on app startup.
     //
@@ -48,12 +48,11 @@ module.exports = {
     // To delete an option, just remove it from here and restart the app - it
     // will be marked as deleted and will be no longer selected in the UI.
          
-    // The list of topics to use to categorize posts
+    // The list of topics to use to categorise posts
     topics: [
-      { name: "Bugs", icon: "bug", description: "Things that aren't working properly" },
-      { name: "Ideas", icon: "lightbulb-o", description: "Share ideas for improvement" },
-      { name: "Questions", icon: "question", description: "Get for help and support" },
-      { name: "Tips", icon: "gamepad", description: "Share tips and advice" }
+      { name: "Problems", icon: "warning", description: "Things that aren't working properly" },
+      { name: "Suggestions", icon: "lightbulb-o", description: "New features and ideas for improvement" },
+      { name: "Questions", icon: "question", description: "Support questions and other enquiries" }
     ],
     
     // List of labels to allow on posts
@@ -67,8 +66,9 @@ module.exports = {
     
     // List of states to allow on posts
     states: [
-      { name: "Unresolved", open: true },
-      { name: "Resolved", open: false }
+      { name: "Open", open: true },
+      { name: "In Progress", open: true },
+      { name: "Closed", open: false }
     ],
     
     // Allow markdown in posts and comments
