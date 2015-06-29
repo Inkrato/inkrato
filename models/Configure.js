@@ -44,7 +44,7 @@ module.exports = new function() {
     var deferred = Q.defer();
 
     Topic
-    .findOne({ name: topic.name })
+    .findOne({ name: new RegExp('^'+topic.name+'$', "i") })
     .exec(function(err, topicInDatabase) {
       if (topicInDatabase) {
         // If the topic exists aready, update it and mark it as enabled
@@ -55,7 +55,7 @@ module.exports = new function() {
         topicInDatabase.deleted = false;
         topicInDatabase.save(function(err) {
           if (err)
-            console.log('Unable to update topic in DB: '+topic.name);
+            console.log('Unable to update topic in DB: '+topic.name+"\n"+err);
       
           deferred.resolve(topicInDatabase);
         });
@@ -70,7 +70,7 @@ module.exports = new function() {
         });
         newTopic.save(function(err) {
           if (err)
-            console.log('Unable to create new topic in DB: '+topic.name);
+            console.log('Unable to create new topic in DB: '+topic.name+"\n"+err);
 
           deferred.resolve(newTopic);
         });
@@ -115,7 +115,7 @@ module.exports = new function() {
     var deferred = Q.defer();
 
     Priority
-    .findOne({ name: priority.name })
+    .findOne({ name: new RegExp('^'+priority.name+'$', "i") })
     .exec(function(err, priorityInDatabase) {
       if (priorityInDatabase) {
         // If the priority exists aready, update it and mark it as enabled
@@ -125,7 +125,7 @@ module.exports = new function() {
         priorityInDatabase.deleted = false;
         priorityInDatabase.save(function(err) {
           if (err)
-            console.log('Unable to update priority in DB: '+priority.name);
+            console.log('Unable to update priority in DB: '+priority.name+"\n"+err);
       
           deferred.resolve(priorityInDatabase);
         });
@@ -139,7 +139,7 @@ module.exports = new function() {
         });
         newPriority.save(function(err) {
           if (err)
-            console.log('Unable to create new priority in DB: '+newPriority.name);
+            console.log('Unable to create new priority in DB: '+newPriority.name+"\n"+err);
 
           deferred.resolve(newPriority);
         });
@@ -183,7 +183,7 @@ module.exports = new function() {
     var deferred = Q.defer();
 
     State
-    .findOne({ name: state.name })
+    .findOne({ name: new RegExp('^'+state.name+'$', "i") })
     .exec(function(err, stateInDatabase) {
       if (stateInDatabase) {
         // If the state exists aready, update it and mark it as enabled
@@ -193,7 +193,7 @@ module.exports = new function() {
         stateInDatabase.deleted = false;
         stateInDatabase.save(function(err) {
           if (err)
-            console.log('Unable to update state in DB: '+state.name);
+            console.log('Unable to update state in DB: '+state.name+"\n"+err);
           deferred.resolve(stateInDatabase);
         });
       } else {
@@ -206,7 +206,7 @@ module.exports = new function() {
         });
         newState.save(function(err) {
           if (err)
-            console.log('Unable to create new state in DB: '+state.name);
+            console.log('Unable to create new state in DB: '+state.name+"\n"+err);
 
           deferred.resolve(newState);
         });
@@ -250,7 +250,7 @@ module.exports = new function() {
     var deferred = Q.defer();
 
     Forum
-    .findOne({ name: forum.name })
+    .findOne({ name: new RegExp('^'+forum.name+'$', "i") })
     .exec(function(err, forumInDatabase) {
       if (forumInDatabase) {
         // If the forum exists aready, update it and mark it as enabled
@@ -261,7 +261,7 @@ module.exports = new function() {
         forumInDatabase.deleted = false;
         forumInDatabase.save(function(err) {
           if (err)
-            console.log('Unable to update forum in DB: '+forum.name);
+            console.log('Unable to update forum in DB: '+forum.name+"\n"+err);
           deferred.resolve(forumInDatabase);
         });
       } else {
@@ -275,7 +275,8 @@ module.exports = new function() {
         });
         newForum.save(function(err) {
           if (err)
-            console.log('Unable to create new forum in DB: '+forum.name);
+            console.log('Unable to create new forum in DB: '+forum.name+"\n"+err);
+          
           deferred.resolve(newForum);
         });
       }

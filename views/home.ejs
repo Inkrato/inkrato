@@ -1,5 +1,7 @@
 </div>
 <div class="jumbotron jumbotron-home text-center clearfix" style="position: relative;">
+  <!-- You will probably want to customise this homepage for your own site -->
+  <h1><i class="fa fa-comments"></i> inkrato <small>community edition</small></h1>
   <h2 style="margin-top: 0; margin-bottom: 90px;">
     <%= site.getDescription() %>
   </h2>
@@ -8,10 +10,12 @@
     <i class="fa fa-chevron-down fa-stack-1x text-primary"></i>
   </span>
 </div>
-<div class="container container-fluid" style="padding-top: 40px;">
 <% if (forums.length > 0) { %>
+<div class="container container-fluid" style="padding-top: 40px;">
   <% include partials/forums %>
+</div>
 <% } else { %>
+<div class="container container-fluid" style="padding-top: 40px;">
   <div class="row boxes">
   <% topics.forEach(function(topic) { %>
     <div class="hidden-xs text-center <%= (topics.length % 2) ? 'col-md-4' : 'col-md-3' %>" href="/<%= site.options().post.slug %>/<%= topic.slug %>" style="margin-bottom: 20px;">
@@ -50,19 +54,20 @@
       <i class="fa fa-fw fa-<%= site.options().post.icon %>"></i> <%= site.options().post.name %> <i class="fa fa-fw fa-chevron-right"></i>
     </a>
   </div>
-  <script>
-  $(document).ready(function(){
-    // Make all boxes equal height on page load
-    // @todo Redraw on page resize end
-    $('.boxes').each(function(){
-      var maxHeight = 0;
-      $('.box', this).each(function(){
-        if ($(this).height() > maxHeight)
-          maxHeight = $(this).height();
-      });  
-      $('.box', this).height(maxHeight);
-    });
+</div>
+<script>
+$(document).ready(function(){
+  // Make all boxes equal height on page load
+  // @todo Redraw on page resize end
+  $('.boxes').each(function(){
+    var maxHeight = 0;
+    $('.box', this).each(function(){
+      if ($(this).height() > maxHeight)
+        maxHeight = $(this).height();
+    });  
+    $('.box', this).height(maxHeight);
   });
-  </script>
-<% } %>
+});
+</script>
 <br/>
+<% } %>

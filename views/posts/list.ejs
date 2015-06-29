@@ -74,24 +74,24 @@
     </table>
     <% } else { %>
     <br/>
-    <p class="text-center lead">Be the first to add something</p>
-    <p class="text-center">
+    <p class="text-center lead">There isn't anything here yet.</p>
+    <p class="text-center lead">
       <% if (user) { %>
           <% if (typeof(forum) != "undefined" && forum != null) { %>
             <% if (typeof(topic) != "undefined" && topic != null) { %>
-              <a href="/<%= forum.slug %>/<%= topic.slug %>/new" class="btn btn-lg btn-success"><i class="fa fa-lg fa-fw fa-plus-circle"></i> New</a>
+              <a href="/<%= forum.slug %>/<%= topic.slug %>/new">Be the first to add something.</a>
             <% } else { %>
-              <a href="/<%= forum.slug %>/new" class="btn btn-lg btn-success"><i class="fa fa-lg fa-fw fa-plus-circle"></i> New</a>
+              <a href="/<%= forum.slug %>/new">Be the first to add something.</a>
             <% } %>
           <% } else { %>
             <% if (typeof(topic) != "undefined" && topic != null) { %>
-              <a href="/<%= site.options().post.slug %>/<%= topic.slug %>/new" class="btn btn-lg btn-success"><i class="fa fa-lg fa-fw fa-plus-circle"></i> New</a>
+              <a href="/<%= site.options().post.slug %>/<%= topic.slug %>/new">Be the first to add something.</a>
             <% } else { %>
-              <a href="/new" class="btn btn-lg btn-success"><i class="fa fa-lg fa-fw fa-plus-circle"></i> New</a>
+              <a href="/new">Be the first to add something.</a>
             <% } %>
           <% } %>
       <% } else { %>
-      <a class="btn btn-lg btn-success" href="/signup" data-dismiss="modal" data-toggle="modal" data-target="#signupModal"  data-shortcut-key="n"><i class="fa fa-lg fa-fw fa-plus-circle"></i> New</a>
+      <a  href="/signup" data-dismiss="modal" data-toggle="modal" data-target="#signupModal">Be the first to add something.</a>
       <% } %>
     </p>
 <% } %>

@@ -5,7 +5,7 @@ module.exports = {
   
   // The name and contact email address for the site (valid email required)
   name: "inkrato",
-  description: "An open source online collaboration platform.",
+  description: "An open source platform for online collaboration.",
   email: "feedback@inkrato.com",
   
   // Set this option to true if you have an SSL certificate for your site
@@ -22,14 +22,14 @@ module.exports = {
   api: false,
 
   // You can opt to have all posts in the same discussion space - which works
-  // well for smaller, focused communities - or grouped into 'forums'.
+  // well for smaller, focused communities - or grouped into forums.
   //
-  // By default 'forums' are turned off. You need to specify at least one forum
-  // object in the forums[] array below to enable them.
-  //
-  // Example forum object:
-  // { name: "My feedback forum", icon: "comments", description: "About this  forum" }
-  forums: [],
+  // You need to specify at least one forum object in the forums[] array below 
+  // to enable forums. Leave the array empty if you don't need seperate discussion forums.
+  forums: [ 
+    { name: "Feedback", icon: "comments-o", description: "Help make inkrato even better" },
+    { name: "Sandbox", icon: "wrench", description: "Try out inkrato here" }
+  ],
   
   posts: {
     
@@ -37,8 +37,8 @@ module.exports = {
     // e.g. "Posts", "Issues", "Ideas", "Tickets", "Feedback", "Discussions"...
     //
     // NB: See Font Awesome for the list of icons: http://fontawesome.io/icons
-    name: "Issues",
-    icon: "list",
+    name: "Discussions",
+    icon: "comments",
     
     // Topics, Priorities and States are loaded from here on app startup.
     //

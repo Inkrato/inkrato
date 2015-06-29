@@ -1,7 +1,15 @@
-<h1 class="page-header"><i class="fa fa-envelope-o"></i> Contact us</h1>
+<div class="row">
+  <div class="col-sm-offset-2 col-sm-8">
+    <h1 class="page-header"><i class="fa fa-envelope-o"></i> Contact us</h1>
+  </div>
+</div>
 <% if (confirmation == true) { %>
-<br/>
-<p class="lead text-center">Thanks for getting in touch! We'll get back to you as soon as we can.</p>
+<div class="row">
+  <div class="col-sm-offset-2 col-sm-8">
+    <br/>
+    <p class="lead">Your message is on it's way, thanks for getting in touch!</p>
+  </div>
+</div>
 <% } else { %>
 <form role="form" method="post" action="/contact" class="form-horizontal" data-validator="true">
   <input type="hidden" name="_csrf" value="<%= _csrf %>">
