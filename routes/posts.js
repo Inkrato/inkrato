@@ -744,7 +744,7 @@ function _getPosts(req, res, options, page, limit) {
           deferred.resolve(topic);
         });
       }));
-    })
+    });
   })
   .then(function(topicsWithPostCount) {
     topics = topicsWithPostCount;
