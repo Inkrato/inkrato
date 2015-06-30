@@ -57,7 +57,7 @@
             <div class="media" href="/<%= forum.slug %>">
               <% if (forum.icon) { %>
               <div class="media-left hidden-xs" style="padding-right: 10px;">
-                <h2><a href="/<%= forum.slug %>"><i class="fa fa-lg fa-fw fa-<%= forum.icon %>"></i></a></h2>
+                <h2 style="margin-top: 10px;"><a href="/<%= forum.slug %>"><i class="fa fa-lg fa-fw fa-<%= forum.icon %>"></i></a></h2>
               </div>
               <% } %>
               <div class="media-body">
@@ -74,11 +74,15 @@
           </div>
           <div class="col-xs-3 col-md-2 text-right">
             <div style="padding: 10px 0;">
-              <% if (typeof(topic) != "undefined" && topic != null) { %>
-                <a href="/<%= forum.slug %>/<%= topic.slug %>/new" class="btn btn-lg btn-success"><i class="fa fa-lg fa-fw fa-plus-circle"></i> <span class="hidden-xs">New</span></a>
+              <% if (user) { %>
+                <% if (typeof(topic) != "undefined" && topic != null) { %>
+                  <a href="/<%= forum.slug %>/<%= topic.slug %>/new" class="btn btn-lg btn-success"><i class="fa fa-lg fa-fw fa-plus-circle"></i> <span class="hidden-xs">New</span></a>
+                <% } else { %>
+                  <a href="/<%= forum.slug %>/new" class="btn btn-lg btn-success"><i class="fa fa-lg fa-fw fa-plus-circle"></i> <span class="hidden-xs">New</span></a>
+                <% } %>
               <% } else { %>
-                <a href="/<%= forum.slug %>/new" class="btn btn-lg btn-success"><i class="fa fa-lg fa-fw fa-plus-circle"></i> <span class="hidden-xs">New</span></a>
-              <% } %>
+                  <a class="btn btn-lg btn-success" href="/signup" data-dismiss="modal" data-toggle="modal" data-target="#signupModal"  data-shortcut-key="n"><i class="fa fa-lg fa-fw fa-plus-circle"></i> <span class="hidden-xs">New</span></a>
+                <% } %>
             </div>
           </div>
         </div>
