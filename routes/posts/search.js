@@ -19,11 +19,18 @@ exports.getSearch = function(req, res) {
                   ]
       },
       function(err, data) {
-        var response = {
+        var response =  {
           query: req.query.q,
-          posts: data.results,
-          count: data.totalCount
+          posts: [],
+          count: 0
         };
+
+        // Endsures if there is an error because there are no posts yet that
+        // it doesn't fail (and instead just returns no results).
+        if (!err) {
+          response.posts = data.results;
+          response.count = data.totalCount;
+        }
         
         // If it's an API requst, return the JSON
         if (req.api)
