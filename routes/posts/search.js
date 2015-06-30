@@ -40,12 +40,14 @@ exports.getSearch = function(req, res) {
         // The URL is used by the typeahead search field to suggest results
         if (req.xhr) {
           response.posts = [];
-          data.results.forEach(function(post) {
-            // To add a .url property to a mongoose object we must clone it
-            var newPostObject = JSON.parse(JSON.stringify(post));
-            newPostObject.url = post.getUrl();
-            response.posts.push(newPostObject);
-          });
+          if (data) {
+            data.results.forEach(function(post) {
+              // To add a .url property to a mongoose object we must clone it
+              var newPostObject = JSON.parse(JSON.stringify(post));
+              newPostObject.url = post.getUrl();
+              response.posts.push(newPostObject);
+            });
+          }
           return res.json(response);
         } else {
           response.title = "Search";

@@ -38,7 +38,7 @@
             </div>
           </form>
         </li>
-        <li <% if (path.match(new RegExp("^\/"+site.options().post.slug)) && typeof(newPost) == "undefined") { %>class="active"<% } %>><a href="/<%= site.options().post.slug %>"><i class="fa fa-lg fa-fw fa-<%= site.options().post.icon %>"></i> <%= site.options().post.name %></a></li>
+        <li <% if (path.match(new RegExp("^\/"+site.options().post.slug)) && typeof(newPost) == "undefined" || (typeof(forum) != "undefined" && forum != null) ) { %>class="active"<% } %>><a href="/<%= site.options().post.slug %>"><i class="fa fa-lg fa-fw fa-<%= site.options().post.icon %>"></i> <%= site.options().post.name %></a></li>
         <% if (forums.length < 1) { %>
         <li class="hidden-xs <% if (typeof(newPost) != "undefined") { %>active<% } %>">
           <% if (user) { %>

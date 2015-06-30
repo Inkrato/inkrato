@@ -179,12 +179,15 @@ exports.postNewPost = function(req, res, next) {
     if (err) return next(err);
 
     // Fetch back from DB so topic is properly populated for the page template
-    Post
+    var postObj = Post
     .findOne({ postId: post.postId })
     .populate('creator', 'profile')
     .populate('comments.creator', 'profile')
-    .populate('forum')
-    .populate('topic')
+    
+    if (req.params.forum)
+      postObj.populate('forum');
+    
+    postObj.populate('topic')
     .populate('state')
     .populate('priority')
     .exec(function(err, post) {
@@ -204,12 +207,15 @@ exports.postNewPost = function(req, res, next) {
 exports.getPost = function(req, res) {
   var postId = req.params.id;
   
-  Post
+  var postObj = Post
   .findOne({ postId: postId })
   .populate('creator', 'profile')
-  .populate('comments.creator', 'profile')
-  .populate('forum')
-  .populate('topic')
+  .populate('comments.creator', 'profile');
+  
+  if (req.params.forum)
+    postObj.populate('forum');
+    
+  postObj.populate('topic')
   .populate('state')
   .populate('priority')
   .exec(function(err, post) {
@@ -237,11 +243,13 @@ exports.getPost = function(req, res) {
       if (post.forum && post.forum.id)
         mltQuery.forum = post.forum.id;
         
-      Post.mlt(post._id, mltQuery, null,  null, function(err, similar) {
+      Post
+      .mlt(post._id, mltQuery, null,  null, function(err, similar) {
         return res.render('posts/view', { title: post.summary, post: post, forum: post.forum, topic: post.topic, similar: similar });
       });
     }
   });
+  
 };
 
 /**
@@ -250,12 +258,15 @@ exports.getPost = function(req, res) {
 exports.getEditPost = function(req, res) {
   var postId = req.params.id;
 
-  Post
+  var postObj = Post
   .findOne({ postId: postId })
   .populate('creator', 'profile role')
-  .populate('comments.creator', 'profile')
-  .populate('forum')
-  .populate('topic')
+  .populate('comments.creator', 'profile');
+  
+  if (req.params.forum)
+    postObj.populate('forum');
+    
+  postObj.populate('topic')
   .populate('state') 
   .populate('priority')
   .exec(function(err, post) {
@@ -297,11 +308,14 @@ exports.postEditPost = function(req, res, next) {
     return res.redirect('back');
   }
   
-  Post
+  var postObj = Post
   .findOne({ postId: req.params.id })
-  .populate('creator', 'profile role')
-  .populate('forum')
-  .populate('topic')
+  .populate('creator', 'profile role');
+
+  if (req.params.forum)
+    postObj.populate('forum');  
+  
+  postObj.populate('topic')
   .populate('state')
   .populate('priority')
   .exec(function(err, post) {
@@ -332,12 +346,15 @@ exports.postEditPost = function(req, res, next) {
     post.save(function(err) {
       if (err) return next(err);
       // Fetch back from DB so topic is properly populated for the page template
-      Post
+      var postObj = Post
       .findOne({ postId: post.postId })
       .populate('creator', 'profile')
-      .populate('comments.creator', 'profile')
-      .populate('forum')
-      .populate('topic')
+      .populate('comments.creator', 'profile');
+      
+      if (req.params.forum)
+        postObj.populate('forum');
+      
+      postObj.populate('topic')
       .populate('state')
       .populate('priority')
       .exec(function(err, post) {
@@ -386,12 +403,15 @@ exports.postDeletePost = function(req, res, next) {
     post.save(function(err) {
       if (err) return next(err);
       // Fetch back from DB so topic is properly populated for the page template
-      Post
+      var postObj = Post
       .findOne({ postId: post.postId })
       .populate('creator', 'profile')
-      .populate('comments.creator', 'profile')
-      .populate('forum')
-      .populate('topic')
+      .populate('comments.creator', 'profile');
+      
+      if (req.params.forum)
+        postObj.populate('forum');
+      
+      postObj.populate('topic')
       .populate('state')
       .populate('priority')
       .exec(function(err, post) {
@@ -440,12 +460,15 @@ exports.postUndeletePost = function(req, res, next) {
     post.save(function(err) {
       if (err) return next(err);
       // Fetch back from DB so topic is properly populated for the page template
-      Post
+      var postObj = Post
       .findOne({ postId: post.postId })
       .populate('creator', 'profile')
-      .populate('comments.creator', 'profile')
-      .populate('forum')
-      .populate('topic')
+      .populate('comments.creator', 'profile');
+      
+      if (req.params.forum)
+        postObj.populate('forum');
+
+      postObj.populate('topic')
       .populate('state')
       .populate('priority')
       .exec(function(err, post) {
@@ -726,20 +749,23 @@ function _getPosts(req, res, options, page, limit) {
   .then(function(topicsWithPostCount) {
     topics = topicsWithPostCount;
     
-    Post
-    .find(query, null, { skip: skip, limit: limit, sort : { _id: -1 } })
-    .populate('creator', 'profile')
-    .populate('forum')
-    .populate('topic')
-    .populate('state')
-    .populate('priority')
-    .exec(function(err, posts) {
+      var postObj = Post
+      .find(query, null, { skip: skip, limit: limit, sort : { _id: -1 } })
+      .populate('creator', 'profile');
+    
+      if (req.params.forum)
+        postObj.populate('forum');
+
+      postObj.populate('topic')
+      .populate('state')
+      .populate('priority')
+      .exec(function(err, posts) {
         var title = Site.options().post.name;
         if (options.forum)
           title = options.forum.name;
         if (options.topic)
           title += ' - '+options.topic.name;
-        
+
         res.render('posts/list', { title: title,
                                    forum: options.forum,
                                    topic: options.topic,
@@ -750,6 +776,6 @@ function _getPosts(req, res, options, page, limit) {
                                    page: page,
                                    topics: topics
         });
-    });
+      });
   });
 };
