@@ -213,6 +213,36 @@ exports.postNewPost = function(req, res, next) {
   });
 };
 
+exports.getPostByPostId = function(req, res) {
+  var postId = req.params.id;
+  
+  try {
+    Post
+    .findOne({ postId: postId })
+    .populate('creator', 'profile')
+    .populate('comments.creator', 'profile')
+    .populate('forum')
+    .populate('topic')
+    .populate('state')
+    .populate('priority')
+    .exec(function(err, post) {
+      return res.redirect(post.getUrl());
+    });
+  } catch(e) {
+    // If fetching fails, tryin again without populating the forum
+    Post
+    .findOne({ postId: postId })
+    .populate('creator', 'profile')
+    .populate('comments.creator', 'profile')
+    .populate('topic')
+    .populate('state')
+    .populate('priority')
+    .exec(function(err, post) {
+      return res.redirect(post.getUrl());
+    });
+  }
+}
+
 /**
  * GET /:posts/:topic/:id
  */

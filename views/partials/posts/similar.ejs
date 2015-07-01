@@ -1,0 +1,13 @@
+<div class="panel panel-default">
+  <div class="panel-heading">
+    <h4 class="panel-header" style="margin: 0px;">Similar</h4>
+  </div>
+  <div class="panel-body" style="padding: 0 5px 0 0;">
+    <ul class="fa-ul">
+      <% similar.forEach(function(similarPost, index) { %>
+        <% if (index > 15) return; %>
+        <li style="margin: 5px 0;"><i class="fa fa-li fa-angle-right text-muted"></i> <a href="/view/<%= similarPost.postId %>"><h5><%= similarPost.summary %></h5></a></li>
+      <% }); %>
+    </ul>
+  </div>
+</div>

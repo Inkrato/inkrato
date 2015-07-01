@@ -286,6 +286,7 @@ app.post('/account/delete', routes.auth.isAuthenticated, routes.user.postDeleteA
 app.get('/account/unlink/:provider', routes.auth.isAuthenticated, routes.user.getOauthUnlink);
 app.get('/new', routes.auth.isAuthenticated, routes.posts.getNewPost);
 app.post('/new', routes.auth.isAuthenticated, routes.posts.postNewPost);
+app.get('/view/:id', routes.posts.getPostByPostId);
 app.get('/search', routes.posts.search.getSearch);
 if (Site.options().post.voting.enabled == true) {
   app.post('/upvote/:id', routes.auth.isAuthenticated, routes.posts.postUpvote);
