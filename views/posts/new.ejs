@@ -8,7 +8,7 @@
   </div>
   <div class="media-body">
 <% } %>
-    <form role="form" method="post" action="/new" data-validator="true">
+    <form role="form" method="post" action="<%= newPostUrl %>" data-validator="true">
       <input type="hidden" name="_csrf" value="<%= _csrf %>"/>
       <% if (forum) { %>
         <input type="hidden" name="forum" value="<%= forum.id %>"/>

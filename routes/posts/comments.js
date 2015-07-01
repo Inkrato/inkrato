@@ -19,6 +19,8 @@ exports.postAddComment = function(req, res, next) {
   
   Post
   .findOne({ postId: req.params.id })
+  .populate('topic')
+  .populate('forum')
   .exec(function (err, post) {
     if (err)
       return res.render('404');

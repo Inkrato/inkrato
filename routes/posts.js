@@ -108,17 +108,25 @@ exports.getNewPost = function(req, res) {
     .findOne({ slug: req.params.forum })
     .exec(function(err, forum) {
       if (err) return next(err);
+      
+      if (!forum)
+        return res.status(404).render('404');
+
       if (req.params.topic) {
         // Forum AND topic specified
         Topic
         .findOne({ slug: req.params.topic })
         .exec(function(err, topic) {
           if (err) return next(err);
-          res.render('posts/new', { title: "New", forum: forum, topic: topic, post: new Post(), newPost: true});
+          
+          if (!topic)
+            return res.status(404).render('404');
+
+          res.render('posts/new', { title: "New", newPostUrl: '/'+Site.options().post.slug+'/'+forum.slug+'/'+topic.slug+'/new', forum: forum, topic: topic, post: new Post(), newPost: true});
         });
       } else {
         // Forum specified, but not topic
-        res.render('posts/new', { title: "New", forum: forum, topic: null, post: new Post(), newPost: true });
+        res.render('posts/new', { title: "New", newPostUrl: '/'+Site.options().post.slug+'/'+forum.slug+'/new', forum: forum, topic: null, post: new Post(), newPost: true });
       }
     });
   } else {
@@ -128,7 +136,11 @@ exports.getNewPost = function(req, res) {
       .findOne({ slug: req.params.topic })
       .exec(function(err, topic) {
         if (err) return next(err);
-        res.render('posts/new', { title: "New", forum: null, topic: topic, post: new Post(), newPost: true});
+        
+        if (!topic)
+          return res.status(404).render('404');
+
+        res.render('posts/new', { title: "New", newPostUrl: '/'+Site.options().post.slug+'/'+topic.slug+'/new', forum: null, topic: topic, post: new Post(), newPost: true});
       });
     } else {
       // Neither forum or topic spcified
@@ -223,7 +235,7 @@ exports.getPost = function(req, res) {
       return res.status(404).render('404');
 
     if (post.deleted && post.deleted == true)
-      return res.status(404).render('posts/deleted', { title: "Deleted", post: post,  forum: null, topic: null });
+      return res.status(404).render('posts/deleted', { title: "Deleted", post: post, forum: null, topic: null });
 
     if (req.xhr || req.api) {
       // If it's an AJAX or API request, return a JSON response
@@ -242,10 +254,17 @@ exports.getPost = function(req, res) {
       
       if (post.forum && post.forum.id)
         mltQuery.forum = post.forum.id;
+
+      var newPostUrl = '/'+Site.options().post.slug;
+      if (post.forum)
+        newPostUrl += '/'+post.forum.slug
+      if (post.topic)
+        newPostUrl += '/'+post.topic.slug
+      newPostUrl += '/new';
         
       Post
       .mlt(post._id, mltQuery, null,  null, function(err, similar) {
-        return res.render('posts/view', { title: post.summary, post: post, forum: post.forum, topic: post.topic, similar: similar });
+        return res.render('posts/view', { title: post.summary, post: post, newPostUrl: newPostUrl, forum: post.forum, topic: post.topic, similar: similar });
       });
     }
   });
@@ -284,7 +303,14 @@ exports.getEditPost = function(req, res) {
       });
     }
 
-    return res.render('posts/edit', { title: "Edit: " + post.summary, post: post,  forum: post.forum, topic: post.topic });
+    var newPostUrl = '/'+Site.options().post.slug;
+    if (post.forum)
+      newPostUrl += '/'+post.forum.slug
+    if (post.topic)
+      newPostUrl += '/'+post.topic.slug
+    newPostUrl += '/new';
+
+    return res.render('posts/edit', { title: "Edit: " + post.summary, post: post, newPostUrl: newPostUrl, forum: post.forum, topic: post.topic });
   });
 };
 
@@ -766,15 +792,23 @@ function _getPosts(req, res, options, page, limit) {
         if (options.topic)
           title += ' - '+options.topic.name;
 
+        var newPostUrl = '/'+Site.options().post.slug;
+        if (options.forum)
+          newPostUrl += '/'+options.forum.slug
+        if (options.topic)
+          newPostUrl += '/'+options.topic.slug
+        newPostUrl += '/new';
+
         res.render('posts/list', { title: title,
-                                   forum: options.forum,
-                                   topic: options.topic,
+                                   forum: options.forum ? options.forum : null,
+                                   topic: options.topic ? options.topic : null,
                                    posts: posts,
                                    postLimit: limit,// Number of posts per page
                                    postCount: postCount,// Number matching query
                                    postTotal: postTotal,// Total open posts
                                    page: page,
-                                   topics: topics
+                                   topics: topics,
+                                   newPostUrl: newPostUrl
         });
       });
   });

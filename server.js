@@ -23,6 +23,8 @@ var express = require('express'),
     partials = require('express-partials'),
     i18n = require("i18n"),
     Site = require('./models/Site'),
+    Topic = require('./models/Topic'),
+    Forum = require('./models/Forum'),
     linkify = require("html-linkify"),
     Configure = require('./models/Configure'),
     app = express();
@@ -157,13 +159,17 @@ app.use(function(req, res, next) {
   res.locals.topics = GLOBAL.topics;
   res.locals.priorities = GLOBAL.priorities;
   res.locals.states = GLOBAL.states;
-
+  
+  res.locals.newPostUrl = "/new";
+  
   // Set req.api to true for requests made via the API
   if ((/^\/api/).test(req.path))
     req.api = true;
   
-  next();
+ next();
 });
+
+
 app.use(function(req, res, next) {
   // Remember original destination before login
   
@@ -366,6 +372,8 @@ Configure.topics(config.app.posts.topics)
   if (forums.length < 1) {
     // If there are no forums, just make content available by topic
     app.get('/'+Site.options().post.slug, routes.posts.getPosts);
+    app.get('/'+Site.options().post.slug+'/new', routes.auth.isAuthenticated, routes.posts.getNewPost);
+    app.post('/'+Site.options().post.slug+'/new', routes.auth.isAuthenticated, routes.posts.postNewPost);
     app.get('/'+Site.options().post.slug+'/:topic', routes.posts.getPosts);
     app.get('/'+Site.options().post.slug+'/:topic/new', routes.auth.isAuthenticated, routes.posts.getNewPost);
     app.post('/'+Site.options().post.slug+'/:topic/new', routes.auth.isAuthenticated, routes.posts.postNewPost);
@@ -377,21 +385,22 @@ Configure.topics(config.app.posts.topics)
     app.get('/'+Site.options().post.slug+'/:topic/:id/:slug', routes.posts.getPost);
     app.get('/'+Site.options().post.slug+'/:topic/:id', routes.posts.getPost);
   } else {
-    // If if forums are defined, list topic by forum
+    // If forums are defined, list topic by forum
     forums.forEach(function(forum) {
       app.get('/'+Site.options().post.slug, routes.forums.getForums);
-      app.get('/:forum/', routes.posts.getPosts);
-      app.get('/:forum/new', routes.auth.isAuthenticated, routes.posts.getNewPost);
-      app.get('/:forum/:topic', routes.posts.getPosts);
-      app.get('/:forum/:topic/new', routes.auth.isAuthenticated, routes.posts.getNewPost);
-      app.post('/:forum/:topic/new', routes.auth.isAuthenticated, routes.posts.postNewPost);
-      app.get('/:forum/:topic/edit/:id', routes.auth.isAuthenticated, routes.posts.getEditPost);
-      app.post('/:forum/:topic/edit/:id', routes.auth.isAuthenticated, routes.posts.postEditPost);
-      app.post('/:forum/:topic/delete/:id', routes.auth.isAuthenticated, routes.posts.postDeletePost);
-      app.post('/:forum/:topic/undelete/:id', routes.auth.isAuthenticated, routes.posts.postUndeletePost);
+      app.get('/'+Site.options().post.slug+'/:forum/', routes.posts.getPosts);
+      app.get('/'+Site.options().post.slug+'/:forum/new', routes.auth.isAuthenticated, routes.posts.getNewPost);
+      app.post('/'+Site.options().post.slug+'/:forum/new', routes.auth.isAuthenticated, routes.posts.postNewPost);
+      app.get('/'+Site.options().post.slug+'/:forum/:topic', routes.posts.getPosts);
+      app.get('/'+Site.options().post.slug+'/:forum/:topic/new', routes.auth.isAuthenticated, routes.posts.getNewPost);
+      app.post('/'+Site.options().post.slug+'/:forum/:topic/new', routes.auth.isAuthenticated, routes.posts.postNewPost);
+      app.get('/'+Site.options().post.slug+'/:forum/:topic/edit/:id', routes.auth.isAuthenticated, routes.posts.getEditPost);
+      app.post('/'+Site.options().post.slug+'/:forum/:topic/edit/:id', routes.auth.isAuthenticated, routes.posts.postEditPost);
+      app.post('/'+Site.options().post.slug+'/:forum/:topic/delete/:id', routes.auth.isAuthenticated, routes.posts.postDeletePost);
+      app.post('/'+Site.options().post.slug+'/:forum/:topic/undelete/:id', routes.auth.isAuthenticated, routes.posts.postUndeletePost);
       // These topic routes come after other topic routes to work correctly
-      app.get('/:forum/:topic/:id/:slug', routes.posts.getPost);
-      app.get('/:forum/:topic/:id', routes.posts.getPost);
+      app.get('/'+Site.options().post.slug+'/:forum/:topic/:id/:slug', routes.posts.getPost);
+      app.get('/'+Site.options().post.slug+'/:forum/:topic/:id', routes.posts.getPost);
     });
   }
   

@@ -21,9 +21,8 @@ exports.index = function(req, res) {
 };
 
 function _listTopics(req, res) {
-  
+  // Get all closed states (so we only count open posts)
   var closedStateIds = [];
-  
   State
   .find({ deleted: false, open: false })
   .exec(function (err, states) {
@@ -52,7 +51,7 @@ function _listTopics(req, res) {
 };
 
 function _listForums(req, res) {
-  // Get all closed states (to exclude posts with them)
+  // Get all closed states (so we only count open posts)
   var closedStateIds = [];
   State
   .find({ deleted: false, open: false })

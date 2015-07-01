@@ -48,7 +48,7 @@ schema.methods.getUrl = function() {
   
   var root = Site.options().post.slug;
   if (GLOBAL.forums.length > 0 && this.forum && !/undefined/.test(this.forum.slug))
-    root = this.forum.slug;
+    root += '/'+this.forum.slug;
   
   var path = '/'+root+'/'+topicSlug+'/'+this.postId+'/';
   
@@ -66,7 +66,7 @@ schema.methods.getEditUrl = function() {
 
   var root = Site.options().post.slug;
   if (GLOBAL.forums.length > 0 && this.forum && !/undefined/.test(this.forum.slug))
-    root = this.forum.slug;
+    root += '/'+this.forum.slug;
 
   return '/'+root+'/'+topicSlug+'/edit/'+this.postId;
 };
@@ -79,7 +79,7 @@ schema.methods.getDeleteUrl = function() {
 
   var root = Site.options().post.slug;
   if (GLOBAL.forums.length > 0 && this.forum && !/undefined/.test(this.forum.slug))
-    root = this.forum.slug;
+    root += '/'+this.forum.slug;
 
   return '/'+root+'/'+topicSlug+'/delete/'+this.postId;
 };
@@ -93,7 +93,7 @@ schema.methods.getUndeleteUrl = function() {
 
   var root = Site.options().post.slug;
   if (GLOBAL.forums.length > 0 && this.forum && !/undefined/.test(this.forum.slug))
-    root = this.forum.slug;
+    root += '/'+this.forum.slug;
 
   return '/'+root+'/'+topicSlug+'/undelete/'+this.postId;
 };

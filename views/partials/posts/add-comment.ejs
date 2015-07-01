@@ -1,6 +1,6 @@
 <% if (user) { %>
 <div class="media">
-  <div class="media-left" style="padding-right: 20px;">
+  <div class="hidden-xs media-left" style="padding-right: 20px;">
     <a href="#"><img src="<%= user.avatar(48) %>" height="48" width="48" alt="Avatar" class="img-circle"/></a>
   </div>
   <div class="media-body">
@@ -8,6 +8,7 @@
       <input type="hidden" name="_csrf" value="<%= _csrf %>"/>
       <div class="form-group">
         <div style="margin-bottom: 10px;">
+          <img src="<%= user.avatar(24) %>" style="margin-right: 5px;" height="24" width="24" alt="Avatar" class="visible-xs pull-left img-circle"/>
           <span class="media-heading"><strong><%= user.profile.name || "Anonymous" %></strong></span>
           <span class="text-muted pull-right"><i class="fa fa-clock-o"></i> <time datetime="<%= new Date().toISOString() %>"><%= new Date().toDateString() %></time></span>
         </div>
