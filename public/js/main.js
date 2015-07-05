@@ -285,6 +285,10 @@ function checkIfAnyInputElementHasFocus() {
   jQuery.fn[sr] = function(fn){  return fn ? this.bind('resize', debounce(fn)) : this.trigger(sr); };
 })(jQuery,'smartresize');
 
+// http://tanalin.com/en/articles/ie-version-js/
+if ((document.all && !document.addEventListener))
+  window.location.href = "/unsupported";
+
 $(window).smartresize(function() {
   // Update charts in response to window resize events
   $(".donut span").change();
