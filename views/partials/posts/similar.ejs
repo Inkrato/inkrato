@@ -5,7 +5,7 @@
   <div class="panel-body" style="padding: 0 5px 0 0;">
     <ul class="fa-ul">
       <% similar.forEach(function(similarPost, index) { %>
-        <% if (index > 15) return; %>
+        <% if (index >= 10) return; %>
         <li style="margin: 5px 0;"><i class="fa fa-li fa-angle-right text-muted"></i> <a href="/view/<%= similarPost.postId %>"><h5><%= similarPost.summary %></h5></a></li>
       <% }); %>
     </ul>
