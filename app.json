@@ -1,6 +1,6 @@
 {
   "name": "inkrato",
-  "description": "An open source collaboration platform for teams and communities",
+  "description": "An open source platform for online collaboration.",
   "website": "http://inkrato.com",
   "repository": "https://github.com/inkrato/inkrato",
   "keywords": ["forum", "tracker", "community", "collaboration"],

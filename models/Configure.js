@@ -1,5 +1,8 @@
 /**
- * Configure the site wide database.
+ * Configures the site wide database on startup.
+ * 
+ * This code is slightly buggy and it will be removed once there is a web based
+ * interface for site admins.
  */
 
 var Q = require('q'),

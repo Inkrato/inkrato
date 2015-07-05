@@ -49,6 +49,7 @@
     "mongodb": "^2.0.34",
     "mongoose": "3.8.25",
     "mongoose-auto-increment": "3.2.2",
+    "mongoose-eventful": "^0.1.3",
     "mongoose-gridstore": "^0.1.25",
     "mongoose-hook-ensure-indexes": "^0.1.4",
     "mongoose-mlt": "git://github.com/iaincollins/mongoose-mlt",

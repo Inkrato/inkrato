@@ -34,9 +34,15 @@ var schema = new mongoose.Schema({
   resetPasswordExpires: Date,
   emailVerificationToken: String,
   
+  // If enabled and user is verified will send an email for every notification
+  emailNotifications: { type: Boolean, default: true },
+  
   apiKey: String,
   
-  deleted: { type: Boolean, default: false  }
+  deleted: { type: Boolean, default: false  },
+  
+  favorites: { type: mongoose.Schema.ObjectId, ref: 'Post' }
+  
 });
 
 /**

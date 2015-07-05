@@ -6,6 +6,7 @@ var mongoose = require('mongoose'),
     mongooseMoreLikeThis = require('mongoose-mlt'),
     User = require('./User'),
     Site = require('./Site'),
+    Notification = require('./Notification'),
     crypto = require('crypto'),
     slug = require('slug');
 
@@ -33,15 +34,29 @@ var schema = new mongoose.Schema({
  * Update the date on a post when it is modified
  */
 schema.pre('save', function(next) {
-  if (!this.isNew)
+  if (!this.isNew) {
     this.updated = new Date();
+    
+    // Get every user that has this post in their favorites
+    var stream = User.find({ deleted: false, 'favourites': { $in: [this.id] } }).stream();
+    stream.on('data', function (user) {
+      var notification = Notification({
+        user: user.id,
+        subject: "",
+        message: "message",
+        type: "POST",
+        post: this.id
+      });
+      notification.save();
+    });
+  }
 
   next();
 });
 
 schema.methods.getUrl = function() {
   // If topic not found, use "everything" as topic slug
-  var topicSlug = 'everything';  
+  var topicSlug = 'everything';
   // Graceful handling of deleted topics
   if (this.topic && !/undefined/.test(this.topic.slug))
     topicSlug = this.topic.slug;
