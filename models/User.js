@@ -41,7 +41,7 @@ var schema = new mongoose.Schema({
   
   deleted: { type: Boolean, default: false  },
   
-  favorites: { type: mongoose.Schema.ObjectId, ref: 'Post' }
+  favorites: [ { type: mongoose.Schema.ObjectId, ref: 'Post' } ]
   
 });
 

@@ -137,6 +137,18 @@ Reset your vote on a post (sets it to neither an upvote or a downvote). You can 
 
 Pass the postId (a number) in place of ':id' and it will return a JSON response with the updated total score, upvotes and downvotes for that post.
 
+### POST /api/favorite/:id
+
+Add a vote to your favorites, so you can get notifications about it.
+
+Pass the postId (a number) in place of ':id'.
+
+### POST /api/unfavorite/:id
+
+Remove a post from your favorites. You will no longer receive notifications about it.
+
+Pass the postId (a number) in place of ':id'.
+
 ### GET /api/search
 
 Parameters:

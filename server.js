@@ -183,9 +183,15 @@ app.use(function(req, res, next) {
   if (req.path == "/account/password")
     return next();
   
-  // Never return the user to the vote forms (they are POST only)
+  // Never return the user to the POST only vote endpoints
   if (new RegExp('^' + '\/(upvote|downvote|unvote)\/').test(req.path))
     return next();
+  
+  // Never return the user to the POST only favourite endpoints
+  if (new RegExp('^' + '\/(favorite|unfavorite)\/').test(req.path))
+    return next();
+
+  // @TODO return next() if request is not GET
     
   req.session.returnTo = req.path;
   next();
@@ -289,10 +295,12 @@ app.post('/new', routes.auth.isAuthenticated, routes.posts.postNewPost);
 app.get('/view/:id', routes.posts.getPostByPostId);
 app.get('/search', routes.posts.search.getSearch);
 if (Site.options().post.voting.enabled == true) {
-  app.post('/upvote/:id', routes.auth.isAuthenticated, routes.posts.postUpvote);
-  app.post('/downvote/:id', routes.auth.isAuthenticated, routes.posts.postDownvote);
-  app.post('/unvote/:id', routes.auth.isAuthenticated, routes.posts.postUnvote);
+  app.post('/upvote/:id', routes.auth.isAuthenticated, routes.posts.vote.postUpvote);
+  app.post('/downvote/:id', routes.auth.isAuthenticated, routes.posts.vote.postDownvote);
+  app.post('/unvote/:id', routes.auth.isAuthenticated, routes.posts.vote.postUnvote);
 }
+app.post('/favorite/:id', routes.auth.isAuthenticated, routes.posts.favorite.postFavorite);
+app.post('/unfavorite/:id', routes.auth.isAuthenticated, routes.posts.favorite.postUnfavorite);
 app.post('/comments/add/:id', routes.auth.isAuthenticated, routes.posts.comments.postAddComment);
 
 /**
@@ -315,10 +323,12 @@ if (Site.options().api == true) {
   app.delete('/api/delete/:id', routes.auth.apiKey, routes.posts.postDeletePost);
   app.post('/api/undelete/:id', routes.auth.apiKey, routes.posts.postUndeletePost);
   if (Site.options().post.voting.enabled == true) {
-    app.post('/api/upvote/:id', routes.auth.apiKey, routes.posts.postUpvote);
-    app.post('/api/downvote/:id', routes.auth.apiKey, routes.posts.postDownvote);
-    app.post('/api/unvote/:id', routes.auth.apiKey, routes.posts.postUnvote);
+    app.post('/api/upvote/:id', routes.auth.apiKey, routes.posts.vote.postUpvote);
+    app.post('/api/downvote/:id', routes.auth.apiKey, routes.posts.vote.postDownvote);
+    app.post('/api/unvote/:id', routes.auth.apiKey, routes.posts.vote.postUnvote);
   }
+  app.post('/api/favorite/:id', routes.auth.isAuthenticated, routes.posts.favorite.postFavorite);
+  app.post('/api/unfavorite/:id', routes.auth.isAuthenticated, routes.posts.favorite.postUnfavorite);
   app.get('/api/search', routes.auth.apiKey, routes.posts.search.getSearch);
   app.get('/api/unauthorized', function(req, res, next) { return res.status(401).json({errors: [{ param: 'apikey', msg: 'Valid API Key required' }]}); } );
 }

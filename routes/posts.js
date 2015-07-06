@@ -4,8 +4,6 @@ var Post = require('../models/Post'),
     Priority = require('../models/Priority'),
     Forum = require('../models/Forum'),
     Site = require('../models/Site'),
-    postsSearch = require('./posts/search'),
-    postsComments = require('./posts/comments'),
     Q = require("q"),
     marked = require('marked');
 
@@ -540,122 +538,6 @@ exports.postUndeletePost = function(req, res, next) {
   });
 };
 
-
-/**
- * POST /:posts/:topic/upvote/:id
- */
-exports.postUpvote = function(req, res, next) {
-  req.assert('id', 'Post ID cannot be blank').notEmpty();
-
-  var errors = req.validationErrors();
-
-  if (req.headers['x-validate'])
-    return res.json({ errors: errors });
-  
-  if (errors) {
-    if (req.xhr || req.api)
-      return res.json({ errors: errors });
-    req.flash('errors', errors);
-    return res.redirect('back');
-  }
-
-  Post
-  .findOne({ postId: req.params.id })
-  .exec(function(err, post) {
-    if (err || (post.deleted && post.deleted == true))
-      return res.status(404).render('404');
-    
-    post.upvote(req.user.id);
-    
-    post.save(function(err) {
-      if (err) return next(err);
-      // If it's an AJAX or API request, return a JSON response
-      if (req.xhr || req.api) {
-        return res.json({ score: post.upvotes() - post.downvotes(), upvotes: post.upvotes(), downvotes: post.downvotes() });
-      } else {
-        return res.redirect(req.session.returnTo || post.getUrl());
-      }
-    });
-  });
-}
-
-/**
- * POST /:posts/:topic/downvote/:id
- */
-exports.postDownvote = function(req, res, next) {
-  req.assert('id', 'Post ID cannot be blank').notEmpty();
-
-  var errors = req.validationErrors();
-
-  if (req.headers['x-validate'])
-    return res.json({ errors: errors });
-  
-  if (errors) {
-    if (req.xhr || req.api)
-      return res.json({ errors: errors });
-    req.flash('errors', errors);
-    return res.redirect('back');
-  }
-
-  Post
-  .findOne({ postId: req.params.id })
-  .exec(function(err, post) {
-    if (err || (post.deleted && post.deleted == true))
-      return res.status(404).render('404');
-    
-    post.downvote(req.user.id);
-    
-    post.save(function(err) {
-      if (err) return next(err);
-      // If it's an AJAX or API request, return a JSON response
-      if (req.xhr || req.api) {
-        return res.json({ score: post.upvotes() - post.downvotes(), upvotes: post.upvotes(), downvotes: post.downvotes() });
-      } else {
-        return res.redirect(req.session.returnTo || post.getUrl());
-      }
-    });
-  });
-}
-
-/**
- * POST /:posts/:topic/unvote/:id
- */
-exports.postUnvote = function(req, res, next) {
-  req.assert('id', 'Post ID cannot be blank').notEmpty();
-
-  var errors = req.validationErrors();
-
-  if (req.headers['x-validate'])
-    return res.json({ errors: errors });
-  
-  if (errors) {
-    if (req.xhr || req.api)
-      return res.json({ errors: errors });
-    req.flash('errors', errors);
-    return res.redirect('back');
-  }
-
-  Post
-  .findOne({ postId: req.params.id })
-  .exec(function(err, post) {
-    if (err || (post.deleted && post.deleted == true))
-      return res.status(404).render('404');
-    
-    post.unvote(req.user.id);
-    
-    post.save(function(err) {
-      if (err) return next(err);
-
-      // If it's an AJAX or API request, return a JSON response
-      if (req.xhr || req.api) {
-        return res.json({ score: post.upvotes() - post.downvotes(), upvotes: post.upvotes(), downvotes: post.downvotes() });
-      } else {
-        return res.redirect(req.session.returnTo || post.getUrl());
-      }
-    });
-  });
-}
-
 /**
  * GET /api/topics
  * Returns a list of Topics available to specify for clients using the API
@@ -692,15 +574,6 @@ exports.getPriorities = function(req, res) {
   });
 };
 
-/**
- * Routes for /:posts/:topic/search/*
- */
-exports.search = postsSearch;
-
-/**
- * Routes for /:posts/:topic/comments/*
- */
-exports.comments = postsComments;
 
 /**
  * Function to perform regexs on strings for tags
@@ -843,3 +716,25 @@ function _getPosts(req, res, options, page, limit) {
       });
   });
 };
+
+/**
+ * Routes for searching: /:posts/:topic/search/*
+ */
+exports.search = require('./posts/search');
+
+/**
+ * Routes for comments: /:posts/:topic/comments/*
+ */
+exports.comments = require('./posts/comments');
+
+
+/**
+ * Routes for voting: /upvote/:postId, /downvote/:postId,  /unvote/:postId
+ */
+exports.vote = require('./posts/vote');
+
+
+/**
+ * Routes for favorites - /favorite/:postId, /unfavorite/:postId
+ */
+exports.favorite = require('./posts/favorite');

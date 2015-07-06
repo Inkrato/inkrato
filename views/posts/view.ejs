@@ -7,25 +7,35 @@
 <div class="media" style="margin-top: 0; padding-top: 0;">
   <div class="hidden-xs hidden-sm media-left" style="padding-right: 20px;">
     <% include ../partials/posts/vote %>
+
+    <div style="padding-top: 10px;">
+    <% if (user) { %>
+      <% if (user.favorites && user.favorites.indexOf(post.id) >= 0) { %>
+      <form name="favorite" data-favorite="<%= post.postId %>" method="post" action="<%= post.getUnfavoriteUrl() %>">
+        <input type="hidden" name="_csrf" value="<%= _csrf %>"/>
+        <button type="submit" class="btn btn-warning btn-block">
+          <i class="fa fa-2x fa-star"></i>
+        </button>
+      </form>
+      <% } else { %>
+      <form name="favorite" data-favorite="<%= post.postId %>" method="post" action="<%= post.getFavoriteUrl() %>">
+        <input type="hidden" name="_csrf" value="<%= _csrf %>"/>
+        <button type="submit" class="btn btn-default btn-block">
+          <i class="fa fa-2x fa-star"></i>
+        </button>
+      </form>
+      <% } %>
+    <% } else { %>
+    <a href="/signup" data-toggle="modal" data-dismiss="modal" data-target="#signupModal" class="btn btn-default btn-block">
+      <i class="fa fa-2x fa-star"></i>
+    </a>
+    <% } %>
+    </div>
   </div>
   <div class="media-body">
 <% } %>
     <div class="clearfix visible-sm visible-xs" style="margin-bottom: 5px;">
       <span id="properties-summary" class="clearfix pull-right" style="display: block;">
-        <!--
-        <% if (post.creator) { %>
-        <img src="<%= post.creator.avatar(47) %>" height="37" width="37" alt="Avatar" class="img-circle pull-left" style="margin-right: 5px;"/>
-        <% } %>
-        -->
-        <!--
-        <% if (post.state) { %>
-          <% if (post.state.open == true) { %>
-            <h3 class="label label-lg label-success pull-left" style="margin: 0 5px 0 0;"><i class="fa fa-lg fa-circle-o"></i></h3>
-          <% } else { %>
-            <h3 class="label label-lg label-danger pull-left" style="margin: 0 5px 0 0;"><i class="fa fa-lg fa-times"></i></h3>
-          <% } %>
-        <% } %>
-        -->
         <% if (post.topic != null) { %>
           <% if (post.topic.icon) { %>
           <span class="label label-primary pull-left" style="margin: 0 5px 0 0;"><i class="fa fa-fw fa-lg fa-<%= post.topic.icon %>"></i></span>
@@ -34,13 +44,29 @@
         <% if (post.priority) { %>
           <span class="label label-default pull-left" style="margin: 0 5px 0 0; background-color: <%= post.priority.color %>;"><i class="fa fa-fw fa-lg fa-flag"></i></span>
         <% } %>
-        <!--
-        <% if (post.comments.length > 0) { %>
-        <span class="label label-default"><i class="fa fa-lg fa-fw fa-comments"></i> <%= post.comments.length %></span>
+        
+        <% if (user) { %>
+          <% if (user.favorites && user.favorites.indexOf(post.id) >= 0) { %>
+          <form class="pull-left" name="favorite" data-favorite="<%= post.postId %>" method="post" action="<%= post.getUnfavoriteUrl() %>">
+            <input type="hidden" name="_csrf" value="<%= _csrf %>"/>
+            <button type="submit" class="btn btn-warning" style="padding: 6px 10px 7px 10px;">
+              <i class="fa fa-lg fa-star"></i>
+            </button>
+          </form>
+          <% } else { %>
+          <form class="pull-left" name="favorite" data-favorite="<%= post.postId %>" method="post" action="<%= post.getFavoriteUrl() %>">
+            <input type="hidden" name="_csrf" value="<%= _csrf %>"/>
+            <button type="submit" class="btn btn-default" style="padding: 6px 10px 7px 10px;">
+              <i class="fa fa-lg fa-star"></i>
+            </button>
+          </form>
+          <% } %>
         <% } else { %>
-        <span class="label label-default" style="opacity: 0.5;"><i class="fa fa-lg fa-fw fa-comments"></i> <%= post.comments.length %></span>
+        <a href="/signup" data-toggle="modal" data-dismiss="modal" data-target="#signupModal" class="pull-left btn btn-default" style="padding: 6px 10px 7px 10px;">
+          <i class="fa fa-lg fa-star"></i>
+        </a>
         <% } %>
-        -->
+
       </span>
       <% if (site.options().post.voting.enabled == true) { %>
       <div class="pull-left" style="height: 45px;">
@@ -128,18 +154,18 @@
           <a href="<%= post.getEditUrl() %>" class="btn btn-default" data-shortcut-key="e"><i class="fa fa-lg fa-fw fa-pencil"></i> <span class="kb-shortcut">E</span>dit</a>
         </p>
         <% } %>
-
+        <div class="break">
+          <% include ../partials/posts/comments %>
+        </div>
+        <% include ../partials/posts/add-comment %>
+        
         <% if (similar && similar.length > 0) { %>
         <div class="visible-sm visible-xs">
           <hr/>
           <% include ../partials/posts/similar %>
         </div>
         <% } %>
-        
-        <div class="break">
-          <% include ../partials/posts/comments %>
-        </div>
-        <% include ../partials/posts/add-comment %>
+
       </div>
     </div>
 <% if (site.options().post.voting.enabled == true) { %>

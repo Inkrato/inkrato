@@ -136,6 +136,13 @@ $(function() {
     downvote(this);
   });
   
+  // @TODO Add front end JavaScript handler for favoriting
+  /*
+  $("form[data-favorite]").bind('touch click', function() {
+    favorite(this);
+  });
+  */
+  
   // Using http://benpickles.github.io/peity/ for simple charts
   $(".donut span").peity("donut");
   $(".pie span").peity("pie");

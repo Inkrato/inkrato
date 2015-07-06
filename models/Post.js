@@ -38,6 +38,8 @@ schema.pre('save', function(next) {
     this.updated = new Date();
     
     // Get every user that has this post in their favorites
+    // @TODO Design still in progress - not yet ready for use.
+    /* 
     var stream = User.find({ deleted: false, 'favourites': { $in: [this.id] } }).stream();
     stream.on('data', function (user) {
       var notification = Notification({
@@ -49,6 +51,7 @@ schema.pre('save', function(next) {
       });
       notification.save();
     });
+    */
   }
 
   next();
@@ -99,7 +102,6 @@ schema.methods.getDeleteUrl = function() {
   return '/'+root+'/'+topicSlug+'/delete/'+this.postId;
 };
 
-
 schema.methods.getUndeleteUrl = function() {
   // If topic not found, use "everything" as topic slug
   var topicSlug = 'everything';
@@ -113,7 +115,6 @@ schema.methods.getUndeleteUrl = function() {
   return '/'+root+'/'+topicSlug+'/undelete/'+this.postId;
 };
 
-
 schema.methods.getUpvoteUrl = function() {
   return '/upvote/'+this.postId;
 };
@@ -124,6 +125,14 @@ schema.methods.getDownvoteUrl = function() {
 
 schema.methods.getUnvoteUrl = function() {
   return '/unvote/'+this.postId;
+};
+
+schema.methods.getFavoriteUrl = function() {
+  return '/favorite/'+this.postId;
+};
+
+schema.methods.getUnfavoriteUrl  = function() {
+  return '/unfavorite/'+this.postId;
 };
 
 schema.methods.getAddCommentUrl = function() {
