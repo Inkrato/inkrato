@@ -137,11 +137,11 @@ $(function() {
   });
   
   // @TODO Add front end JavaScript handler for favoriting
-  /*
-  $("form[data-favorite]").bind('touch click', function() {
+  $("form[data-favorite]").bind('touch click', function(event) {
+    event.preventDefault();
     favorite(this);
+    return false;
   });
-  */
   
   // Using http://benpickles.github.io/peity/ for simple charts
   $(".donut span").peity("donut");
@@ -246,6 +246,31 @@ function downvote(form) {
           $(this).html('<span class="text-muted"><strong>'+response.score+'</strong></span>');
         }
       });
+    }
+  );
+};
+
+function favorite(form) {
+  var postId = $(form).attr('data-favorite');
+  $.post(
+    $(form).attr("action"),
+    $(form).serialize(),
+    function(response) {
+      if ($('button', form).hasClass("btn-default")) {
+        // If button is not higlighted (i.e. and not fav'd) then highlight it
+        // (loops to apply to all fav buttons for this post on the page)
+        $('form[data-favorite="'+postId+'"]').each(function() {
+          $('button', this).removeClass("btn-default").addClass("btn-warning");
+          this.action = this.action.replace(/favorite/, 'unfavorite');
+        });
+      } else {
+        // If button is already higlighted (i.e. fav'd) then unhighlight it
+        // (loops to apply to all fav buttons for this post on the page)
+        $('form[data-favorite="'+postId+'"]').each(function() {
+          $('button', this).removeClass("btn-warning").addClass("btn-default");
+          this.action = this.action.replace(/unfavorite/, 'favorite');
+        });
+      }
     }
   );
 };

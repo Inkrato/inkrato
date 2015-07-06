@@ -37,7 +37,7 @@ exports.postFavorite = function(req, res, next) {
       if (err) return next(err);
       // If it's an AJAX or API request, return a JSON response
       if (req.xhr || req.api) {
-        return res.json();
+        return res.json({});
       } else {
         return res.redirect(req.session.returnTo || post.getUrl());
       }
@@ -84,7 +84,7 @@ exports.postUnfavorite = function(req, res, next) {
       if (err) return next(err);
       // If it's an AJAX or API request, return a JSON response
       if (req.xhr || req.api) {
-        return res.json();
+        return res.json({});
       } else {
         return res.redirect(req.session.returnTo || post.getUrl());
       }

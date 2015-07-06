@@ -11,13 +11,17 @@
         <div class="media-body">
           <div class="row">
             <div class="col-xs-8 col-md-10">
-              <h2 style="margin-bottom: 5px;"><a href="<%= forum.getUrl() %>" style="text-decoration: none;"><%= forum.name %></a></h2>
-              <p class="text-muted lead" style="margin-bottom: 20px;">
-                <%= forum.description %>
-              </p>
+              <h2><a href="<%= forum.getUrl() %>" style="text-decoration: none;"><%= forum.name %></a></h2>
             </div>
             <div class="col-xs-4 col-md-2">
-              <p style="margin-top: 30px;" class="lead pull-right text-primary"><%= forum.postCount %> <i class="fa fa-lg fa-fw fa-<%= site.options().post.icon %>"></i></p>
+              <h2 class="pull-right text-primary"><%= forum.postCount %></h2>
+            </div>
+          </div>
+          <div class="row">
+            <div class="col-xs-12">
+              <p class="text-muted lead" style="margin-bottom: 10px;">
+                <%= forum.description %>
+              </p>
             </div>
           </div>
         </div>
