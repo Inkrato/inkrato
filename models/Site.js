@@ -37,6 +37,7 @@ module.exports = function() {
       ssl: ssl,
       host: host,
       api: config.app.api,
+      forums: true,
       post: {
         name: config.app.posts.name,
         slug: slug(config.app.posts.name.toLowerCase()),

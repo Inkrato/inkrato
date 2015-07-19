@@ -12,11 +12,11 @@
 @gray-dark:              lighten(@gray-base, 20%);   // #333
 @gray:                   lighten(@gray-base, 33.5%); // #555
 @gray-light:             lighten(@gray-base, 46.7%); // #777
-@gray-lighter:           lighten(@gray-base, 93.5%); // #eee
+@gray-lighter:           #f1f1f1; // lighten(@gray-base, 93.5%); // #eee
 
 // Change "@brand-primary" to change the whole base UI theme
 // e.g. Try using: #3B78C5, #178D64, #B40610, #D7652C
-@brand-primary:         #D7652C;
+@brand-primary:         #FD8525; //#D7652C;
 @brand-header:          @brand-primary;
 @brand-header-text:     #fff;
 
@@ -110,7 +110,7 @@
 @line-height-large:         1.3333333; // extra decimals for Win 8.1 Chrome
 @line-height-small:         1.5;
 
-@border-radius-base:        3px;
+@border-radius-base:        0px;
 @border-radius-large:       3px;
 @border-radius-small:       2px;
 
@@ -245,12 +245,12 @@
 // Hover color for dropdown links.
 @dropdown-link-hover-color:      #fff;
 // Hover background for dropdown links.
-@dropdown-link-hover-bg:         @input-border-focus;
+@dropdown-link-hover-bg:         @brand-primary;
 
 // Active dropdown menu item text color.
 @dropdown-link-active-color:     @component-active-color;
 // Active dropdown menu item background color.
-@dropdown-link-active-bg:        @input-border-focus;
+@dropdown-link-active-bg:        @brand-primary;
 
 // Disabled dropdown menu item background color.
 @dropdown-link-disabled-color:   @gray-light;
@@ -711,8 +711,8 @@
 @panel-footer-bg:             @gray-lighter;
 
 @panel-default-text:          @gray-dark;
-@panel-default-border:        @gray-lighter;
-@panel-default-heading-bg:    @gray-lighter;
+@panel-default-border:        rgba(0,0,0,0.05);
+@panel-default-heading-bg:    rgba(0,0,0,0.05);
 
 @panel-primary-text:          #fff;
 @panel-primary-border:        @brand-primary;
