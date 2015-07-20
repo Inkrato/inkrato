@@ -11,6 +11,7 @@
 //= require jquery.peity
 //= require jquery.mentionsInput.js
 //= require jquery.elastic.js
+//= require jquery.fixtop.js
 
 $(function() { 
   
@@ -28,6 +29,9 @@ $(function() {
   $("time.timeago").timeago();
   $("time.timeago").css({ visibility: 'visible' });
 
+  if (document.getElementById("page-heading"))
+    $('#page-heading').fixtop({ marginTop: 0 });
+  
   // Handle displaying flash alerts on a page as Growl style alerts on load
   $("#flash-messages .alert").each(function() {
     var type = 'info';

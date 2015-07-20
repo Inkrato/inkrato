@@ -55,35 +55,37 @@
     </div>
 
     <% if (typeof(forum) != "undefined" && forum != null) { %>
-    <div class="heading">
-      <div class="container container-fluid">
-        <div class="row">
-          <div class="col-xs-9 col-md-10">
-            <div class="media" href="<%= forum.getUrl() %>">
-              <% if (forum.icon) { %>
-              <div class="media-left hidden-xs" style="padding-right: 10px;">
-                <h2 style="margin-top: 10px;"><a href="<%= forum.getUrl() %>"><i class="fa fa-lg fa-fw fa-<%= forum.icon %>"></i></a></h2>
-              </div>
-              <% } %>
-              <div class="media-body">
-                <div class="row">
-                  <div class="col-xs-12">
-                    <h2 style="margin-bottom: 0;"><a href="<%= forum.getUrl() %>" style="text-decoration: none;"><%= forum.name %></a></h2>
-                    <p class="text-muted lead">
-                      <%= forum.description %>
-                    </p>
+    <div id="page-heading"
+      <div class="page-heading">
+        <div class="container container-fluid">
+          <div class="row">
+            <div class="col-xs-9 col-md-10">
+              <div class="media" href="<%= forum.getUrl() %>">
+                <% if (forum.icon) { %>
+                <div class="media-left hidden-xs" style="padding-right: 10px;">
+                  <h2 style="margin-top: 10px;"><a href="<%= forum.getUrl() %>"><i class="fa fa-lg fa-fw fa-<%= forum.icon %>"></i></a></h2>
+                </div>
+                <% } %>
+                <div class="media-body">
+                  <div class="row">
+                    <div class="col-xs-12">
+                      <h2 style="margin-bottom: 0;"><a href="<%= forum.getUrl() %>" style="text-decoration: none;"><%= forum.name %></a></h2>
+                      <p class="text-muted lead">
+                        <%= forum.description %>
+                      </p>
+                    </div>
                   </div>
                 </div>
               </div>
             </div>
-          </div>
-          <div class="col-xs-3 col-md-2 text-right">
-            <div style="padding: 25px 0;">
-              <% if (user) { %>
-                  <a href="<%= newPostUrl %>" class="btn btn-lg btn-success"><i class="fa fa-lg fa-fw fa-plus-circle"></i> <span class="hidden-xs">New</span></a>
-              <% } else { %>
-                  <a class="btn btn-lg btn-success" href="/signup" data-dismiss="modal" data-toggle="modal" data-target="#signupModal"  data-shortcut-key="n"><i class="fa fa-lg fa-fw fa-plus-circle"></i> <span class="hidden-xs">New</span></a>
-                <% } %>
+            <div class="col-xs-3 col-md-2 text-right">
+              <div style="padding: 20px 0;">
+                <% if (user) { %>
+                    <a href="<%= newPostUrl %>" class="btn btn-lg btn-success"><i class="fa fa-lg fa-fw fa-plus-circle"></i> <span class="hidden-xs">New</span></a>
+                <% } else { %>
+                    <a class="btn btn-lg btn-success" href="/signup" data-dismiss="modal" data-toggle="modal" data-target="#signupModal"  data-shortcut-key="n"><i class="fa fa-lg fa-fw fa-plus-circle"></i> <span class="hidden-xs">New</span></a>
+                  <% } %>
+              </div>
             </div>
           </div>
         </div>
