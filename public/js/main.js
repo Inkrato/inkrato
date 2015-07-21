@@ -120,11 +120,28 @@ $(function() {
   });
   
   // Make textarea's with the 'autoresize' class shink/grow based con content
+  $(document).on('keyup keyup change cut paste', 'textarea.autoresize', function() {
+    resizeTextarea($(this));
+  });  
+  // Trigger textarea resizing (to correct size to fit content) on page load
+  $('textarea.autoresize').each(function() {
+    resizeTextarea($(this));
+  });  
+  // Trigger resizeable textarea elements inside modals when modals are shown
+  $('.modal').on('shown.bs.modal', function() {
+    $('textarea.autoresize', $(this)).each(function() {
+      resizeTextarea($(this));
+    });
+  });
+  
+  /*
+  // Make textarea's with the 'autoresize' class shink/grow based con content
   $('textarea.autoresize').elastic();
   // Trigger resizeable textarea elements inside modals when modals are shown
   $('.modal').on('shown.bs.modal', function() {
     $('textarea.autoresize', $(this)).elastic();
   });
+  */
 
   // @todo refactor out to seperate JS file
   // Make the entire form containing the voting buttons clickable for better UX
@@ -293,6 +310,23 @@ function checkIfAnyInputElementHasFocus() {
       return true;
 
   return false;
+}
+
+function resizeTextarea(textarea) {
+  var s = $(window).scrollTop();
+  if (textarea.parents(".modal").length)
+    s = $(textarea.parents(".modal")[0]).scrollTop();
+
+  if (!textarea.data('height'))
+    textarea.data('height',textarea.height());
+  
+  textarea.height( textarea.data('height') ).height(textarea[0].scrollHeight);
+
+  if (textarea.parents(".modal").length) {
+      $(textarea.parents(".modal")[0]).scrollTop(s);
+  } else if (s > 0) {
+      $(window).scrollTop(s);
+  }
 }
 
 /**
