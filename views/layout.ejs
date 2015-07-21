@@ -60,26 +60,24 @@
         <div class="container container-fluid">
           <div class="row">
             <div class="col-xs-9 col-md-10">
-              <div class="media" href="<%= forum.getUrl() %>">
+              <div class="media" href="<%= forum.getUrl() %>" style="padding-top: 5px;">
                 <% if (forum.icon) { %>
-                <div class="media-left hidden-xs" style="padding-right: 10px;">
-                  <h2 style="margin-top: 10px;"><a href="<%= forum.getUrl() %>"><i class="fa fa-lg fa-fw fa-<%= forum.icon %>"></i></a></h2>
+                <div class="media-left hidden-xs" style="padding-top: 10px; padding-right: 10px;">
+                  <h2><a href="<%= forum.getUrl() %>"><i class="fa fa-lg fa-fw fa-<%= forum.icon %>"></i></a></h2>
                 </div>
                 <% } %>
                 <div class="media-body">
                   <div class="row">
                     <div class="col-xs-12">
-                      <h2 style="margin-bottom: 0;"><a href="<%= forum.getUrl() %>" style="text-decoration: none;"><%= forum.name %></a></h2>
-                      <p class="text-muted lead">
-                        <%= forum.description %>
-                      </p>
+                      <h2><a href="<%= forum.getUrl() %>" style="text-decoration: none;"><%= forum.name %></a></h2>
+                      <p class="lead text-muted"><%= forum.description %></p>
                     </div>
                   </div>
                 </div>
               </div>
             </div>
             <div class="col-xs-3 col-md-2 text-right">
-              <div style="padding: 20px 0;">
+              <div style="padding: 17px 0;">
                 <% if (user) { %>
                     <a href="<%= newPostUrl %>" class="btn btn-lg btn-success"><i class="fa fa-lg fa-fw fa-plus-circle"></i> <span class="hidden-xs">New</span></a>
                 <% } else { %>
