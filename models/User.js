@@ -53,7 +53,7 @@ var schema = new mongoose.Schema({
 schema.pre('save', function(next) {
   var user = this;
   
-  if (this.isModified('email')) {
+  if (this.email && this.isModified('email')) {
     var md5 = crypto.createHash('md5').update(this.email).digest('hex');
     this.profile.picture = 'https://gravatar.com/avatar/' + md5;
   }
@@ -100,18 +100,24 @@ schema.methods.avatar = function(size) {
   // @todo Allow use of imported avatar as well as gravatar
   if (!size) size = 200;
   
-  // If their profile picture is an Gravatar then return it (after adding size)
+  // If their profile picture is a Gravatar then return it (after adding size)
   if ((/https:\/\/gravatar\.com\/avatar\//).test(this.profile.picture))
     return this.profile.picture + '?s=' + size + '&d=retro';
   
-  // If there is a profile picture specified use Gravatar with that
-  if (this.profile.picture) {
+  // If there is an email and profile picture specified use Gravatar with that
+  if (this.email && this.profile.picture) {
     var md5 = crypto.createHash('md5').update(this.email).digest('hex');
     return 'https://gravatar.com/avatar/' + md5 + '?s=' + size + '&d='+encodeURIComponent(this.profile.picture);
   }
 
-  // If they don't have a profile picture use Gravatar with Retro theme
-  var md5 = crypto.createHash('md5').update(this.email).digest('hex');
+  // If they only have an email, use that with Gravatar
+  if (this.email) {
+    var md5 = crypto.createHash('md5').update(this.email).digest('hex');
+    return 'https://gravatar.com/avatar/' + md5 + '?s=' + size + '&d=retro';
+  }
+  
+  // Fallback: If they don't have an email, use their User ID with Gravatar
+  var md5 = crypto.createHash('md5').update(this._id+'@user.inkrato.com').digest('hex');
   return 'https://gravatar.com/avatar/' + md5 + '?s=' + size + '&d=retro';
 };
 
