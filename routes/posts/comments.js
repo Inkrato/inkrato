@@ -4,9 +4,11 @@ var Post = require('../../models/Post');
  * POST /posts/comments/add/:id
  */
 exports.postAddComment = function(req, res, next) {
+  req.sanitize('comment').trim();
+  
   req.assert('id', 'Post ID cannot be blank').notEmpty();
   req.assert('comment', 'Comment cannot be blank').notEmpty();
-
+  
   var errors = req.validationErrors();
 
   if (req.headers['x-validate'])

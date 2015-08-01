@@ -151,6 +151,10 @@ exports.getNewPost = function(req, res) {
  * POST /:posts/:topic/new
  */
 exports.postNewPost = function(req, res, next) {
+
+  req.sanitize('summary').trim();
+  req.sanitize('detail').trim();
+  
   req.assert('summary', 'Summary cannot be blank').notEmpty();
   req.assert('detail', 'Detail cannot be blank').notEmpty();
   
@@ -346,6 +350,9 @@ exports.getEditPost = function(req, res) {
  * POST /:posts/:topic/edit/:id
  */
 exports.postEditPost = function(req, res, next) {
+  req.sanitize('summary').trim();
+  req.sanitize('detail').trim();
+
   req.assert('id', 'Post ID cannot be blank').notEmpty();
   req.assert('summary', 'Summary cannot be blank').notEmpty();
   req.assert('detail', 'Description cannot be blank').notEmpty();

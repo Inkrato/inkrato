@@ -1,7 +1,7 @@
 <% if (user) { %>
 <div class="media">
   <div class="hidden-xs media-left" style="padding-right: 20px;">
-    <a href="#"><img src="<%= user.avatar(48) %>" height="48" width="48" alt="Avatar" class="img-circle"/></a>
+    <a href="#"><img src="<%= user.avatar(48) %>" height="55" width="55" alt="Avatar" class="img-circle"/></a>
   </div>
   <div class="media-body">
     <form role="form" method="post" action="<%= post.getAddCommentUrl() %>" data-validator="true">
