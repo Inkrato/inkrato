@@ -1,47 +1,50 @@
-<h1 class="page-header">Log in</h1>
-<div class="row">
-  <% if (site.loginOptions('facebook') || site.loginOptions('google') || site.loginOptions('twitter') || site.loginOptions('github') ) { %>
-  <div class="col-sm-5">
-    <h3>Use an existing account</h3>
-    <br/>
-    <% if (site.loginOptions('facebook')) { %>
-    <a href="/auth/facebook" class="btn btn-lg btn-block btn-default btn-facebook btn-social"><i class="fa fa-lg fa-fw fa-facebook"></i> Sign in with Facebook</a>
-    <% } %>
-    <% if (site.loginOptions('google')) { %>
-    <a href="/auth/google" class="btn btn-lg btn-block btn-default btn-google-plus btn-social"><i class="fa fa-lg fa-fw fa-google-plus"></i> Sign in with Google</a>
-    <% } %>
-    <% if (site.loginOptions('twitter')) { %>
-    <a href="/auth/twitter" class="btn btn-lg btn-block btn-default btn-twitter btn-social"><i class="fa fa-lg fa-fw fa-twitter"></i> Sign in with Twitter</a>
-    <% } %>
-    <% if (site.loginOptions('github')) { %>
-    <a href="/auth/github" class="btn btn-lg btn-block btn-default btn-github btn-social"><i class="fa fa-lg fa-fw fa-github"></i> Sign in with GitHub</a>
-    <% } %>
-  </div>
-  <% } else { %>
-  <div class="col-sm-3">&nbsp;</div>
-  <% } %>
-  <% if ((site.loginOptions('facebook') || site.loginOptions('google') || site.loginOptions('twitter') || site.loginOptions('github')) && site.loginOptions('email') ) { %>
-  <div class="col-sm-1 text-center text-muted lead hidden-sm hidden-xs" style="margin-top: 10%;">or</div>
-  <% } %>
-  <div class="col-sm-6">
-    <h3>Log in via email</h3>
-    <br/>
-    <form name="login" method="post" action="/login" data-validator="true">
-      <div class="messages"></div>
-      <input type="hidden" name="_csrf" value="<%= _csrf %>">
-      <div class="form-group">
-        <label for="email" class="control-label">Email</label><input type="text" name="email" id="email" placeholder="Email" autofocus="" class="form-control">
-      </div>
-      <div class="form-group">
-        <label for="password" class="control-label">Password</label><input type="password" name="password" id="password" placeholder="Password" class="form-control">
-      </div>
-      <div class="form-group text-right">
-        <a href="/reset-password" class="btn btn-default"><i class="fa fa-fw fa-key"></i> Reset password</a> 
-        <button type="submit" class="btn btn-primary"><i class="fa fa-fw fa-sign-in"></i> Log in</button> 
-        <a class="pull-left btn btn-link" href="/signup">Don't have an account?</a>
-      </div>
-    </form>
-  </div>
+<h1 class="text-center">Log in</h1>
+<br/>
 </div>
-<br/>
-<br/>
+<div class="container">
+  <div class="row">
+    <% if (site.loginOptions('facebook') || site.loginOptions('google') || site.loginOptions('twitter') || site.loginOptions('github') ) { %>
+    <div class="col-md-4 col-md-push-2 col-sm-5 col-sm-push-1">
+      <h4 class="text-center">Use an existing account</h4>
+      <br/>
+      <% if (site.loginOptions('facebook')) { %>
+      <a href="/auth/facebook" class="btn btn-block btn-default btn-facebook btn-social"><i class="fa fa-lg fa-fw fa-facebook"></i> Sign in with Facebook</a>
+      <% } %>
+      <% if (site.loginOptions('google')) { %>
+      <a href="/auth/google" class="btn btn-block btn-default btn-google-plus btn-social"><i class="fa fa-lg fa-fw fa-google-plus"></i> Sign in with Google</a>
+      <% } %>
+      <% if (site.loginOptions('twitter')) { %>
+      <a href="/auth/twitter" class="btn btn-block btn-default btn-twitter btn-social"><i class="fa fa-lg fa-fw fa-twitter"></i> Sign in with Twitter</a>
+      <% } %>
+      <% if (site.loginOptions('github')) { %>
+      <a href="/auth/github" class="btn btn-block btn-default btn-github btn-social"><i class="fa fa-lg fa-fw fa-github"></i> Sign in with GitHub</a>
+      <% } %>
+    </div>
+    <div class="col-md-4 col-md-push-2 col-sm-5 col-sm-push-1">
+      <h4 class="text-center">Use an email address</h4>
+      <br/>
+    <% } else { %>
+    <div class="col-sm-4 col-sm-push-4">
+    <% } %>
+      <form name="login" method="post" action="/login" data-validator="true">
+        <div class="messages"></div>
+        <input type="hidden" name="_csrf" value="<%= _csrf %>">
+        <div class="form-group">
+          <label for="email" class="control-label">Email</label><input type="text" name="email" id="email" placeholder="Email" autofocus="" class="form-control">
+        </div>
+        <div class="form-group">
+          <label for="password" class="control-label">Password</label><input type="password" name="password" id="password" placeholder="Password" class="form-control">
+        </div>
+        <div class="form-group text-right">
+          <a href="/reset-password" class="btn btn-default"><i class="fa fa-fw fa-key"></i> Reset password</a> 
+          <button type="submit" class="btn btn-primary"><i class="fa fa-fw fa-sign-in"></i> Log in</button> 
+        </div>
+        <p class="text-center">
+          <a class="btn btn-link" href="/signup">Don't have an account?</a>
+        </p>
+      </form>
+    </div>
+  </div>
+  <br/>
+  <br/>
+</div>
