@@ -7,15 +7,7 @@
       </div>
       <div class="media-body">
     <% } %>
-        <div class="visible-sm visible-xs" style="margin-top: 5px;" href="<%= post.getUrl() %>">
-          <% include creator %>
-        </div>
-    
-        <div href="<%= post.getUrl() %>" class="post-preview break" href="<%= post.getUrl() %>">
-          <h3 class="post-title"><a class="text-default" href="<%= post.getUrl() %>"><%= post.summary %></a></h3>
-          <p class="hidden-xs hidden-sm text-muted"><%= post.detail%></p>
-        </div>
-        
+
         <div class="visible-xs visible-sm clearfix">
           <div class="pull-right" href="<%= post.getUrl() %>">
             <% if (!topic && post.topic) { %>
@@ -39,6 +31,15 @@
           <div class="pull-left">
             <% include vote-mobile %>
           </div>
+        </div>
+            
+        <div href="<%= post.getUrl() %>" class="post-preview break" href="<%= post.getUrl() %>">
+          <h3 class="post-summary"><a class="text-default" href="<%= post.getUrl() %>"><%= post.summary %></a></h3>
+          <p class="hidden-xs hidden-sm text-muted"><%= post.detail%></p>
+        </div>
+        
+        <div class="visible-sm visible-xs" style="margin-top: 5px;" href="<%= post.getUrl() %>">
+          <% include creator %>
         </div>
         
         <div href="<%= post.getUrl() %>" class="hidden-xs hidden-sm" style="position: absolute; bottom: 8px;">

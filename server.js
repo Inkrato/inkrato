@@ -179,20 +179,13 @@ app.use(function(req, res, next) {
   var path = req.path.split('/')[1];
   if (/auth|login|css|images|logout|signup|js|fonts|favicon/i.test(path))
     return next();
-
   // Never return user to the account password reset page
   if (req.path == "/account/password")
     return next();
-  
-  // Never return the user to the POST only vote endpoints
-  if (new RegExp('^' + '\/(upvote|downvote|unvote)\/').test(req.path))
-    return next();
-  
-  // Never return the user to the POST only favourite endpoints
-  if (new RegExp('^' + '\/(favorite|unfavorite)\/').test(req.path))
-    return next();
 
-  // @TODO return next() if request is not GET
+  // Ignore ajax requests (e.g. search type ahead, voting, favouriting, etc)
+  if (req.xhr || req.headers.accept.indexOf('json') > -1)
+    return next();
     
   req.session.returnTo = req.path;
   next();

@@ -8,7 +8,7 @@
       <input type="hidden" name="_csrf" value="<%= _csrf %>"/>
       <div class="form-group">
         <div style="margin-bottom: 10px;">
-          <img src="<%= user.avatar(24) %>" style="margin-right: 5px;" height="24" width="24" alt="Avatar" class="visible-xs pull-left img-circle"/>
+          <img src="<%= user.avatar(24) %>" style="margin-right: 10px;" height="24" width="24" alt="Avatar" class="visible-xs pull-left img-circle"/>
           <span class="media-heading"><strong><%= user.profile.name || "Anonymous" %></strong></span>
           <span class="text-muted pull-right"><i class="fa fa-clock-o"></i> <time datetime="<%= new Date().toISOString() %>"><%= new Date().toDateString() %></time></span>
         </div>

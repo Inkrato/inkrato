@@ -140,7 +140,7 @@ h1, h2
           hyphens: auto;
 }
 
-.post-preview-body .post-title {
+.post-preview-body .post-summary {
   margin-top: 0;
   margin-bottom: 10px;
   font-weight: 300;
@@ -223,17 +223,20 @@ textarea {
   margin-right: 5px;
 }
 
-.post-list .post-title {
-  font-size: 20px;
-  line-height: 20px;
-  font-weight: 500;
+@media (max-width: @screen-sm-max) {
+  .post-list tr {
+    border: 2px solid @table-border-color !important;
+  }
+}
+
+.post-list .post-summary {
+  font-size: 24px;
+  line-height: 24px;
   margin: 20px 0 20px 0;
 } 
 
 @media (min-width: @screen-md-min) {
-  .post-list .post-title {
-    font-size: 20px;
-    line-height: 20px;
+  .post-list .post-summary {
     margin: 0 0 5px 0;
   } 
 }
@@ -244,8 +247,8 @@ textarea {
 
 @media (min-width: @screen-md-min) {
   .post-list .post-preview {
-    min-height: 70px;
-    height: 70px;
+    min-height: 75px;
+    height: 75px;
     overflow: hidden;
   }
 }
@@ -351,4 +354,8 @@ textarea {
  position: relative;
  top: -20px;
  padding-top: 20px;
+}
+
+.post-summary {
+  font-weight: 500;
 }
