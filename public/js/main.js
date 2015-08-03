@@ -31,6 +31,9 @@ $(function() {
 
   if (document.getElementById("page-heading"))
     $('#page-heading').fixtop({ marginTop: 0 });
+
+  if (document.getElementById("post-sidebar"))
+    $('#post-sidebar').fixtop({ marginTop: $('#page-heading').height() + 20 });
   
   // Handle displaying flash alerts on a page as Growl style alerts on load
   $("#flash-messages .alert").each(function() {
@@ -114,9 +117,16 @@ $(function() {
   
   // Shim to make any element with a valid "href" value clickable
   // (This exists under standards like XHTML 2.0 but not natively in browsers.)
-  $("*[href]").bind('touch click', function() {
-    if ($(this).attr('href') != "" && !$(this).attr('href').match(/^#/) && !$(this).attr('href').match(/^javascript:/) )
+  $("*[href]").bind('touch click', function(e) {
+    if ($(this).attr('href') != "" && !$(this).attr('href').match(/^#/) && !$(this).attr('href').match(/^javascript:/) ) {
+      e.preventDefault();
+      
+      // Ignore clicks on sharable buttons
+      if ($(this).data('shareable'))
+        return popupWindow(this.href, "Share", 500, 300);
+      
       window.location = $(this).attr('href');
+    }
   });
   
   // Make textarea's with the 'autoresize' class shink/grow based con content
@@ -161,7 +171,6 @@ $(function() {
   $("form[data-favorite]").bind('touch click', function(event) {
     event.preventDefault();
     favorite(this);
-    return false;
   });
   
   // Using http://benpickles.github.io/peity/ for simple charts
@@ -355,6 +364,7 @@ function resizeTextarea(textarea) {
   jQuery.fn[sr] = function(fn){  return fn ? this.bind('resize', debounce(fn)) : this.trigger(sr); };
 })(jQuery,'smartresize');
 
+// Older versions of MSIE are not supported, users get redirected
 // http://tanalin.com/en/articles/ie-version-js/
 if ((document.all && !document.addEventListener))
   window.location.href = "/unsupported";
@@ -364,3 +374,21 @@ $(window).smartresize(function() {
   $(".donut span").change();
   $(".pie span").change();
 });
+
+// http://stackoverflow.com/questions/4068373/center-a-popup-window-on-screen
+function popupWindow(url, title, w, h) {
+    // Open windows center screen, accounting for dual monitors
+    var dualScreenLeft = window.screenLeft != undefined ? window.screenLeft : screen.left;
+    var dualScreenTop = window.screenTop != undefined ? window.screenTop : screen.top;
+
+    width = window.innerWidth ? window.innerWidth : document.documentElement.clientWidth ? document.documentElement.clientWidth : screen.width;
+    height = window.innerHeight ? window.innerHeight : document.documentElement.clientHeight ? document.documentElement.clientHeight : screen.height;
+
+    var left = ((width / 2) - (w / 2)) + dualScreenLeft;
+    var top = ((height / 2) - (h / 2)) + dualScreenTop;
+    var newWindow = window.open(url, title, 'scrollbars=yes, width=' + w + ', height=' + h + ', top=' + top + ', left=' + left);
+
+    // Put focus on the newWindow
+    if (window.focus)
+        newWindow.focus();
+}

@@ -6,30 +6,37 @@
 <% if (site.options().post.voting.enabled == true) { %>
 <div class="media" style="margin-top: 0; padding-top: 0;">
   <div class="hidden-xs hidden-sm media-left" style="padding-right: 20px;">
-    <% include ../partials/posts/vote %>
-
-    <div style="padding-top: 10px;">
-    <% if (user) { %>
-      <% if (user.favorites && user.favorites.indexOf(post.id) >= 0) { %>
-      <form name="favorite" data-favorite="<%= post.postId %>" method="post" action="<%= post.getUnfavoriteUrl() %>">
-        <input type="hidden" name="_csrf" value="<%= _csrf %>"/>
-        <button type="submit" class="btn btn-warning btn-block">
-          <i class="fa fa-2x fa-star"></i>
-        </button>
-      </form>
-      <% } else { %>
-      <form name="favorite" data-favorite="<%= post.postId %>" method="post" action="<%= post.getFavoriteUrl() %>">
-        <input type="hidden" name="_csrf" value="<%= _csrf %>"/>
-        <button type="submit" class="btn btn-default btn-block">
-          <i class="fa fa-2x fa-star"></i>
-        </button>
-      </form>
-      <% } %>
-    <% } else { %>
-    <a href="/signup" data-toggle="modal" data-dismiss="modal" data-target="#signupModal" class="btn btn-default btn-block">
-      <i class="fa fa-2x fa-star"></i>
-    </a>
-    <% } %>
+    <div id="post-sidebar">
+      <div style="width: 80px;">
+        <% include ../partials/posts/vote %>
+        <div style="padding-top: 10px;">
+        <% if (user) { %>
+          <% if (user.favorites && user.favorites.indexOf(post.id) >= 0) { %>
+          <form name="favorite" data-favorite="<%= post.postId %>" method="post" action="<%= post.getUnfavoriteUrl() %>">
+            <input type="hidden" name="_csrf" value="<%= _csrf %>"/>
+            <button type="submit" class="btn btn-warning btn-block">
+              <i class="fa fa-2x fa-star"></i>
+            </button>
+          </form>
+          <% } else { %>
+          <form name="favorite" data-favorite="<%= post.postId %>" method="post" action="<%= post.getFavoriteUrl() %>">
+            <input type="hidden" name="_csrf" value="<%= _csrf %>"/>
+            <button type="submit" class="btn btn-default btn-block">
+              <i class="fa fa-2x fa-star"></i>
+            </button>
+          </form>
+          <% } %>
+        <% } else { %>
+          <a href="/signup" data-toggle="modal" data-dismiss="modal" data-target="#signupModal" class="btn btn-default btn-block">
+            <i class="fa fa-2x fa-star"></i>
+          </a>
+        <% } %>
+          <p style="margin: 5px 0;">
+            <a target="_blank" data-shareable="true" class="btn btn-block btn-twitter" href="https://twitter.com/share?text=<%= encodeURIComponent(post.summary) %>&amp;url=<%= url %>" title="Share on Twitter" rel="nofollow"><i class="fa fa-lg fa-fw fa-twitter"></i></a>
+            <a target="_blank" data-shareable="true" class="btn btn-block btn-facebook" href="https://www.facebook.com/sharer.php?u=<%= url %>"><i class="fa fa-lg fa-fw fa-facebook"></i></a>
+          </p>
+        </div>
+      </div>
     </div>
   </div>
   <div class="media-body">
@@ -148,7 +155,6 @@
         </p>
         <% } %>
         <% if (typeof(user) != 'undefined' && ( (post.creator && user.id == post.creator.id) || user.role == 'ADMIN' || user.role == 'MODERATOR')) { %>
-        <br/>
         <p class="text-right">
           <a href="#" data-toggle="modal" data-target="#deletePostModal" class="btn btn-danger"><i class="fa fa-lg fa-fw fa-trash"></i> Delete</a>
           <a href="<%= post.getEditUrl() %>" class="btn btn-default" data-shortcut-key="e"><i class="fa fa-lg fa-fw fa-pencil"></i> <span class="kb-shortcut">E</span>dit</a>

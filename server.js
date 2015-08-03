@@ -149,6 +149,7 @@ app.use(function(req, res, next) {
 
   // Expose path to views
   res.locals.path = req.path;
+  res.locals.url = Site.getUrl(req) + req.path;
   
   // Expose linkify (to escape content while making hyperliks work) to all views
   res.locals.linkify = linkify;
@@ -225,7 +226,7 @@ app.use(function(req, res, next) {
       // Return immediately for all OPTIONS requests
       res.send();
   } else {
-      next();    
+      next();
   }
 });
 
