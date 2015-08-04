@@ -1,0 +1,90 @@
+<div class="modal fade modal-draggable" id="newPostModal" tabindex="-1" role="dialog" aria-labelledby="newPostModalLabel" aria-hidden="true">
+  <div class="modal-dialog modal-lg">
+    <div class="modal-content">
+      <form role="form" method="post" action="/new" data-validator="true">
+        <input type="hidden" name="_csrf" value="<%= _csrf %>"/>
+        <div class="modal-header" style="padding-top: 10px; padding-bottom: 10px; overflow: visible;">
+          <div class="clearfix">
+            <h4 class="modal-title pull-left"><i class="fa fa-fw fa-<%= site.options().post.icon %>"></i> <%= site.options().post.name %></h4>
+            <a id="postOptionsToggle" href="#" onclick="$('#postOptions').slideToggle('fast');$('#postOptionsToggle i').toggleClass('text-muted');return false;" class="pull-right btn btn-sm btn-default"><i style="margin-right: 0px;" class="fa fa-lg fa-cog text-muted"></i><span class="hidden text-muted">OPTIONS</span></a>
+          </div>
+          <div id="postOptions" class="row clearfix" style="display: none;">
+            <div class="col-xs-12 col-md-4">
+              <label class="text-muted">
+                TOPIC
+              </label>
+              <select name="topic" class="selectpicker" data-width="100%">
+                <option value="0" selected="selected" data-content='<strong style="opacity: 0.5;">NONE</strong>'>NONE</option>
+                <option value="0" disabled="disabled" data-divider="true"></option>
+                <% topics.forEach(function(option) { %>
+                  <option
+                    value="<%= option._id %>" 
+                    data-content='<i class="fa fa-lg fa-fw fa-<%= option.icon %>"></i> <%= option.name %>'
+                    <% if (typeof(topic) != "undefined" && topic != null && (topic.id == option.id)) { %>selected="selected"<% } %>
+                  ><%= option.name %></option>
+                <% }); %>
+              </select>
+            </div>
+            <div class="col-xs-12 col-md-4">
+              <label class="text-muted">
+                PRIORITY
+              </label>
+              <select name="priority" class="selectpicker" data-width="100%">
+                <option value="0" selected="selected" data-content='<strong style="opacity: 0.5;">NONE</strong>'>NONE</option>
+                <option value="0" disabled="disabled" data-divider="true"></option>
+                <% priorities.forEach(function(option) { %>
+                  <option
+                    value="<%= option._id %>"
+                    data-content='<i class="fa fa-lg fa-flag" style="color: <%= option.color %>;"></i>&nbsp; <%= option.name %>'
+                  ><%= option.name %></option>
+                <% }); %>
+              </select>
+            </div>
+            <div class="col-xs-12 col-md-4">
+              <label class="text-muted">
+                STATUS
+              </label>
+              <select name="state" class="selectpicker" data-width="100%">
+                <option value="0" selected="selected" data-content='<strong style="opacity: 0.5;">NONE</strong>'>NONE</option>
+                <option value="0" disabled="disabled" data-divider="true"></option>
+                <% states.forEach(function(option) { %>
+                  <option
+                    value="<%= option._id %>"
+                    <% if (option.open == true) { %>
+                    data-content='<i class="fa fa-lg fa-circle-o"></i>&nbsp; <%= option.name %>'
+                    <% } else { %>
+                    data-content='<i class="fa fa-lg fa-times"></i>&nbsp; <%= option.name %>'
+                    <% } %>
+                  ><%= option.name %></option>
+                <% }); %>
+              </select>
+            </div>
+          </div>
+        </div>
+        <div class="modal-body">
+          <div class="row">
+            <div class="col-sm-12">
+              <div class="messages"></div>
+              <div class="form-group form-group-lg">
+                <label for="name" class="control-label sr-only">Summary</label>
+                <input type="text" name="summary" id="summary" placeholder="Summary" autofocus="" autocomplete="off" class="form-control"/>
+              </div>
+              <div class="form-group">
+                <label for="message" class="control-label sr-only">Detail</label>
+                <textarea type="text" name="detail" id="detail" placeholder="Detail" rows="7" style="min-height: 200px;" class="form-control autoresize" autocomplete="off"></textarea>
+              </div>
+              <div class="form-group">
+                <label for="name" class="control-label">Tags</label>
+                <input data-role="tagsinput" type="text" name="tags" id="tags" placeholder="Tag" autofocus="" autocomplete="off" class="form-control"/>
+              </div>
+            </div>
+          </div>
+        </div>
+        <div class="modal-footer">
+          <a href="#" class="btn btn-default" data-dismiss="modal"><i class="fa fa-lg fa-fw fa-ban"></i> Cancel</a>
+          <button type="submit" class="btn btn-primary"><i class="fa fa-lg fa-fw fa-check"></i> Save</button>
+        </div>
+      </form>
+    </div>
+  </div>
+</div>

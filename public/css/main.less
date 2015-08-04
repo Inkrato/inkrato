@@ -1,0 +1,356 @@
+// Grunt Task copies this from bower_components dir
+
+// Start with base bootstrap (all components!)
+@import "bootstrap/bootstrap.less";
+
+// Include additional files which require / extend bootstrap
+@import "bootstrap.overrides.less";
+@import "bootstrap.select.less";
+@import "bootstrap.wysihtml5.less";
+
+// Additional dependancies
+@import "font-awesome.less";
+@import "animations.less";
+@import "social.less";
+@import "jquery.mentionsInput.less";
+
+// Define behaviour when javascript is not enabled (or explicitly when it is)
+@import "no-js.less";
+
+*[href]:hover {
+  cursor: pointer;
+}
+
+*[href]:hover a {
+  text-decoration: underline;
+}
+
+.breadcrumb a {
+  color: @breadcrumb-color;
+}
+.navbar-static-top {
+  margin-bottom: 0
+}
+
+.jumbotron.jumbotron-home {
+  margin-top: -20px;
+  padding: 10px 20px 0 20px;
+  .gradient(@brand-header, saturate(darken(@brand-header, 10%), 20%));
+  color: @brand-header-text;
+}
+
+.jumbotron.jumbotron-home h1 {
+  font-family: "Century Gothic", "Helvetica Neue", Helvetica, Arial, sans-serif;
+  font-weight: 600;
+  margin-top: 0;
+  font-size: 64px;
+  color: @brand-header-text;
+}
+
+.jumbotron.jumbotron-home h2 {
+    font-size: 32px;
+  color: @brand-header-text;
+}
+
+.jumbotron.jumbotron-header {
+  padding: 15px 0 15px 0;
+  color: @brand-header-text;
+}
+
+.jumbotron.jumbotron-header h1 {
+  position: relative;
+  top: -2px;
+  margin: 0;
+  padding: 0;
+  font-size: 39px;
+  font-family: "Century Gothic", "Helvetica Neue", Helvetica, Arial, sans-serif;
+  font-weight: 600;
+}
+
+.jumbotron.jumbotron-header h1 small {
+  font-size: 26px;
+  color: @brand-header-text;
+}
+
+.jumbotron.jumbotron-header .search .form-control {
+  box-shadow: inset 0 0 0 1px darken(@brand-header, 10%);
+  border: 1px solid darken(@brand-header, 10%);
+}
+
+.jumbotron.jumbotron-header .search .form-control:focus {
+  box-shadow: inset 0 0 0 1px @input-border-focus;
+  border: 1px solid @input-border-focus;;
+  background-color: @input-bg;
+}
+
+.jumbotron.jumbotron-header .search i {
+  color: @input-color;
+}
+
+.jumbotron h1 small {
+  color: @jumbotron-color;
+  opacity: 0.75;
+}
+
+.page-header {
+  margin-top: 0;
+  margin-bottom: 10px;
+}
+
+h1, h2
+.h1, h2 {
+  font-family: "Helvetica Neue", Helvetica, Arial, sans-serif;
+  font-weight: 300;
+}
+
+.modal-footer,
+.modal-header {
+  background-color: @modal-header-bg;
+}
+
+.footer {
+  margin-top: 20px;
+}
+
+.input-group-search ul.typeahead li {
+  overflow: hidden;
+}
+
+.text-default,
+.text-default:hover {
+  color: @text-color;
+}
+
+.text-white,
+.text-white:hover {
+  color: #fff;
+}
+
+.break {
+  -ms-word-break: break-all;
+
+   /* Be VERY careful with this, breaks normal words wh_erever */
+   word-break: break-all;
+
+   /* Non standard for webkit */
+   word-break: break-word;
+
+  -webkit-hyphens: auto;
+     -moz-hyphens: auto;
+          hyphens: auto;
+}
+
+.post-preview-body .post-summary {
+  margin-top: 0;
+  margin-bottom: 10px;
+  font-weight: 300;
+}
+
+.post-preview-body a {
+  color: @text-color !important;
+  text-decoration: none;
+}
+
+.post-preview-body {
+  position: relative;
+  height: 80px;
+  overflow: hidden;
+  margin-bottom: 20px;
+}
+
+.panel {
+  border-width: 2px;
+}
+
+textarea {
+  min-height: 100px;
+}
+
+.score {
+  display: block;
+  position: relative;
+  top: 4px; 
+  left: 5px;
+  padding: 18px 0 22px 0;
+  z-index: 2;
+  height: 70px;
+  width: 70px;
+  background: fadeout(@body-bg, 50%);
+}
+
+.score .text-muted,
+.score-mobile .text-muted {
+  opacity: 0.25;
+}
+
+.gradient (@startColor: #000000, @endColor: #ffffff) {
+  background-color: @startColor;
+  background: -webkit-gradient(linear, left top, left bottom, from(@startColor), to(@endColor));
+  background: -webkit-linear-gradient(top, @startColor, @endColor);
+  background: -moz-linear-gradient(top, @startColor, @endColor);
+  background: -ms-linear-gradient(top, @startColor, @endColor);
+  background: -o-linear-gradient(top, @startColor, @endColor);
+}
+
+.media-avatar {
+  background-color: rgba(0,0,0,0.05);
+  padding: 5px;
+  margin: 0;
+  height: 58px;
+  overflow: hidden;
+}
+
+.media-avatar .media-heading {
+  margin-top: 4px;
+}
+
+.rounded {
+  border-radius: 50px !important;
+}
+
+.tags .tag {
+  margin-bottom: 5px;
+}
+
+.tags input[type="text"] {
+  padding: 18px 10px;
+  margin-bottom: 10px;
+}
+
+.tags .tag,
+.tags input[type="text"] {
+  float: left;
+  margin-right: 5px;
+}
+
+@media (max-width: @screen-sm-max) {
+  .post-list tr {
+    border: 2px solid @table-border-color !important;
+  }
+}
+
+.post-list .post-summary {
+  font-size: 20px;
+  line-height: 24px;
+  margin: 20px 0 20px 0;
+} 
+
+@media (min-width: @screen-md-min) {
+  .post-list .post-summary {
+    margin: 0 0 5px 0;
+  } 
+}
+
+.post-list .post-preview {
+  min-height: 40px;
+}
+
+@media (min-width: @screen-md-min) {
+  .post-list .post-preview {
+    min-height: 75px;
+    height: 75px;
+    overflow: hidden;
+  }
+}
+
+@media (min-width: @screen-lg-min) {
+  .kb-shortcut {
+    text-decoration: underline;
+  }
+}
+
+@media (min-width: @screen-md-min) {
+  .pager-info {
+    float: right;
+  }
+}
+
+@media (min-width: @screen-md-min) {
+  .container-fluid {
+    width: 90%;
+    padding: 0 20px 0 20px;
+  }
+}
+
+.btn-group > .btn.btn-vote:first-child {
+  border-radius: 30px 0 0 30px;
+}
+
+.btn-group > .btn.btn-vote:last-child {
+  border-radius: 0 30px 30px 0;
+}
+
+.donut {
+  height: 80px;
+  width: 100%;
+}
+
+@media (max-width: @screen-sm-max) {
+  .bootstrap-select.fit-width {
+    width: 100% !important;
+  }
+}
+
+.typeahead {
+  overflow: hidden;
+}
+
+.body-background {
+  background: @body-bg;
+}
+
+.body-background-color {
+  color: @body-bg;
+}
+
+.page-heading {
+  border-bottom: 2px solid @brand-header;
+  background: @body-bg;
+}
+
+.page-heading h2 {
+  margin: 0;
+  padding: 5px 0;
+  font-size: 22px;
+  font-weight: 500;
+}
+
+.page-heading p {
+  font-size: 20px;
+  margin-bottom: 0;
+}
+
+.forum-heading {
+  border-bottom: 2px solid @brand-primary;
+  padding-bottom: 5px;
+  margin-bottom: 15px;
+}
+
+.forum-heading h2 {
+  margin: 0;
+  font-size: 32px;
+  font-weight: 500;
+}
+
+.forum-heading p {
+  margin-bottom: 0;
+}
+
+/*
+.content {
+  background: #fff;
+  padding: 5px 10px;
+  border-radius: 5px;
+}
+*/
+
+.background-muted {
+ /* background: @gray-lighter; */
+ position: relative;
+ top: -20px;
+ padding-top: 20px;
+}
+
+.post-summary {
+  font-weight: 500;
+}

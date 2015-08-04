@@ -1,0 +1,25 @@
+<% if (query) { %>
+<p class="lead"><%= count %> search results for "<%= query %>"</p>
+<div class="row">
+  <div class="col-sm-12">
+   <table class="post-list table table-striped">
+     <tbody>
+     <% posts.forEach(function(post) { %>
+        <% include ../partials/posts/list %>
+     <% }) %>
+     </tbody>
+   </table>
+  </div>
+</div>
+<% } else { %>
+<br/>
+<form method="GET" action="search" class="row">
+  <div class="col-sm-offset-2 col-sm-6">
+    <input name="q" type="text=" class="form-control input-lg" placeholder="Keywords"/>
+  </div>
+  <div class="col-sm-2">
+    <button type="submit" class="btn btn-lg btn-block btn-primary">Search</button>
+  </div>
+</form>
+<br/>
+<% } %>

@@ -1,0 +1,33 @@
+<div class="form-group">
+  <div class="col-sm-offset-2 col-sm-10 messages"></div>
+</div>
+<div class="form-group row">
+  <div class="col-sm-12">
+    <span id="topicSelect" <% if (topic != null) { %>xclass="visible-xs visible-sm"<% } %>>
+      <h5 class="text-muted visible-xs visible-sm">TOPIC</h5>
+      <select name="topic" class="selectpicker" data-style="btn-primary" data-width="fit">
+        <option value="0" <% if (!topic) { %> selected="selected"<% } %> data-content='<strong style="opacity: 0.5;"><i class="fa fa-lg fa-fw fa-ban"></i> NO TOPIC</strong>'>NO TOPIC</option>
+        <option value="0" disabled="disabled" data-divider="true"></option>
+        <% topics.forEach(function(topicOption) { %>
+          <option
+            value="<%= topicOption.id %>"
+            data-content='<% if (topicOption.icon) { %><i class="fa fa-lg fa-fw fa-<%= topicOption.icon %>"></i> <% } %><%= topicOption.name %>'
+            <% if (topic != null && topic.id == topicOption.id) { %>selected="selected"<% } %>
+          ><%= topicOption.name %></option>
+        <% }); %>
+      </select>
+    </span>
+  </div>
+</div>
+<div class="form-group form-group-lg">
+  <label for="name" class="control-label sr-only">Summary</label>
+  <input type="text" name="summary" id="summary" placeholder="Summary" autofocus="" value="<%= typeof(post) != "undefined" ? post.summary : '' %>" autocomplete="off" class="form-control"/>
+</div>
+<div class="form-group">
+  <label for="message" class="control-label sr-only">Detail</label>
+  <textarea type="text" name="detail" id="detail" placeholder="Detail" rows="7" class="form-control autoresize" autocomplete="off"><%= typeof(post) != "undefined" ? post.detail : '' %></textarea>
+</div>
+<div class="form-group">
+  <label for="name" class="control-label">Tags</label>
+  <input data-role="tagsinput" type="text" placeholder="Tag" name="tags" id="tags" autocomplete="off" value="<%= typeof(post) != "undefined" ? post.tags : '' %>" class="form-control"/>
+</div>

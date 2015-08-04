@@ -1,0 +1,68 @@
+<% if (site.options().post.voting.enabled == true) { %>
+<div class="media" style="margin-top: 0; padding-top: 0;">
+  <div class="hidden-xs hidden-sm media-left" style="padding-right: 20px;">
+    <% include ../partials/posts/vote %>
+  </div>
+  <div class="media-body">
+<% } %>
+    <form role="form" method="post" action="<%= newPostUrl %>" data-validator="true">
+      <input type="hidden" name="_csrf" value="<%= _csrf %>"/>
+      <% if (forum) { %>
+        <input type="hidden" name="forum" value="<%= forum.id %>"/>
+      <% } %>
+      <div class="row">
+        <div class="col-md-4 col-lg-3 col-md-push-8 col-lg-push-9">
+          <div class="media media-avatar">
+            <div class="media-left">
+              <img src="<%= user.avatar(48) %>" height="48" width="48" alt="Avatar" class="img-circle"/>
+            </div>
+            <div class="media-body">
+              <h5 class="media-heading"><%= user.profile.name || "Anonymous" %></h5>
+              <span class="text-muted"><i class="fa fa-clock-o"></i> <time><%= new Date().toDateString() %></time></span>
+            </div>
+          </div>
+          <h5 class="text-muted">STATUS</h5>
+          <select name="state" class="selectpicker" data-width="100%">
+            <option value="0" selected="selected" data-content="<strong style='opacity: 0.5;'>NONE</strong>">NONE</option>
+            <option value="0" disabled="disabled" data-divider="true"></option>
+            <% states.forEach(function(option) { %>
+              <option
+                value="<%= option._id %>"
+                <% if (option.open == true) { %>
+                data-content='<i class="fa fa-lg fa-circle-o"></i>&nbsp; <%= option.name %>'
+                <% } else { %>
+                data-content='<i class="fa fa-lg fa-times"></i>&nbsp; <%= option.name %>'
+                <% } %>
+              ><%= option.name %></option>
+            <% }); %>
+          </select>
+          <h5 class="text-muted">PRIORITY</h5>
+          <select name="priority" class="selectpicker" data-width="100%">
+            <option value="0" selected="selected" data-content='<strong style="opacity: 0.5;">NONE</strong>'>NONE</option>
+            <option value="0" disabled="disabled" data-divider="true"></option>
+            <% priorities.forEach(function(option) { %>
+              <option
+                value="<%= option._id %>"
+                data-content='<i class="fa fa-lg fa-flag" style="color: <%= option.color %>;"></i>&nbsp; <%= option.name %>'
+              ><%= option.name %></option>
+            <% }); %>
+          </select>
+          <br/>
+        </div>
+        <div class="col-sm-12 col-md-8 col-lg-9 col-md-pull-4 col-lg-pull-3">
+          <div style="position: relative; top: -15px;">
+            <% include ../partials/posts/form %>
+          </div>
+          <div class="form-group text-right">
+            <div class="col-sm-offset-2 col-sm-10">
+              <a href="#" onclick="window.history.back();return false;" class="btn btn-default"><i class="fa fa-lg fa-fw fa-ban"></i> Cancel</a>
+              <button type="submit" class="btn btn-primary"><i class="fa fa-lg fa-fw fa-check"></i> Save</button>
+            </div>
+          </div>
+        </div>
+      </div>
+    </form>
+<% if (site.options().post.voting.enabled == true) { %>
+  </div>
+</div>
+<% } %>

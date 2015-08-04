@@ -1,0 +1,53 @@
+<div style="width: 80px; margin-bottom: 5px;">
+  <% include pie %>
+</div>
+<div class="btn-group btn-group-justified">
+  <% if (user) { %>
+    <% if (post.postId) { %>
+      <% if (post.upvoted(user.id)) { %>
+      <form name="upvote" data-upvote="<%= post.postId %>" method="post" action="<%= post.getUnvoteUrl() %>" class="btn btn-success btn-vote" style="padding: 0;" >
+        <input type="hidden" name="_csrf" value="<%= _csrf %>"/>
+        <button type="submit" class="btn btn-link text-white" style="padding: 4px 0 6px 0;">
+          <i class="fa fa-lg fa-chevron-up"></i>
+        </button>
+      </form>
+      <% } else { %>
+      <form name="upvote" data-upvote="<%= post.postId %>" method="post" action="<%= post.getUpvoteUrl() %>" class="btn btn-default btn-vote" style="padding: 0;">
+        <input type="hidden" name="_csrf" value="<%= _csrf %>"/>
+        <button type="submit" class="btn btn-link text-default" style="padding: 4px 0 6px 0;">
+          <i class="fa fa-lg fa-chevron-up"></i>
+        </button>
+      </form>
+      <% } %>
+      <% if (post.downvoted(user.id)) { %>
+      <form name="downvote" data-downvote="<%= post.postId %>" method="post" action="<%= post.getUnvoteUrl() %>" class="btn btn-danger btn-vote" style="padding: 0;">
+        <input type="hidden" name="_csrf" value="<%= _csrf %>"/>
+        <button type="submit" class="btn btn-link text-white" style="padding: 4px 0 6px 0;">
+          <i class="fa fa-lg fa-chevron-down"></i>
+        </button>
+      </form>
+      <% } else { %>
+      <form name="downvote" data-downvote="<%= post.postId %>" method="post" action="<%= post.getDownvoteUrl() %>" class="btn btn-default btn-vote" style="padding: 0;">
+        <input type="hidden" name="_csrf" value="<%= _csrf %>"/>
+        <button type="submit" class="btn btn-link text-default" style="padding: 4px 0 6px 0;">
+          <i class="fa fa-lg fa-chevron-down"></i>
+        </button>
+      </form>
+      <% } %>
+    <% } else { %>
+    <a href="#" disabled="disabled" class="btn btn-default btn-vote" style="padding: 4px 0 6px 0;">
+      <i class="fa fa-lg text-muted fa-chevron-up"></i>
+    </a>
+    <a href="#" disabled="disabled" class="btn btn-default btn-vote" style="padding: 4px 0 6px 0;">
+      <i class="fa fa-lg text-muted fa-chevron-down"></i>
+    </a>
+    <% } %>
+  <% } else { %>
+  <a href="/signup" data-toggle="modal" data-dismiss="modal" data-target="#signupModal" class="btn btn-default btn-vote" style="padding: 4px 0 6px 0;">
+    <i class="fa fa-lg fa-chevron-up"></i>
+  </a>
+  <a href="/signup" data-toggle="modal" data-dismiss="modal" data-target="#signupModal" class="btn btn-default btn-vote" style="padding: 4px 0 6px 0;">
+    <i class="fa fa-lg fa-chevron-down"></i>
+  </a>
+  <% } %>
+</div>

@@ -1,0 +1,128 @@
+<!DOCTYPE HTML>
+<html lang="en" class="no-js">
+  <head>
+    <meta charset="utf-8"/>
+    <meta http-equiv="X-UA-Compatible" content="IE=edge"/>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0"/>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8"/>
+    <meta name="description" content="">
+    <title><%= title %></title>
+    <link rel="shortcut icon" href="/favicon.ico"/>
+    <%- css('main') %>
+    <!--[if lt IE 9]>
+      <script src="https://oss.maxcdn.com/libs/html5shiv/3.7.0/html5shiv.js"></script>
+      <script src="https://oss.maxcdn.com/libs/respond.js/1.3.0/respond.min.js"></script>
+    <![endif]-->
+    <script>
+      document.documentElement.className = document.documentElement.className.replace("no-js","js");
+    </script>
+    <%- js('application') %>
+  </head>
+  <body>
+    <% include partials/navbar %>
+    <div class="jumbotron jumbotron-header">
+      <div class="container container-fluid">
+        <div class="row">
+          <div class="col-sm-8 col-lg-9">
+            <% if (path != "/") { %>
+            <h1>
+              <img src="/images/logo-white-on-transparent.png" alt="logo" style="height: 40px; width 30px;"/>
+              <%= site.getName() %>
+            </h1>
+            <p class="breadcrumb" style="margin: 5px 0 0 0; opacity: 0.8; font-size: 18px; font-weight: 400;">
+              <a href="/"><i class="fa fa-home"></i> home</a>
+              <% if (path.split("/")[1]) { %>
+              <i class="fa fa-lg fa-angle-right"></i>
+              <a href="/<%= path.split("/")[1] %>/"><%= decodeURI(path.split("/")[1].replace(/-/g, ' ')) %></a>
+              <% } %>
+              <% if (path.split("/")[2] && isNaN(path.split("/")[2])) { %>
+              <i class="fa fa-lg fa-angle-right"></i>
+              <a href="/<%= path.split("/")[1] %>/<%= path.split("/")[2] %>/"><%= decodeURI(path.split("/")[2].replace(/-/g, ' ')) %></a>
+              <% } %>
+            </p>
+            <% } %>
+          </div>
+          <div class="col-sm-4 col-lg-3">
+            <form name="search-posts" method="get" action="/search" class="search form-horizontal hidden-sm hidden-xs" style="margin-top: 10px; position: relative; left: -20px;">
+              <div class="form-group">
+                <div style="position: absolute; margin: 10px 15px;" class="rounded"><i class="fa fa-lg fa-search"></i></div>
+                <input id="search" name="q" value="<%= typeof(query) != "undefined" ? query : '' %>" type="text" style="padding-left: 40px;" class="form-control rounded" autocomplete="off" data-provide="typeahead" placeholder="Search" />
+              </div>
+            </form>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <% if (typeof(forum) != "undefined" && forum != null) { %>
+    <div style="position: relative; top: -20px;">
+      <div id="page-heading" class="page-heading">
+        <div class="container container-fluid">
+          <div class="row">
+            <div class="col-xs-9 col-md-10">
+              <div class="media" href="<%= forum.getUrl() %>" style="padding-top: 2px; margin: 0;">
+                <% if (forum.icon) { %>
+                <div class="media-left hidden-xs">
+                  <h2><a href="<%= forum.getUrl() %>"><i class="fa fa-2x fa-fw fa-<%= forum.icon %>"></i></a></h2>
+                </div>
+                <% } %>
+                <div class="media-body">
+                  <div class="row">
+                    <div class="col-xs-12">
+                      <div style="display: table; height: 60px;">
+                        <div style="display: table-cell; vertical-align: middle;">
+                            <h2><a href="<%= forum.getUrl() %>" style="text-decoration: none;"><%= forum.name %></a></h2>
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+            <div class="col-xs-3 col-md-2">
+              <div class="pull-right" style="display: table; height: 60px;">
+                <div style="display: table-cell; vertical-align: middle;">
+                <% if (user) { %>
+                  <a href="<%= newPostUrl %>" class="btn btn-success"><i class="fa fa-lg fa-fw fa-plus-circle"></i> <span class="hidden-xs">New</span></a>
+                <% } else { %>
+                  <a class="btn btn-success" href="/signup" data-dismiss="modal" data-toggle="modal" data-target="#signupModal"  data-shortcut-key="n"><i class="fa fa-lg fa-fw fa-plus-circle"></i> <span class="hidden-xs">New</span></a>
+                <% } %>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+    <% } %>
+    
+    <div class="container container-fluid">
+      <% include partials/flash %>
+      <%- body %>
+    </div>
+    
+    <div class="container">
+      <div class="footer text-muted text-center">
+        <p>
+          <a href="https://github.com/inkrato/inkrato"><i class="fa fa-lg fa-fw fa-github"></i> Powered by <strong>inkrato community edition</strong></a>
+        </p>
+        <p>
+          Software <i class="fa fa-copyright"></i> INKRATO LIMITED, 2015. Based in London, UK. Company no. 08633888
+        </p>
+        <br/>
+      </div>
+    </div>
+  
+    <% // @todo Sign in dialogs should be loaded via AJAX %>
+    <% if (user) { %>
+      <% /* include partials/new-post-dialog */ %>
+      <% if (user.verified != true) { %>
+        <% include partials/verify-dialog %>
+      <% } %>
+    <% } else { %>
+      <% include partials/sign-in-dialogs %>
+    <% } %>
+    
+    <%- js('main') %>
+  </body>
+</html>

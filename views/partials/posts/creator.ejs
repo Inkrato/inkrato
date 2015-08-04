@@ -1,0 +1,17 @@
+<div class="media media-avatar">
+  <div class="media-left">
+    <% if (post.creator) { %>
+    <img src="<%= post.creator.avatar(48) %>" height="48" width="48" alt="Avatar" class="img-circle"/>
+    <% } else { %>
+    <h5 style="margin: 0; width: 48px; height: 48px;" class="text-center text-muted"><i style="margin-top: 5px;" class="fa fa-2x fa-user"></i></h5>
+    <% } %>
+  </div>
+  <div class="media-body">
+    <% if (post.creator) { %>
+    <h5 class="media-heading" style="max-height: 20px; overflow: hidden;"><%= post.creator.profile.name || "Anonymous" %></h5>
+    <% } else { %>
+    <h5 class="media-heading text-muted">Deleted Account</h6>
+    <% } %>
+    <span class="text-muted"><i class="fa fa-clock-o"></i> <time class="timeago" datetime="<%= post.created.toISOString() %>"><%= post.created.toDateString() %></time></span>
+  </div>
+</div>

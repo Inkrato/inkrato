@@ -1,0 +1,205 @@
+<% 
+  var root = '/'+site.options().post.slug;
+  if (typeof(forum) != "undefined" && forum != null)
+    root += '/'+forum.slug;
+%>
+<% if (site.options().post.voting.enabled == true) { %>
+<div class="media" style="margin-top: 0; padding-top: 0;">
+  <div class="hidden-xs hidden-sm media-left" style="padding-right: 20px;">
+    <div id="post-sidebar">
+      <div style="width: 80px;">
+        <% include ../partials/posts/vote %>
+        <div style="padding-top: 10px;">
+        <% if (user) { %>
+          <% if (user.favorites && user.favorites.indexOf(post.id) >= 0) { %>
+          <form name="favorite" data-favorite="<%= post.postId %>" method="post" action="<%= post.getUnfavoriteUrl() %>">
+            <input type="hidden" name="_csrf" value="<%= _csrf %>"/>
+            <button type="submit" class="btn btn-warning btn-block">
+              <i class="fa fa-2x fa-star"></i>
+            </button>
+          </form>
+          <% } else { %>
+          <form name="favorite" data-favorite="<%= post.postId %>" method="post" action="<%= post.getFavoriteUrl() %>">
+            <input type="hidden" name="_csrf" value="<%= _csrf %>"/>
+            <button type="submit" class="btn btn-default btn-block">
+              <i class="fa fa-2x fa-star"></i>
+            </button>
+          </form>
+          <% } %>
+        <% } else { %>
+          <a href="/signup" data-toggle="modal" data-dismiss="modal" data-target="#signupModal" class="btn btn-default btn-block">
+            <i class="fa fa-2x fa-star"></i>
+          </a>
+        <% } %>
+          <p style="margin: 5px 0;">
+            <a target="_blank" data-shareable="true" class="btn btn-block btn-twitter" href="https://twitter.com/share?text=<%= encodeURIComponent(post.summary) %>&amp;url=<%= url %>" title="Share on Twitter" rel="nofollow"><i class="fa fa-lg fa-fw fa-twitter"></i></a>
+            <a target="_blank" data-shareable="true" class="btn btn-block btn-facebook" href="https://www.facebook.com/sharer.php?u=<%= url %>"><i class="fa fa-lg fa-fw fa-facebook"></i></a>
+          </p>
+        </div>
+      </div>
+    </div>
+  </div>
+  <div class="media-body">
+<% } %>
+    <div class="clearfix visible-sm visible-xs" style="margin-bottom: 5px;">
+      <span id="properties-summary" class="clearfix pull-right" style="display: block;">
+        <% if (post.topic != null) { %>
+          <% if (post.topic.icon) { %>
+          <span class="label label-primary pull-left" style="margin: 0 5px 0 0;"><i class="fa fa-fw fa-lg fa-<%= post.topic.icon %>"></i></span>
+          <% } %>
+        <% } %>
+        <% if (post.priority) { %>
+          <span class="label label-default pull-left" style="margin: 0 5px 0 0; background-color: <%= post.priority.color %>;"><i class="fa fa-fw fa-lg fa-flag"></i></span>
+        <% } %>
+        
+        <% if (user) { %>
+          <% if (user.favorites && user.favorites.indexOf(post.id) >= 0) { %>
+          <form class="pull-left" name="favorite" data-favorite="<%= post.postId %>" method="post" action="<%= post.getUnfavoriteUrl() %>">
+            <input type="hidden" name="_csrf" value="<%= _csrf %>"/>
+            <button type="submit" class="btn btn-warning" style="padding: 6px 10px 7px 10px;">
+              <i class="fa fa-lg fa-star"></i>
+            </button>
+          </form>
+          <% } else { %>
+          <form class="pull-left" name="favorite" data-favorite="<%= post.postId %>" method="post" action="<%= post.getFavoriteUrl() %>">
+            <input type="hidden" name="_csrf" value="<%= _csrf %>"/>
+            <button type="submit" class="btn btn-default" style="padding: 6px 10px 7px 10px;">
+              <i class="fa fa-lg fa-star"></i>
+            </button>
+          </form>
+          <% } %>
+        <% } else { %>
+        <a href="/signup" data-toggle="modal" data-dismiss="modal" data-target="#signupModal" class="pull-left btn btn-default" style="padding: 6px 10px 7px 10px;">
+          <i class="fa fa-lg fa-star"></i>
+        </a>
+        <% } %>
+
+      </span>
+      <% if (site.options().post.voting.enabled == true) { %>
+      <div class="pull-left" style="height: 45px;">
+        <% include ../partials/posts/vote-mobile %>
+      </div>
+      <% } %>
+    </div>
+    <div class="row">
+      <div id="properties" class="col-md-4 col-lg-3 col-md-push-8 col-lg-push-9 hidden-xs hidden-sm">
+        <% include ../partials/posts/creator %>
+        <% if (post.state) { %>
+        <h5 class="text-muted">STATUS</h5>
+          <% if (post.state.open == true) { %>
+            <h3 class="label label-lg label-success" style="text-align: left; width: 100%; display: block; margin-top: 0;"><i class="fa fa-lg fa-circle-o"></i>&nbsp; <%= post.state.name %></h3>
+          <% } else { %>
+            <h3 class="label label-lg label-danger" style="text-align: left; width: 100%; display: block;  margin-top: 0;"><i class="fa fa-lg fa-times"></i>&nbsp; <%= post.state.name %></h3>
+          <% } %>
+        <% } %>
+        <% if (post.priority) { %>
+        <h5 class="text-muted">PRIORITY</h5>
+        <h3 class="label label-lg label-default" style="text-align: left; width: 100%; display: block; margin-top: 0; background-color: <%= post.priority.color %>;"><i class="fa fa-lg fa-flag"></i>&nbsp; <%= post.priority.name %></h3>
+        <% } %>
+        <% if (post.topic != null) { %>
+        <div class="visible-xs visible-sm">
+          <h5 class="text-muted">TOPIC</h5>
+          <a href="<%= root %>/<%= post.topic.slug %>" class="label label-lg label-primary" style="text-align: left; display: block;">
+            <% if (post.topic.icon) { %><i class="fa fa-lg fa-fw fa-<%= post.topic.icon %>"></i><% } %>
+            <%= post.topic.name %>
+          </a>
+        </div>
+        <% } %>
+        <br/>
+        <% if (similar && similar.length > 0) { %>
+        <div class="hidden-xs hidden-sm">
+           <% include ../partials/posts/similar %>
+        </div>
+        <% } %>
+        <div class="visible-xs visible-sm">
+          <a class="btn btn-xs btn-block btn-default properties" style="margin-bottom: 20px;" href="#"
+             onclick="$('#properties').slideUp();$('#properties-show').show();$('#properties-summary').show();return false;">
+            <span class="text-muted"><i class="fa fa-lg fa-caret-up"></i></span>
+          </a>
+        </div>
+      </div>
+      
+      <div class="visible-xs visible-sm">
+        <a id="properties-show"  class="btn btn-xs btn-block btn-default properties" style="margin-bottom: 20px;" href="#"
+           onclick="$('#properties-show').hide();$('#properties-summary').hide();$('#properties').hide().removeClass('hidden-xs hidden-sm').slideDown();return false;">
+          <span class="text-muted"><i class="fa fa-lg fa-caret-down"></i><span>
+        </a>
+      </div>
+    
+      <div class="col-sm-12 col-md-8 col-lg-9 col-md-pull-4 col-lg-pull-3">
+        <!-- Post Body -->
+        <% if (post.topic != null) { %>
+        <p id="topic" style="margin: 1px 0 10px 0;" class="hidden-xs hidden-sm">
+          <a href="<%= root %>/<%= post.topic.slug %>" class="label label-primary hidden-xs hidden-sm">
+            <% if (post.topic.icon) { %><i class="fa fa-lg fa-fw fa-<%= post.topic.icon %>"></i><% } %>
+            <%= post.topic.name %>
+          </a>
+        </p>
+        <% } %>
+        <h2 class="page-header text-default post-summary"><%= post.summary %></h2>
+        <div class="break">
+          <% if (post.detailHtml) { %>
+            <%- post.detailHtml %>
+          <% } else { %>
+            <% post.detail.split("\n").forEach(function(line, i) { %>
+              <p><%- linkify(line) %></p>
+            <% }); %>
+          <% } %>
+        </div>
+        <% if (post.tags.length > 0) {%>
+        <br/>
+        <p class="tags clearfix">
+        <% post.tags.forEach(function(tag) { %>
+          <span class="tag label label-info"><i class="fa fa-tag"></i> <%= tag %></span>
+        <% }); %>
+        </p>
+        <% } %>
+        <% if (typeof(user) != 'undefined' && ( (post.creator && user.id == post.creator.id) || user.role == 'ADMIN' || user.role == 'MODERATOR')) { %>
+        <p class="text-right">
+          <a href="#" data-toggle="modal" data-target="#deletePostModal" class="btn btn-danger"><i class="fa fa-lg fa-fw fa-trash"></i> Delete</a>
+          <a href="<%= post.getEditUrl() %>" class="btn btn-default" data-shortcut-key="e"><i class="fa fa-lg fa-fw fa-pencil"></i> <span class="kb-shortcut">E</span>dit</a>
+        </p>
+        <% } %>
+        <div class="break">
+          <% include ../partials/posts/comments %>
+        </div>
+        <% include ../partials/posts/add-comment %>
+        
+        <% if (similar && similar.length > 0) { %>
+        <div class="visible-sm visible-xs">
+          <hr/>
+          <% include ../partials/posts/similar %>
+        </div>
+        <% } %>
+
+      </div>
+    </div>
+<% if (site.options().post.voting.enabled == true) { %>
+  </div>
+</div>
+<% } %>
+
+<% if (typeof(user) != 'undefined' && ( (post.creator && user.id == post.creator.id) || user.role == 'ADMIN' || user.role == 'MODERATOR')) { %>
+<div class="modal modal-draggable fade" id="deletePostModal" tabindex="-1" role="dialog" aria-labelledby="deletePostModalLabel" aria-hidden="true">
+  <div class="modal-dialog">
+    <div class="modal-content">
+      <div class="modal-header">
+        <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+        <h4 class="modal-title" id="deletePostModalLabel"><i class="fa fa-fw fa-lg fa-trash"></i> Confirm deletion</h4>
+      </div>
+      <div class="modal-body">
+        <h4>
+          Are you sure you wish to delete this page?
+        </h4>
+        <p>You will be able to restore it later.</p>
+      </div>
+      <div class="modal-footer">
+        <form name="delete-post" method="post" action="<%= post.getDeleteUrl() %>">
+          <input type="hidden" name="_csrf" value="<%= _csrf %>">
+          <a href="#" class="btn btn-default" data-dismiss="modal"><i class="fa fa-lg fa-fw fa-ban"></i> Cancel</a>
+          <button type="submit" class="btn btn-danger"><i class="fa fa-fw fa-lg fa-trash"></i> Delete</button>
+        </form>
+      </div>
+    </div>
+</div>
+<% } %>

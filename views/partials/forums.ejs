@@ -1,0 +1,32 @@
+<% forums.forEach(function(forum) { %>
+<div class="row">  
+  <div class="col-md-offset-1 col-md-10" href="<%= forum.getUrl() %>">
+    <div class="forum-heading">
+      <div class="media">
+        <% if (forum.icon) { %>
+        <div class="hidden-xs hidden-sm media-left" style="padding-top: 10px; padding-right: 15px;">
+          <h2><a href="<%= forum.getUrl() %>"><i class="fa fa-lg fa-fw fa-<%= forum.icon %>"></i></a></h2>
+        </div>
+        <% } %>
+        <div class="media-body">
+          <div class="row">
+            <div class="col-xs-8 col-md-10">
+              <h2><a href="<%= forum.getUrl() %>" style="text-decoration: none;"><%= forum.name %></a></h2>
+            </div>
+            <div class="col-xs-4 col-md-2">
+              <h2 class="pull-right text-primary"><%= forum.postCount %></h2>
+            </div>
+          </div>
+          <div class="row">
+            <div class="col-xs-12">
+              <p class="text-muted lead" style="margin-bottom: 10px;">
+                <%= forum.description %>
+              </p>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+<% }); %>

@@ -1,0 +1,37 @@
+<!-- Comments -->
+<hr/>
+<% post.comments.forEach(function(comment) { %>
+<div class="media">
+  <div class="media-left hidden-xs" style="padding-right: 20px;">
+    <% if (comment.creator) { %>
+    <img src="<%= comment.creator.avatar(55) %>" height="55" width="55" alt="Avatar" class="img-circle"/>
+    <% } else { %>
+    <h4 class="text-muted text-center" style="height: 50px; width: 50px;"><i style="margin-top: 5px;" class="fa fa-2x fa-user"></i></h4>
+    <% } %>
+  </div>
+  <div class="media-body">
+    
+    <div class="clearfix" style="margin-bottom: 10px;">
+      <% if (comment.creator) { %>
+      <img src="<%= comment.creator.avatar(24) %>" style="margin-right: 10px;" height="24" width="24" alt="Avatar" class="visible-xs pull-left img-circle"/>
+      <span class="media-heading"><strong><%= comment.creator.profile.name || "Anonymous" %></strong></span>
+      <% } else { %>
+      <span class="media-heading text-muted"><strong>Deleted Account</strong></span>
+      <% } %>
+      <span class="text-muted pull-right"><i class="fa fa-clock-o"></i> <time class="timeago" datetime="<%= comment.created.toISOString() %>"><%= comment.created.toDateString() %></time></span>                
+    </div>
+    
+    <span class="comment">
+      <% if (comment.messageHtml) { %>
+        <%- comment.messageHtml %>
+      <% } else { %>
+        <% comment.message.split("\n").forEach(function(line) { %>
+          <p><%- linkify(line) %></p>
+        <% }); %>
+      <% } %>
+    </span>
+    
+    <hr style="margin-bottom: 0;"/>
+  </div>
+</div>
+<% }); %>

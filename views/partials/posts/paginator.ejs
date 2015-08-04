@@ -1,0 +1,15 @@
+<ul class="pager pull-right" style="margin-top: 0;">
+  <% if (page > 1) { %>
+  <li><a href="?page=<%= page - 1 %>"><i class="fa fa-lg fa-fw fa-chevron-left"></i></a></li>
+  <% } else { %>
+  <li class="disabled"><span ><i class="fa fa-lg fa-fw fa-chevron-left"></i></span></li>
+  <% } %>
+  <% if (page < Math.ceil(postCount / postLimit)) { %>
+  <li><a href="?page=<%= page + 1 %>"><i class="fa fa-lg fa-fw fa-chevron-right"></i></a></li>
+  <% } else { %>
+  <li class="disabled"><span><i class="fa fa-lg fa-fw fa-chevron-right"></i></span></li>
+  <% } %>
+</ul>
+<p class="pager-info" style="padding: 5px 10px 0 0;">
+  <strong>Page <%= page %> of <%= Math.ceil(postCount / postLimit) %></strong> (<%= postCount %> total)
+</p>

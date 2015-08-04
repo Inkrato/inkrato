@@ -1,0 +1,51 @@
+<div class="vote-mobile clearfix">
+  <div class="btn-group pull-left">
+    <% if (user) { %>
+      <% if (post.postId) { %>
+        <% if (post.upvoted(user.id)) { %>
+        <form name="upvote" data-upvote="<%= post.postId %>" method="post" action="<%= post.getUnvoteUrl() %>" class="btn btn-success btn-vote" style="padding: 0;" >
+          <input type="hidden" name="_csrf" value="<%= _csrf %>"/>
+          <button type="submit" class="btn btn-sm btn-link text-white">
+            <i class="fa fa-lg fa-chevron-up"></i>
+          </button>
+        </form>
+        <% } else { %>
+        <form name="upvote" data-upvote="<%= post.postId %>" method="post" action="<%= post.getUpvoteUrl() %>" class="btn btn-default btn-vote" style="padding: 0;">
+          <input type="hidden" name="_csrf" value="<%= _csrf %>"/>
+          <button type="submit" class="btn btn-sm btn-link text-default">
+            <i class="fa fa-lg fa-chevron-up"></i>
+          </button>
+        </form>
+        <% } %>
+        <% if (post.downvoted(user.id)) { %>
+        <form name="downvote" data-downvote="<%= post.postId %>" method="post" action="<%= post.getUnvoteUrl() %>" class="btn btn-danger btn-vote" style="padding: 0;">
+          <input type="hidden" name="_csrf" value="<%= _csrf %>"/>
+          <button type="submit" class="btn btn-sm btn-link text-white">
+            <i class="fa fa-lg fa-chevron-down"></i>
+          </button>
+        </form>
+        <% } else { %>
+        <form name="downvote" data-downvote="<%= post.postId %>" method="post" action="<%= post.getDownvoteUrl() %>" class="btn btn-default btn-vote" style="padding: 0;">
+          <input type="hidden" name="_csrf" value="<%= _csrf %>"/>
+          <button type="submit" class="btn btn-sm btn-link text-default">
+            <i class="fa fa-lg fa-chevron-down"></i>
+          </button>
+        </form>
+        <% } %>
+      <% } %>
+    <% } else { %>
+    <a href="/signup" data-toggle="modal" data-dismiss="modal" data-target="#signupModal" class="btn btn-sm btn-default btn-vote">
+      <i class="fa fa-lg fa-chevron-up"></i>
+    </a>
+    <a href="/signup" data-toggle="modal" data-dismiss="modal" data-target="#signupModal" class="btn btn-sm btn-default btn-vote">
+      <i class="fa fa-lg fa-chevron-down"></i>
+    </a>
+    <% } %>
+  </div>
+
+  <% if (post.postId) { %>
+  <div class="pull-right" style="height: 35px; width: 35px; margin-left: 5px;">
+    <% include pie-mobile %>
+  </div>
+  <% } %>
+</div>
