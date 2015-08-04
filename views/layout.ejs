@@ -55,34 +55,39 @@
     </div>
 
     <% if (typeof(forum) != "undefined" && forum != null) { %>
-    <div id="page-heading"
-      <div class="page-heading">
+    <div style="position: relative; top: -20px;">
+      <div id="page-heading" class="page-heading">
         <div class="container container-fluid">
           <div class="row">
             <div class="col-xs-9 col-md-10">
-              <div class="media" href="<%= forum.getUrl() %>" style="padding-top: 5px;">
+              <div class="media" href="<%= forum.getUrl() %>" style="padding-top: 2px; margin: 0;">
                 <% if (forum.icon) { %>
-                <div class="media-left hidden-xs" style="padding-right: 5px;">
+                <div class="media-left hidden-xs">
                   <h2><a href="<%= forum.getUrl() %>"><i class="fa fa-2x fa-fw fa-<%= forum.icon %>"></i></a></h2>
                 </div>
                 <% } %>
                 <div class="media-body">
                   <div class="row">
                     <div class="col-xs-12">
-                      <h2><a href="<%= forum.getUrl() %>" style="text-decoration: none;"><%= forum.name %></a></h2>
-                      <p class="lead text-muted"><%= forum.description %></p>
+                      <div style="display: table; height: 60px;">
+                        <div style="display: table-cell; vertical-align: middle;">
+                            <h2><a href="<%= forum.getUrl() %>" style="text-decoration: none;"><%= forum.name %> about something with a really long name that should wrap</a></h2> 
+                        </div>
+                      </div>
                     </div>
                   </div>
                 </div>
               </div>
             </div>
-            <div class="col-xs-3 col-md-2 text-right">
-              <div style="padding: 12px 0;">
+            <div class="col-xs-3 col-md-2">
+              <div class="pull-right" style="display: table; height: 60px;">
+                <div style="display: table-cell; vertical-align: middle;">
                 <% if (user) { %>
-                    <a href="<%= newPostUrl %>" class="btn btn-success"><i class="fa fa-lg fa-fw fa-plus-circle"></i> <span class="hidden-xs">New</span></a>
+                  <a href="<%= newPostUrl %>" class="btn btn-success"><i class="fa fa-lg fa-fw fa-plus-circle"></i> <span class="hidden-xs">New</span></a>
                 <% } else { %>
-                    <a class="btn btn-success" href="/signup" data-dismiss="modal" data-toggle="modal" data-target="#signupModal"  data-shortcut-key="n"><i class="fa fa-lg fa-fw fa-plus-circle"></i> <span class="hidden-xs">New</span></a>
-                  <% } %>
+                  <a class="btn btn-success" href="/signup" data-dismiss="modal" data-toggle="modal" data-target="#signupModal"  data-shortcut-key="n"><i class="fa fa-lg fa-fw fa-plus-circle"></i> <span class="hidden-xs">New</span></a>
+                <% } %>
+                </div>
               </div>
             </div>
           </div>

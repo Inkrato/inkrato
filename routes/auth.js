@@ -65,7 +65,6 @@ passport.use(new LocalAPIKeyStrategy(
  */
 // Sign in with Facebook.
 if (Site.loginOptions('facebook')) {
-  console.log( Site.loginOptions('facebook') );
   passport.use(new FacebookStrategy(config.secrets.facebook, function(req, accessToken, refreshToken, profile, done) {
     if (req.user) {
       User.findOne({ facebook: profile.id }, function(err, existingUser) {

@@ -13,8 +13,10 @@
 //= require jquery.elastic.js
 //= require jquery.fixtop.js
 
-$(function() { 
+var SCREEN_SM_MAX = 767;
   
+$(function() { 
+
   // Handle modal & dropdown links for graceful no-js support
   $('a[data-toggle="modal"]').attr('href', "#");
   $('a[data-toggle="dropdown"]').attr('href', "#");
@@ -29,11 +31,15 @@ $(function() {
   $("time.timeago").timeago();
   $("time.timeago").css({ visibility: 'visible' });
 
-  if (document.getElementById("page-heading"))
-    $('#page-heading').fixtop({ marginTop: 0 });
+//  $('#page-heading').fixTo('top');
 
-  if (document.getElementById("post-sidebar"))
-    $('#post-sidebar').fixtop({ marginTop: $('#page-heading').height() + 20 });
+  if ($('body').width() > SCREEN_SM_MAX) {
+    if (document.getElementById("page-heading"))
+      $('#page-heading').fixtop({ marginTop: 0 });
+
+    if (document.getElementById("post-sidebar"))
+      $('#post-sidebar').fixtop({ marginTop: $('#page-heading').height() + 20});
+  }
   
   // Handle displaying flash alerts on a page as Growl style alerts on load
   $("#flash-messages .alert").each(function() {
