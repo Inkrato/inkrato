@@ -33,11 +33,15 @@ module.exports = function() {
     if (config.app.host != false && config.app.host != "false")
       host = config.app.host;
 
+    var forums = false;
+    if (config.app.forums.length > 0)
+      forums = true;
+    
     return {
       ssl: ssl,
       host: host,
       api: config.app.api,
-      forums: true,
+      forums: forums,
       post: {
         name: config.app.posts.name,
         slug: slug(config.app.posts.name.toLowerCase()),
