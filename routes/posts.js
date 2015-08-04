@@ -649,7 +649,7 @@ function _getPosts(req, res, options, page, limit) {
   })
   .then(function() {
     // Get the count for the total number of open posts in this forum
-    var totalOpenQuery = {};
+    var totalOpenQuery = { deleted: false };
     
     if (closedStateIds.length > 0)
       totalOpenQuery.state = { $ne: closedStateIds };
