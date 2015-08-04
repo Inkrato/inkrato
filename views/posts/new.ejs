@@ -21,6 +21,7 @@
               <span class="text-muted"><i class="fa fa-clock-o"></i> <time><%= new Date().toDateString() %></time></span>
             </div>
           </div>
+          <% if (states.length > 0) { %>
           <h5 class="text-muted">STATUS</h5>
           <select name="state" class="selectpicker" data-width="100%">
             <option value="0" selected="selected" data-content="<strong style='opacity: 0.5;'>NONE</strong>">NONE</option>
@@ -36,6 +37,8 @@
               ><%= option.name %></option>
             <% }); %>
           </select>
+          <% } %>
+          <% if (priorities.length > 0) { %>
           <h5 class="text-muted">PRIORITY</h5>
           <select name="priority" class="selectpicker" data-width="100%">
             <option value="0" selected="selected" data-content='<strong style="opacity: 0.5;">NONE</strong>'>NONE</option>
@@ -47,6 +50,7 @@
               ><%= option.name %></option>
             <% }); %>
           </select>
+          <% } %>
           <br/>
         </div>
         <div class="col-sm-12 col-md-8 col-lg-9 col-md-pull-4 col-lg-pull-3">

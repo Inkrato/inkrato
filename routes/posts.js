@@ -634,7 +634,8 @@ function _getPosts(req, res, options, page, limit) {
     if (options.state) {
       query.state = options.state.id;
     } else {
-      query.state = { $ne: closedStateIds };
+      if (closedStateIds.length > 0)
+        query.state = { $ne: closedStateIds };
     }
   })
   .then(function() {
