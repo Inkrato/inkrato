@@ -709,6 +709,10 @@ function _getPosts(req, res, options, page, limit) {
           newPostUrl += '/'+options.topic.slug
         newPostUrl += '/new';
 
+        // 'posts' should always be an array (even if unset/empty)
+        if (!posts)
+          posts = [];
+        
         res.render('posts/list', { title: title,
                                    forum: options.forum ? options.forum : null,
                                    topic: options.topic ? options.topic : null,
