@@ -649,7 +649,10 @@ function _getPosts(req, res, options, page, limit) {
   })
   .then(function() {
     // Get the count for the total number of open posts in this forum
-    var totalOpenQuery = { state: { $ne: closedStateIds } };
+    var totalOpenQuery = {};
+    
+    if (closedStateIds.length > 0)
+      totalOpenQuery.state = { $ne: closedStateIds };
 
     if (options.forum)
       totalOpenQuery.forum = options.forum.id;
@@ -670,14 +673,20 @@ function _getPosts(req, res, options, page, limit) {
       return Q.all(topics.map(function(topic) {
         var deferred = Q.defer();
         
-        // Get the number of all open posts in each topic
-        var topicQuery = { topic: topic._id, state: { $ne: closedStateIds } };
+        topic.postCount = 0;
         
+        // Get the number of all open posts in each topic
+        var topicQuery = { topic: topic._id };
+        
+        if (closedStateIds.length > 0)
+          topicQuery.state = { $ne: closedStateIds };
+
         if (options.forum)
           topicQuery.forum = options.forum.id;
 
         Post.count(topicQuery, function(err, count) {
-          topic.postCount = count;
+          if (count > 0)
+            topic.postCount = count;
           deferred.resolve(topic);
         });
       }));
