@@ -15,7 +15,7 @@
 
 var SCREEN_SM_MAX = 767;
   
-$(function() { 
+$(function() {
 
   // Handle modal & dropdown links for graceful no-js support
   $('a[data-toggle="modal"]').attr('href', "#");

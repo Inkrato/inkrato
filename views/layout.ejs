@@ -61,17 +61,20 @@
           <div class="row">
             <div class="col-xs-9 col-md-10">
               <div class="media" href="<%= forum.getUrl() %>" style="padding-top: 2px; margin: 0;">
+                <% if (path.split("/")[4] || path.split("/")[3] == 'new') { %>
+                  <a style="margin-top: 12px; margin-right: 15px;" class="btn btn-sm btn-primary pull-left" href="<%= forum.getUrl() %>"><i class="fa fa-fw fa-chevron-left"></i> Back</a>
+                <% } %>
                 <% if (forum.icon) { %>
-                <div class="media-left hidden-xs">
-                  <h2><a href="<%= forum.getUrl() %>"><i class="fa fa-2x fa-fw fa-<%= forum.icon %>"></i></a></h2>
+                <div class="media-left hidden-xs" style="padding-top: 10px;">
+                  <h2><a href="<%= forum.getUrl() %>"><i class="fa fa-lg fa-<%= forum.icon %>"></i></a></h2>
                 </div>
                 <% } %>
                 <div class="media-body">
                   <div class="row">
                     <div class="col-xs-12">
-                      <div style="display: table; height: 60px;">
+                      <div style="display: table; height: 60px; width: 100%;">
                         <div style="display: table-cell; vertical-align: middle;">
-                            <h2><a href="<%= forum.getUrl() %>" style="text-decoration: none;"><%= forum.name %></a></h2>
+                          <h2><a href="<%= forum.getUrl() %>" style="text-decoration: none;"><%= forum.name %></a></h2>
                         </div>
                       </div>
                     </div>
@@ -124,5 +127,7 @@
     <% } %>
     
     <%- js('main') %>
+    
+    <script>$('body').flowtype();</script>
   </body>
 </html>
