@@ -10,7 +10,6 @@
 //= require form-validator
 //= require jquery.peity
 //= require jquery.mentionsInput.js
-//= require jquery.elastic.js
 //= require jquery.fixtop.js
 
 var SCREEN_SM_MAX = 767;
