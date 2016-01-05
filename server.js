@@ -63,26 +63,35 @@ var csrfExclude = [];
  * i18n configuration
  */
 i18n.configure({
-    // setup some locales - other locales default to en silently
-    locales:['en', 'de', 'fr', 'es'],
-    defaultLocale: 'en',
+  // setup some locales - other locales default to en silently
+  locales:['en', 'de', 'fr', 'es'],
+  defaultLocale: 'en',
 
-    // set cookie name to parse locale settings from
-    cookie: 'lang',
+  // set cookie name to parse locale settings from
+  cookie: 'lang',
 
-    // where to find json files
-    directory: __dirname + '/locales',
+  // where to find json files
+  directory: __dirname + '/locales',
 
-    // whether to write new locale information to disk - defaults to true
-    updateFiles: false,
+  // whether to write new locale information to disk - defaults to true
+  updateFiles: false,
 
-    // what to use as the indentation unit - defaults to "\t"
-    indent: "\t",
+  // what to use as the indentation unit - defaults to "\t"
+  indent: "\t",
 });
 
 /**
  * Express configuration
  */
+// Default port is 3000 by node convention
+var port = 3000;
+// If NODE_ENV is 'production', then use port 80
+if (process.env.NODE_ENV == 'production')
+  port = 80;
+// Override with value in PORT environment variable if explicitly specified
+if (process.env.PORT)
+  port = process.env.PORT;
+
 app.set('port', process.env.PORT || 3000);
 app.set('views', path.join(__dirname, 'views'));
 app.set('view engine', 'ejs');
@@ -105,7 +114,11 @@ app.use(connectAssets({
   helperContext: app.locals,
   compress: false
 }));
-app.use(logger('dev'));
+
+// Enable logging requests to console in development mode only
+if (app.get('env') == 'development')
+  app.use(logger('dev'));
+
 app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({ extended: true }));
 app.use(expressValidator());
@@ -184,7 +197,7 @@ app.use(function(req, res, next) {
     return next();
 
   // Ignore ajax requests (e.g. search type ahead, voting, favouriting, etc)
-  if (req.xhr || req.headers.accept.indexOf('json') > -1)
+  if (req.xhr || (req.headers.accept && req.headers.accept.indexOf('json') > -1))
     return next();
     
   req.session.returnTo = req.path;
