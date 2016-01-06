@@ -26,7 +26,7 @@
           <div class="col-sm-8 col-lg-9">
             <% if (path != "/") { %>
             <h1>
-              <img src="/images/logo-white-on-transparent.png" alt="logo" style="height: 40px; width 30px;"/>
+              <img src="/images/logo-small.png" alt="logo" style="height: 40px; width 30px;"/>
               <%= site.getName() %>
             </h1>
             <p class="breadcrumb" style="margin: 5px 0 0 0; opacity: 0.8; font-size: 18px; font-weight: 400;">
@@ -62,7 +62,7 @@
             <div class="col-xs-9 col-md-10">
               <div class="media" href="<%= forum.getUrl() %>" style="padding-top: 2px; margin: 0;">
                 <% if (path.split("/")[4] || path.split("/")[3] == 'new') { %>
-                  <a style="margin-top: 12px; margin-right: 15px;" class="btn btn-sm btn-primary pull-left" href="<%= forum.getUrl() %>"><i class="fa fa-fw fa-chevron-left"></i> Back</a>
+                  <a style="margin-top: 12px; margin-right: 15px;" class="btn btn-sm btn-primary pull-left" href="<%= forum.getUrl() %>"><i class="fa fa-fw fa-chevron-left"></i></a>
                 <% } %>
                 <% if (forum.icon) { %>
                 <div class="media-left hidden-xs" style="padding-top: 10px;">

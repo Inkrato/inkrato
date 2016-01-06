@@ -155,9 +155,14 @@ hr {
   color: @brand-navbar-text;
 }
 
+.navbar-inverse .navbar-toggle:hover,
 .navbar-inverse .navbar-nav > .open > a,
 .navbar-inverse .navbar-nav > .open > a:hover,
 .navbar-inverse .navbar-nav > .open > a:focus {
-  background: darken(@brand-navbar, 10%);
-  color: @brand-navbar-text;
+  background: @brand-navbar-text;
+  color: @brand-navbar;
+}
+
+.navbar-inverse .navbar-toggle:hover .icon-bar {
+    background: @brand-navbar;
 }
