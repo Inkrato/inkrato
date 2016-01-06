@@ -20,8 +20,12 @@
 @brand-header:          @brand-primary;
 @brand-header-text:     #fff;
 
-@brand-navbar:          saturate(darken(@brand-header, 10%), 20%);
-@brand-navbar-text:     #fff;
+//@brand-navbar:          saturate(darken(@brand-header, 10%), 20%);
+//@brand-navbar-text:     #fff;
+
+@brand-navbar:          #fff;
+@brand-navbar-text:     @brand-primary;
+
 
 @brand-success:         #6EBF7D;
 @brand-info:            #448BDE;
@@ -408,7 +412,7 @@
 
 // Inverted navbar toggle
 @navbar-inverse-toggle-hover-bg:            darken(@navbar-inverse-bg, 10%);
-@navbar-inverse-toggle-icon-bar-bg:         #fff;
+@navbar-inverse-toggle-icon-bar-bg:         @brand-navbar-text;
 @navbar-inverse-toggle-border-color:        transparent;
 
 
