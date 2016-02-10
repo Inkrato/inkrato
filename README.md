@@ -1,14 +1,14 @@
 # inkrato community edition
 
-This is an early release of the inkrato community edition - an open source collaboration platform for teams and communities.
+Inkrato community edition is open source base for community discussion and collaborative issue tracking software.
 
-It is designed for community discussion and collaborative issue tracking. It supports login via email, Facebook, Twitter, Google+ and GitHub. Members can post, reply to posts and up or downvote posts. There is also a REST based API.
+It supports login via email, Facebook, Twitter, Google+ and GitHub. Members can post, reply to posts and up or downvote posts. There is also a REST based API.
 
 What's being discussed or tracked (e.g. issues, feedback, ideas) is fully configurable, as are the discussion topics and labels and the UI theme.
 
 You are free to use and modify this software for both non-commercial and commercial purposes. Please bear in mind this is an early release.
 
-You can see an instance of this software running at [www.inkrato.com](https://www.inkrato.com).
+You can see an instance of this software running at [discussion.inkrato.com](https://discussion.inkrato.com).
 
 ## Getting Started
 
@@ -72,8 +72,6 @@ The inkrato platform has been used as a discussion platform for a wide range of 
 The release of this next generation version as open source software allows anyone to take advantage of it host a community site of their own, for free.
 
 Commercial instances and bespoke versions are available on request. Commercial enquires should be sent to feedback@inkrato.com
-
-This version is designed to replace the origional version of inkrato which can still be found at http://feedback.inkrato.com
 
 ## Licensing
 
