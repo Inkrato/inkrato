@@ -8,7 +8,7 @@ What's being discussed or tracked (e.g. issues, feedback, ideas) is fully config
 
 You are free to use and modify this software for both non-commercial and commercial purposes. Please bear in mind this is an early release.
 
-You can see an instance of this software running at [discussion.inkrato.com](https://discussion.inkrato.com).
+For a demo see [discussion.inkrato.com](https://discussion.inkrato.com).
 
 ## Getting Started
 
