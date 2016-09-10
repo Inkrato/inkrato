@@ -40,7 +40,7 @@
     "less": "^1.7.3",
     "lodash": "2.4.2",
     "lusca": "^1.0.0",
-    "marked": "^0.3.3",
+    "marked": "^0.3.6",
     "merge-descriptors": "^1.0.1",
     "method-override": "^2.1.0",
     "moment": "^2.9.0",
